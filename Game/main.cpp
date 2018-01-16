@@ -33,10 +33,7 @@ public:
 		return transformable.getPosition();
 	}
 
-	virtual sf::FloatRect getBounds() {
-		return sf::FloatRect();
-		//return transformable.getTransform().transformRect();
-	}
+	virtual sf::FloatRect getBounds() = 0;
 
 	virtual void applyForce(sf::Vector2f force) {
 		velocity += force;
@@ -48,6 +45,10 @@ public:
 
 	virtual sf::Vector2f getVelocity() {
 		return velocity;
+	}
+
+	virtual bool intersects(PhysicsObject &o) {
+		return getBounds().intersects(o.getBounds());
 	}
 };
 
@@ -65,7 +66,7 @@ public:
 	}
 
 	void update(const float elapsedTime) override {
-		applyForce(sf::Vector2f(0, 9.81f * elapsedTime));
+		//applyForce(sf::Vector2f(0, 9.81f * elapsedTime));
 		setPosition(getPosition() + velocity);
 	}
 
@@ -74,13 +75,17 @@ public:
 		sf::CircleShape::setRadius(radius);
 	}
 
+	sf::FloatRect getBounds() override {
+		return sf::CircleShape::getGlobalBounds();
+	}
+
 	using PhysicsObject::draw;
 	using PhysicsObject::setPosition;
 	using PhysicsObject::getPosition;
 };
 
 int main() {
-	const float FPS = 120.0f; // The desired FPS. (The number of updates each second).
+	const float FPS = 60.0f; // The desired FPS. (The number of updates each second).
 	bool redraw = true;      // Do I redraw everything on the screen?
 
 	std::vector<Drawable*> drawables;
@@ -93,14 +98,15 @@ int main() {
 	ball.setRadius(10);
 	ball.setPosition({ 150, 0 });
 	
+	Ball ball2 = Ball();
+	ball2.setRadius(20);
+	ball2.setPosition({ 150, 200 });
 
 
 	sf::Event ev;
 	while (window.isOpen()) {
 		// Wait until 1/60th of a second has passed, then update everything.
 		float elapsedTime = clock.getElapsedTime().asSeconds();
-
-		
 
 		// Handle input
 		while (window.pollEvent(ev)) {
@@ -113,8 +119,17 @@ int main() {
 			clock.restart();
 
 			window.clear(sf::Color(0, 0, 0));
+			if (!ball.intersects(ball2)) {
+				ball.applyForce(sf::Vector2f(0, 9.81f * elapsedTime));
+			}
+			else {
+				ball.setVelocity({ 0, 0 });
+			}
+			
 			ball.draw(window);
+			ball2.draw(window);
 			ball.update(elapsedTime);
+			ball2.update(elapsedTime);
 			window.display();
 		}
 	}
