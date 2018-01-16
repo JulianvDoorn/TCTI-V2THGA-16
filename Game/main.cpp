@@ -119,6 +119,7 @@ int main() {
 	bool redraw = true;      // Do I redraw everything on the screen?
 
 	std::vector<Drawable*> drawables;
+	sf::View view2(sf::Vector2f(150, 10), sf::Vector2f(300, 200));
 
 	sf::RenderWindow window(sf::VideoMode(300, 900, 32), "Hello");
 	window.setFramerateLimit((int) FPS);
@@ -131,9 +132,9 @@ int main() {
 	Ball ball2 = Ball();
 	ball2.setRadius(20);
 	ball2.setPosition({ 150, 200 });
-
-
+	window.setView(view2);
 	sf::Event ev;
+
 	while (window.isOpen()) {
 		// Wait until 1/60th of a second has passed, then update everything.
 		float elapsedTime = clock.getElapsedTime().asSeconds();
@@ -154,6 +155,8 @@ int main() {
 			ball2.draw(window);
 			ball.update(elapsedTime);
 			ball2.update(elapsedTime);
+            view2.move(1,1);
+             window.setView(view2);
 			window.display();
 		}
 	}
