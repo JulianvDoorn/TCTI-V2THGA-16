@@ -2,6 +2,13 @@
 #include <iostream>
 #include <string>
 
+std::ostream& operator<<(std::ostream& os, sf::Vector2f v) {
+	os << v.x;
+	os << ", ";
+	os << v.y;
+	return os;
+}
+
 class Drawable {
 protected:
 	sf::Drawable& drawable;
@@ -9,7 +16,7 @@ protected:
 	Drawable(sf::Drawable& drawable) : drawable(drawable) { }
 
 public:
-	virtual void update(const float elapsedTime) { }
+	virtual void update(const float elapsedTime) = 0;
 
 	virtual void draw(sf::RenderTarget& renderTarget) final {
 		renderTarget.draw(drawable);
@@ -20,11 +27,22 @@ class PhysicsObject : public Drawable {
 protected:
 	sf::Transformable& transformable;
 	sf::Vector2f velocity = sf::Vector2f(0, 0);
+	sf::Vector2f gravity = sf::Vector2f(0, 981.0f);
 
 	PhysicsObject(sf::Shape& shape) : Drawable(shape), transformable(shape) { }
 	PhysicsObject(sf::Sprite& sprite) : Drawable(sprite), transformable(sprite) { }
 
 public:
+	virtual void update(const float elapsedTime) {
+		applyForce(gravity * elapsedTime);
+		setPosition(getPosition() + velocity * elapsedTime);
+		std::cout << velocity << std::endl;
+	}
+
+	virtual void setGravity(const sf::Vector2f& gravity) {
+		this->gravity = gravity;
+	}
+
 	virtual void setPosition(const sf::Vector2f& position) {
 		transformable.setPosition(position);
 	}
@@ -38,11 +56,11 @@ public:
 		//return transformable.getTransform().transformRect();
 	}
 
-	virtual void applyForce(sf::Vector2f force) {
+	virtual void applyForce(const sf::Vector2f& force) {
 		velocity += force;
 	}
 
-	virtual void setVelocity(sf::Vector2f velocity) {
+	virtual void setVelocity(const sf::Vector2f& velocity) {
 		this->velocity = velocity;
 	}
 
@@ -51,13 +69,6 @@ public:
 	}
 };
 
-std::ostream& operator<<(std::ostream& os, sf::Vector2f v) {
-	os << v.x;
-	os << ", ";
-	os << v.y;
-	return os;
-}
-
 class Ball : public PhysicsObject, public sf::CircleShape {
 public:
 	Ball() : sf::CircleShape(), PhysicsObject(static_cast<sf::CircleShape&>(*this)) {
@@ -65,8 +76,7 @@ public:
 	}
 
 	void update(const float elapsedTime) override {
-		applyForce(sf::Vector2f(0, 9.81f * elapsedTime));
-		setPosition(getPosition() + velocity);
+		PhysicsObject::update(elapsedTime);
 	}
 
 	void setRadius(const float radius) {
@@ -74,9 +84,29 @@ public:
 		sf::CircleShape::setRadius(radius);
 	}
 
-	using PhysicsObject::draw;
 	using PhysicsObject::setPosition;
 	using PhysicsObject::getPosition;
+	using PhysicsObject::draw;
+};
+
+class Rectangle : public PhysicsObject, public sf::RectangleShape {
+public:
+	Rectangle() : sf::RectangleShape(), PhysicsObject(static_cast<sf::RectangleShape&>(*this)) {
+		sf::RectangleShape::setFillColor({ 255, 255, 255 });
+	}
+
+	void update(const float elapsedTime) override {
+		PhysicsObject::update(elapsedTime);
+	}
+
+	void setSize(sf::Vector2f size) {
+		sf::RectangleShape::setOrigin(size.x / 2, size.y / 2);
+		sf::RectangleShape::setSize(size);
+	}
+
+	using PhysicsObject::setPosition;
+	using PhysicsObject::getPosition;
+	using PhysicsObject::draw;
 };
 
 int main() {
