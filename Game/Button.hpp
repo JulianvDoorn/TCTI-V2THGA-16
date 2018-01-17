@@ -15,19 +15,38 @@ public:
     backgroundSize(backgroundSize), position(position), font(font) {
         background.setSize(backgroundSize);
         background.setPosition(position);
-		displayText.setFont(font);
 		background.setFillColor(sf::Color(0, 153, 51));
+		displayText.setPosition(position);
+		displayText.setFont(font);
+		displayText.setFillColor(sf::Color::White);
+		displayText.setCharacterSize(30);
+		displayText.setStyle(sf::Text::Bold);
+		displayText.setPosition(position);
     };
 
     void setText(std::string text){
         displayText.setString(text);
         sf::FloatRect textRectangle= displayText.getLocalBounds();
-        displayText.setOrigin(textRectangle.width / 2, textRectangle.height / 2);
-        displayText.setFillColor(sf::Color::White);
-        displayText.setCharacterSize(30);
-        displayText.setStyle(sf::Text::Bold);
-		displayText.setPosition(position);
+		displayText.setOrigin(textRectangle.width / 2, textRectangle.height / 2);
+
     }
+
+	void setBackgroundColor(sf::Color color) {
+		background.setFillColor(color);
+	}
+
+	void setTextColor(sf::Color color) {
+		displayText.setFillColor(color);
+	}
+
+	void setPosition(sf::Vector2f position) {
+		background.setPosition(position);
+		displayText.setPosition(position);
+	}
+
+	void setCharacterSize(int size) {
+		displayText.setCharacterSize(size);
+	}
 
     void draw(sf::RenderWindow &window){
         background.draw(window);
