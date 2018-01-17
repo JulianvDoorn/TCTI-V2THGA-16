@@ -41,4 +41,5 @@ cmake-build-debug/
 
 # Game debug files
 Debug/
-Game/Debug/
+Release/
+.vs/
