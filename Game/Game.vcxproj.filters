@@ -74,5 +74,8 @@
     <ClInclude Include="MouseClickArguments.hpp">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
+    <ClInclude Include="ShapeClickSignal.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
