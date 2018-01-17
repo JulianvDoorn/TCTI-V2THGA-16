@@ -13,13 +13,13 @@ std::ostream& operator<<(std::ostream& os, sf::Vector2f v) {
 }
 
 int main() {
-	const float FPS = 60.0f; // The desired FPS. (The number of updates each second).
+	const float FPS = 30.0f; // The desired FPS. (The number of updates each second).
 	bool redraw = true;      // Do I redraw everything on the screen?
 
 	std::vector<Drawable*> drawables;
-	sf::View view(sf::Vector2f(150, 10), sf::Vector2f(150, 450));
+	sf::View view(sf::Vector2f(150, 10), sf::Vector2f(1280, 720));
 
-	sf::RenderWindow window(sf::VideoMode(300, 900, 32), "Hello");
+	sf::RenderWindow window(sf::VideoMode(1280, 720), "Fimmy");
 	window.setFramerateLimit((int)FPS);
 	sf::Clock clock;
 
@@ -33,7 +33,9 @@ int main() {
 	floor1.setSize({ 60, 10 });
 	floor1.setPosition({ 0, 500 });
 
-
+	Rectangle wall;
+	wall.setSize({ 20, 50 });
+	wall.setPosition({ 250, 550 });
 
 	Player player = Player(view, window);
 	EventHandler eventHandler;
@@ -87,15 +89,17 @@ int main() {
 			clock.restart();
 
 			window.clear(sf::Color(0, 0, 0));
+
+			player.update(elapsedTime);
+			player.draw(window);
 			
 			player.resolveCollision(floor0);
 			player.resolveCollision(floor1);
 
-			player.draw(window);
-			player.update(elapsedTime);
 
 			floor0.draw(window);
 			floor1.draw(window);
+			wall.draw(window);
 
 
 			window.display();

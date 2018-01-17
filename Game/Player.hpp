@@ -10,7 +10,7 @@ private:
 
 	int32_t walkDirection = 0;
 	float walkspeed = 50;
-	float jumpForce = 100;
+	float jumpForce = 500;
 
 	bool jump = false;
 	//bool roll = false;
@@ -52,7 +52,11 @@ public:
 	}
 
 	void doJump() {
-		jump = true;
+		sf::Vector2f velocity = getVelocity();
+		//if ((velocity.y > 16 && velocity.y < 17) || velocity.y == 0) {
+		if (velocity.y == 0) {
+			jump = true;
+		}
 	}
 
 	void doRoll() {
