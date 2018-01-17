@@ -35,4 +35,10 @@
 cmake-build-debug/
 .idea/
 
+# Logging file
 *.log
+*.tlog
+
+# Game debug files
+Debug/
+Game/Debug/
