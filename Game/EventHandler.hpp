@@ -12,75 +12,88 @@
 using EventFunction = std::function<void(EventSignal&)>;
 
 class EventHandler {
+	static std::vector<EventHandler*> activeEventHandlers;
 	std::map<EventType, std::stack<EventFunction>> boundFunctions;
-	std::vector<PhysicsObject*> objects;
+	std::vector<PhysicsObject*> physicsObjects;
 
 public:
-	void BindFunction(EventType type, EventFunction func) {
+	EventHandler() { }
+
+	static EventHandler& newEventHandler() {
+		EventHandler* eventHandler = new EventHandler();
+		activeEventHandlers.push_back(std::move(eventHandler));
+		return *activeEventHandlers.back();
+	}
+
+	static void handleSFMLEvent(sf::Event ev) {
+		switch (ev.type) {
+		case sf::Event::KeyReleased:
+			for (const EventHandler* eventHandler : activeEventHandlers) {
+				eventHandler->fireEvent<KeyUpSignal>(EventType::KeyUp, ev.key.code);
+			}
+			return;
+		case sf::Event::KeyPressed:
+			for (const EventHandler* eventHandler : activeEventHandlers) {
+				eventHandler->fireEvent<KeyDownSignal>(EventType::KeyDown, ev.key.code);
+			}
+			return;
+		case sf::Event::MouseButtonPressed:
+			if (ev.mouseButton.button == sf::Mouse::Right) {
+				for (const EventHandler* eventHandler : activeEventHandlers) {
+					eventHandler->fireEvent<MouseClickSignal>(EventType::MouseRightPressed, sf::Vector2i(ev.mouseButton.x, ev.mouseButton.y));
+				}
+			} else if (ev.mouseButton.button == sf::Mouse::Left) {
+				for (const EventHandler* eventHandler : activeEventHandlers) {
+					eventHandler->fireEvent<MouseClickSignal>(EventType::MouseLeftPressed, sf::Vector2i(ev.mouseButton.x, ev.mouseButton.y));
+				}
+			}
+			return;
+		case sf::Event::MouseButtonReleased:
+			if (ev.mouseButton.button == sf::Mouse::Right) {
+				for (const EventHandler* eventHandler : activeEventHandlers) {
+					eventHandler->fireEvent<MouseClickSignal>(EventType::MouseRightReleased, sf::Vector2i(ev.mouseButton.x, ev.mouseButton.y));
+				}
+			} else if (ev.mouseButton.button == sf::Mouse::Left) {
+				for (const EventHandler* eventHandler : activeEventHandlers) {
+					eventHandler->fireEvent<MouseClickSignal>(EventType::MouseLeftReleased, sf::Vector2i(ev.mouseButton.x, ev.mouseButton.y));
+				}
+			}
+
+			return;
+		}
+	}
+
+	void bindPhysicsObject(PhysicsObject& bindingPhysicsObject) {
+		physicsObjects.push_back(&bindingPhysicsObject);
+	}
+
+	void bindFunction(EventType type, EventFunction func) {
 		if (boundFunctions.find(type) == boundFunctions.end()) {
-			boundFunctions.insert(std::make_pair(type, std::stack<EventFunction>()));
+			boundFunctions.insert(std::make_pair(type, std::move(std::stack<EventFunction>())));
 		}
 
 		boundFunctions.at(type).push(func);
 	}
 
-	void UnbindFunction(EventType type) {
+	void unbindFunction(EventType type) {
 		if (boundFunctions.find(type) != boundFunctions.end()) {
 			boundFunctions.at(type).pop();
 		}
 	}
 
-	void BindPhysicsObject(PhysicsObject* object) {
-		objects.push_back(object);
-	}
-
-	void HandlePhysicsObjectsEvents(sf::Vector2i position, sf::Event ev) {
-		for (PhysicsObject* object : objects) {
-			if (object->getPosition().x >= position.x && object->getPosition().y <= position.y) {
-				std::cout << "Object pressed!\n";
-			}
-		}
-	}
-
 	template<class T, class... Args>
-	void FireEvent(EventType type, Args... args) {
+	void fireEvent(EventType type, Args... args) const {
 		T eventSignal(args...);
-
+		
 		if (boundFunctions.find(type) != boundFunctions.end()) {
-			std::stack<EventFunction>& bindingStack = boundFunctions.at(type);
+			const std::stack<EventFunction>& bindingStack = boundFunctions.at(type);
 
 			if (!bindingStack.empty()) {
-				EventFunction& func = boundFunctions.at(type).top();
+				const EventFunction& func = boundFunctions.at(type).top();
 				func(eventSignal);
 			}
 		}
 	}
-
-	void HandleSFMLEvent(sf::Event ev) {
-		switch (ev.type) {
-		case sf::Event::KeyReleased:
-			FireEvent<KeyUpSignal>(EventType::KeyUp, ev.key.code);
-			return;
-		case sf::Event::KeyPressed:
-			FireEvent<KeyDownSignal>(EventType::KeyDown, ev.key.code);
-			return;
-		case sf::Event::MouseButtonPressed:
-			if (ev.mouseButton.button == sf::Mouse::Right) {
-				FireEvent<MouseClickSignal>(EventType::MouseRightPressed, sf::Vector2i(ev.mouseButton.x, ev.mouseButton.y));
-			}
-			else {
-				FireEvent<MouseClickSignal>(EventType::MouseLeftPressed, sf::Vector2i(ev.mouseButton.x, ev.mouseButton.y));
-			}
-			return;
-		case sf::Event::MouseButtonReleased:
-			if (ev.mouseButton.button == sf::Mouse::Right) {
-				FireEvent<MouseClickSignal>(EventType::MouseRightReleased, sf::Vector2i(ev.mouseButton.x, ev.mouseButton.y));
-			}
-			else {
-				FireEvent<MouseClickSignal>(EventType::MouseLeftReleased, sf::Vector2i(ev.mouseButton.x, ev.mouseButton.y));
-			}
-
-			return;
-		}
-	}
 };
+
+std::vector<EventHandler*> EventHandler::activeEventHandlers = std::vector<EventHandler*>();
