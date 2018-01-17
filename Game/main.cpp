@@ -36,7 +36,6 @@ public:
 	virtual void update(const float elapsedTime) {
 		applyForce(gravity * elapsedTime);
 		setPosition(getPosition() + velocity * elapsedTime);
-		std::cout << velocity << std::endl;
 	}
 
 	virtual void setGravity(const sf::Vector2f& gravity) {
@@ -64,10 +63,47 @@ public:
 	virtual sf::Vector2f getVelocity() {
 		return velocity;
 	}
+};
 
-	virtual bool intersects(PhysicsObject &o) {
-		return getBounds().intersects(o.getBounds());
+class Collision {
+private:
+	sf::Vector2f delta;
+	sf::Vector2f intersect;
+
+public:
+    /**
+     * @brief ADT holding collision information.
+     * @param delta Delta between two objects.
+     * @param intersect Intersection vector between two objects.
+     */
+	Collision(const sf::Vector2f delta, const sf::Vector2f intersect) :
+		delta(delta),
+		intersect(intersect)
+	{};
+
+    /**
+     * @brief Check if there has been a collision.
+     * @return Result.
+     */
+	bool check() {
+		if (getIntersect().x < 0.0f && getIntersect().y < 0.0f) {
+			return true;
+		}
+
+		return false;
 	}
+
+    /**
+     * @brief Get collision delta between two objects.
+     * @return Delta.
+     */
+	sf::Vector2f getDelta() const { return delta; };
+    
+    /**
+     * @brief Get intersect between two objects.
+     * @return Intersect.
+     */
+	sf::Vector2f getIntersect() const { return intersect; };
 };
 
 class Ball : public PhysicsObject, public sf::CircleShape {
@@ -109,6 +145,69 @@ public:
 		sf::RectangleShape::setSize(size);
 	}
 
+	void move(sf::Vector2f offset) {
+		sf::RectangleShape::move(offset);
+	}
+
+	sf::FloatRect getBounds() override {
+		return sf::RectangleShape::getGlobalBounds();
+	}
+
+    /**
+     * @brief Resolve an collision.
+     * @param other Rectangle.
+     */
+	void resolveCollision(Rectangle &other) {
+		Collision collision = getCollision(other);
+
+		if (collision.check()) {
+			if (collision.getIntersect().x > collision.getIntersect().y) {
+				if (collision.getDelta().x > 0.0f) {
+					move(sf::Vector2f(collision.getIntersect().x * 1.0f, 0.0f));
+				}
+				else {
+					move(sf::Vector2f(-collision.getIntersect().x * 1.0f, 0.0f));
+				}
+			}
+			else {
+				if (collision.getDelta().y > 0.0f) {
+					move(sf::Vector2f(0.0f, collision.getIntersect().y * 1.0f));
+				}
+				else {
+					move(sf::Vector2f(0.0f, -collision.getIntersect().y * 1.0f));
+				}
+			}
+		}
+	}
+
+    /**
+     * @brief Get an collision instance containing the delta and intersect position between two rectangles.
+     * @param other Rectangle.
+     * @return Collision class instance.
+     */
+	Collision getCollision(Rectangle &other) {
+		sf::Vector2f otherPosition = other.getPosition();
+		sf::Vector2f otherHalfSize = other.getSize() / 2.0f;
+		sf::Vector2f thisPosition = getPosition();
+		sf::Vector2f thisHalfSize = getSize() / 2.0f;
+
+		sf::Vector2f delta(otherPosition.x - thisPosition.x, otherPosition.y - thisPosition.y);
+		sf::Vector2f intersect(abs(delta.x) - (otherHalfSize.x + thisHalfSize.x), abs(delta.y) - (otherHalfSize.y + thisHalfSize.y));
+
+		return Collision(delta, intersect);
+	}
+
+    /**
+     * @brief Check if two rectangles intersects with each other.
+     * @param other Rectangle.
+     * @return Result.
+     */
+	bool intersects(Rectangle &other) {
+		Collision collision = getCollision(other);
+
+		return collision.check();
+	}
+
 	using PhysicsObject::setPosition;
 	using PhysicsObject::getPosition;
 	using PhysicsObject::draw;
@@ -124,13 +223,14 @@ int main() {
 	window.setFramerateLimit((int) FPS);
 	sf::Clock clock;
 
-	Ball ball = Ball();
-	ball.setRadius(10);
-	ball.setPosition({ 150, 0 });
+	Rectangle rect = Rectangle();
+	rect.setSize(sf::Vector2f(10, 10));
+	rect.setPosition({ 150, 0 });
 	
-	Ball ball2 = Ball();
-	ball2.setRadius(20);
-	ball2.setPosition({ 150, 200 });
+	Rectangle rect2 = Rectangle();
+	rect2.setSize(sf::Vector2f(25, 25));
+	rect2.setPosition({ 150, 600 });
+	rect2.setGravity({ 0,0 });
 
 
 	sf::Event ev;
@@ -148,12 +248,21 @@ int main() {
 
 			clock.restart();
 
-			window.clear(sf::Color(0, 0, 0));
-			
-			ball.draw(window);
-			ball2.draw(window);
-			ball.update(elapsedTime);
-			ball2.update(elapsedTime);
+			window.clear();
+
+			if (rect.intersects(rect2)) {
+				std::cout << "Intersect!\n";
+
+				rect.resolveCollision(rect2);
+
+				rect.setVelocity(sf::Vector2f(0, 0));
+				rect.setGravity(sf::Vector2f(0, 0));
+			}
+
+			rect.draw(window);
+			rect2.draw(window);
+			rect.update(elapsedTime);
+			rect2.update(elapsedTime);
 			window.display();
 		}
 	}
