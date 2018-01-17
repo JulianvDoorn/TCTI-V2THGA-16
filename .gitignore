@@ -34,3 +34,5 @@
 # CMake Debug Files
 cmake-build-debug/
 .idea/
+
+*.log
