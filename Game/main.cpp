@@ -5,6 +5,7 @@
 #include "PhysicsObject.hpp"
 #include "Ball.hpp"
 #include "Player.hpp"
+#include "Button.hpp"
 
 std::ostream& operator<<(std::ostream& os, sf::Vector2f v) {
 	os << v.x;
@@ -31,6 +32,8 @@ int main() {
 
 
 	Player player = Player(view2, window);
+    Button startButton = Button({200,200},{50,50});
+    startButton.setText("Start Game");
 
 	sf::Event ev;
 
@@ -51,9 +54,10 @@ int main() {
 			window.clear(sf::Color(0, 0, 0));
 			
 			ball.draw(window);
-			player.draw(window);
-			player.update(elapsedTime);
+//			player.draw(window);
+//			player.update(elapsedTime);
 			//ball.update(elapsedTime);
+            startButton.draw(window);
 			window.display();
 		}
 	}

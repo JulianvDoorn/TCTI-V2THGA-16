@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include "PhysicsObject.hpp"
 
 class Ball : public PhysicsObject, public sf::CircleShape {
