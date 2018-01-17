@@ -19,12 +19,8 @@ public:
 		sf::RectangleShape::setSize(size);
 	}
 
-	void move(sf::Vector2f offset) {
-		sf::RectangleShape::move(offset);
-	}
-
 	sf::FloatRect getBounds() override {
-		return sf::RectangleShape::getGlobalBounds();
+		return getGlobalBounds();
 	}
 
 	/**
@@ -35,22 +31,27 @@ public:
 		Collision collision = getCollision(other);
 
 		if (collision.check()) {
+			sf::Vector2f mvt;
+
 			if (collision.getIntersect().x > collision.getIntersect().y) {
 				if (collision.getDelta().x > 0.0f) {
-					move(sf::Vector2f(collision.getIntersect().x * 1.0f, 0.0f));
+					mvt = sf::Vector2f(collision.getIntersect().x * 1.0f, 0.0f);
+				} else {
+					mvt = sf::Vector2f(-collision.getIntersect().x * 1.0f, 0.0f);
 				}
-				else {
-					move(sf::Vector2f(-collision.getIntersect().x * 1.0f, 0.0f));
-				}
-			}
-			else {
+			} else {
 				if (collision.getDelta().y > 0.0f) {
-					move(sf::Vector2f(0.0f, collision.getIntersect().y * 1.0f));
-				}
-				else {
-					move(sf::Vector2f(0.0f, -collision.getIntersect().y * 1.0f));
+					mvt = sf::Vector2f(0.0f, collision.getIntersect().y * 1.0f);
+				} else {
+					mvt = sf::Vector2f(0.0f, -collision.getIntersect().y * 1.0f);
 				}
 			}
+
+			if (getVelocity().y > 0) {
+				setVelocity({ getVelocity().x, 0 });
+			}
+
+			setPosition(getPosition() + mvt);
 		}
 	}
 
