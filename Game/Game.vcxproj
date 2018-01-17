@@ -165,6 +165,8 @@
     <ClInclude Include="KeyCodeArguments.hpp" />
     <ClInclude Include="KeyDownSignal.hpp" />
     <ClInclude Include="KeyUpSignal.hpp" />
+    <ClInclude Include="MouseClickArguments.hpp" />
+    <ClInclude Include="MouseClickSignal.hpp" />
     <ClInclude Include="PhysicsObject.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="Rectangle.hpp" />

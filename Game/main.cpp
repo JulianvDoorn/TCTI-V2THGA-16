@@ -5,6 +5,7 @@
 #include "PhysicsObject.hpp"
 #include "Ball.hpp"
 #include "Player.hpp"
+#include "EventHandler.hpp"
 
 std::ostream& operator<<(std::ostream& os, sf::Vector2f v) {
 	os << v.x;
@@ -32,6 +33,30 @@ int main() {
 
 	Player player = Player(view2, window);
 
+	EventHandler eventHandler;
+
+	eventHandler.BindPhysicsObject(&ball);
+
+	eventHandler.BindFunction(EventType::KeyDown, EventFunction([](const EventSignal& signal) {
+		KeyCodeArguments arguments = signal.getArguments();
+
+		std::cout << (char) ('a' + arguments.key) << std::endl;
+	}));
+
+	eventHandler.BindFunction(EventType::MouseLeftPressed, EventFunction([](const EventSignal& signal) {
+		MouseClickArguments arguments = signal.getArguments();
+
+		std::cout << "MouseLeftPressed!\n";
+		std::cout << arguments.position.x << ", " << arguments.position.y << std::endl;
+	}));
+
+	eventHandler.BindFunction(EventType::MouseLeftReleased, EventFunction([](const EventSignal& signal) {
+		MouseClickArguments arguments = signal.getArguments();
+
+		std::cout << "Mouse left released!\n";
+		std::cout << arguments.position.x << ", " << arguments.position.y << std::endl;
+	}));
+
 	sf::Event ev;
 
 	while (window.isOpen()) {
@@ -41,6 +66,7 @@ int main() {
 		// Handle input
 		while (window.pollEvent(ev)) {
 			if (ev.type == sf::Event::Closed) window.close();
+			eventHandler.HandleSFMLEvent(ev);
 		}
 
 		if (elapsedTime >= 1.0f / FPS) {
@@ -53,7 +79,6 @@ int main() {
 			ball.draw(window);
 			player.draw(window);
 			player.update(elapsedTime);
-			//ball.update(elapsedTime);
 			window.display();
 		}
 	}

@@ -3,5 +3,8 @@
 enum class EventType {
 	KeyDown,
 	KeyUp,
-	MouseClick
+	MouseLeftPressed,
+	MouseLeftReleased,
+	MouseRightPressed,
+	MouseRightReleased
 };
