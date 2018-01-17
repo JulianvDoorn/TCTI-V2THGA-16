@@ -85,6 +85,13 @@ public:
 		sf::CircleShape::setRadius(radius);
 	}
 
+	sf::Vector2f getCenter() {
+		sf::Vector2f center = getPosition();
+		center.x = center.x + (getRadius()/2);
+		center.y = center.y + (getRadius()/2);
+		return center;
+	}
+
 	sf::FloatRect getBounds() override {
 		return sf::CircleShape::getGlobalBounds();
 	}
@@ -114,12 +121,44 @@ public:
 	using PhysicsObject::draw;
 };
 
+class Player : public Ball{
+private:
+	sf::View &view;
+	sf::RenderWindow &window;
+	
+public:
+	Player(sf::View &view, sf::RenderWindow &window): 
+		view(view),
+		window(window)
+	{
+		setRadius(20);
+		setPosition({ 150, 450 });
+		setFillColor(sf::Color(0, 255, 0));
+//		ball.draw(window);
+//		window.display();
+	}
+	void update(const float elapsedTime) override {
+		PhysicsObject::update(elapsedTime);
+		view.setCenter(getCenter());
+		window.setView(view);
+	}
+
+	sf::FloatRect getBounds() override {
+		return sf::CircleShape::getGlobalBounds();
+	}
+
+	
+	using Ball::setPosition;
+	using Ball::getPosition;
+	using Ball::setRadius;
+	using Ball::draw;
+};
 int main() {
 	const float FPS = 60.0f; // The desired FPS. (The number of updates each second).
 	bool redraw = true;      // Do I redraw everything on the screen?
 
 	std::vector<Drawable*> drawables;
-	sf::View view2(sf::Vector2f(150, 10), sf::Vector2f(300, 200));
+	sf::View view2(sf::Vector2f(150, 10), sf::Vector2f(150, 450));
 
 	sf::RenderWindow window(sf::VideoMode(300, 900, 32), "Hello");
 	window.setFramerateLimit((int) FPS);
@@ -127,12 +166,12 @@ int main() {
 
 	Ball ball = Ball();
 	ball.setRadius(10);
-	ball.setPosition({ 150, 0 });
-	
-	Ball ball2 = Ball();
-	ball2.setRadius(20);
-	ball2.setPosition({ 150, 200 });
-	window.setView(view2);
+	ball.setPosition({ 150, 500 });
+	ball.setFillColor(sf::Color(255, 0, 0));
+
+
+	Player player = Player(view2, window);
+
 	sf::Event ev;
 
 	while (window.isOpen()) {
@@ -152,11 +191,9 @@ int main() {
 			window.clear(sf::Color(0, 0, 0));
 			
 			ball.draw(window);
-			ball2.draw(window);
-			ball.update(elapsedTime);
-			ball2.update(elapsedTime);
-            view2.move(1,1);
-             window.setView(view2);
+			player.draw(window);
+			player.update(elapsedTime);
+			//ball.update(elapsedTime);
 			window.display();
 		}
 	}
