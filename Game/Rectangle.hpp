@@ -34,19 +34,15 @@ public:
 			sf::Vector2f mvt;
 			
 			if (collision.getIntersect().x > collision.getIntersect().y) {
-				setVelocity({ 0, getVelocity().y });
 				if (collision.getDelta().x > 0.0f) {
 					mvt = sf::Vector2f(collision.getIntersect().x * 1.0f, 0.0f);
 				} else {
 					mvt = sf::Vector2f(-collision.getIntersect().x * 1.0f, 0.0f);
 				}
 			} else {
-				std::cout <<"collisionDelta.y:"<< collision.getDelta().y << std::endl;
 				if (collision.getDelta().y > 0.0f) {
-					std::cout << "onder" << std::endl;
 					mvt = sf::Vector2f(0.0f, collision.getIntersect().y);
 				} else {
-					std::cout << "boven" << std::endl;
 					mvt = sf::Vector2f(0.0f, -collision.getIntersect().y);
 					setVelocity({ getVelocity().x, 0 });
 				}

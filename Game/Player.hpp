@@ -45,7 +45,11 @@ public:
 		//if (roll) {
 		//roll
 		//}
+
+		death();
+
 	}
+
 
 	void walk(int32_t direction) {
 		walkDirection = direction;
@@ -61,6 +65,14 @@ public:
 
 	void doRoll() {
 		//roll = true;
+	}
+
+	void death() {
+		if (getPosition().y > 2000) {
+			std::cout << "/!\\ fell out of the world /!\\ " << std::endl;
+			sf::sleep(sf::milliseconds(5000));
+			window.close();
+		}
 	}
 
 	sf::FloatRect getBounds() override {

@@ -95,6 +95,7 @@ int main() {
 			
 			player.resolveCollision(floor0);
 			player.resolveCollision(floor1);
+			player.resolveCollision(wall);
 
 
 			floor0.draw(window);
