@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="AllSignals.hpp" />
     <ClInclude Include="Ball.hpp" />
+    <ClInclude Include="Button.hpp" />
     <ClInclude Include="Collision.hpp" />
     <ClInclude Include="Drawable.hpp" />
     <ClInclude Include="EventHandler.hpp" />
