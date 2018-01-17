@@ -21,7 +21,7 @@ int main() {
 	std::vector<Drawable*> drawables;
 	sf::View view2(sf::Vector2f(150, 10), sf::Vector2f(150, 450));
 
-	sf::RenderWindow window(sf::VideoMode(300, 900, 32), "Hello");
+	sf::RenderWindow window(sf::VideoMode(1280, 720, 32), "Hello");
 	window.setFramerateLimit((int) FPS);
 	sf::Clock clock;
 
@@ -38,8 +38,8 @@ int main() {
 	font.loadFromFile("arial.ttf");
 	
 
-    Button startButton = Button({200,200},{50,50}, font);
-    startButton.setText("Start Game");
+    Button startButton = Button({300,100},{640,360}, font);
+    startButton.setText("start game");
 
 	sf::Event ev;
 
