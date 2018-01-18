@@ -5,15 +5,11 @@
 #include "CollisionObjects.hpp"
 
 class Antagonist : public Rectangle {
-private:
-	sf::RenderWindow &window;
-
 	int32_t walkDirection = 1;
 	float walkspeed = 50;
 
 public:
-	Antagonist(sf::RenderWindow &window) : window(window)
-	{
+	Antagonist() {
 		setSize({ 200, 200 });
 		setPosition({ -200, 450 });
 		setFillColor(sf::Color(255, 0, 0));
