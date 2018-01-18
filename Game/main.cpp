@@ -24,6 +24,8 @@ int main() {
 	window.setFramerateLimit((int) FPS);
 	sf::Clock clock;
 
+	sf::View view(sf::Vector2f(150, 10), sf::Vector2f(1280, 720));
+
 	CollisionObjects objects;
 
 	//Rectangle rectangle;
@@ -42,7 +44,7 @@ int main() {
 	};
 
 	GameStates gameState = GameStates::START_MENU;
-	/**Player player = Player(view, window);
+	Player player = Player(view, window);
 
 	Antagonist death = Antagonist(window);
 	objects.add(death);
@@ -63,9 +65,6 @@ int main() {
 	objects.add(wall);
 
 
-	EventHandler eventHandler;**/
-
-
 	Ball ball = Ball();
 	ball.setRadius(10);
 	ball.setPosition({ 150, 500 });
@@ -78,12 +77,8 @@ int main() {
 
 	Button startButton = Button({ 300,100 }, { 640,360 }, 30, "start game", font, mouse);
 
-	startButton.buttonPressed.connect([]() {
-		std::cout << "Button start pressed!";
-	});
-
-	startButton.buttonReleased.connect([]() {
-		std::cout << "Button start released!";
+	startButton.buttonReleased.connect([&gameState]() {
+		gameState = GameStates::MAIN_GAME;
 	});
 
 	sf::Event ev;
@@ -112,28 +107,31 @@ int main() {
 				startButton.draw(window);
 				break;
 			case GameStates::MAIN_GAME:
-				ball.draw(window);
+				//ball.draw(window);
+
+				player.update(elapsedTime);
+				death.update(elapsedTime);
+
+				player.detectCollision(objects);
+
+				//player.resolveCollision(floor0);
+				//player.resolveCollision(floor1);
+				//player.resolveCollision(wall);
+				//player.deathByAntagonist(death);
+
+				player.draw(window);
+				death.draw(window);
+
+
+				floor0.draw(window);
+				floor1.draw(window);
+				wall.draw(window);
+
+
 				break;
 			}
 
-			/**player.update(elapsedTime);
-			death.update(elapsedTime);
 
-			player.detectCollision(objects);
-			
-			//player.resolveCollision(floor0);
-			//player.resolveCollision(floor1);
-			//player.resolveCollision(wall);
-			//player.deathByAntagonist(death);
-
-			player.draw(window);
-			death.draw(window);
-
-
-			floor0.draw(window);
-			floor1.draw(window);
-			wall.draw(window);
-**/
 			window.display();
 		}
 
