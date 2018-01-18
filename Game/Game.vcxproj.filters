@@ -68,6 +68,11 @@
     </ClInclude>
     <ClInclude Include="Events.hpp">
       <Filter>Header Files\Events</Filter>
+    <ClInclude Include="Antagonist.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionObjects.hpp">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -7,6 +7,8 @@
 #include "Rectangle.hpp"
 #include "EventSource.hpp"
 #include "Mouse.hpp"
+#include "Antagonist.hpp"
+#include "CollisionObjects.hpp"
 
 std::ostream& operator<<(std::ostream& os, sf::Vector2f v) {
 	os << v.x;
@@ -22,6 +24,7 @@ int main() {
 	window.setFramerateLimit((int) FPS);
 	sf::Clock clock;
 
+	CollisionObjects objects;
 
 	//Rectangle rectangle;
 	//rectangle.setSize({ 100, 50 });
@@ -39,6 +42,28 @@ int main() {
 	};
 
 	GameStates gameState = GameStates::START_MENU;
+	/**Player player = Player(view, window);
+
+	Antagonist death = Antagonist(window);
+	objects.add(death);
+
+	Rectangle floor0;
+	floor0.setSize({ 600, 100 });
+	floor0.setPosition({ 0, 600 });
+	objects.add(floor0);
+
+	Rectangle floor1;
+	floor1.setSize({ 60, 10 });
+	floor1.setPosition({ 0, 500 });
+	objects.add(floor1);
+
+	Rectangle wall;
+	wall.setSize({ 20, 50 });
+	wall.setPosition({ 250, 550 });
+	objects.add(wall);
+
+
+	EventHandler eventHandler;**/
 
 
 	Ball ball = Ball();
@@ -73,12 +98,15 @@ int main() {
 			mouse.decodeSFMLEvent(ev);
 		}
 
+		//std::cout << (objects.get(1))->getPosition().y << std::endl;
+
 		if (elapsedTime >= 1.0f / FPS) {
 			window.setTitle(std::to_string(1 / elapsedTime));
 
 			clock.restart();
 
 			window.clear(sf::Color(0, 0, 0));
+
 			switch (gameState) {
 			case GameStates::START_MENU:
 				startButton.draw(window);
@@ -87,6 +115,25 @@ int main() {
 				ball.draw(window);
 				break;
 			}
+
+			/**player.update(elapsedTime);
+			death.update(elapsedTime);
+
+			player.detectCollision(objects);
+			
+			//player.resolveCollision(floor0);
+			//player.resolveCollision(floor1);
+			//player.resolveCollision(wall);
+			//player.deathByAntagonist(death);
+
+			player.draw(window);
+			death.draw(window);
+
+
+			floor0.draw(window);
+			floor1.draw(window);
+			wall.draw(window);
+**/
 			window.display();
 		}
 

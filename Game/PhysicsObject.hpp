@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Drawable.hpp"
+#include "Collision.hpp"
 
 class PhysicsObject : public Drawable {
 protected:
@@ -25,6 +26,8 @@ public:
 	virtual void setPosition(const sf::Vector2f& position) {
 		transformable.setPosition(position);
 	}
+	
+	virtual sf::Vector2f getSize() const = 0;
 
 	virtual sf::Vector2f getPosition() const {
 		return transformable.getPosition();
@@ -43,4 +46,54 @@ public:
 	virtual sf::Vector2f getVelocity() {
 		return velocity;
 	}
+
+	void resolveCollision(PhysicsObject &other) {
+		Collision collision = getCollision(other);
+
+		if (collision.check()) {
+			sf::Vector2f mvt;
+
+			if (collision.getIntersect().x > collision.getIntersect().y) {
+				if (collision.getDelta().x > 0.0f) {
+					mvt = sf::Vector2f(collision.getIntersect().x * 1.0f, 0.0f);
+				}
+				else {
+					mvt = sf::Vector2f(-collision.getIntersect().x * 1.0f, 0.0f);
+				}
+			}
+			else {
+				if (collision.getDelta().y > 0.0f) {
+					mvt = sf::Vector2f(0.0f, collision.getIntersect().y);
+				}
+				else {
+					mvt = sf::Vector2f(0.0f, -collision.getIntersect().y);
+					setVelocity({ getVelocity().x, 0 });
+				}
+			}
+
+			if (getVelocity().y > 0) {
+				setVelocity({ getVelocity().x, 0 });
+			}
+
+			setPosition(getPosition() + mvt);
+		}
+	}
+
+	Collision getCollision(PhysicsObject &other) {
+		sf::Vector2f otherPosition = other.getPosition();
+		sf::Vector2f otherHalfSize = other.getSize() / 2.0f;
+		sf::Vector2f thisPosition = getPosition();
+		sf::Vector2f thisHalfSize = getSize() / 2.0f;
+
+		sf::Vector2f delta(otherPosition.x - thisPosition.x, otherPosition.y - thisPosition.y);
+		sf::Vector2f intersect(abs(delta.x) - (otherHalfSize.x + thisHalfSize.x), abs(delta.y) - (otherHalfSize.y + thisHalfSize.y));
+
+		return Collision(delta, intersect);
+	}
+
+	virtual bool intersects(PhysicsObject &other) {
+		Collision collision = getCollision(other);
+		return collision.check();
+	}
+
 };

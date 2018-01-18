@@ -3,6 +3,7 @@
 #include <SFML\Graphics.hpp>
 #include "Rectangle.hpp"
 #include "Ball.hpp"
+#include "CollisionObjects.hpp"
 
 class Player : public Rectangle {
 private:
@@ -14,6 +15,8 @@ private:
 	float jumpForce = 500;
 
 	bool jump = false;
+
+	int deathcase = 0;
 	//bool roll = false;
 
 public:
@@ -47,7 +50,7 @@ public:
 		//roll
 		//}
 
-		death();
+		checkDeath();
 
 	}
 
@@ -69,10 +72,40 @@ public:
 	}
 
 	void death() {
-		if (getPosition().y > 2000) {
-			std::cout << "/!\\ fell out of the world /!\\ " << std::endl;
+		switch (deathcase) {
+			case 0:
+				break;
+			case 1:
+				std::cout << "/!\\ fell out of the world /!\\ " << std::endl;
+				break;
+			case 2:
+				std::cout << "/!\\ death got you /!\\ " << std::endl;
+				break;
+		}
+		if (deathcase != 0) {
 			sf::sleep(sf::milliseconds(5000));
 			window.close();
+		}
+	}
+
+	void checkDeath() {
+		if (getPosition().y > 2000) {
+			deathcase = 1;
+			death();
+		}
+	}
+
+	void detectCollision(CollisionObjects &objects) {
+		std::cout << objects.getSize() << std::endl;
+		if (intersects(*(objects.at(0)))) {
+			deathcase = 2;
+			death();
+		}
+		for (unsigned int i = 0; i < objects.getSize(); i++) {
+			PhysicsObject* object = objects.at(i);
+			if (intersects(*object)) {
+				resolveCollision(*object);
+			}
 		}
 	}
 
@@ -80,8 +113,10 @@ public:
 		return getGlobalBounds();
 	}
 
+	using Rectangle::getCollision;
 	using Rectangle::setPosition;
 	using Rectangle::getPosition;
 	using Rectangle::setSize;
 	using Rectangle::draw;
+	using PhysicsObject::intersects;
 };

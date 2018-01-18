@@ -18,6 +18,15 @@ public:
 		sf::CircleShape::setRadius(radius);
 	}
 
+	sf::Vector2f getSize() const override {
+		sf::Vector2f size;
+
+		size.x = sf::CircleShape::getRadius() * 2;
+		size.y = sf::CircleShape::getRadius() * 2;
+
+		return size;
+	}
+
 	sf::Vector2f getCenter() {
 		sf::Vector2f center = getPosition();
 		center.x = center.x + (getRadius() / 2);
