@@ -60,11 +60,13 @@ public:
 		});
 
 		diedConnection = statemachine.gameEvents.died.connect([this]() {
+			diedConnection.disconnect();
 			std::cout << "/!\\ death got you /!\\" << std::endl;
 			gameOver = true;
 		});
 
 		fellOffMapConnection = statemachine.gameEvents.fellOffMap.connect([this]() {
+			fellOffMapConnection.disconnect();
 			std::cout << "/!\\ fell out of the world /!\\" << std::endl;
 			gameOver = true;
 		});
@@ -75,8 +77,11 @@ public:
 		focus.update();
 
 		keyReleasedConnection.disconnect();
-		diedConnection.disconnect();
-		fellOffMapConnection.disconnect();
+
+		if (!gameOver) {
+			diedConnection.disconnect();
+			fellOffMapConnection.disconnect();
+		}
 	}
 
 	void update(const float elapsedTime) override {
