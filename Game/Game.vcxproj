@@ -159,7 +159,9 @@
     <ClInclude Include="Ball.hpp" />
     <ClInclude Include="Collision.hpp" />
     <ClInclude Include="Drawable.hpp" />
+    <ClInclude Include="EventConnection.hpp" />
     <ClInclude Include="EventHandler.hpp" />
+    <ClInclude Include="EventSource.hpp" />
     <ClInclude Include="EventType.hpp" />
     <ClInclude Include="EventSignal.hpp" />
     <ClInclude Include="KeyCodeArguments.hpp" />

@@ -77,5 +77,11 @@
     <ClInclude Include="ShapeClickSignal.hpp">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
+    <ClInclude Include="EventSource.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="EventConnection.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

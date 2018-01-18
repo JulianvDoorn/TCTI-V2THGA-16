@@ -8,6 +8,8 @@
 #include "EventHandler.hpp"
 #include "Rectangle.hpp"
 
+#include "EventSource.hpp"
+
 std::ostream& operator<<(std::ostream& os, sf::Vector2f v) {
 	os << v.x;
 	os << ", ";
@@ -16,64 +18,77 @@ std::ostream& operator<<(std::ostream& os, sf::Vector2f v) {
 }
 
 int main() {
-	const float FPS = 60.0f;
+	//const float FPS = 60.0f;
 	
-	sf::RenderWindow window(sf::VideoMode(300, 900, 32), "Hello");
-	window.setFramerateLimit((int) FPS);
-	sf::Clock clock;
+	//sf::RenderWindow window(sf::VideoMode(300, 900, 32), "Hello");
+	//window.setFramerateLimit((int) FPS);
+	//sf::Clock clock;
 
 
 
 
-	Rectangle rectangle;
-	rectangle.setSize({ 100, 50 });
-	rectangle.setPosition({ 100, 100 });
+	//Rectangle rectangle;
+	//rectangle.setSize({ 100, 50 });
+	//rectangle.setPosition({ 100, 100 });
 
 
+	EventSource<char> eventSource;
+	
+	EventConnection<char> conn0 = eventSource.connect([](char c) {
+		std::cout << "1st: " << c << std::endl;
+	});
 
-	EventHandler& eventHandler0 = EventHandler::newEventHandler();
-	eventHandler0.bindPhysicsObject(rectangle);
+	EventConnection<char> conn1 = eventSource.connect([](char c) {
+		std::cout << "2nd: " << c << std::endl;
+	});
 
-	EventHandler& eventHandler1 = EventHandler::newEventHandler();
+	EventConnection<char> conn2 = eventSource.connect([](char c) {
+		std::cout << "3rd: " << c << std::endl;
+	});
 
-	//std::cout << &eventHandler0 << std::endl;
-	//std::cout << &eventHandler1 << std::endl;
+	EventConnection<char> conn3 = eventSource.connect([](char c) {
+		std::cout << "4th: " << c << std::endl;
+	});
 
-	eventHandler0.bindFunction(EventType::KeyDown, EventFunction([](const EventSignal& signal) {
-		KeyCodeArguments arguments = signal.getArguments();
-		std::cout << "event handler 0" << std::endl;
-	}));
+	EventConnection<char> conn4 = eventSource.connect([](char c) {
+		std::cout << "5th: " << c << std::endl;
+	});
 
-	eventHandler1.bindFunction(EventType::KeyDown, EventFunction([](const EventSignal& signal) {
-		KeyCodeArguments arguments = signal.getArguments();
-		std::cout << "event handler 1" << std::endl;
-	}));
+	conn2.disconnect();
+	conn0.disconnect();
+	conn3.disconnect();
+	conn4.disconnect();
+	conn1.disconnect();
 
-	sf::Event ev;
+	eventSource.fire('a');
 
-	while (window.isOpen()) {
-		float elapsedTime = clock.getElapsedTime().asSeconds();
+	//sf::Event ev;
 
-		while (window.pollEvent(ev)) {
-			if (ev.type == sf::Event::Closed) {
-				window.close();
-			}
+	//while (window.isOpen()) {
+	//	float elapsedTime = clock.getElapsedTime().asSeconds();
 
-			EventHandler::handleSFMLEvent(ev);
-		}
+	//	while (window.pollEvent(ev)) {
+	//		if (ev.type == sf::Event::Closed) {
+	//			window.close();
+	//		}
 
-		if (elapsedTime >= 1.0f / FPS) {
-			window.setTitle(std::to_string(1 / elapsedTime));
+	//		EventHandler::handleSFMLEvent(ev);
+	//	}
 
-			clock.restart();
+	//	if (elapsedTime >= 1.0f / FPS) {
+	//		window.setTitle(std::to_string(1 / elapsedTime));
 
-			window.clear(sf::Color(0, 0, 0));
-			
-			rectangle.draw(window);
+	//		clock.restart();
 
-			window.display();
-		}
-	}
+	//		window.clear(sf::Color(0, 0, 0));
+	//		
+	//		rectangle.draw(window);
+
+	//		window.display();
+	//	}
+	//}
+
+	system("pause");
 
 	return 0;
 }
