@@ -8,13 +8,15 @@ class EventSource;
 template<class... Args>
 class EventConnection {
 	uint32_t id;
-	EventSource<Args...>& eventSource;
+	EventSource<Args...>* eventSource;
 
-	EventConnection(uint32_t id, EventSource<Args...>& eventSource) : id(id), eventSource(eventSource) { }
+	EventConnection(uint32_t id, EventSource<Args...>& eventSource) : id(id), eventSource(&eventSource) { }
 
 public:
+	EventConnection() { }
+
 	void disconnect() {
-		eventSource.disconnect(*this);
+		eventSource->disconnect(*this);
 	}
 
 	EventConnection<Args...>& operator= (EventConnection<Args...> rhs) {
