@@ -82,6 +82,10 @@ public:
 		return collision.check();
 	}
 
+	bool contains(const sf::Vector2f pos) {
+		return sf::RectangleShape::getGlobalBounds().contains(pos);
+	}
+
 	using PhysicsObject::setPosition;
 	using PhysicsObject::getPosition;
 	using PhysicsObject::draw;

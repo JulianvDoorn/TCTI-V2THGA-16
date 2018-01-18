@@ -26,7 +26,7 @@ public:
 		transformable.setPosition(position);
 	}
 
-	virtual sf::Vector2f getPosition() {
+	virtual sf::Vector2f getPosition() const {
 		return transformable.getPosition();
 	}
 
