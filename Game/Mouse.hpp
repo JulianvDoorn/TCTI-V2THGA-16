@@ -6,10 +6,10 @@
 #include "EventSource.hpp"
 
 class Mouse : public SFMLEventDecoder {
-	sf::RenderWindow& window;
+	sf::Window& window;
 
 public:
-	Mouse(sf::RenderWindow& window) : window(window) { }
+	Mouse(sf::Window& window) : window(window) { }
 
 	EventSource<sf::Vector2i> mouseLeftButtonUp;
 	EventSource<sf::Vector2i> mouseRightButtonUp;
