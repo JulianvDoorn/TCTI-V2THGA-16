@@ -10,6 +10,8 @@ class Running : public GameState {
 	EventConnection<sf::Keyboard::Key> keyReleasedConnection;
 
 	sf::View view;
+	EventConnection<> diedConnection;
+	EventConnection<> fellOffMapConnection;
 
 	Player player;
 	Antagonist death;
@@ -18,6 +20,9 @@ class Running : public GameState {
 	Rectangle floor0;
 	Rectangle floor1;
 	Rectangle wall;
+
+	bool gameOver = false;
+	float gameOverCounter = 3.0f;
 
 public:
 	Running(Statemachine& statemachine) :
@@ -48,14 +53,34 @@ public:
 				statemachine.doTransition("main-menu");
 			}
 		});
+
+		diedConnection = statemachine.gameEvents.died.connect([this]() {
+			std::cout << "/!\\ death got you /!\\" << std::endl;
+			gameOver = true;
+		});
+
+		fellOffMapConnection = statemachine.gameEvents.fellOffMap.connect([this]() {
+			std::cout << "/!\\ fell out of the world /!\\" << std::endl;
+			gameOver = true;
+		});
 	}
 
 	void exit() override {
 		keyReleasedConnection.disconnect();
+		diedConnection.disconnect();
+		fellOffMapConnection.disconnect();
 	}
 
 	void update(const float elapsedTime) override {
-		player.update(elapsedTime);
+		if (!gameOver) {
+			player.update(elapsedTime);
+			focus.update();
+		} else if (gameOverCounter > 0) {
+			gameOverCounter -= elapsedTime;
+		} else {
+			statemachine.doTransition("game-over");
+		}
+
 		death.update(elapsedTime);
 
 		player.detectCollision(objects);

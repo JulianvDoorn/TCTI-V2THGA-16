@@ -22,6 +22,7 @@ public:
 	sf::RenderWindow& window;
 	Keyboard keyboard;
 	Mouse mouse;
+	GameEvents gameEvents;
 
 	Statemachine(sf::RenderWindow& window) : window(window), keyboard(window), mouse(window) { }
 

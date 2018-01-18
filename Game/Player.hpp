@@ -10,6 +10,7 @@
 class Player : public Rectangle {
 	sf::RenderWindow& window;
 	sf::View& view;
+	GameEvents& gameEvents;
 
 	int32_t walkDirection = 0;
 	float walkspeed = 50;
@@ -21,7 +22,7 @@ class Player : public Rectangle {
 	//bool roll = false;
 
 public:
-	Player(sf::RenderWindow &window, Keyboard &keyboard, sf::View &view) : window(window), view(view) {
+	Player(sf::RenderWindow &window, Keyboard &keyboard, GameEvents& gameEvents) : window(window), gameEvents(gameEvents), view(view) {
 		setSize({ 20, 20 });
 		setPosition({ 150, 450 });
 		setFillColor(sf::Color(0, 255, 0));
@@ -87,34 +88,15 @@ public:
 		//roll = true;
 	}
 
-	void death() {
-		switch (deathcase) {
-			case 0:
-				break;
-			case 1:
-				std::cout << "/!\\ fell out of the world /!\\ " << std::endl;
-				break;
-			case 2:
-				std::cout << "/!\\ death got you /!\\ " << std::endl;
-				break;
-		}
-		if (deathcase != 0) {
-			sf::sleep(sf::milliseconds(5000));
-			window.close();
-		}
-	}
-
 	void checkDeath() {
 		if (getPosition().y > 2000) {
-			deathcase = 1;
-			death();
+			gameEvents.fellOffMap.fire();
 		}
 	}
 
 	void detectCollision(CollisionObjects &objects) {
 		if (intersects(*(objects.at(0)))) {
-			deathcase = 2;
-			death();
+			gameEvents.died.fire();
 		}
 		for (unsigned int i = 0; i < objects.getSize(); i++) {
 			PhysicsObject* object = objects.at(i);
