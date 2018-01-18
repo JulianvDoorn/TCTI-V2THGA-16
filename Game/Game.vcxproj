@@ -179,6 +179,7 @@
     <ClInclude Include="SFMLEventDecoder.hpp" />
     <ClInclude Include="Statemachine.hpp" />
     <ClInclude Include="VectorMath.hpp" />
+    <ClInclude Include="ViewFocus.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
