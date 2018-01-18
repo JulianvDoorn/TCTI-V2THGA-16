@@ -24,7 +24,6 @@ public:
 		return *this;
 	}
 
-	template<class... Args>
 	friend bool operator== (const EventConnection<Args...>& lhs, const EventConnection<Args...>& rhs) {
 		return lhs.id == rhs.id;
 	}
