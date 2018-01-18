@@ -62,5 +62,8 @@
     <ClInclude Include="VectorMath.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Events.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
