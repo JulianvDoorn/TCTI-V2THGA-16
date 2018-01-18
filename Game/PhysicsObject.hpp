@@ -47,6 +47,10 @@ public:
 		return velocity;
 	}
 
+	/**
+	* @brief Resolve an collision.
+	* @param other Rectangle.
+	*/
 	void resolveCollision(PhysicsObject &other) {
 		Collision collision = getCollision(other);
 
@@ -79,6 +83,11 @@ public:
 		}
 	}
 
+	/**
+	* @brief Get an collision instance containing the delta and intersect position between two rectangles.
+	* @param other Rectangle.
+	* @return Collision class instance.
+	*/
 	Collision getCollision(PhysicsObject &other) {
 		sf::Vector2f otherPosition = other.getPosition();
 		sf::Vector2f otherHalfSize = other.getSize() / 2.0f;
@@ -91,6 +100,11 @@ public:
 		return Collision(delta, intersect);
 	}
 
+	/**
+	* @brief Check if two rectangles intersects with each other.
+	* @param other Rectangle.
+	* @return Result.
+	*/
 	virtual bool intersects(PhysicsObject &other) {
 		Collision collision = getCollision(other);
 		return collision.check();

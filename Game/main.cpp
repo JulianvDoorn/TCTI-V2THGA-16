@@ -93,8 +93,6 @@ int main() {
 			mouse.decodeSFMLEvent(ev);
 		}
 
-		//std::cout << (objects.get(1))->getPosition().y << std::endl;
-
 		if (elapsedTime >= 1.0f / FPS) {
 			window.setTitle(std::to_string(1 / elapsedTime));
 

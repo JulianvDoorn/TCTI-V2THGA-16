@@ -45,11 +45,6 @@ public:
 			applyForce({ 0, -jumpForce });
 			jump = false;
 		}
-
-		//if (roll) {
-		//roll
-		//}
-
 		checkDeath();
 
 	}
@@ -61,7 +56,6 @@ public:
 
 	void doJump() {
 		sf::Vector2f velocity = getVelocity();
-		//if ((velocity.y > 16 && velocity.y < 17) || velocity.y == 0) {
 		if (velocity.y == 0) {
 			jump = true;
 		}
@@ -96,7 +90,6 @@ public:
 	}
 
 	void detectCollision(CollisionObjects &objects) {
-		std::cout << objects.getSize() << std::endl;
 		if (intersects(*(objects.at(0)))) {
 			deathcase = 2;
 			death();
