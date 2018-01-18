@@ -163,6 +163,7 @@
     <ClInclude Include="Events.hpp" />
     <ClInclude Include="EventConnection.hpp" />
     <ClInclude Include="EventSource.hpp" />
+    <ClInclude Include="GameEvents.hpp" />
     <ClInclude Include="GameState.hpp" />
     <ClInclude Include="GameStates.hpp" />
     <ClInclude Include="Keyboard.hpp" />
