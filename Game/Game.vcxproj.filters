@@ -116,6 +116,9 @@
     <ClInclude Include="GameEvents.hpp">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
+    <ClInclude Include="GameOver.hpp">
+      <Filter>Header Files\GameStates\States</Filter>
+    </ClInclude>
     <ClInclude Include="ViewFocus.hpp">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>

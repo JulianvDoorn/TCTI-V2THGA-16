@@ -14,6 +14,7 @@ int main() {
 
 	// State definitions
 
+	GameOver gameOver(statemachine);
 	Running running(statemachine);
 	MainMenu mainMenu(statemachine);
 
