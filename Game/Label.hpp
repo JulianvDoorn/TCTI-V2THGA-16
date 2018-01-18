@@ -17,8 +17,13 @@ public:
         displayText.setStyle(style);
         displayText.setPosition(position);
         displayText.setString(text);
-    };
-    void setText(std::string &text){
+    }
+
+	void setFont(sf::Font& font) {
+		displayText.setFont(font);
+	}
+
+    void setText(const std::string& text){
         displayText.setString(text);
     }
 
