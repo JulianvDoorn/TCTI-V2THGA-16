@@ -3,6 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include "Rectangle.hpp"
 #include "Label.hpp"
+#include "EventSource.hpp"
+#include "EventConnection.hpp"
 
 class Button {
 private:
@@ -11,7 +13,10 @@ private:
     sf::Vector2f position;
     Label textLabel;
 public:
-    Button(sf::Vector2f backgroundSize, sf::Vector2f position, int size,std::string text, sf::Font &font):
+	EventSource<> buttonPressed;
+	EventSource<> buttonReleased;
+
+    Button(sf::Vector2f backgroundSize, sf::Vector2f position, int size, std::string text, sf::Font &font):
     backgroundSize(backgroundSize), position(position),textLabel(text,font,position,size) {
         background.setSize(backgroundSize);
         background.setPosition(position);
@@ -24,7 +29,6 @@ public:
         textLabel.setText(text);
         sf::FloatRect textRectangle= textLabel.getBounds();
 		textLabel.setOrigin(textRectangle.width / 2, textRectangle.height / 2);
-
     }
 
 	void setBackgroundColor(sf::Color color) {

@@ -6,6 +6,8 @@
 #include "Ball.hpp"
 #include "Player.hpp"
 #include "Button.hpp"
+#include "Rectangle.hpp"
+#include "EventSource.hpp"
 
 std::ostream& operator<<(std::ostream& os, sf::Vector2f v) {
 	os << v.x;
@@ -15,23 +17,29 @@ std::ostream& operator<<(std::ostream& os, sf::Vector2f v) {
 }
 
 int main() {
-	const float FPS = 60.0f; // The desired FPS. (The number of updates each second).
-	bool redraw = true;      // Do I redraw everything on the screen?
-
-	std::vector<Drawable*> drawables;
-	sf::View view2(sf::Vector2f(150, 10), sf::Vector2f(150, 450));
-
-    enum class GameStates {
-        START_MENU,
-        MAIN_GAME,
-    };
-
-    GameStates gameState = GameStates::START_MENU;
+	const float FPS = 60.0f;
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720, 32), "Hello");
 	window.setFramerateLimit((int) FPS);
 	sf::Clock clock;
 
+
+	//Rectangle rectangle;
+	//rectangle.setSize({ 100, 50 });
+	//rectangle.setPosition({ 100, 100 });
+
+
+	EventSource<char> eventSource;
+
+	EventConnection<char> conn0 = eventSource.connect([](char c) {
+		std::cout << "1st: " << c << std::endl;
+	});
+	enum class GameStates {
+		START_MENU,
+		MAIN_GAME,
+	};
+
+	GameStates gameState = GameStates::START_MENU;
 
 
 	Ball ball = Ball();
@@ -39,11 +47,17 @@ int main() {
 	ball.setPosition({ 150, 500 });
 	ball.setFillColor(sf::Color(255, 0, 0));
 
+	sf::Font font;
+	font.loadFromFile("arial.ttf");
+	Button startButton = Button({ 300,100 }, { 640,360 }, 30, "start game", font);
 
-	Player player = Player(view2, window);
-    sf::Font font;
-    font.loadFromFile("arial.ttf");
-    Button startButton = Button({300,100},{640,360}, 30,"start game",font);
+	startButton.buttonPressed.connect([]() {
+		std::cout << "Button start pressed!";
+	});
+
+	startButton.buttonReleased.connect([]() {
+		std::cout << "Button start released!";
+	});
 
 	sf::Event ev;
 
@@ -51,9 +65,13 @@ int main() {
 		// Wait until 1/60th of a second has passed, then update everything.
 		float elapsedTime = clock.getElapsedTime().asSeconds();
 
-		// Handle input
 		while (window.pollEvent(ev)) {
 			if (ev.type == sf::Event::Closed) window.close();
+
+			if (ev.type == sf::Event::MouseButtonPressed) startButton.buttonPressed.fire();
+			if (ev.type == sf::Event::MouseButtonReleased) startButton.buttonReleased.fire();
+
+			//eventHandler.HandleSFMLEvent(ev);
 		}
 
 		if (elapsedTime >= 1.0f / FPS) {
@@ -62,19 +80,18 @@ int main() {
 			clock.restart();
 
 			window.clear(sf::Color(0, 0, 0));
-            switch (gameState) {
-                case GameStates::START_MENU:
-                    startButton.draw(window);
-                    break;
-                case GameStates::MAIN_GAME:
-                    ball.draw(window);
-                    //			player.draw(window);
-                    //			player.update(elapsedTime);
-                    //     ball.update(elapsedTime);
-                    break;
-            }
-            window.display();
+			switch (gameState) {
+			case GameStates::START_MENU:
+				startButton.draw(window);
+				break;
+			case GameStates::MAIN_GAME:
+				ball.draw(window);
+				break;
+			}
+			window.display();
 		}
+
+
 	}
 
 	return 0;
