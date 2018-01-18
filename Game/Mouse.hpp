@@ -18,22 +18,20 @@ public:
 	EventSource<sf::Vector2i> mouseMoved;
 
 	void decodeSFMLEvent(sf::Event ev) const override {
-		switch (ev.type) {
-		case sf::Event::MouseMoved:
+		if (ev.type == sf::Event::MouseMoved) {
 			mouseMoved.fire(sf::Mouse::getPosition(window));
-			return;
-		case sf::Event::MouseButtonPressed:
+		} else if (ev.type == sf::Event::MouseButtonPressed) {
 			if (ev.mouseButton.button == sf::Mouse::Left) {
 				mouseLeftButtonDown.fire(sf::Mouse::getPosition(window));
 			} else if (ev.mouseButton.button == sf::Mouse::Right) {
 				mouseRightButtonDown.fire(sf::Mouse::getPosition(window));
 			}
-		case sf::Event::MouseButtonReleased:
-			if (ev.mouseButton.button == sf::Mouse::Left) {
-				mouseLeftButtonUp.fire(sf::Mouse::getPosition(window));
-			}	else if (ev.mouseButton.button == sf::Mouse::Right) {
-				mouseRightButtonUp.fire(sf::Mouse::getPosition(window));
-			}
+		} else if (ev.type == sf::Event::MouseButtonReleased) {
+			 if (ev.mouseButton.button == sf::Mouse::Left) {
+				 mouseLeftButtonUp.fire(sf::Mouse::getPosition(window));
+			 } else if (ev.mouseButton.button == sf::Mouse::Right) {
+				 mouseRightButtonUp.fire(sf::Mouse::getPosition(window));
+			 }
 		}
 	}
 };
