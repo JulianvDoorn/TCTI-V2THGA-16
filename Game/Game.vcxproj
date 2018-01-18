@@ -161,9 +161,12 @@
     <ClInclude Include="Drawable.hpp" />
     <ClInclude Include="EventConnection.hpp" />
     <ClInclude Include="EventSource.hpp" />
+    <ClInclude Include="Mouse.hpp" />
     <ClInclude Include="PhysicsObject.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="Rectangle.hpp" />
+    <ClInclude Include="SFMLEventDecoder.hpp" />
+    <ClInclude Include="VectorMath.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
