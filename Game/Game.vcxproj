@@ -155,20 +155,19 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AllSignals.hpp" />
     <ClInclude Include="Ball.hpp" />
+    <ClInclude Include="Button.hpp" />
     <ClInclude Include="Collision.hpp" />
     <ClInclude Include="Drawable.hpp" />
-    <ClInclude Include="EventHandler.hpp" />
-    <ClInclude Include="EventType.hpp" />
-    <ClInclude Include="EventSignal.hpp" />
-    <ClInclude Include="KeyCodeArguments.hpp" />
-    <ClInclude Include="KeyDownSignal.hpp" />
-    <ClInclude Include="KeyUpSignal.hpp" />
+    <ClInclude Include="Events.hpp" />
+    <ClInclude Include="EventConnection.hpp" />
+    <ClInclude Include="EventSource.hpp" />
+    <ClInclude Include="Mouse.hpp" />
     <ClInclude Include="PhysicsObject.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="Rectangle.hpp" />
     <ClInclude Include="Shapes.hpp" />
+    <ClInclude Include="SFMLEventDecoder.hpp" />
     <ClInclude Include="VectorMath.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -2,6 +2,7 @@
 
 #include <SFML\Graphics.hpp>
 #include "Rectangle.hpp"
+#include "Ball.hpp"
 
 class Player : public Rectangle {
 private:

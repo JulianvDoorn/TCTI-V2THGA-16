@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include "PhysicsObject.hpp"
 #include "Collision.hpp"
 
@@ -82,6 +82,10 @@ public:
 		Collision collision = getCollision(other);
 
 		return collision.check();
+	}
+
+	bool contains(const sf::Vector2f pos) {
+		return sf::RectangleShape::getGlobalBounds().contains(pos);
 	}
 
 	using PhysicsObject::setPosition;

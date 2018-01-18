@@ -3,8 +3,9 @@
 #include <numeric>
 #include <SFML/Graphics.hpp>
 
-std::ostream& operator<< (std::ostream& os, sf::Vector2f v) {
-	return os << "Vector2f(" << v.x << ", " << v.y << ')';
+template<class T>
+std::ostream& operator<< (std::ostream& os, sf::Vector2<T> v) {
+	return os << "Vector2(" << v.x << ", " << v.y << ')';
 }
 
 sf::Vector2f operator/ (const sf::Vector2f& v, int i) {
