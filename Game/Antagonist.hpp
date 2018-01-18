@@ -2,6 +2,7 @@
 
 #include <SFML\Graphics.hpp>
 #include "Rectangle.hpp"
+#include "CollisionObjects.hpp"
 
 class Antagonist : public Rectangle {
 private:

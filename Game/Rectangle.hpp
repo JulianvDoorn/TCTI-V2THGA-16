@@ -19,6 +19,10 @@ public:
 		sf::RectangleShape::setSize(size);
 	}
 
+	sf::Vector2f getSize() override {
+		return sf::RectangleShape::getSize();
+	}
+
 	sf::FloatRect getBounds() override {
 		return getGlobalBounds();
 	}
@@ -27,7 +31,7 @@ public:
 	* @brief Resolve an collision.
 	* @param other Rectangle.
 	*/
-	void resolveCollision(Rectangle &other) {
+	/**void resolveCollision(Rectangle &other) {
 		Collision collision = getCollision(other);
 
 		if (collision.check()) {
@@ -54,14 +58,14 @@ public:
 
 			setPosition(getPosition() + mvt);
 		}
-	}
+	}**/
 
 	/**
 	* @brief Get an collision instance containing the delta and intersect position between two rectangles.
 	* @param other Rectangle.
 	* @return Collision class instance.
 	*/
-	Collision getCollision(Rectangle &other) {
+	/**Collision getCollision(Rectangle &other) override {
 		sf::Vector2f otherPosition = other.getPosition();
 		sf::Vector2f otherHalfSize = other.getSize() / 2.0f;
 		sf::Vector2f thisPosition = getPosition();
@@ -71,17 +75,17 @@ public:
 		sf::Vector2f intersect(abs(delta.x) - (otherHalfSize.x + thisHalfSize.x), abs(delta.y) - (otherHalfSize.y + thisHalfSize.y));
 
 		return Collision(delta, intersect);
-	}
+	}**/
 
 	/**
 	* @brief Check if two rectangles intersects with each other.
 	* @param other Rectangle.
 	* @return Result.
 	*/
-	bool intersects(Rectangle &other) {
+	/**bool intersects(Rectangle &other) override{
 		Collision collision = getCollision(other);
 		return collision.check();
-	}
+	}**/
 
 	using PhysicsObject::setPosition;
 	using PhysicsObject::getPosition;

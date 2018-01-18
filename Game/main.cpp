@@ -5,6 +5,7 @@
 #include "Player.hpp"
 #include "Antagonist.hpp"
 #include "EventHandler.hpp"
+#include "CollisionObjects.hpp"
 
 std::ostream& operator<<(std::ostream& os, sf::Vector2f v) {
 	os << v.x;
@@ -24,23 +25,28 @@ int main() {
 	window.setFramerateLimit((int)FPS);
 	sf::Clock clock;
 
-
-
-	Rectangle floor0;
-	floor0.setSize({ 600, 100 });
-	floor0.setPosition({ 0, 600 });
-
-	Rectangle floor1;
-	floor1.setSize({ 60, 10 });
-	floor1.setPosition({ 0, 500 });
-
-	Rectangle wall;
-	wall.setSize({ 20, 50 });
-	wall.setPosition({ 250, 550 });
+	CollisionObjects objects;
 
 	Player player = Player(view, window);
 
 	Antagonist death = Antagonist(window);
+	objects.add(death);
+
+	Rectangle floor0;
+	floor0.setSize({ 600, 100 });
+	floor0.setPosition({ 0, 600 });
+	objects.add(floor0);
+
+	Rectangle floor1;
+	floor1.setSize({ 60, 10 });
+	floor1.setPosition({ 0, 500 });
+	objects.add(floor1);
+
+	Rectangle wall;
+	wall.setSize({ 20, 50 });
+	wall.setPosition({ 250, 550 });
+	objects.add(wall);
+
 
 	EventHandler eventHandler;
 
@@ -87,6 +93,8 @@ int main() {
 			eventHandler.HandleSFMLEvent(ev);
 		}
 
+		//std::cout << (objects.get(1))->getPosition().y << std::endl;
+
 		if (elapsedTime >= 1.0f / FPS) {
 			window.setTitle(std::to_string(1 / elapsedTime));
 
@@ -96,11 +104,13 @@ int main() {
 
 			player.update(elapsedTime);
 			death.update(elapsedTime);
+
+			player.detectCollision(objects);
 			
-			player.resolveCollision(floor0);
-			player.resolveCollision(floor1);
-			player.resolveCollision(wall);
-			player.deathByAntagonist(death);
+			//player.resolveCollision(floor0);
+			//player.resolveCollision(floor1);
+			//player.resolveCollision(wall);
+			//player.deathByAntagonist(death);
 
 			player.draw(window);
 			death.draw(window);
