@@ -162,6 +162,7 @@
     <ClInclude Include="Events.hpp" />
     <ClInclude Include="EventConnection.hpp" />
     <ClInclude Include="EventSource.hpp" />
+    <ClInclude Include="Keyboard.hpp" />
     <ClInclude Include="Mouse.hpp" />
     <ClInclude Include="EventHandler.hpp" />
     <ClInclude Include="EventType.hpp" />
