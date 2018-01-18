@@ -21,9 +21,18 @@ int main() {
 	std::vector<Drawable*> drawables;
 	sf::View view2(sf::Vector2f(150, 10), sf::Vector2f(150, 450));
 
+    enum class GameStates {
+        START_MENU,
+        MAIN_GAME,
+    };
+
+    GameStates gameState = GameStates::START_MENU;
+
 	sf::RenderWindow window(sf::VideoMode(1280, 720, 32), "Hello");
 	window.setFramerateLimit((int) FPS);
 	sf::Clock clock;
+
+
 
 	Ball ball = Ball();
 	ball.setRadius(10);
@@ -33,13 +42,7 @@ int main() {
 
 	Player player = Player(view2, window);
 
-	sf::Font font;
-
-	font.loadFromFile("arial.ttf");
-	
-
-    Button startButton = Button({300,100},{640,360}, font);
-    startButton.setText("start game");
+    Button startButton = Button({300,100},{640,360}, 30,"start game");
 
 	sf::Event ev;
 
@@ -58,13 +61,18 @@ int main() {
 			clock.restart();
 
 			window.clear(sf::Color(0, 0, 0));
-			
-			ball.draw(window);
-//			player.draw(window);
-//			player.update(elapsedTime);
-			//ball.update(elapsedTime);
-            startButton.draw(window);
-			window.display();
+            switch (gameState) {
+                case GameStates::START_MENU:
+                    startButton.draw(window);
+                    break;
+                case GameStates::MAIN_GAME:
+                    ball.draw(window);
+                    //			player.draw(window);
+                    //			player.update(elapsedTime);
+                    //     ball.update(elapsedTime);
+                    break;
+            }
+            window.display();
 		}
 	}
 
