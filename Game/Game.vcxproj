@@ -159,6 +159,7 @@
     <ClInclude Include="Button.hpp" />
     <ClInclude Include="Collision.hpp" />
     <ClInclude Include="Drawable.hpp" />
+    <ClInclude Include="Events.hpp" />
     <ClInclude Include="EventConnection.hpp" />
     <ClInclude Include="EventSource.hpp" />
     <ClInclude Include="Mouse.hpp" />
