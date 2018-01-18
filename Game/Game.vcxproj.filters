@@ -53,5 +53,11 @@
     <ClInclude Include="EventConnection.hpp">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
+    <ClInclude Include="Mouse.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="SFMLEventDecoder.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
