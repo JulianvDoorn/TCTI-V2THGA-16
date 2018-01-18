@@ -157,20 +157,27 @@
   <ItemGroup>
     <ClInclude Include="Ball.hpp" />
     <ClInclude Include="Button.hpp" />
+    <ClInclude Include="Characters.hpp" />
     <ClInclude Include="Collision.hpp" />
     <ClInclude Include="Drawable.hpp" />
     <ClInclude Include="Events.hpp" />
     <ClInclude Include="EventConnection.hpp" />
     <ClInclude Include="EventSource.hpp" />
+    <ClInclude Include="GameState.hpp" />
+    <ClInclude Include="GameStates.hpp" />
     <ClInclude Include="Keyboard.hpp" />
+    <ClInclude Include="Label.hpp" />
+    <ClInclude Include="MainMenu.hpp" />
     <ClInclude Include="Mouse.hpp" />
     <ClInclude Include="Antagonist.hpp" />
     <ClInclude Include="CollisionObjects.hpp" />
     <ClInclude Include="PhysicsObject.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="Rectangle.hpp" />
+    <ClInclude Include="Running.hpp" />
     <ClInclude Include="Shapes.hpp" />
     <ClInclude Include="SFMLEventDecoder.hpp" />
+    <ClInclude Include="Statemachine.hpp" />
     <ClInclude Include="VectorMath.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
