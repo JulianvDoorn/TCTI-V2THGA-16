@@ -103,7 +103,7 @@ public:
 				break;
 		}
 		if (deathcase != 0) {
-			sf::sleep(sf::milliseconds(5000));
+			sf::sleep(sf::milliseconds(2000));
 			window.close();
 		}
 	}

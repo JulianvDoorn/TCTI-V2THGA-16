@@ -15,7 +15,7 @@ public:
 	Antagonist(sf::RenderWindow &window) : window(window)
 	{
 		setSize({ 200, 200 });
-		setPosition({ -200, 450 });
+		setPosition({ -200, 200 });
 		setFillColor(sf::Color(255, 0, 0));
 		setVelocity({ walkDirection * walkspeed, getVelocity().y });
 	}

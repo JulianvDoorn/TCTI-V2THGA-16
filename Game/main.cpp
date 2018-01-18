@@ -21,7 +21,8 @@ std::ostream& operator<<(std::ostream& os, sf::Vector2f v) {
 int main() {
 	const float FPS = 60.0f;
 
-	sf::RenderWindow window(sf::VideoMode(1280, 720, 32), "Hello");
+	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Fimmy");
+	//sf::RenderWindow window(sf::VideoMode({1200, 800}), "Fimmy");
 	window.setFramerateLimit((int) FPS);
 	sf::Clock clock;
 
