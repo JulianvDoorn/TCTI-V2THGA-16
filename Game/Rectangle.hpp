@@ -80,7 +80,6 @@ public:
 	*/
 	bool intersects(Rectangle &other) {
 		Collision collision = getCollision(other);
-
 		return collision.check();
 	}
 

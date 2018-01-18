@@ -162,6 +162,7 @@
     <ClInclude Include="EventHandler.hpp" />
     <ClInclude Include="EventType.hpp" />
     <ClInclude Include="EventSignal.hpp" />
+    <ClInclude Include="Antagonist.hpp" />
     <ClInclude Include="KeyCodeArguments.hpp" />
     <ClInclude Include="KeyDownSignal.hpp" />
     <ClInclude Include="KeyUpSignal.hpp" />

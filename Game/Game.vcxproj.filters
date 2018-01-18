@@ -74,5 +74,8 @@
     <ClInclude Include="VectorMath.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Antagonist.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

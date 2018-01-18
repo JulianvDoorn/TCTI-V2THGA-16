@@ -3,6 +3,7 @@
 #include <string>
 #include "Shapes.hpp"
 #include "Player.hpp"
+#include "Antagonist.hpp"
 #include "EventHandler.hpp"
 
 std::ostream& operator<<(std::ostream& os, sf::Vector2f v) {
@@ -38,6 +39,9 @@ int main() {
 	wall.setPosition({ 250, 550 });
 
 	Player player = Player(view, window);
+
+	Antagonist death = Antagonist(window);
+
 	EventHandler eventHandler;
 
 	eventHandler.BindFunction(EventType::KeyDown, EventFunction([&player](EventSignal& signal) {
@@ -91,11 +95,15 @@ int main() {
 			window.clear(sf::Color(0, 0, 0));
 
 			player.update(elapsedTime);
-			player.draw(window);
+			death.update(elapsedTime);
 			
 			player.resolveCollision(floor0);
 			player.resolveCollision(floor1);
 			player.resolveCollision(wall);
+			player.deathByAntagonist(death);
+
+			player.draw(window);
+			death.draw(window);
 
 
 			floor0.draw(window);

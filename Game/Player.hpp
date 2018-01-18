@@ -68,8 +68,24 @@ public:
 	}
 
 	void death() {
+		bool death = false;
 		if (getPosition().y > 2000) {
+			death = true;
 			std::cout << "/!\\ fell out of the world /!\\ " << std::endl;
+		}
+		/*else if (intersects(other)) {
+			death = true;
+			std::cout << "/!\\ death got you /!\\ " << std::endl;
+		}*/
+		if (death) {
+			sf::sleep(sf::milliseconds(5000));
+			window.close();
+		}
+	}
+
+	void deathByAntagonist(Rectangle &other) {
+		if (intersects(other)) {
+			std::cout << "/!\\ death got you /!\\ " << std::endl;
 			sf::sleep(sf::milliseconds(5000));
 			window.close();
 		}
@@ -79,6 +95,7 @@ public:
 		return getGlobalBounds();
 	}
 
+	using Rectangle::getCollision;
 	using Rectangle::setPosition;
 	using Rectangle::getPosition;
 	using Rectangle::setSize;
