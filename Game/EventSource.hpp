@@ -6,7 +6,7 @@
 #include "EventConnection.hpp"
 
 class DisconnectedEventConnectionException : public std::exception {
-	const char* what() const override {
+	const char* what() const noexcept override {
 		return "You're trying to deconnect an already deconnected connection";
 	}
 };
@@ -48,8 +48,7 @@ public:
 
 		return boundFunctions.back().conn;
 	}
-
-	template<class... Args>
+	
 	void fire(Args... args) const {
 		for (const EventBinding& binding : boundFunctions) {
 			binding.func(args...);
