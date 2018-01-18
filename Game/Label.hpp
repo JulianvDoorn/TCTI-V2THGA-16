@@ -4,11 +4,10 @@
 
 class Label {
 private:
-    sf::Font font;
+    sf::Font &font;
     sf::Text displayText;
 public:
-    Label(std::string &text, sf::Vector2f position, int size, sf::Color color = sf::Color::White, sf::Text::Style style = sf::Text::Bold){
-        font.loadFromFile("arial.ttf");
+    Label(std::string &text, sf::Font &font,sf::Vector2f position, int size, sf::Color color = sf::Color::White, sf::Text::Style style = sf::Text::Bold):font(font){
         displayText.setPosition(position);
         displayText.setFont(font);
         displayText.setFillColor(color);

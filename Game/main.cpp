@@ -41,8 +41,9 @@ int main() {
 
 
 	Player player = Player(view2, window);
-
-    Button startButton = Button({300,100},{640,360}, 30,"start game");
+    sf::Font font;
+    font.loadFromFile("arial.ttf");
+    Button startButton = Button({300,100},{640,360}, 30,"start game",font);
 
 	sf::Event ev;
 

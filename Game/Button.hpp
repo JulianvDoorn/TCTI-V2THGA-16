@@ -11,8 +11,8 @@ private:
     sf::Vector2f position;
     Label textLabel;
 public:
-    Button(sf::Vector2f backgroundSize, sf::Vector2f position, int size,std::string text):
-    backgroundSize(backgroundSize), position(position),textLabel(text,position,size) {
+    Button(sf::Vector2f backgroundSize, sf::Vector2f position, int size,std::string text, sf::Font &font):
+    backgroundSize(backgroundSize), position(position),textLabel(text,font,position,size) {
         background.setSize(backgroundSize);
         background.setPosition(position);
 		background.setFillColor(sf::Color(0, 153, 51));
