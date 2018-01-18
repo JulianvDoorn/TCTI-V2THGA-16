@@ -7,16 +7,16 @@
 
 class Keyboard : public SFMLEventDecoder {
 public:
-	Keyboard() { }
+	Keyboard(sf::Window &window) { window.setKeyRepeatEnabled(false); }
 
 	EventSource<sf::Keyboard::Key> keyPressed;
 	EventSource<sf::Keyboard::Key> keyReleased;
 
 	void decodeSFMLEvent(sf::Event ev) const override {
-		switch (ev.type) {
-		case sf::Event::KeyPressed:
+		if (ev.type == sf::Event::KeyPressed) {
 			keyPressed.fire(ev.key.code);
-		case sf::Event::KeyReleased:
+		}
+		else if (ev.type == sf::Event::KeyReleased) {
 			keyReleased.fire(ev.key.code);
 		}
 	}

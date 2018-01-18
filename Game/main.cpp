@@ -7,6 +7,7 @@
 #include "Rectangle.hpp"
 #include "EventSource.hpp"
 #include "Mouse.hpp"
+#include "Keyboard.hpp"
 #include "Antagonist.hpp"
 #include "CollisionObjects.hpp"
 
@@ -26,6 +27,9 @@ int main() {
 
 	sf::View view(sf::Vector2f(150, 10), sf::Vector2f(1280, 720));
 
+	Mouse mouse = Mouse(window);
+	Keyboard keyboard(window);
+
 	CollisionObjects objects;
 
 	//Rectangle rectangle;
@@ -44,7 +48,7 @@ int main() {
 	};
 
 	GameStates gameState = GameStates::START_MENU;
-	Player player = Player(view, window);
+	Player player = Player(view, window, keyboard);
 
 	Antagonist death = Antagonist(window);
 	objects.add(death);
@@ -73,7 +77,8 @@ int main() {
 	sf::Font font;
 	font.loadFromFile("arial.ttf");
 
-	Mouse mouse = Mouse(window);
+
+
 
 	Button startButton = Button({ 300,100 }, { 640,360 }, 30, "start game", font, mouse);
 
@@ -91,6 +96,7 @@ int main() {
 			if (ev.type == sf::Event::Closed) window.close();
 
 			mouse.decodeSFMLEvent(ev);
+			keyboard.decodeSFMLEvent(ev);
 		}
 
 		if (elapsedTime >= 1.0f / FPS) {

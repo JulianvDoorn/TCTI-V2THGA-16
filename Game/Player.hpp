@@ -4,6 +4,8 @@
 #include "Rectangle.hpp"
 #include "Ball.hpp"
 #include "CollisionObjects.hpp"
+#include "EventSource.hpp"
+#include "Keyboard.hpp"
 
 class Player : public Rectangle {
 private:
@@ -20,13 +22,38 @@ private:
 	//bool roll = false;
 
 public:
-	Player(sf::View &view, sf::RenderWindow &window) :
+	Player(sf::View &view, sf::RenderWindow &window, Keyboard &keyboard) :
 		view(view),
 		window(window)
 	{
 		setSize({ 20, 20 });
 		setPosition({ 150, 450 });
 		setFillColor(sf::Color(0, 255, 0));
+
+		keyboard.keyPressed.connect([this](const sf::Keyboard::Key key) {
+			switch (key) {
+			case sf::Keyboard::Key::W:
+				doJump();
+				break;
+			case sf::Keyboard::Key::D:
+				walk(walkDirection + 1);
+				break;
+			case sf::Keyboard::Key::A:
+				walk(walkDirection - 1);
+				break;
+			}
+		});
+
+		keyboard.keyReleased.connect([this](const sf::Keyboard::Key key) {
+			switch (key) {
+			case sf::Keyboard::Key::D:
+				walk(walkDirection - 1);
+				break;
+			case sf::Keyboard::Key::A:
+				walk(walkDirection + 1);
+				break;
+			}
+		});
 	}
 	void update(const float elapsedTime) override {
 		PhysicsObject::update(elapsedTime);
@@ -39,7 +66,6 @@ public:
 		} else {
 			setVelocity({ 0, getVelocity().y });
 		}
-
 
 		if (jump) {
 			applyForce({ 0, -jumpForce });
