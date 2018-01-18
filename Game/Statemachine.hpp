@@ -7,6 +7,13 @@
 #include "GameState.hpp"
 #include "Events.hpp"
 
+class InvalidStateException : public std::exception {
+public:
+	const char* what() const override {
+		return "You tried to transist into an invalid state";
+	}
+};
+
 class Statemachine {
 	std::vector<GameState*> states;
 	GameState* currentState = nullptr;
@@ -28,6 +35,11 @@ public:
 		}
 
 		auto it = std::find(states.begin(), states.end(), name); // requires: operator==(GameState*, const std::string&)
+
+		if (it == states.end()) { // 'name' not a registered state
+			throw InvalidStateException();
+		}
+
 		currentState = *it; // dereference iterator to get pointer to GameState
 
 		currentState->entry();
