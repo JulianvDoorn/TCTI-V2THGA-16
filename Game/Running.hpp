@@ -51,6 +51,7 @@ public:
 
 	void entry() override {
 		focus.setFocus(player);
+		focus.update();
 
 		keyReleasedConnection = statemachine.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
@@ -81,7 +82,6 @@ public:
 	void update(const float elapsedTime) override {
 		if (!gameOver) {
 			player.update(elapsedTime);
-			focus.update();
 		} else if (gameOverCounter > 0) {
 			gameOverCounter -= elapsedTime;
 		} else {
@@ -103,5 +103,7 @@ public:
 		floor0.draw(statemachine.window);
 		floor1.draw(statemachine.window);
 		wall.draw(statemachine.window);
+
+		focus.update();
 	}
 };
