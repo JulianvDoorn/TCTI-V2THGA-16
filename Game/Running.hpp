@@ -3,13 +3,14 @@
 #include "GameState.hpp"
 #include "Statemachine.hpp"
 #include "Characters.hpp"
+#include "ViewFocus.hpp"
 
 class Running : public GameState {
 	Statemachine& statemachine;
 
-	EventConnection<sf::Keyboard::Key> keyReleasedConnection;
+	ViewFocus focus;
 
-	sf::View view;
+	EventConnection<sf::Keyboard::Key> keyReleasedConnection;
 	EventConnection<> diedConnection;
 	EventConnection<> fellOffMapConnection;
 
@@ -28,7 +29,8 @@ public:
 	Running(Statemachine& statemachine) :
 		GameState("running"),
 		statemachine(statemachine),
-		view(sf::Vector2f(150, 10), sf::Vector2f(1280, 720)), player(statemachine.window, statemachine.keyboard, view)
+		focus(statemachine.window),
+		player(statemachine.window, statemachine.keyboard, statemachine.gameEvents)
 	{
 		objects.add(death);
 		
@@ -48,6 +50,8 @@ public:
 	}
 
 	void entry() override {
+		focus.setFocus(player);
+
 		keyReleasedConnection = statemachine.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
 				statemachine.doTransition("main-menu");
@@ -66,6 +70,9 @@ public:
 	}
 
 	void exit() override {
+		focus.unsetFocus();
+		focus.update();
+
 		keyReleasedConnection.disconnect();
 		diedConnection.disconnect();
 		fellOffMapConnection.disconnect();

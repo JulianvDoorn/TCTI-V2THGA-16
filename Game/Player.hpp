@@ -9,7 +9,6 @@
 
 class Player : public Rectangle {
 	sf::RenderWindow& window;
-	sf::View& view;
 	GameEvents& gameEvents;
 
 	int32_t walkDirection = 0;
@@ -22,7 +21,7 @@ class Player : public Rectangle {
 	//bool roll = false;
 
 public:
-	Player(sf::RenderWindow &window, Keyboard &keyboard, GameEvents& gameEvents) : window(window), gameEvents(gameEvents), view(view) {
+	Player(sf::RenderWindow &window, Keyboard &keyboard, GameEvents& gameEvents) : window(window), gameEvents(gameEvents) {
 		setSize({ 20, 20 });
 		setPosition({ 150, 450 });
 		setFillColor(sf::Color(0, 255, 0));
@@ -54,9 +53,6 @@ public:
 	}
 	void update(const float elapsedTime) override {
 		PhysicsObject::update(elapsedTime);
-
-		view.setCenter(getPosition());
-		window.setView(view);
 
 		if (walkDirection != 0) {
 			setVelocity({ walkDirection * walkspeed, getVelocity().y });
