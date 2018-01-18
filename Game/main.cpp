@@ -5,7 +5,6 @@
 #include "PhysicsObject.hpp"
 #include "Ball.hpp"
 #include "Player.hpp"
-#include "EventHandler.hpp"
 #include "Rectangle.hpp"
 
 #include "EventSource.hpp"

@@ -29,27 +29,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AllSignals.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="EventHandler.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="EventType.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="EventSignal.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyCodeArguments.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyDownSignal.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyUpSignal.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
     <ClInclude Include="Drawable.hpp">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
@@ -67,15 +46,6 @@
     </ClInclude>
     <ClInclude Include="Player.hpp">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseClickSignal.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseClickArguments.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="ShapeClickSignal.hpp">
-      <Filter>Header Files\Events</Filter>
     </ClInclude>
     <ClInclude Include="EventSource.hpp">
       <Filter>Header Files\Events</Filter>
