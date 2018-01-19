@@ -2,7 +2,6 @@
 #include <iostream>
 
 #include "GameStates.hpp"
-#include "Button.hpp"
 #include "Events.hpp"
 
 int main() {
