@@ -39,6 +39,7 @@ public:
 
 private:
 	uint32_t idCounter = 0;
+	std::vector<EventBinding> boundFunctions;
 
 	struct EventBinding {
 		EventConnection<Args...> conn;
@@ -51,7 +52,6 @@ private:
 		}
 	};
 
-	std::vector<EventBinding> boundFunctions;
 	/**
 	 * @fn	void EventSource::disconnect(EventConnection<Args...>& conn)
 	 *
