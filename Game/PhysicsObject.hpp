@@ -73,10 +73,9 @@ public:
 					mvt = sf::Vector2f(0.0f, -collision.getIntersect().y);
 					setVelocity({ getVelocity().x, 0 });
 				}
-			}
-
-			if (getVelocity().y > 0) {
-				setVelocity({ getVelocity().x, 0 });
+				if (getVelocity().y > 0) {
+					setVelocity({ getVelocity().x, 0 });
+				}
 			}
 
 			setPosition(getPosition() + mvt);

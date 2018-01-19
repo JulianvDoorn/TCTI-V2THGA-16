@@ -22,6 +22,18 @@
     <Filter Include="Header Files\Graphics\Shapes">
       <UniqueIdentifier>{fb43a72c-d4fa-4abf-8a5c-a0a8629d39e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameStates">
+      <UniqueIdentifier>{1c879bf0-3f67-4935-a91a-d59ba19f6b03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameStates\Statemachine">
+      <UniqueIdentifier>{55bf2b74-fb4b-4b3c-a8f4-8ce70364ceb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameStates\States">
+      <UniqueIdentifier>{95c60a2d-e178-4193-b4bc-9b5300f53db3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Characters">
+      <UniqueIdentifier>{d475da8c-7554-459b-9b36-61f168616320}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -44,12 +56,9 @@
     <ClInclude Include="Rectangle.hpp">
       <Filter>Header Files\Graphics\Shapes</Filter>
     </ClInclude>
-    <ClInclude Include="Player.hpp">
-      <Filter>Header Files</Filter>
-	</ClInclude>
     <ClInclude Include="Shapes.hpp">
       <Filter>Header Files\Graphics\Shapes</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Button.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -70,15 +79,48 @@
     </ClInclude>
     <ClInclude Include="Events.hpp">
       <Filter>Header Files\Events</Filter>
-	</ClInclude>
-    <ClInclude Include="Antagonist.hpp">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CollisionObjects.hpp">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Keyboard.hpp">
       <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Statemachine.hpp">
+      <Filter>Header Files\GameStates\Statemachine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.hpp">
+      <Filter>Header Files\GameStates\Statemachine</Filter>
+    </ClInclude>
+    <ClInclude Include="Running.hpp">
+      <Filter>Header Files\GameStates\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Antagonist.hpp">
+      <Filter>Header Files\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.hpp">
+      <Filter>Header Files\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Characters.hpp">
+      <Filter>Header Files\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStates.hpp">
+      <Filter>Header Files\GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.hpp">
+      <Filter>Header Files\GameStates\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Label.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEvents.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOver.hpp">
+      <Filter>Header Files\GameStates\States</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewFocus.hpp">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

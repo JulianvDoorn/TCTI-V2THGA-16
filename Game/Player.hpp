@@ -1,6 +1,8 @@
 #pragma once
 
 #include <vector>
+#include <exception>
+#include <memory>
 #include <SFML/Graphics.hpp>
 #include "Rectangle.hpp"
 #include "Ball.hpp"
@@ -9,12 +11,25 @@
 #include "Keyboard.hpp"
 #include "KeyScheme.hpp"
 
+typedef std::array<KeyScheme, 100> KeySchemes;
+
+class KeySchemeNotFoundException : public std::exception {
+public:
+	const char* what() const noexcept {
+		return "KeyScheme with given difficuly cannot been found!";
+	}
+};
+
 class Player : public Rectangle {
 private:
-	sf::View &view;
 	sf::RenderWindow &window;
-	KeyScheme activeScheme;
-	std::vector<KeyScheme*> keySchemes;
+	KeyScheme activeKeyScheme = KeyScheme(sf::Keyboard::Key::A, sf::Keyboard::Key::D, sf::Keyboard::Key::W, sf::Keyboard::Key::S);
+	KeySchemes keySchemes = {
+		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, KeyScheme::Difficulty::MODERATE),
+		KeyScheme(sf::Keyboard::Key::J, sf::Keyboard::Key::L, sf::Keyboard::Key::I, sf::Keyboard::Key::J, KeyScheme::Difficulty::MODERATE)
+	};
+
+	GameEvents& gameEvents;
 
 	int32_t walkDirection = 0;
 	float walkspeed = 50;
@@ -23,41 +38,30 @@ private:
 	bool jump = false;
 
 	int deathcase = 0;
-	//bool roll = false;
-
-	sf::Keyboard::Key keyJump = sf::Keyboard::Key::W;
-	sf::Keyboard::Key keyRoll = sf::Keyboard::Key::S;
-	sf::Keyboard::Key keyMoveLeft = sf::Keyboard::Key::A;
-	sf::Keyboard::Key keyMoveRight = sf::Keyboard::Key::D;
 
 public:
-	Player(sf::View &view, sf::RenderWindow &window, Keyboard &keyboard) :
-		view(view),
-		window(window)
-	{
+	Player(sf::RenderWindow &window, Keyboard &keyboard, GameEvents& gameEvents) : window(window), gameEvents(gameEvents) {
 		setSize({ 20, 20 });
 		setPosition({ 150, 450 });
 		setFillColor(sf::Color(0, 255, 0));
 
-
-
 		keyboard.keyPressed.connect([this](const sf::Keyboard::Key key) {
-			if (key == keyJump) {
+			if (key == activeKeyScheme.jump) {
 				doJump();
 			}
-			else if (key == keyMoveLeft) {
+			else if (key == activeKeyScheme.moveLeft) {
 				walk(walkDirection - 1);
 			}
-			else if (key == keyMoveRight) {
+			else if (key == activeKeyScheme.moveRight) {
 				walk(walkDirection + 1);
 			}
 		});
 
 		keyboard.keyReleased.connect([this](const sf::Keyboard::Key key) {
-			if (key == keyMoveLeft) {
+			if (key == activeKeyScheme.moveLeft) {
 				walk(walkDirection + 1);
 			}
-			else if (key == keyMoveRight) {
+			else if (key == activeKeyScheme.moveRight) {
 				walk(walkDirection - 1);
 			}
 		});
@@ -65,9 +69,6 @@ public:
 
 	void update(const float elapsedTime) override {
 		PhysicsObject::update(elapsedTime);
-
-		view.setCenter(getPosition());
-		window.setView(view);
 
 		if (walkDirection != 0) {
 			setVelocity({ walkDirection * walkspeed, getVelocity().y });
@@ -98,37 +99,15 @@ public:
 		//roll = true;
 	}
 
-	void death() {
-		switch (deathcase) {
-			case 0:
-				break;
-			case 1:
-				std::cout << "/!\\ fell out of the world /!\\ " << std::endl;
-				break;
-			case 2:
-				keyMoveLeft = sf::Keyboard::D;
-				keyMoveRight = sf::Keyboard::A;
-				//std::cout << "/!\\ death got you /!\\ " << std::endl;
-				break;
-		}
-		//if (deathcase != 0) {
-		if (deathcase == 1) {
-			sf::sleep(sf::milliseconds(5000));
-			window.close();
-		}
-	}
-
 	void checkDeath() {
 		if (getPosition().y > 2000) {
-			deathcase = 1;
-			death();
+			gameEvents.fellOffMap.fire();
 		}
 	}
 
 	void detectCollision(CollisionObjects &objects) {
 		if (intersects(*(objects.at(0)))) {
-			deathcase = 2;
-			death();
+			gameEvents.died.fire();
 		}
 		for (unsigned int i = 0; i < objects.getSize(); i++) {
 			PhysicsObject* object = objects.at(i);
@@ -142,18 +121,26 @@ public:
 		return getGlobalBounds();
 	}
 
-	void addKeyScheme(KeyScheme &s) {
-		schemes.push_back(&s);
+	KeyScheme findKeyScheme(const KeyScheme::Difficulty difficulty) {
+		std::vector<KeyScheme*> schemes;
+
+		for (unsigned int i = 0; i < keySchemes.size(); i++) {
+			if (keySchemes[i].difficulty == difficulty) {
+				schemes.push_back(&keySchemes.at(i));
+			}
+		}
+
+		if (!schemes.size()) {
+			throw KeySchemeNotFoundException();
+		}
+
+		std::random_shuffle(schemes.begin(), schemes.end());
+
+		return *schemes.at(0);
 	}
 
-	void findKeyScheme(KeyScheme::Difficulty difficulty) {
-		std::vector<KeyScheme*>::iterator it = std::find_if(keySchemes.begin(), keySchemes.end(), [difficulty](const KeyScheme* scheme) { scheme->difficulty == difficulty; });
-
-		
-	}
-
-	void setActiveKeyScheme(KeyScheme &s) {
-		activeScheme = s;
+	void setActiveKeyScheme(KeyScheme s) {
+		activeKeyScheme = s;
 	}
 
 	using Rectangle::getCollision;
