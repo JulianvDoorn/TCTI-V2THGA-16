@@ -16,13 +16,13 @@ public:
 	Collision(const sf::Vector2f delta, const sf::Vector2f intersect) :
 		delta(delta),
 		intersect(intersect)
-	{};
+	{ };
 
 	/**
 	* @brief Check if there has been a collision.
 	* @return Result.
 	*/
-	bool check() {
+	bool intersects() {
 		if (getIntersect().x < 0.0f && getIntersect().y < 0.0f) {
 			return true;
 		}
