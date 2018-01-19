@@ -23,6 +23,8 @@ class Running : public State {
 	Rectangle wall;
 	Rectangle wall1;
 
+	sf::Texture wallTexture1;
+
 	bool gameOver = false;
 	float gameOverCounter = 3.0f;
 
@@ -33,6 +35,9 @@ public:
 		focus(statemachine.window),
 		player(statemachine.window)
 	{
+
+		wallTexture1.loadFromFile("wall.jpg");
+
 		objects.add(death);
 		
 		floor0.setSize({ 600, 100 });
@@ -45,10 +50,12 @@ public:
 
 		wall.setSize({ 20, 50 });
 		wall.setPosition({ 250, 550 });
+		wall.setTexture(&wallTexture1);
 		objects.add(wall);
 
 		wall1.setSize({ 20, 100 });
 		wall1.setPosition({ -200, 450 });
+		wall1.setTexture(&wallTexture1);
 		objects.add(wall1);
 
 		statemachine.addState(*this);
