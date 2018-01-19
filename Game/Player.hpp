@@ -9,6 +9,7 @@
 #include "CollisionObjects.hpp"
 #include "EventSource.hpp"
 #include "Keyboard.hpp"
+#include "KeyScheme.hpp"
 
 typedef std::array<KeyScheme, 100> KeySchemes;
 
@@ -28,7 +29,6 @@ private:
 		KeyScheme(sf::Keyboard::Key::J, sf::Keyboard::Key::L, sf::Keyboard::Key::I, sf::Keyboard::Key::J, KeyScheme::Difficulty::MODERATE)
 	};
 
-	GameEvents& gameEvents;
 
 	int32_t walkDirection = 0;
 	float walkspeed = 50;
@@ -39,28 +39,26 @@ private:
 	int deathcase = 0;
 
 public:
-	Player(sf::RenderWindow &window, Keyboard &keyboard, GameEvents& gameEvents) : window(window), gameEvents(gameEvents) {
+	Player(sf::RenderWindow &window) : window(window) {
 		setSize({ 20, 20 });
 		setPosition({ 150, 450 });
 		setFillColor(sf::Color(0, 255, 0));
 
-		keyboard.keyPressed.connect([this](const sf::Keyboard::Key key) {
+		game.keyboard.keyPressed.connect([this](const sf::Keyboard::Key key) {
 			if (key == activeKeyScheme.jump) {
 				doJump();
 			}
 			else if (key == activeKeyScheme.moveLeft) {
 				walk(walkDirection - 1);
-				break;
 			}
 			else if (key == activeKeyScheme.moveRight) {
 				walk(walkDirection + 1);
 			}
 		});
 
-		keyboard.keyReleased.connect([this](const sf::Keyboard::Key key) {
+		game.keyboard.keyReleased.connect([this](const sf::Keyboard::Key key) {
 			if (key == activeKeyScheme.moveLeft) {
 				walk(walkDirection + 1);
-				break;
 			}
 			else if (key == activeKeyScheme.moveRight) {
 				walk(walkDirection - 1);
@@ -102,13 +100,13 @@ public:
 
 	void checkDeath() {
 		if (getPosition().y > 2000) {
-			gameEvents.fellOffMap.fire();
+			game.fellOffMap.fire();
 		}
 	}
 
 	void detectCollision(CollisionObjects &objects) {
 		if (intersects(*(objects.at(0)))) {
-			gameEvents.died.fire();
+			game.died.fire();
 		}
 		for (unsigned int i = 0; i < objects.getSize(); i++) {
 			PhysicsObject* object = objects.at(i);
