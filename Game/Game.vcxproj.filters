@@ -125,5 +125,8 @@
     <ClInclude Include="GamePauze.hpp">
       <Filter>Header Files\GameStates\States</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.hpp">
+      <Filter>Header Files\Graphics\CollisionDetection</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
