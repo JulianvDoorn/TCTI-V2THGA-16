@@ -31,6 +31,9 @@ public:
 			case sf::Keyboard::Key::W:
 				doJump();
 				break;
+                case sf::Keyboard::Key::LShift:
+                    walkspeed *= 3;
+                    break;
 			case sf::Keyboard::Key::D:
 				walk(walkDirection + 1);
 				break;
@@ -42,6 +45,9 @@ public:
 
 		keyboard.keyReleased.connect([this](const sf::Keyboard::Key key) {
 			switch (key) {
+            case sf::Keyboard::Key::LShift:
+               walkspeed /= 3;
+                break;
 			case sf::Keyboard::Key::D:
 				walk(walkDirection - 1);
 				break;
