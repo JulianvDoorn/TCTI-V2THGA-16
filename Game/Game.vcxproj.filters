@@ -50,9 +50,6 @@
     <ClInclude Include="PhysicsObject.hpp">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Collision.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Ball.hpp">
       <Filter>Header Files\Graphics\Shapes</Filter>
     </ClInclude>
@@ -129,6 +126,9 @@
       <Filter>Header Files\GameStates\States</Filter>
     </ClInclude>
     <ClInclude Include="Collidable.hpp">
+      <Filter>Header Files\Graphics\CollisionDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.hpp">
       <Filter>Header Files\Graphics\CollisionDetection</Filter>
     </ClInclude>
     <ClInclude Include="CollisionDetection.hpp">
