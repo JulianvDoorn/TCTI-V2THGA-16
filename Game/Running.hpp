@@ -91,6 +91,7 @@ public:
 			gameOverCounter -= elapsedTime;
 		} else {
 			statemachine.doTransition("game-over");
+			return;
 		}
 
 		death.update(elapsedTime);
