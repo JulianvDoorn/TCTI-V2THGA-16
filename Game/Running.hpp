@@ -5,11 +5,14 @@
 #include "Statemachine.hpp"
 #include "Characters.hpp"
 #include "ViewFocus.hpp"
+#include <SFML\Audio.hpp>
 
 class Running : public State {
 	Statemachine& statemachine;
 
 	ViewFocus focus;
+
+	sf::Music backgroundMusic;
 
 	EventConnection<sf::Keyboard::Key> keyReleasedConnection;
 	EventConnection<> diedConnection;
@@ -62,6 +65,9 @@ public:
 	}
 
 	void entry() override {
+		backgroundMusic.openFromFile("sound.wav");
+		backgroundMusic.setLoop("true");
+		backgroundMusic.play();
 		focus.setFocus(player);
 		focus.update();
 
@@ -93,6 +99,7 @@ public:
 	void exit() override {
 		focus.unsetFocus();
 		focus.update();
+		backgroundMusic.stop();
 
 		keyReleasedConnection.disconnect();
 
