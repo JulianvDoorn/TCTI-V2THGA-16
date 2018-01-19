@@ -125,5 +125,8 @@
     <ClInclude Include="GamePauze.hpp">
       <Filter>Header Files\GameStates\States</Filter>
     </ClInclude>
+    <ClInclude Include="KeyScheme.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

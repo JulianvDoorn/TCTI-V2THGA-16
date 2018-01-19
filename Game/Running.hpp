@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include "State.hpp"
 #include "Statemachine.hpp"
 #include "Characters.hpp"
@@ -61,6 +62,12 @@ public:
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
 				statemachine.doTransition("game-pauze-menu");
+			}
+		});
+
+		statemachine.keyboard.keyPressed.connect([this](sf::Keyboard::Key key) {
+			if (key == sf::Keyboard::Key::Z) {
+				player.setActiveKeyScheme(player.findKeyScheme(KeyScheme::Difficulty::MODERATE));
 			}
 		});
 

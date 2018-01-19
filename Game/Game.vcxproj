@@ -169,6 +169,7 @@
     <ClInclude Include="GamePauze.hpp" />
     <ClInclude Include="GameStates.hpp" />
     <ClInclude Include="Keyboard.hpp" />
+    <ClInclude Include="KeyScheme.hpp" />
     <ClInclude Include="Label.hpp" />
     <ClInclude Include="MainMenu.hpp" />
     <ClInclude Include="Mouse.hpp" />
