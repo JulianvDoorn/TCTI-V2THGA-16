@@ -19,7 +19,7 @@ public:
 	GameOver(Statemachine& statemachine) :
 		GameState("game-over"),
 		statemachine(statemachine),
-		startButton(statemachine.mouse)
+		startButton()
 	{
 		startButton.setSize({ 300, 100 });
 		startButton.setPosition({ 640, 360 });

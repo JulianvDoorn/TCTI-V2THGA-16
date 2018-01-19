@@ -20,11 +20,8 @@ class Statemachine {
 
 public:
 	sf::RenderWindow& window;
-	Keyboard keyboard;
-	Mouse mouse;
-	GameEvents gameEvents;
 
-	Statemachine(sf::RenderWindow& window) : window(window), keyboard(window), mouse(window) { }
+	Statemachine(sf::RenderWindow& window) : window(window) { }
 
 	void addState(GameState& gameState) {
 		states.push_back(&gameState);

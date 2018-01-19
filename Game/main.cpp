@@ -2,12 +2,14 @@
 #include <iostream>
 
 #include "GameStates.hpp"
-#include "Button.hpp"
+#include "Events.hpp"
 
 int main() {
 	const float FPS = 60.0f;
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720, 32), "Hello");
+	game = Game(window);
+
 	Statemachine statemachine(window);
 
 	Button::setDefaultFont("arial.ttf");
@@ -37,8 +39,7 @@ int main() {
 				window.close();
 			}
 
-			statemachine.mouse.decodeSFMLEvent(ev);
-			statemachine.keyboard.decodeSFMLEvent(ev);
+			game.decodeSFMLEvent(ev);
 		}
 
 		if (elapsedTime >= 1.0f / FPS) {
