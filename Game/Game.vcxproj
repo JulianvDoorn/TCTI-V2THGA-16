@@ -177,7 +177,6 @@
     <ClInclude Include="MainMenu.hpp" />
     <ClInclude Include="Mouse.hpp" />
     <ClInclude Include="Antagonist.hpp" />
-    <ClInclude Include="CollisionObjects.hpp" />
     <ClInclude Include="PhysicsObject.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="Rectangle.hpp" />
