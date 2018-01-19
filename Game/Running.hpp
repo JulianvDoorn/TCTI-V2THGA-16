@@ -20,7 +20,7 @@ class Running : public State {
 
 	Player player;
 	Antagonist death;
-	CollisionObjects objects;
+	CollisionGroup collisionGroup;
 
 	Rectangle floor0;
 	Rectangle floor1;
@@ -35,25 +35,30 @@ public:
 		State("running"),
 		statemachine(statemachine),
 		focus(statemachine.window),
-		player(statemachine.window)
+		player(statemachine.window),
+		collisionGroup(player)
 	{
-		objects.add(death);
-		
+		collisionGroup.add(death);
+
 		floor0.setSize({ 600, 100 });
 		floor0.setPosition({ 0, 600 });
-		objects.add(floor0);
+		collisionGroup.add(floor0);
 
 		floor1.setSize({ 60, 10 });
 		floor1.setPosition({ 0, 500 });
-		objects.add(floor1);
+		collisionGroup.add(floor1);
 
 		wall.setSize({ 20, 50 });
 		wall.setPosition({ 250, 550 });
-		objects.add(wall);
+		collisionGroup.add(wall);
 
 		wall1.setSize({ 20, 100 });
 		wall1.setPosition({ -200, 450 });
-		objects.add(wall1);
+		collisionGroup.add(wall1);
+
+		wall1.setSize({ 20, 100 });
+		wall1.setPosition({ -200, 450 });
+		collisionGroup.add(wall1);
 
 
 
@@ -70,6 +75,12 @@ public:
 		backgroundMusic.play();
 		focus.setFocus(player);
 		focus.update();
+
+		player.collided.connect([this](Collidable& other) {
+			if (other == death) {
+				game.died.fire();
+			}
+		});
 
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
@@ -121,7 +132,7 @@ public:
 
 		death.update(elapsedTime);
 
-		player.detectCollision(objects);
+		collisionGroup.resolveCollisions();
 
 		//player.resolveCollision(floor0);
 		//player.resolveCollision(floor1);

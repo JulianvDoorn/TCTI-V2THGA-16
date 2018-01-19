@@ -157,13 +157,17 @@
   <ItemGroup>
     <ClInclude Include="Ball.hpp" />
     <ClInclude Include="Button.hpp" />
+    <ClInclude Include="CollisionGroup.hpp" />
     <ClInclude Include="Characters.hpp" />
+    <ClInclude Include="Collidable.hpp" />
     <ClInclude Include="Collision.hpp" />
+    <ClInclude Include="CollisionDetection.hpp" />
     <ClInclude Include="Drawable.hpp" />
     <ClInclude Include="Events.hpp" />
     <ClInclude Include="EventConnection.hpp" />
     <ClInclude Include="EventSource.hpp" />
     <ClInclude Include="Game.hpp" />
+    <ClInclude Include="GameObject.hpp" />
     <ClInclude Include="GameOver.hpp" />
     <ClInclude Include="State.hpp" />
     <ClInclude Include="GamePauze.hpp" />
@@ -174,7 +178,6 @@
     <ClInclude Include="MainMenu.hpp" />
     <ClInclude Include="Mouse.hpp" />
     <ClInclude Include="Antagonist.hpp" />
-    <ClInclude Include="CollisionObjects.hpp" />
     <ClInclude Include="PhysicsObject.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="Rectangle.hpp" />

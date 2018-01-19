@@ -6,7 +6,6 @@
 #include <SFML/Graphics.hpp>
 #include "Rectangle.hpp"
 #include "Ball.hpp"
-#include "CollisionObjects.hpp"
 #include "EventSource.hpp"
 #include "Keyboard.hpp"
 #include "KeyScheme.hpp"
@@ -104,17 +103,6 @@ public:
 		}
 	}
 
-	void detectCollision(CollisionObjects &objects) {
-		if (intersects(*(objects.at(0)))) {
-			game.died.fire();
-		}
-		for (unsigned int i = 0; i < objects.getSize(); i++) {
-			PhysicsObject* object = objects.at(i);
-			if (intersects(*object)) {
-				resolveCollision(*object);
-			}
-		}
-	}
 
 	sf::FloatRect getBounds() override {
 		return getGlobalBounds();
@@ -147,5 +135,4 @@ public:
 	using Rectangle::getPosition;
 	using Rectangle::setSize;
 	using Rectangle::draw;
-	using PhysicsObject::intersects;
 };
