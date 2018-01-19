@@ -9,7 +9,7 @@
 
 class InvalidStateException : public std::exception {
 public:
-	const char* what() const override {
+	const char* what() const noexcept override {
 		return "You tried to transist into an invalid state";
 	}
 };
