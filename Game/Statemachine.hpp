@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-#include "GameState.hpp"
+#include "State.hpp"
 #include "Events.hpp"
 
 /**
@@ -25,10 +25,10 @@ public:
 
 class Statemachine {
 	/** @brief	Available states to do transitions towards. */
-	std::vector<GameState*> states;
+	std::vector<State*> states;
 
 	/** @brief	The current state. */
-	GameState* currentState = nullptr;
+	State* currentState = nullptr;
 
 public:
 	/** @brief	The window to render to. */
@@ -48,7 +48,7 @@ public:
 	Statemachine(sf::RenderWindow& window) : window(window) { }
 
 	/**
-	 * @fn	void Statemachine::addState(GameState& gameState)
+	 * @fn	void Statemachine::addState(State& gameState)
 	 *
 	 * @brief	Adds a state to Statemachine::states
 	 *
@@ -58,7 +58,7 @@ public:
 	 * @param [in,out]	gameState	State of the game.
 	 */
 
-	void addState(GameState& gameState) {
+	void addState(State& gameState) {
 		states.push_back(&gameState);
 	}
 
@@ -66,7 +66,7 @@ public:
 	 * @fn	void Statemachine::doTransition(const std::string& name)
 	 *
 	 * @brief	Executes a transition to the state with the specified name.
-	 * 			Executes GameState::exit() on the leaving state and GameState::entry() on the entering state.
+	 * 			Executes State::exit() on the leaving state and State::entry() on the entering state.
 	 *
 	 * @author	Julian
 	 * @date	2018-01-19
@@ -81,19 +81,19 @@ public:
 			currentState->exit();
 		}
 
-		auto it = std::find(states.begin(), states.end(), name); // requires: operator==(GameState*, const std::string&)
+		auto it = std::find(states.begin(), states.end(), name); // requires: operator==(State*, const std::string&)
 
 		if (it == states.end()) { // 'name' not a registered state
 			throw InvalidStateException();
 		}
 
-		currentState = *it; // dereference iterator to get pointer to GameState
+		currentState = *it; // dereference iterator to get pointer to State
 
 		currentState->entry();
 	}
 
 	/**
-	* @fn	virtual void GameState::update(const float elapsedTime) = 0;
+	* @fn	virtual void State::update(const float elapsedTime) = 0;
 	*
 	* @brief	Runs an update cycle for the current state
 	*

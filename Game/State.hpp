@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @class	GameState
+ * @class	State
  *
  * @brief	A game state interface.
  *
@@ -9,13 +9,13 @@
  * @date	2018-01-19
  */
 
-class GameState {
+class State {
 	/** @brief	Name of the State, used for doing transitions towards this state */
 	const std::string name;
 public:
 
 	/**
-	 * @fn	GameState::GameState(const std::string& name) : name(std::move(name))
+	 * @fn	State::State(const std::string& name) : name(std::move(name))
 	 *
 	 * @brief	Constructor
 	 *
@@ -25,10 +25,10 @@ public:
 	 * @param	name	Name of the state
 	 */
 
-	GameState(const std::string& name) : name(std::move(name)) { }
+	State(const std::string& name) : name(std::move(name)) { }
 
 	/**
-	 * @fn	virtual void GameState::update(const float elapsedTime) = 0;
+	 * @fn	virtual void State::update(const float elapsedTime) = 0;
 	 *
 	 * @brief	Runs an update cycle for this state
 	 *
@@ -41,7 +41,7 @@ public:
 	virtual void update(const float elapsedTime) = 0;
 
 	/**
-	 * @fn	virtual void GameState::entry()
+	 * @fn	virtual void State::entry()
 	 *
 	 * @brief	Entry is called once the state has been entered.
 	 * 			The update function is only called after this function has returned.
@@ -53,7 +53,7 @@ public:
 	virtual void entry() { };
 
 	/**
-	 * @fn	virtual void GameState::exit()
+	 * @fn	virtual void State::exit()
 	 *
 	 * @brief	Exit is called once the state has been left.
 	 * 			The update function is only called before this function is invoked.
@@ -65,7 +65,7 @@ public:
 	virtual void exit() { };
 
 	/**
-	 * @fn	friend bool GameState::operator==(GameState* state, const std::string& name)
+	 * @fn	friend bool State::operator==(State* state, const std::string& name)
 	 *
 	 * @brief	Equality operator.
 	 *
@@ -78,7 +78,7 @@ public:
 	 * @return	state->name == name
 	 */
 
-	friend bool operator==(GameState* state, const std::string& name) {
+	friend bool operator==(State* state, const std::string& name) {
 		return state->name == name;
 	}
 };

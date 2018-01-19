@@ -1,11 +1,11 @@
 #pragma once
 
-#include "GameState.hpp"
+#include "State.hpp"
 #include "Statemachine.hpp"
 #include "Characters.hpp"
 #include "Button.hpp"
 
-class MainMenu : public GameState {
+class MainMenu : public State {
 	Statemachine& statemachine;
 
 	Button startButton;
@@ -17,7 +17,7 @@ class MainMenu : public GameState {
 
 public:
 	MainMenu(Statemachine& statemachine) :
-		GameState("main-menu"),
+		State("main-menu"),
 		statemachine(statemachine),
 		startButton()
 	{

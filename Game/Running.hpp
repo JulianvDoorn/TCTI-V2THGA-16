@@ -1,11 +1,11 @@
 #pragma once
 
-#include "GameState.hpp"
+#include "State.hpp"
 #include "Statemachine.hpp"
 #include "Characters.hpp"
 #include "ViewFocus.hpp"
 
-class Running : public GameState {
+class Running : public State {
 	Statemachine& statemachine;
 
 	ViewFocus focus;
@@ -27,7 +27,7 @@ class Running : public GameState {
 
 public:
 	Running(Statemachine& statemachine) :
-		GameState("running"),
+		State("running"),
 		statemachine(statemachine),
 		focus(statemachine.window),
 		player(statemachine.window)
