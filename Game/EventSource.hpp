@@ -52,6 +52,7 @@ private:
 	};
 
 	std::vector<EventBinding> boundFunctions;
+
 	/**
 	 * @fn	void EventSource::disconnect(EventConnection<Args...>& conn)
 	 *
