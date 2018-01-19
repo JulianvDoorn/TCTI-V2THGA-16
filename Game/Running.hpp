@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include "GameState.hpp"
 #include "Statemachine.hpp"
 #include "Characters.hpp"
@@ -46,6 +47,12 @@ public:
 		wall.setPosition({ 250, 550 });
 		objects.add(wall);
 
+
+
+
+
+		//KeyScheme& scheme = new KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W);
+
 		statemachine.addState(*this);
 	}
 
@@ -56,6 +63,12 @@ public:
 		keyReleasedConnection = statemachine.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
 				statemachine.doTransition("main-menu");
+			}
+		});
+
+		statemachine.keyboard.keyPressed.connect([this](sf::Keyboard::Key key) {
+			if (key == sf::Keyboard::Key::Z) {
+				player.setActiveKeyScheme(player.findKeyScheme(KeyScheme::Difficulty::MODERATE));
 			}
 		});
 
