@@ -13,7 +13,7 @@ protected:
 	PhysicsObject(sf::Shape& shape) : Drawable(shape), transformable(shape) { }
 	PhysicsObject(sf::Sprite& sprite) : Drawable(sprite), transformable(sprite) { }
 
-	bool zijkant;
+	bool sideCollision;
 public:
 	virtual void update(const float elapsedTime) {
 		applyForce(gravity * elapsedTime);
@@ -86,8 +86,8 @@ public:
 
 		if (collision.check()) {
 			sf::Vector2f mvt;
-			if ((collision.getIntersect().x - collision.getIntersect().y) > 8) {
-				zijkant = true;
+			if ((collision.getIntersect().x - collision.getIntersect().y) > 8) {//8 is the treshold of detecting if the collision is worth resolving.
+				sideCollision = true;
 				if (collision.getDelta().x > 0.0f) {
 					mvt = sf::Vector2f(collision.getIntersect().x, 0.0f);
 				}
@@ -97,13 +97,13 @@ public:
 				setPosition(getPosition() + mvt);
 				return;
 			}
-			else if (zijkant) {
-				zijkant = false;
-				if (getVelocity().y >= 40) {
+			if (sideCollision) { // to check if the last collision was with the side
+				sideCollision = false;
+				if (getVelocity().y >= 40) { //40 is to check if the player is not falling
 					return;
 				}
 			}
-			if (collision.getDelta().y > 0.0f) {
+			if (collision.getDelta().y > 0.0f) { //resols a collision of y type
 				mvt = sf::Vector2f(0.0f, collision.getIntersect().y);
 			}
 			else {
