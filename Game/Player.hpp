@@ -14,11 +14,13 @@ class Player : public Rectangle {
 	int32_t walkDirection = 0;
 	float walkspeed = 50;
 	float jumpForce = 500;
-
+    bool spammingShift = false;
+    int runningSpammingFactor = 1;
 	bool jump = false;
 
 	int deathcase = 0;
 	//bool roll = false;
+    sf::Clock clock;
 
 public:
 	Player(sf::RenderWindow &window, Keyboard &keyboard, GameEvents& gameEvents) : window(window), gameEvents(gameEvents) {
@@ -32,7 +34,19 @@ public:
 				doJump();
 				break;
                 case sf::Keyboard::Key::LShift:
-                    walkspeed *= 3;
+                case sf::Keyboard::Key::RShift:
+                    if (clock.getElapsedTime().asMilliseconds() < 500){
+                        spammingShift = true;
+                        runningSpammingFactor *= 1.5;
+                        clock.restart();
+                    }
+                    else{
+                        clock.restart();
+                    }
+                    walkspeed *= 3 * runningSpammingFactor;
+                    if (walkspeed > 500){
+                        walkspeed = 500;
+                    }
                     break;
 			case sf::Keyboard::Key::D:
 				walk(walkDirection + 1);
@@ -46,7 +60,18 @@ public:
 		keyboard.keyReleased.connect([this](const sf::Keyboard::Key key) {
 			switch (key) {
             case sf::Keyboard::Key::LShift:
-               walkspeed /= 3;
+            case sf::Keyboard::Key::RShift:
+               if (spammingShift){
+                   if (clock.getElapsedTime().asMilliseconds() > 500){
+                       spammingShift  = false;
+                       walkspeed = 50;
+                       runningSpammingFactor = 1;
+                       clock.restart();
+                   }
+               }
+               else{
+                   walkspeed = 50;
+               }
                 break;
 			case sf::Keyboard::Key::D:
 				walk(walkDirection - 1);
