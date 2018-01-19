@@ -13,6 +13,7 @@ protected:
 	PhysicsObject(sf::Shape& shape) : Drawable(shape), transformable(shape) { }
 	PhysicsObject(sf::Sprite& sprite) : Drawable(sprite), transformable(sprite) { }
 
+	bool zijkant;
 public:
 	virtual void update(const float elapsedTime) {
 		applyForce(gravity * elapsedTime);
@@ -54,18 +55,20 @@ public:
 	void resolveCollision(PhysicsObject &other) {
 		Collision collision = getCollision(other);
 
-		if (collision.check()) {
+		/*if (collision.check()) {
 			sf::Vector2f mvt;
-
+			std::cout << "x: " << collision.getIntersect().x << "	y:" << collision.getIntersect().y << std::endl;
 			if (collision.getIntersect().x > collision.getIntersect().y) {
+				std::cout << "zijkant: x: "<< collision.getIntersect().x << "	y:" <<collision.getIntersect().y << std::endl;
 				if (collision.getDelta().x > 0.0f) {
-					mvt = sf::Vector2f(collision.getIntersect().x * 1.0f, 0.0f);
+					mvt = sf::Vector2f(collision.getIntersect().x, 0.0f);
 				}
 				else {
-					mvt = sf::Vector2f(-collision.getIntersect().x * 1.0f, 0.0f);
+					mvt = sf::Vector2f(-collision.getIntersect().x, 0.0f);
 				}
 			}
 			else {
+				std::cout << "onderkant: x: " << collision.getIntersect().x << "	y:" << collision.getIntersect().y << std::endl;
 				if (collision.getDelta().y > 0.0f) {
 					mvt = sf::Vector2f(0.0f, collision.getIntersect().y);
 				}
@@ -78,6 +81,38 @@ public:
 				}
 			}
 
+			setPosition(getPosition() + mvt);
+		}*/
+
+		if (collision.check()) {
+			sf::Vector2f mvt;
+			if ((collision.getIntersect().x - collision.getIntersect().y) > 8) {
+				zijkant = true;
+				if (collision.getDelta().x > 0.0f) {
+					mvt = sf::Vector2f(collision.getIntersect().x, 0.0f);
+				}
+				else {
+					mvt = sf::Vector2f(-collision.getIntersect().x, 0.0f);
+				}
+				setPosition(getPosition() + mvt);
+				return;
+			}
+			else if (zijkant) {
+				zijkant = false;
+				if (getVelocity().y >= 40) {
+					return;
+				}
+			}
+			if (collision.getDelta().y > 0.0f) {
+				mvt = sf::Vector2f(0.0f, collision.getIntersect().y);
+			}
+			else {
+				mvt = sf::Vector2f(0.0f, -collision.getIntersect().y);
+				setVelocity({ getVelocity().x, 0 });
+			}
+			if (getVelocity().y > 0) {
+				setVelocity({ getVelocity().x, 0 });
+			}
 			setPosition(getPosition() + mvt);
 		}
 	}

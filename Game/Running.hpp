@@ -21,6 +21,7 @@ class Running : public GameState {
 	Rectangle floor0;
 	Rectangle floor1;
 	Rectangle wall;
+	Rectangle wall1;
 
 	bool gameOver = false;
 	float gameOverCounter = 3.0f;
@@ -45,6 +46,10 @@ public:
 		wall.setSize({ 20, 50 });
 		wall.setPosition({ 250, 550 });
 		objects.add(wall);
+
+		wall1.setSize({ 20, 100 });
+		wall1.setPosition({ -200, 450 });
+		objects.add(wall1);
 
 		statemachine.addState(*this);
 	}
@@ -109,6 +114,7 @@ public:
 		floor0.draw(statemachine.window);
 		floor1.draw(statemachine.window);
 		wall.draw(statemachine.window);
+		wall1.draw(statemachine.window);
 
 		focus.update();
 	}
