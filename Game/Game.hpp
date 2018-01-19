@@ -73,4 +73,5 @@ public:
 	}
 };
 
+/** @brief	Global game instance, HAS TO BE ASSIGNED IN MAIN() USING @code Game game = Game(window); @endcode */
 static Game game;
