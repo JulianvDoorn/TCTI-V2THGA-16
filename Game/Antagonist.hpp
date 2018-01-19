@@ -2,7 +2,6 @@
 
 #include <SFML/Graphics.hpp>
 #include "Rectangle.hpp"
-#include "CollisionObjects.hpp"
 
 class Antagonist : public Rectangle {
 	int32_t walkDirection = 1;
