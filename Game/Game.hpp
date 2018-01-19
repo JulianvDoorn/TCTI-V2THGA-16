@@ -52,6 +52,19 @@ public:
 		mouse.decodeSFMLEvent(ev);
 	}
 
+	/**
+	 * @fn	Game& Game::operator= (const Game& rhs)
+	 *
+	 * @brief	Assignment operator
+	 *
+	 * @author	Julian
+	 * @date	2018-01-19
+	 *
+	 * @param	rhs	The right hand side.
+	 *
+	 * @return	A shallow copy of this object.
+	 */
+
 	Game& operator= (const Game& rhs) {
 		keyboard = rhs.keyboard;
 		mouse = rhs.mouse;
