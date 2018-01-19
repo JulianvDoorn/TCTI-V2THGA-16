@@ -18,6 +18,17 @@ class Keyboard : public SFMLEventDecoder {
 public:
 
 	/**
+	 * @fn	Keyboard::Keyboard()
+	 *
+	 * @brief	Default constructor.
+	 *
+	 * @author	Julian
+	 * @date	2018-01-19
+	 */
+
+	Keyboard() { }
+
+	/**
 	 * @fn	Keyboard::Keyboard(sf::Window &window)
 	 *
 	 * @brief	Constructor.
