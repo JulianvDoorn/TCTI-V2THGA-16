@@ -4,11 +4,15 @@
 #include "Statemachine.hpp"
 #include "Characters.hpp"
 #include "Button.hpp"
+#include <SFML\Audio.hpp>
 
 class GameOver : public State {
 	Statemachine& statemachine;
 
 	Button gameOverButton;
+
+	sf::Music gameOver;
+
 
 	EventConnection<> gameOverButtonPressedConn;
 	EventConnection<> gameOverButtonReleasedConn;
@@ -31,6 +35,9 @@ public:
 	}
 
 	void entry() override {
+		gameOver.openFromFile("GameOver.wav");
+		gameOver.play();
+		
 
 	}
 
