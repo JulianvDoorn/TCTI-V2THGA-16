@@ -92,4 +92,23 @@ public:
 			 }
 		}
 	}
+
+	/**
+	 * @fn	Mouse& Mouse::operator= (Mouse& rhs)
+	 *
+	 * @brief	Assignment operator
+	 *
+	 * @author	Julian
+	 * @date	2018-01-19
+	 *
+	 * @param [in,out]	rhs	The right hand side.
+	 *
+	 * @return	A shallow copy of this object.
+	 */
+
+	Mouse& operator= (const Mouse& rhs) {
+		window = rhs.window;
+
+		return *this;
+	}
 };
