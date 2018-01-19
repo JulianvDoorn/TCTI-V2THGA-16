@@ -34,6 +34,9 @@
     <Filter Include="Header Files\Characters">
       <UniqueIdentifier>{d475da8c-7554-459b-9b36-61f168616320}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Graphics\CollisionDetection">
+      <UniqueIdentifier>{005f4cda-9d3d-4825-9119-098239b163bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
