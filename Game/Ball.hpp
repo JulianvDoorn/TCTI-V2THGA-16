@@ -9,10 +9,6 @@ public:
 		sf::CircleShape::setFillColor({ 255, 255, 255 });
 	}
 
-	void update(const float elapsedTime) override {
-		PhysicsObject::update(elapsedTime);
-	}
-
 	void setRadius(const float radius) {
 		sf::CircleShape::setOrigin(radius / 2.0f, radius / 2.0f);
 		sf::CircleShape::setRadius(radius);
@@ -38,6 +34,7 @@ public:
 		return sf::CircleShape::getGlobalBounds();
 	}
 
+	using PhysicsObject::update;
 	using PhysicsObject::setPosition;
 	using PhysicsObject::getPosition;
 	using PhysicsObject::draw;
