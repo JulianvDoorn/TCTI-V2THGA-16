@@ -43,3 +43,8 @@ cmake-build-debug/
 Debug/
 Release/
 .vs/
+
+# Doxygen files
+html/
+latex/
+*.tmp
