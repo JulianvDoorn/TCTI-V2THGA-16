@@ -19,7 +19,7 @@ public:
 	MainMenu(Statemachine& statemachine) :
 		GameState("main-menu"),
 		statemachine(statemachine),
-		startButton(statemachine.mouse)
+		startButton()
 	{
 		startButton.setSize({ 300, 100 });
 		startButton.setPosition({ 640, 360 });

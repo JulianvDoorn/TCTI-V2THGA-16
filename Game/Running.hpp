@@ -30,7 +30,7 @@ public:
 		GameState("running"),
 		statemachine(statemachine),
 		focus(statemachine.window),
-		player(statemachine.window, statemachine.keyboard, statemachine.gameEvents)
+		player(statemachine.window)
 	{
 		objects.add(death);
 		
@@ -53,19 +53,19 @@ public:
 		focus.setFocus(player);
 		focus.update();
 
-		keyReleasedConnection = statemachine.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
+		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
 				statemachine.doTransition("main-menu");
 			}
 		});
 
-		diedConnection = statemachine.gameEvents.died.connect([this]() {
+		diedConnection = game.died.connect([this]() {
 			diedConnection.disconnect();
 			std::cout << "/!\\ death got you /!\\" << std::endl;
 			gameOver = true;
 		});
 
-		fellOffMapConnection = statemachine.gameEvents.fellOffMap.connect([this]() {
+		fellOffMapConnection = game.fellOffMap.connect([this]() {
 			fellOffMapConnection.disconnect();
 			std::cout << "/!\\ fell out of the world /!\\" << std::endl;
 			gameOver = true;
