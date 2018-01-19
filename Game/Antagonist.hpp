@@ -11,7 +11,7 @@ class Antagonist : public Rectangle {
 public:
 	Antagonist() {
 		setSize({ 200, 200 });
-		setPosition({ -200, 450 });
+		setPosition({ -200, 200 });
 		setFillColor(sf::Color(255, 0, 0));
 		setVelocity({ walkDirection * walkspeed, getVelocity().y });
 		setGravity({ 0, 0 });
