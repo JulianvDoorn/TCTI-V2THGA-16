@@ -14,23 +14,22 @@ private:
     sf::Vector2f position;
     Label textLabel;
 
-	Mouse &mouse;
 	bool mouseInside = false;
 
 	void bindEvents() {
-		mouse.mouseLeftButtonDown.connect([this](const sf::Vector2i mousePos) {
+		game.mouse.mouseLeftButtonDown.connect([this](const sf::Vector2i mousePos) {
 			if (background.contains(static_cast<sf::Vector2f>(mousePos))) {
 				buttonPressed.fire();
 			}
 		});
 
-		mouse.mouseLeftButtonUp.connect([this](const sf::Vector2i mousePos) {
+		game.mouse.mouseLeftButtonUp.connect([this](const sf::Vector2i mousePos) {
 			if (background.contains(static_cast<sf::Vector2f>(mousePos))) {
 				buttonReleased.fire();
 			}
 		});
 
-		mouse.mouseMoved.connect([this](const sf::Vector2i mousePos) {
+		game.mouse.mouseMoved.connect([this](const sf::Vector2i mousePos) {
 			if (background.contains(static_cast<sf::Vector2f>(mousePos))) {
 				if (mouseInside == false) {
 					mouseInside = true;
@@ -61,16 +60,15 @@ public:
 	EventSource<> mouseEnter;
 	EventSource<> mouseLeave;
 
-	Button(Mouse& mouse) : mouse(mouse), textLabel(getDefaultFont()) {
+	Button() : textLabel(getDefaultFont()) {
 		setFont(getDefaultFont());
 		bindEvents();
 	}
 
-    Button(sf::Vector2f backgroundSize, sf::Vector2f position, int size, std::string text, sf::Font& font, Mouse& mouse):
+    Button(sf::Vector2f backgroundSize, sf::Vector2f position, int size, std::string text, sf::Font& font):
 		backgroundSize(backgroundSize),
 		position(position),
-		textLabel(text, font, position, size),
-		mouse(mouse)
+		textLabel(text, font, position, size)
 	{
         background.setSize(backgroundSize);
         background.setPosition(position);

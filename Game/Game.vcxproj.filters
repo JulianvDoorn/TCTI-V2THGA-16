@@ -89,9 +89,6 @@
     <ClInclude Include="Statemachine.hpp">
       <Filter>Header Files\GameStates\Statemachine</Filter>
     </ClInclude>
-    <ClInclude Include="GameState.hpp">
-      <Filter>Header Files\GameStates\Statemachine</Filter>
-    </ClInclude>
     <ClInclude Include="Running.hpp">
       <Filter>Header Files\GameStates\States</Filter>
     </ClInclude>
@@ -113,14 +110,20 @@
     <ClInclude Include="Label.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameEvents.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
     <ClInclude Include="GameOver.hpp">
       <Filter>Header Files\GameStates\States</Filter>
     </ClInclude>
     <ClInclude Include="ViewFocus.hpp">
       <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="State.hpp">
+      <Filter>Header Files\GameStates\Statemachine</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePauze.hpp">
+      <Filter>Header Files\GameStates\States</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
