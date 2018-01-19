@@ -181,8 +181,15 @@
     <ClInclude Include="Shapes.hpp" />
     <ClInclude Include="SFMLEventDecoder.hpp" />
     <ClInclude Include="Statemachine.hpp" />
+    <ClInclude Include="SubtitleItem.hpp" />
+    <ClInclude Include="SubtitleIterator.hpp" />
+    <ClInclude Include="SubtitleParser.hpp" />
+    <ClInclude Include="SubtitleReadException.hpp" />
     <ClInclude Include="VectorMath.hpp" />
     <ClInclude Include="ViewFocus.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test.srt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -34,6 +34,9 @@
     <Filter Include="Header Files\Characters">
       <UniqueIdentifier>{d475da8c-7554-459b-9b36-61f168616320}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Subtitles">
+      <UniqueIdentifier>{f8657aeb-2879-40e2-8bd4-fda7cd239df2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -125,5 +128,22 @@
     <ClInclude Include="KeyScheme.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SubtitleParser.hpp">
+      <Filter>Header Files\Subtitles</Filter>
+    </ClInclude>
+    <ClInclude Include="SubtitleIterator.hpp">
+      <Filter>Header Files\Subtitles</Filter>
+    </ClInclude>
+    <ClInclude Include="SubtitleItem.hpp">
+      <Filter>Header Files\Subtitles</Filter>
+    </ClInclude>
+    <ClInclude Include="SubtitleReadException.hpp">
+      <Filter>Header Files\Subtitles</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test.srt">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
