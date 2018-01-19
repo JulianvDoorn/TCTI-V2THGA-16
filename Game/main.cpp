@@ -77,9 +77,6 @@ int main() {
 	sf::Font font;
 	font.loadFromFile("arial.ttf");
 
-
-
-
 	Button startButton = Button({ 300,100 }, { 640,360 }, 30, "start game", font, mouse);
 
 	startButton.buttonReleased.connect([&gameState]() {
