@@ -131,6 +131,9 @@
     <ClInclude Include="CollisionDetection.hpp">
       <Filter>Header Files\Graphics\CollisionDetection</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionGroup.hpp">
+      <Filter>Header Files\Graphics\CollisionDetection</Filter>
+    </ClInclude>
     <ClInclude Include="GameObject.hpp">
       <Filter>Header Files\Graphics\CollisionDetection</Filter>
     </ClInclude>
