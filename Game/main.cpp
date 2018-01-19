@@ -17,6 +17,7 @@ int main() {
 	GameOver gameOver(statemachine);
 	Running running(statemachine);
 	MainMenu mainMenu(statemachine);
+	GamePauze gamePauzeMenu(statemachine);
 
 
 	statemachine.doTransition("main-menu"); // initial state
