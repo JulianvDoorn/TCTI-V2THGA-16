@@ -158,6 +158,7 @@
     <ClInclude Include="Ball.hpp" />
     <ClInclude Include="Button.hpp" />
     <ClInclude Include="Characters.hpp" />
+    <ClInclude Include="Collidable.hpp" />
     <ClInclude Include="Collision.hpp" />
     <ClInclude Include="Drawable.hpp" />
     <ClInclude Include="Events.hpp" />
