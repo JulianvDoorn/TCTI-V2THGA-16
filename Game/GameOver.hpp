@@ -8,10 +8,10 @@
 class GameOver : public State {
 	Statemachine& statemachine;
 
-	Button startButton;
+	Button gameOverButton;
 
-	EventConnection<> startButtonPressedConn;
-	EventConnection<> startButtonReleasedConn;
+	EventConnection<> gameOverButtonPressedConn;
+	EventConnection<> gameOverButtonReleasedConn;
 	EventConnection<> mouseEnterConn;
 	EventConnection<> mouseLeaveConn;
 
@@ -19,13 +19,13 @@ public:
 	GameOver(Statemachine& statemachine) :
 		State("game-over"),
 		statemachine(statemachine),
-		startButton()
+		gameOverButton()
 	{
-		startButton.setSize({ 300, 100 });
-		startButton.setPosition({ 640, 360 });
-		startButton.setCharSize(32);
-		startButton.setBackgroundColor({ 0, 153, 51 });
-		startButton.setText("Game over");
+		gameOverButton.setSize({ 300, 100 });
+		gameOverButton.setPosition({ 640, 360 });
+		gameOverButton.setCharSize(32);
+		gameOverButton.setBackgroundColor({ 0, 153, 51 });
+		gameOverButton.setText("Game over");
 
 		statemachine.addState(*this);
 	}
@@ -39,6 +39,6 @@ public:
 	}
 
 	void update(const float elapsedTime) override {
-		startButton.draw(statemachine.window);
+		gameOverButton.draw(statemachine.window);
 	}
 };

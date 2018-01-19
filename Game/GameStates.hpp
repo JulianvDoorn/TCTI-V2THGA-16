@@ -4,3 +4,4 @@
 #include "MainMenu.hpp"
 #include "Statemachine.hpp"
 #include "GameOver.hpp"
+#include "GamePauze.hpp"

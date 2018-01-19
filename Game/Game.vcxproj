@@ -166,6 +166,7 @@
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameOver.hpp" />
     <ClInclude Include="State.hpp" />
+    <ClInclude Include="GamePauze.hpp" />
     <ClInclude Include="GameStates.hpp" />
     <ClInclude Include="Keyboard.hpp" />
     <ClInclude Include="Label.hpp" />
