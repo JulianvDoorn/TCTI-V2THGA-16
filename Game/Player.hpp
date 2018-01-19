@@ -12,12 +12,14 @@ class Player : public Rectangle {
 	GameEvents& gameEvents;
 
 	int32_t walkDirection = 0;
-	float walkspeed = 50;
+	float defaultWalkingSpeed = 50;
+    float walkspeed = 50;
 	float jumpForce = 500;
     bool spammingShift = false;
     int runningSpammingFactor = 1;
 	bool jump = false;
-
+    sf::Time lastKeyPressTime;
+    bool shiftpressed = false;
 	int deathcase = 0;
 	//bool roll = false;
     sf::Clock clock;
@@ -30,23 +32,27 @@ public:
 
 		keyboard.keyPressed.connect([this](const sf::Keyboard::Key key) {
 			switch (key) {
+                case sf::Keyboard::Key::Space:
 			case sf::Keyboard::Key::W:
 				doJump();
 				break;
                 case sf::Keyboard::Key::LShift:
                 case sf::Keyboard::Key::RShift:
-                    if (clock.getElapsedTime().asMilliseconds() < 500){
+                    shiftpressed = true;
+                    if (clock.getElapsedTime().asMilliseconds() - lastKeyPressTime.asMilliseconds() <200){
                         spammingShift = true;
                         runningSpammingFactor *= 1.5;
-                        clock.restart();
                     }
-                    else{
-                        clock.restart();
+                    else if (spammingShift){
+                        spammingShift = false;
+                        runningSpammingFactor =1;
+                        walkspeed = defaultWalkingSpeed;
                     }
                     walkspeed *= 3 * runningSpammingFactor;
                     if (walkspeed > 500){
                         walkspeed = 500;
                     }
+                    lastKeyPressTime = clock.getElapsedTime();
                     break;
 			case sf::Keyboard::Key::D:
 				walk(walkDirection + 1);
@@ -61,12 +67,12 @@ public:
 			switch (key) {
             case sf::Keyboard::Key::LShift:
             case sf::Keyboard::Key::RShift:
-               if (spammingShift){
-                   if (clock.getElapsedTime().asMilliseconds() > 500){
+               shiftpressed = false;
+                if (spammingShift){
+                   if (clock.restart().asMilliseconds() > 200){
                        spammingShift  = false;
-                       walkspeed = 50;
+                       walkspeed = defaultWalkingSpeed;
                        runningSpammingFactor = 1;
-                       clock.restart();
                    }
                }
                else{
@@ -96,7 +102,10 @@ public:
 			jump = false;
 		}
 		checkDeath();
-
+    if (clock.getElapsedTime().asMilliseconds() -lastKeyPressTime.asMilliseconds() > 250 && shiftpressed ){
+        spammingShift = false;
+        walkspeed = defaultWalkingSpeed;
+    }
 	}
 
 

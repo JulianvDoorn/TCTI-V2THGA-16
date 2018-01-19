@@ -34,7 +34,7 @@ public:
 	{
 		objects.add(death);
 		
-		floor0.setSize({ 600, 100 });
+		floor0.setSize({ 1900, 100 });
 		floor0.setPosition({ 0, 600 });
 		objects.add(floor0);
 
