@@ -9,14 +9,63 @@ class Collidable : public GameObject {
 	bool sideCollision = false;
 
 protected:
+
+	/**
+	 * @fn	virtual void Collidable::onCollide(Collidable& other)
+	 *
+	 * @brief	Executes when two collidables have collided
+	 *
+	 * @author	Julian
+	 * @date	2018-01-19
+	 *
+	 * @param [in,out]	other	Collidable with which has been collided
+	 */
+
 	virtual void onCollide(Collidable& other) { }
 
 public:
+
+	/**
+	 * @fn	virtual sf::Vector2f Collidable::getVelocity() const
+	 *
+	 * @brief	Returns the velocity of this collidable.
+	 * 			Required for some collision resolving but not for collision detection.
+	 *
+	 * @author	Julian
+	 * @date	2018-01-19
+	 *
+	 * @return	velocity
+	 */
+
 	virtual sf::Vector2f getVelocity() const {
 		return { 0, 0 };
 	}
 
+	/**
+	 * @fn	virtual void Collidable::setVelocity(const sf::Vector2f& velocity)
+	 *
+	 * @brief	Sets the velocity of this collidable.
+	 * 			Required for some collision resolving but not for collision detection.
+	 *
+	 * @author	Julian
+	 * @date	2018-01-19
+	 *
+	 * @param	velocity	velocity
+	 */
+
 	virtual void setVelocity(const sf::Vector2f& velocity) { }
+
+	/**
+	 * @fn	void Collidable::resolveCollision(Collidable& other, Collision collision)
+	 *
+	 * @brief	Resolves collision and invokes Collidable::onCollide(Collidable&)
+	 *
+	 * @author	Julian
+	 * @date	2018-01-19
+	 *
+	 * @param [in,out]	other	 	Collidable& with which has been collided
+	 * @param 		  	collision	Collision information required for resolving the collision
+	 */
 
 	void resolveCollision(Collidable& other, Collision collision) {
 		onCollide(other);
@@ -57,6 +106,19 @@ public:
 
 		setPosition(getPosition() + mtv);
 	}
+
+	/**
+	 * @fn	Collision Collidable::getCollision(Collidable& other)
+	 *
+	 * @brief	Generates a Collision instance using @code Collision(*this, other) @endcode
+	 *
+	 * @author	Julian
+	 * @date	2018-01-19
+	 *
+	 * @param [in,out]	other	Collidable with which has been collided
+	 *
+	 * @return	Collision information
+	 */
 
 	Collision getCollision(Collidable& other) {
 		return Collision(*this, other);
