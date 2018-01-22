@@ -21,6 +21,7 @@ int main() {
 	Running running(statemachine);
 	MainMenu mainMenu(statemachine);
 	GamePauze gamePauzeMenu(statemachine);
+    SettingsMenu settingsMenu(statemachine);
 
 
 	statemachine.doTransition("main-menu"); // initial state
