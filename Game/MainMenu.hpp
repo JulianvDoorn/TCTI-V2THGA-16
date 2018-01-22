@@ -8,6 +8,7 @@
 class MainMenu : public State {
 	Statemachine& statemachine;
 
+    Label menuLabel;
 	Button startButton;
 	Button exitButton;
     Button settingsButton;
@@ -27,8 +28,15 @@ public:
 		statemachine(statemachine),
 		startButton(),
         settingsButton(),
+        menuLabel(Button::getDefaultFont()),
         exitButton()
 	{
+        menuLabel.setPosition({ 640, 50 });
+        menuLabel.setCharSize(32);
+        menuLabel.setColor(sf::Color::White);
+        menuLabel.setText("Fimmy");
+        menuLabel.setStyle(sf::Text::Bold);
+
 		startButton.setSize({ 300, 100 });
 		startButton.setPosition({ 640, 360 });
 		startButton.setCharSize(32);
@@ -104,6 +112,7 @@ public:
 	}
 
 	void update(const float elapsedTime) override {
+        menuLabel.draw(statemachine.window);
 		startButton.draw(statemachine.window);
         settingsButton.draw(statemachine.window);
 		exitButton.draw(statemachine.window);

@@ -31,7 +31,7 @@ public:
         displayText.setFillColor(color);
     }
 
-    void setPosition(sf::Vector2f &position){
+    void setPosition(sf::Vector2f position){
         displayText.setPosition(position);
     }
 
@@ -53,5 +53,8 @@ public:
         return displayText.getLocalBounds();
     }
 
+    void setStyle(sf::Text::Style style){
+        displayText.setStyle(style);
+    }
 };
 

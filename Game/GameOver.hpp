@@ -9,6 +9,7 @@
 class GameOver : public State {
 	Statemachine& statemachine;
 
+    Label menuLabel;
 	Button gameOverButton;
 	Button mainMenuButton;
     Button exitButton;
@@ -28,14 +29,14 @@ public:
 	GameOver(Statemachine& statemachine) :
 		State("game-over"),
 		statemachine(statemachine),
-		gameOverButton(),
-		mainMenuButton()
+		mainMenuButton(),
+        menuLabel(Button::getDefaultFont())
 	{
-		gameOverButton.setSize({ 300, 100 });
-		gameOverButton.setPosition({ 640, 360 });
-		gameOverButton.setCharSize(32);
-		gameOverButton.setBackgroundColor({ 0, 0, 0 });
-		gameOverButton.setText("Game over");
+		menuLabel.setPosition({ 640, 360 });
+		menuLabel.setCharSize(32);
+        menuLabel.setColor(sf::Color::White);
+		menuLabel.setText("Game over");
+        menuLabel.setStyle(sf::Text::Bold);
 
 		mainMenuButton.setSize({ 300, 100 });
 		mainMenuButton.setPosition({ 640, 490 });
@@ -53,6 +54,7 @@ public:
 	}
 
 	void entry() override {
+        std::cout << "Game-over state" << std::endl;
 		mainMenuButtonPressedConn = mainMenuButton.buttonPressed.connect([this](){
 			mainMenuButton.setBackgroundColor({0,163,61});
 		});
@@ -93,7 +95,7 @@ public:
 	}
 
 	void update(const float elapsedTime) override {
-		gameOverButton.draw(statemachine.window);
+		menuLabel.draw(statemachine.window);
         mainMenuButton.draw(statemachine.window);
         exitButton.draw(statemachine.window);
 	}

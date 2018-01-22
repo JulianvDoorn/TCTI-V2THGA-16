@@ -41,7 +41,7 @@ public:
         settingsButton.setBackgroundColor({0,153,51});
         settingsButton.setText("Settings");
 
-        exitButton.setSize({300,100});
+        exitButton.setSize({350,100});
         exitButton.setPosition({640,620});
         exitButton.setCharSize(32);
         exitButton.setBackgroundColor({0,153,51});
@@ -50,6 +50,7 @@ public:
     }
 
     void entry() override {
+        std::cout << "Settings-menu state" << std::endl;
         settingsButtonPressedConn = settingsButton.buttonPressed.connect([this](){
             settingsButton.setBackgroundColor({0,163,61});
         });
@@ -61,16 +62,9 @@ public:
             statemachine.doTransition("main-menu");
         });
         settingsButtonReleasedConn = settingsButton.buttonReleased.connect([this](){
-//            statemachine.doTransition("settings-menu");
+            statemachine.doTransition("settings-menu");
         });
 
-        mouseEnterConn = startButton.mouseEnter.connect([this]() {
-            startButton.setBackgroundColor({ 0, 123, 21 });
-        });
-
-        mouseLeaveConn = startButton.mouseLeave.connect([this]() {
-            startButton.setBackgroundColor({ 0, 153, 51 });
-        });
         mouseEnterConn = settingsButton.mouseEnter.connect([this]() {
             settingsButton.setBackgroundColor({ 0, 123, 21 });
         });
