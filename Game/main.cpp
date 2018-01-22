@@ -16,6 +16,9 @@ int main() {
 
 	game.assets.load("arial", "arial.ttf");
 	game.assets.load("game-over", "GameOver.wav");
+	game.assets.load("ground", "ground.png");
+	game.assets.load("bush", "bush.png");
+	game.assets.load("brick", "brickWall.png");
 
 	Statemachine statemachine(window);
 

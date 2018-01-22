@@ -29,10 +29,6 @@ class Running : public State {
 	Rectangle crate;
 	Rectangle bush;
 
-	sf::Texture brickTexture;
-	sf::Texture groundTexture;
-	sf::Texture bushTexture;
-
 	bool gameOver = false;
 	float gameOverCounter = 3.0f;
 
@@ -44,15 +40,11 @@ public:
 		player(statemachine.window),
 		collisionGroup(player)
 	{
-
-		brickTexture.loadFromFile("brickWall.png");
-		groundTexture.loadFromFile("ground.png");
-		bushTexture.loadFromFile("bush.png");
 		collisionGroup.add(death);
 
 		floor0.setSize({ 400, 200 });
 		floor0.setPosition({ 0, 600 });
-		floor0.setTexture(&groundTexture);
+		floor0.setTexture(game.assets.getTexture("ground"));
 		collisionGroup.add(floor0);
 
 		wall.setSize({ 30, 60 });
@@ -65,12 +57,12 @@ public:
 
 		crate.setSize({ 30, 30 });
 		crate.setPosition({ 0, 450 });
-		crate.setTexture(&brickTexture);
+		crate.setTexture(game.assets.getTexture("brick"));
 		collisionGroup.add(crate);
 
 		bush.setSize({ 14, 14 });
 		bush.setPosition({ 150, 494 });
-		bush.setTexture(&bushTexture);
+		bush.setTexture(game.assets.getTexture("bush"));
 
 		statemachine.addState(*this);
 	}
