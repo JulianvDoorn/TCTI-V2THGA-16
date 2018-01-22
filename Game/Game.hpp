@@ -4,6 +4,7 @@
 
 #include "SFMLEventDecoder.hpp"
 #include "EventSource.hpp"
+#include "AssetManager.hpp"
 
 #include "Keyboard.hpp"
 #include "Mouse.hpp"
@@ -35,6 +36,8 @@ public:
 
 	/** @brief	Mouse event collection, events in this object get fired accordingly */
 	Mouse mouse;
+
+	AssetManager assets;
 
 	/**
 	 * @fn	void Game::decodeSFMLEvent(sf::Event ev) const override

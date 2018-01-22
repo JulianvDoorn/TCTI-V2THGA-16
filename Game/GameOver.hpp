@@ -11,9 +11,6 @@ class GameOver : public State {
 
 	Button gameOverButton;
 
-	sf::Music gameOver;
-
-
 	EventConnection<> gameOverButtonPressedConn;
 	EventConnection<> gameOverButtonReleasedConn;
 	EventConnection<> mouseEnterConn;
@@ -35,10 +32,7 @@ public:
 	}
 
 	void entry() override {
-		gameOver.openFromFile("GameOver.wav");
-		gameOver.play();
-		
-
+		game.assets.getSound("game-over").play();
 	}
 
 	void exit() override {

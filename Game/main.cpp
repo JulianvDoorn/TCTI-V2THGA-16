@@ -4,16 +4,22 @@
 
 #include "GameStates.hpp"
 #include "Events.hpp"
+#include "AssetManager.hpp"
 
 int main() {
+
 	const float FPS = 60.0f;
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720, 32), "Hello");
+
 	game = Game(window);
+
+	game.assets.load("arial", "arial.ttf");
+	game.assets.load("game-over", "GameOver.wav");
 
 	Statemachine statemachine(window);
 
-	Button::setDefaultFont("arial.ttf");
+	Button::setDefaultFont(game.assets.getFont("arial"));
 
 	// State definitions
 

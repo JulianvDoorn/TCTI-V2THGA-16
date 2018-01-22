@@ -51,8 +51,8 @@ public:
 		return font;
 	}
 
-	static void setDefaultFont(const std::string& dir) {
-		getDefaultFont().loadFromFile(dir);
+	static void setDefaultFont(sf::Font& font) {
+		getDefaultFont() = font;
 	}
 
 	EventSource<> buttonPressed;
