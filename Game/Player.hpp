@@ -15,7 +15,7 @@ using KeySchemes = std::array<KeyScheme, 100>;
 class KeySchemeNotFoundException : public std::exception {
 public:
 	const char* what() const noexcept {
-		return "KeyScheme with given difficuly cannot been found!";
+		return "KeyScheme with given difficulty cannot been found!";
 	}
 };
 
@@ -102,7 +102,6 @@ public:
 		}
 	}
 
-
 	sf::FloatRect getBounds() override {
 		return getGlobalBounds();
 	}
@@ -127,12 +126,6 @@ public:
 
 	void setActiveKeyScheme(KeyScheme s) {
 		activeKeyScheme = s;
-
-		std::cout << "Controls: " << std::endl;
-		std::cout << "Jump: " << s.jump << std::endl;
-		std::cout << "Roll: " << s.roll << std::endl;
-		std::cout << "Move left: " << s.moveLeft << std::endl;
-		std::cout << "Move right: " << s.moveRight << std::endl;
 	}
 
 	KeyScheme& getActiveKeyScheme() {

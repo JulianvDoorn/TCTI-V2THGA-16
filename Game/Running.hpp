@@ -60,18 +60,6 @@ public:
 		wall1.setPosition({ -200, 450 });
 		collisionGroup.add(wall1);
 
-
-
-
-
-		//KeyScheme& scheme = new KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W);
-
-
-
-
-
-		//KeyScheme& scheme = new KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W);
-
 		statemachine.addState(*this);
 	}
 
