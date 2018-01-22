@@ -54,6 +54,7 @@ public:
 		});
 
 		gameResumeButtonReleasedConn = gameResumeButton.buttonReleased.connect([this]() {
+			statemachine.resetState("running");
 			statemachine.doTransition("running");
 		});
 		
