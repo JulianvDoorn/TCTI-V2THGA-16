@@ -90,7 +90,7 @@ public:
 
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
-				statemachine.doTransition("game-pauze-menu");
+				statemachine.doTransition("game-pauze");
 			}
 		});
 
