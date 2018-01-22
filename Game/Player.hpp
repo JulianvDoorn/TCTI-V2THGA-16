@@ -28,7 +28,6 @@ private:
 		KeyScheme(sf::Keyboard::Key::J, sf::Keyboard::Key::L, sf::Keyboard::Key::I, sf::Keyboard::Key::J, KeyScheme::Difficulty::MODERATE)
 	};
 
-
 	int32_t walkDirection = 0;
 	float walkspeed = 50;
 	float jumpForce = 500;
@@ -64,6 +63,7 @@ public:
 			}
 		});
 	}
+
 	void update(const float elapsedTime) override {
 		PhysicsObject::update(elapsedTime);
 
@@ -80,7 +80,6 @@ public:
 		checkDeath();
 
 	}
-
 
 	void walk(int32_t direction) {
 		walkDirection = direction;

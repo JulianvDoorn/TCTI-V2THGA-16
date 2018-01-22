@@ -66,6 +66,12 @@ public:
 
 		//KeyScheme& scheme = new KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W);
 
+
+
+
+
+		//KeyScheme& scheme = new KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W);
+
 		statemachine.addState(*this);
 	}
 
@@ -85,6 +91,12 @@ public:
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
 				statemachine.doTransition("game-pauze-menu");
+			}
+		});
+
+		game.keyboard.keyPressed.connect([this](sf::Keyboard::Key key) {
+			if (key == sf::Keyboard::Key::Z) {
+				player.setActiveKeyScheme(player.findKeyScheme(KeyScheme::Difficulty::MODERATE));
 			}
 		});
 
