@@ -36,12 +36,15 @@ private:
 
 	int deathcase = 0;
 
+	EventConnection<sf::Keyboard::Key> keyPressedConn;
+	EventConnection<sf::Keyboard::Key> keyReleasedConn;
+
 public:
 	Player(sf::RenderWindow &window) : window(window) {
 		setSize({ 20, 20 });
 		setFillColor(sf::Color(0, 255, 0));
 
-		game.keyboard.keyPressed.connect([this](const sf::Keyboard::Key key) {
+		keyPressedConn = game.keyboard.keyPressed.connect([this](const sf::Keyboard::Key key) {
 			if (key == activeKeyScheme.jump) {
 				doJump();
 			}
@@ -53,7 +56,7 @@ public:
 			}
 		});
 
-		game.keyboard.keyReleased.connect([this](const sf::Keyboard::Key key) {
+		keyReleasedConn = game.keyboard.keyReleased.connect([this](const sf::Keyboard::Key key) {
 			if (key == activeKeyScheme.moveLeft) {
 				walk(walkDirection + 1);
 			}
@@ -61,6 +64,11 @@ public:
 				walk(walkDirection - 1);
 			}
 		});
+	}
+
+	~Player() {
+		keyPressedConn.disconnect();
+		keyReleasedConn.disconnect();
 	}
 
 	void update(const float elapsedTime) override {
