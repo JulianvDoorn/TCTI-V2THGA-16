@@ -155,6 +155,9 @@
     <ClInclude Include="SubtitleReadException.hpp">
       <Filter>Header Files\Subtitles</Filter>
     </ClInclude>
+    <ClInclude Include="BaseFactory.hpp">
+      <Filter>Header Files\GameStates\Statemachine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="test.srt">

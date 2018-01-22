@@ -17,7 +17,6 @@ class MainMenu : public State {
 
 public:
 	MainMenu(Statemachine& statemachine) :
-		State("main-menu"),
 		statemachine(statemachine),
 		startButton()
 	{
@@ -26,8 +25,6 @@ public:
 		startButton.setCharSize(32);
 		startButton.setBackgroundColor({ 0, 153, 51 });
 		startButton.setText("Start game");
-
-		statemachine.addState(*this);
 	}
 
 	void entry() override {

@@ -1,11 +1,12 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <vector>
+#include <map>
 #include <string>
 
 #include "State.hpp"
 #include "Events.hpp"
+#include "BaseFactory.hpp"
 
 /**
  * @class	InvalidStateException
@@ -25,12 +26,23 @@ public:
 
 class Statemachine {
 	/** @brief	Available states to do transitions towards. */
-	std::vector<State*> states;
+	std::map<std::string, std::unique_ptr<State>> states;
 
 	/** @brief	The current state. */
 	State* currentState = nullptr;
 
 public:
+	BaseFactory<State, std::string> stateFactory;
+
+	template<class T>
+	void registerState(const std::string& name) {
+		stateFactory.registerCreateMethod(name, [this]() {
+			return new T(*this);
+		});
+
+		addState(name, *stateFactory.create(name));
+	}
+
 	/** @brief	The window to render to. */
 	sf::RenderWindow& window;
 
@@ -58,8 +70,19 @@ public:
 	 * @param [in,out]	gameState	State of the game.
 	 */
 
-	void addState(State& gameState) {
-		states.push_back(&gameState);
+	void addState(const std::string& name, State& gameState) {
+		states[name] = std::move(std::unique_ptr<State>(&gameState));
+	}
+
+	void resetState(const std::string& name) {
+		auto it = states.find(name); // requires: operator==(std::unique_ptr<State>&, const std::string&)
+
+		if (it != states.end()) {
+			it->second.reset();
+			it->second = std::move(std::unique_ptr<State>(stateFactory.create(name)));
+		} else { // 'name' not a registered state
+			throw InvalidStateException();
+		}
 	}
 
 	/**
@@ -81,15 +104,14 @@ public:
 			currentState->exit();
 		}
 
-		auto it = std::find(states.begin(), states.end(), name); // requires: operator==(State*, const std::string&)
+		auto it = states.find(name); // requires: operator==(std::unique_ptr<State>&, const std::string&)
 
-		if (it == states.end()) { // 'name' not a registered state
+		if (it != states.end()) {
+			currentState = &(*it->second); // dereference iterator to get unique_ptr<State>, dereference unique_ptr<State> to get State, get address of State to store
+			currentState->entry();
+		} else { // 'name' not a registered state
 			throw InvalidStateException();
 		}
-
-		currentState = *it; // dereference iterator to get pointer to State
-
-		currentState->entry();
 	}
 
 	/**

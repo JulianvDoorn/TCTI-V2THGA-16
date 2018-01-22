@@ -21,7 +21,6 @@ class GameOver : public State {
 
 public:
 	GameOver(Statemachine& statemachine) :
-		State("game-over"),
 		statemachine(statemachine),
 		gameOverButton()
 	{
@@ -30,8 +29,6 @@ public:
 		gameOverButton.setCharSize(32);
 		gameOverButton.setBackgroundColor({ 0, 153, 51 });
 		gameOverButton.setText("Game over");
-
-		statemachine.addState(*this);
 	}
 
 	void entry() override {
