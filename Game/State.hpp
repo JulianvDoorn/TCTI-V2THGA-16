@@ -71,5 +71,14 @@ public:
 		return state->name == name;
 	}
 
+	/**
+	 * @fn	virtual State::~State()
+	 *
+	 * @brief	Destructor
+	 *
+	 * @author	Julian
+	 * @date	2018-01-22
+	 */
+
 	virtual ~State() { }
 };
