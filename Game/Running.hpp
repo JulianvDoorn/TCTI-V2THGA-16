@@ -31,8 +31,7 @@ class Running : public State {
 	float gameOverCounter = 3.0f;
 
 public:
-	Running(Statemachine& statemachine, const std::string& name) :
-		State(name),
+	Running(Statemachine& statemachine) :
 		statemachine(statemachine),
 		focus(statemachine.window),
 		player(statemachine.window),

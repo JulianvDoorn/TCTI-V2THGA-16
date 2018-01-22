@@ -20,8 +20,7 @@ class GameOver : public State {
 	EventConnection<> mouseLeaveConn;
 
 public:
-	GameOver(Statemachine& statemachine, const std::string& name) :
-		State(name),
+	GameOver(Statemachine& statemachine) :
 		statemachine(statemachine),
 		gameOverButton()
 	{

@@ -17,19 +17,6 @@ class State {
 public:
 
 	/**
-	 * @fn	State::State(const std::string& name) : name(std::move(name))
-	 *
-	 * @brief	Constructor
-	 *
-	 * @author	Julian
-	 * @date	2018-01-19
-	 *
-	 * @param	name	Name of the state
-	 */
-
-	State(const std::string& name) : name(std::move(name)) { }
-
-	/**
 	 * @fn	virtual void State::update(const float elapsedTime) = 0;
 	 *
 	 * @brief	Runs an update cycle for this state

@@ -16,8 +16,7 @@ class MainMenu : public State {
 	EventConnection<> mouseLeaveConn;
 
 public:
-	MainMenu(Statemachine& statemachine, const std::string& name) :
-		State(name),
+	MainMenu(Statemachine& statemachine) :
 		statemachine(statemachine),
 		startButton()
 	{

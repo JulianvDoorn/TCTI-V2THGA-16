@@ -22,8 +22,7 @@ class GamePauze : public State {
 	EventConnection<> resumeMouseEnterConn;
 	EventConnection<> resumeMouseLeaveConn;
 public:
-	GamePauze(Statemachine& statemachine, const std::string& name) :
-		State(name),
+	GamePauze(Statemachine& statemachine) :
 		statemachine(statemachine),
 		gameExitButton(),
 		gameResumeButton()
