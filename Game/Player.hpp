@@ -32,11 +32,11 @@ private:
 	float defaultWalkingSpeed = 50;
     float walkspeed = 50;
 	float jumpForce = 500;
-    bool spammingShift = false;
-    int runningSpammingFactor = 1;
+    bool spammingRunKey = false;
+    float runningSpammingFactor = 1;
 	bool jump = false;
     sf::Time lastKeyPressTime;
-    bool shiftpressed = false;
+    bool runKeyPressed = false;
 	int deathcase = 0;
 	//bool roll = false;
     sf::Clock clock;
@@ -52,13 +52,13 @@ public:
 				doJump();
 			}
 			else if (key == activeKeyScheme.run){
-				shiftpressed = true;
+				runKeyPressed = true;
 				if (clock.getElapsedTime().asMilliseconds() - lastKeyPressTime.asMilliseconds() <200){
-					spammingShift = true;
+					spammingRunKey = true;
 					runningSpammingFactor *= 1.5;
 				}
-				else if (spammingShift){
-					spammingShift = false;
+				else if (spammingRunKey){
+					spammingRunKey = false;
 					runningSpammingFactor =1;
 					walkspeed = defaultWalkingSpeed;
 				}
@@ -81,8 +81,8 @@ public:
 				walk(walkDirection + 1);
 			}
 			else if (key ==activeKeyScheme.run){
-				shiftpressed = false;
-				if (spammingShift){
+				runKeyPressed = false;
+				if (spammingRunKey){
 					if (clock.restart().asMilliseconds() > 200){
 						walkspeed = defaultWalkingSpeed;
 						runningSpammingFactor = 1;
@@ -112,8 +112,8 @@ public:
 			jump = false;
 		}
 		checkDeath();
-        if (clock.getElapsedTime().asMilliseconds() -lastKeyPressTime.asMilliseconds() > 250 && !shiftpressed ){
-            spammingShift = false;
+        if (clock.getElapsedTime().asMilliseconds() -lastKeyPressTime.asMilliseconds() > 250 && !runKeyPressed ){
+            spammingRunKey = false;
             walkspeed = defaultWalkingSpeed;
         }
 	}
