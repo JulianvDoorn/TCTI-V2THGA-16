@@ -38,6 +38,8 @@ public:
 		player(statemachine.window),
 		collisionGroup(player)
 	{
+		death.setPosition({ -200, 200 });
+
 		collisionGroup.add(death);
 
 		floor0.setSize({ 600, 100 });
