@@ -1,14 +1,32 @@
 #pragma once
 
+#include <vector>
+#include <exception>
+#include <memory>
 #include <SFML/Graphics.hpp>
 #include "Rectangle.hpp"
 #include "Ball.hpp"
-#include "CollisionObjects.hpp"
 #include "EventSource.hpp"
 #include "Keyboard.hpp"
+#include "KeyScheme.hpp"
+
+using KeySchemes = std::array<KeyScheme, 100>;
+
+class KeySchemeNotFoundException : public std::exception {
+public:
+	const char* what() const noexcept {
+		return "KeyScheme with given difficuly cannot been found!";
+	}
+};
 
 class Player : public Rectangle {
-	sf::RenderWindow& window;
+private:
+	sf::RenderWindow &window;
+	KeyScheme activeKeyScheme = KeyScheme(sf::Keyboard::Key::A, sf::Keyboard::Key::D, sf::Keyboard::Key::W, sf::Keyboard::Key::S);
+	KeySchemes keySchemes = {
+		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, KeyScheme::Difficulty::MODERATE),
+		KeyScheme(sf::Keyboard::Key::J, sf::Keyboard::Key::L, sf::Keyboard::Key::I, sf::Keyboard::Key::J, KeyScheme::Difficulty::MODERATE)
+	};
 
 	int32_t walkDirection = 0;
 	float walkspeed = 50;
@@ -17,7 +35,6 @@ class Player : public Rectangle {
 	bool jump = false;
 
 	int deathcase = 0;
-	//bool roll = false;
 
 public:
 	Player(sf::RenderWindow &window) : window(window) {
@@ -26,30 +43,27 @@ public:
 		setFillColor(sf::Color(0, 255, 0));
 
 		game.keyboard.keyPressed.connect([this](const sf::Keyboard::Key key) {
-			switch (key) {
-			case sf::Keyboard::Key::W:
+			if (key == activeKeyScheme.jump) {
 				doJump();
-				break;
-			case sf::Keyboard::Key::D:
-				walk(walkDirection + 1);
-				break;
-			case sf::Keyboard::Key::A:
+			}
+			else if (key == activeKeyScheme.moveLeft) {
 				walk(walkDirection - 1);
-				break;
+			}
+			else if (key == activeKeyScheme.moveRight) {
+				walk(walkDirection + 1);
 			}
 		});
 
 		game.keyboard.keyReleased.connect([this](const sf::Keyboard::Key key) {
-			switch (key) {
-			case sf::Keyboard::Key::D:
-				walk(walkDirection - 1);
-				break;
-			case sf::Keyboard::Key::A:
+			if (key == activeKeyScheme.moveLeft) {
 				walk(walkDirection + 1);
-				break;
+			}
+			else if (key == activeKeyScheme.moveRight) {
+				walk(walkDirection - 1);
 			}
 		});
 	}
+
 	void update(const float elapsedTime) override {
 		PhysicsObject::update(elapsedTime);
 
@@ -66,7 +80,6 @@ public:
 		checkDeath();
 
 	}
-
 
 	void walk(int32_t direction) {
 		walkDirection = direction;
@@ -89,20 +102,31 @@ public:
 		}
 	}
 
-	void detectCollision(CollisionObjects &objects) {
-		if (intersects(*(objects.at(0)))) {
-			game.died.fire();
-		}
-		for (unsigned int i = 0; i < objects.getSize(); i++) {
-			PhysicsObject* object = objects.at(i);
-			if (intersects(*object)) {
-				resolveCollision(*object);
-			}
-		}
-	}
 
 	sf::FloatRect getBounds() override {
 		return getGlobalBounds();
+	}
+
+	KeyScheme findKeyScheme(const KeyScheme::Difficulty difficulty) {
+		std::vector<KeyScheme*> schemes;
+
+		for (unsigned int i = 0; i < keySchemes.size(); i++) {
+			if (keySchemes[i].difficulty == difficulty) {
+				schemes.push_back(&keySchemes.at(i));
+			}
+		}
+
+		if (!schemes.size()) {
+			throw KeySchemeNotFoundException();
+		}
+
+		std::random_shuffle(schemes.begin(), schemes.end());
+
+		return *schemes.at(0);
+	}
+
+	void setActiveKeyScheme(KeyScheme s) {
+		activeKeyScheme = s;
 	}
 
 	using Rectangle::getCollision;
@@ -110,5 +134,4 @@ public:
 	using Rectangle::getPosition;
 	using Rectangle::setSize;
 	using Rectangle::draw;
-	using PhysicsObject::intersects;
 };
