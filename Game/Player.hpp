@@ -70,7 +70,6 @@ public:
                shiftpressed = false;
                 if (spammingShift){
                    if (clock.restart().asMilliseconds() > 200){
-                       spammingShift  = false;
                        walkspeed = defaultWalkingSpeed;
                        runningSpammingFactor = 1;
                    }
@@ -102,10 +101,10 @@ public:
 			jump = false;
 		}
 		checkDeath();
-    if (clock.getElapsedTime().asMilliseconds() -lastKeyPressTime.asMilliseconds() > 250 && shiftpressed ){
-        spammingShift = false;
-        walkspeed = defaultWalkingSpeed;
-    }
+        if (clock.getElapsedTime().asMilliseconds() -lastKeyPressTime.asMilliseconds() > 250 && shiftpressed == false ){
+            spammingShift = false;
+            walkspeed = defaultWalkingSpeed;
+        }
 	}
 
 
