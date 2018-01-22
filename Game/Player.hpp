@@ -39,7 +39,6 @@ private:
 public:
 	Player(sf::RenderWindow &window) : window(window) {
 		setSize({ 20, 20 });
-		setPosition({ 150, 450 });
 		setFillColor(sf::Color(0, 255, 0));
 
 		game.keyboard.keyPressed.connect([this](const sf::Keyboard::Key key) {

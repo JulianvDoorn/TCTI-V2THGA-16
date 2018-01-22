@@ -38,6 +38,7 @@ public:
 		player(statemachine.window),
 		collisionGroup(player)
 	{
+		player.setPosition({ 150, 450 });
 		death.setPosition({ -200, 200 });
 
 		collisionGroup.add(death);
