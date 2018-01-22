@@ -100,12 +100,6 @@ public:
 			}
 		});
 
-		game.keyboard.keyPressed.connect([this](sf::Keyboard::Key key) {
-			if (key == sf::Keyboard::Key::Z) {
-				player.setActiveKeyScheme(player.findKeyScheme(KeyScheme::Difficulty::MODERATE));
-			}
-		});
-
 		diedConnection = game.died.connect([this]() {
 			diedConnection.disconnect();
 			std::cout << "/!\\ death got you /!\\" << std::endl;

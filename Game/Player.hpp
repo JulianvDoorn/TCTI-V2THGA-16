@@ -127,6 +127,16 @@ public:
 
 	void setActiveKeyScheme(KeyScheme s) {
 		activeKeyScheme = s;
+
+		std::cout << "Controls: " << std::endl;
+		std::cout << "Jump: " << s.jump << std::endl;
+		std::cout << "Roll: " << s.roll << std::endl;
+		std::cout << "Move left: " << s.moveLeft << std::endl;
+		std::cout << "Move right: " << s.moveRight << std::endl;
+	}
+
+	KeyScheme& getActiveKeyScheme() {
+		return activeKeyScheme;
 	}
 
 	using Rectangle::getCollision;
