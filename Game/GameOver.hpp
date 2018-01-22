@@ -20,8 +20,8 @@ class GameOver : public State {
 	EventConnection<> mouseLeaveConn;
 
 public:
-	GameOver(Statemachine& statemachine) :
-		State("game-over"),
+	GameOver(Statemachine& statemachine, const std::string& name) :
+		State(name),
 		statemachine(statemachine),
 		gameOverButton()
 	{
@@ -30,8 +30,6 @@ public:
 		gameOverButton.setCharSize(32);
 		gameOverButton.setBackgroundColor({ 0, 153, 51 });
 		gameOverButton.setText("Game over");
-
-		statemachine.addState(*this);
 	}
 
 	void entry() override {

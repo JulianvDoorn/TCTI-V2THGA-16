@@ -31,8 +31,8 @@ class Running : public State {
 	float gameOverCounter = 3.0f;
 
 public:
-	Running(Statemachine& statemachine) :
-		State("running"),
+	Running(Statemachine& statemachine, const std::string& name) :
+		State(name),
 		statemachine(statemachine),
 		focus(statemachine.window),
 		player(statemachine.window),
@@ -71,8 +71,6 @@ public:
 
 
 		//KeyScheme& scheme = new KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W);
-
-		statemachine.addState(*this);
 	}
 
 	void entry() override {

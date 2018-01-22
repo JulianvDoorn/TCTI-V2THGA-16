@@ -17,11 +17,10 @@ int main() {
 
 	// State definitions
 
-	GameOver gameOver(statemachine);
-	Running running(statemachine);
-	MainMenu mainMenu(statemachine);
-	GamePauze gamePauzeMenu(statemachine);
-
+	statemachine.registerState<GameOver>("game-over");
+	statemachine.registerState<Running>("running");
+	statemachine.registerState<MainMenu>("main-menu");
+	statemachine.registerState<GamePauze>("game-pauze");
 
 	statemachine.doTransition("main-menu"); // initial state
 

@@ -6,6 +6,7 @@
 
 #include "State.hpp"
 #include "Events.hpp"
+#include "BaseFactory.hpp"
 
 /**
  * @class	InvalidStateException
@@ -25,12 +26,23 @@ public:
 
 class Statemachine {
 	/** @brief	Available states to do transitions towards. */
-	std::vector<State*> states;
+	std::vector<std::unique_ptr<State>> states;
 
 	/** @brief	The current state. */
 	State* currentState = nullptr;
 
 public:
+	BaseFactory<State, std::string> stateFactory;
+
+	template<class T>
+	void registerState(const std::string& name) {
+		stateFactory.registerCreateMethod(name, [this, name]() {
+			return new T(*this, name);
+		});
+
+		addState(*stateFactory.create(name));
+	}
+
 	/** @brief	The window to render to. */
 	sf::RenderWindow& window;
 
@@ -59,7 +71,7 @@ public:
 	 */
 
 	void addState(State& gameState) {
-		states.push_back(&gameState);
+		states.push_back(std::move(std::unique_ptr<State>(&gameState)));
 	}
 
 	/**
@@ -87,7 +99,7 @@ public:
 			throw InvalidStateException();
 		}
 
-		currentState = *it; // dereference iterator to get pointer to State
+		currentState = &(*(*it)); // dereference iterator to get pointer to State
 
 		currentState->entry();
 	}

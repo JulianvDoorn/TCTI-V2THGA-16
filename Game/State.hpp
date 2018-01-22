@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 /**
  * @class	State
  *
@@ -65,7 +67,7 @@ public:
 	virtual void exit() { };
 
 	/**
-	 * @fn	friend bool State::operator==(State* state, const std::string& name)
+	 * @fn	friend bool State::operator==(std::unique_ptr<State>& state, const std::string& name)
 	 *
 	 * @brief	Equality operator.
 	 *
@@ -78,7 +80,9 @@ public:
 	 * @return	state->name == name
 	 */
 
-	friend bool operator==(State* state, const std::string& name) {
+	friend bool operator==(std::unique_ptr<State>& state, const std::string& name) {
 		return state->name == name;
 	}
+
+	virtual ~State() { }
 };

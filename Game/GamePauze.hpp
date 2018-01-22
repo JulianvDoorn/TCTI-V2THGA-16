@@ -22,8 +22,8 @@ class GamePauze : public State {
 	EventConnection<> resumeMouseEnterConn;
 	EventConnection<> resumeMouseLeaveConn;
 public:
-	GamePauze(Statemachine& statemachine) :
-		State("game-pauze-menu"),
+	GamePauze(Statemachine& statemachine, const std::string& name) :
+		State(name),
 		statemachine(statemachine),
 		gameExitButton(),
 		gameResumeButton()
@@ -39,8 +39,6 @@ public:
 		gameResumeButton.setCharSize(32);
 		gameResumeButton.setBackgroundColor({ 0, 153, 51 });
 		gameResumeButton.setText("Resume game");
-
-		statemachine.addState(*this);
 	}
 
 	void entry() override {
