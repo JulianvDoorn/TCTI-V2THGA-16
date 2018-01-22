@@ -22,8 +22,12 @@ class Running : public State {
 	Rectangle floor1;
 	Rectangle wall;
 	Rectangle wall1;
+	Rectangle crate;
+	Rectangle bush;
 
-	sf::Texture wallTexture1;
+	sf::Texture brickTexture;
+	sf::Texture groundTexture;
+	sf::Texture bushTexture;
 
 	bool gameOver = false;
 	float gameOverCounter = 3.0f;
@@ -36,27 +40,33 @@ public:
 		player(statemachine.window)
 	{
 
-		wallTexture1.loadFromFile("wall.jpg");
+		brickTexture.loadFromFile("brickWall.png");
+		groundTexture.loadFromFile("ground.png");
+		bushTexture.loadFromFile("bush.png");
 
 		objects.add(death);
 		
-		floor0.setSize({ 600, 100 });
+		floor0.setSize({ 400, 200 });
 		floor0.setPosition({ 0, 600 });
+		floor0.setTexture(&groundTexture);
 		objects.add(floor0);
 
-		floor1.setSize({ 60, 10 });
-		floor1.setPosition({ 0, 500 });
-		objects.add(floor1);
-
-		wall.setSize({ 20, 50 });
+		wall.setSize({ 30, 60 });
 		wall.setPosition({ 250, 550 });
-		wall.setTexture(&wallTexture1);
 		objects.add(wall);
 
-		wall1.setSize({ 20, 100 });
+		wall1.setSize({ 30, 60 });
 		wall1.setPosition({ -200, 450 });
-		wall1.setTexture(&wallTexture1);
 		objects.add(wall1);
+
+		crate.setSize({ 30, 30 });
+		crate.setPosition({ 0, 450 });
+		crate.setTexture(&brickTexture);
+		objects.add(crate);
+
+		bush.setSize({ 14, 14 });
+		bush.setPosition({ 150, 494 });
+		bush.setTexture(&bushTexture);
 
 		statemachine.addState(*this);
 	}
@@ -122,6 +132,8 @@ public:
 		floor1.draw(statemachine.window);
 		wall.draw(statemachine.window);
 		wall1.draw(statemachine.window);
+		crate.draw(statemachine.window);
+		bush.draw(statemachine.window);
 
 		focus.update();
 	}
