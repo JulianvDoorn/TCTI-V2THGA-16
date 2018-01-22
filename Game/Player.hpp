@@ -10,7 +10,7 @@
 #include "Keyboard.hpp"
 #include "KeyScheme.hpp"
 
-typedef std::array<KeyScheme, 100> KeySchemes;
+using KeySchemes = std::array<KeyScheme, 100>;
 
 class KeySchemeNotFoundException : public std::exception {
 public:
