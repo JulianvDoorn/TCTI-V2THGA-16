@@ -4,6 +4,15 @@
 #include <functional>
 #include <memory>
 
+/**
+ * @class	FactoryException
+ *
+ * @brief	Exception for signalling factory errors.
+ *
+ * @author	Julian
+ * @date	2018-01-22
+ */
+
 class FactoryException : public std::exception {
 	std::string err;
 
@@ -15,6 +24,15 @@ public:
 		return err.c_str();
 	}
 };
+
+/**
+ * @class	FactoryInvalidId
+ *
+ * @brief	Thrown when BaseFactory::create(T, Args...) has been called with an invalid identifier.
+ *
+ * @author	Julian
+ * @date	2018-01-22
+ */
 
 class FactoryInvalidId : FactoryException {
 public:
@@ -37,9 +55,11 @@ public:
 template<class V, class T, class... Args>
 class BaseFactory {
 public:
+	/** @brief	FactoryCreateMethod definition */
 	using FactoryCreateMethod = std::function<V*(Args...)>;
 
 private:
+	/** @brief	Map for registered FactoryCreateMethods with T as identifiers */
 	std::map<T, FactoryCreateMethod> createMethods;
 
 public:
@@ -48,7 +68,7 @@ public:
 	/**
 	 * @fn	V BaseFactory::create(T id, Args... args)
 	 *
-	 * @brief	Creates a new V
+	 * @brief	Creates a new V*
 	 *
 	 * @author	Julian
 	 * @date	2018-01-22
@@ -59,7 +79,7 @@ public:
 	 * @param	id  	Identifier for resolving the right FactoryCreateMethod to use.
 	 * @param	args	Arguments that the FactoryCreateMethod may require.
 	 *
-	 * @return	Newly created std::shared_ptr<V>
+	 * @return	Pointer to newly created V
 	 */
 
 	V* create(T id, Args... args) {
@@ -71,6 +91,18 @@ public:
 			throw FactoryInvalidId();
 		}
 	}
+
+	/**
+	 * @fn	void BaseFactory::registerCreateMethod(T id, FactoryCreateMethod factoryCreateMethod)
+	 *
+	 * @brief	Registers a FactoryCreateMethod bound to an identifier
+	 *
+	 * @author	Julian
+	 * @date	2018-01-22
+	 *
+	 * @param	id				   	The identifier.
+	 * @param	factoryCreateMethod	The factory create method.
+	 */
 
 	void registerCreateMethod(T id, FactoryCreateMethod factoryCreateMethod) {
 		createMethods.insert_or_assign(id, factoryCreateMethod);
