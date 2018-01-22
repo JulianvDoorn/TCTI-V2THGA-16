@@ -1,36 +1,43 @@
 #pragma once
 
-#include "GameState.hpp"
+#include "State.hpp"
 #include "Statemachine.hpp"
 #include "Characters.hpp"
 #include "Button.hpp"
+#include <SFML/Audio.hpp>
 
-class GameOver : public GameState {
+class GameOver : public State {
 	Statemachine& statemachine;
 
-	Button startButton;
+	Button gameOverButton;
 
-	EventConnection<> startButtonPressedConn;
-	EventConnection<> startButtonReleasedConn;
+	sf::Music gameOver;
+
+
+	EventConnection<> gameOverButtonPressedConn;
+	EventConnection<> gameOverButtonReleasedConn;
 	EventConnection<> mouseEnterConn;
 	EventConnection<> mouseLeaveConn;
 
 public:
 	GameOver(Statemachine& statemachine) :
-		GameState("game-over"),
+		State("game-over"),
 		statemachine(statemachine),
-		startButton(statemachine.mouse)
+		gameOverButton()
 	{
-		startButton.setSize({ 300, 100 });
-		startButton.setPosition({ 640, 360 });
-		startButton.setCharSize(32);
-		startButton.setBackgroundColor({ 0, 153, 51 });
-		startButton.setText("Game over");
+		gameOverButton.setSize({ 300, 100 });
+		gameOverButton.setPosition({ 640, 360 });
+		gameOverButton.setCharSize(32);
+		gameOverButton.setBackgroundColor({ 0, 153, 51 });
+		gameOverButton.setText("Game over");
 
 		statemachine.addState(*this);
 	}
 
 	void entry() override {
+		gameOver.openFromFile("GameOver.wav");
+		gameOver.play();
+		
 
 	}
 
@@ -39,6 +46,6 @@ public:
 	}
 
 	void update(const float elapsedTime) override {
-		startButton.draw(statemachine.window);
+		gameOverButton.draw(statemachine.window);
 	}
 };
