@@ -46,22 +46,12 @@ private:
 	}
 
 public:
-	static sf::Font& getDefaultFont() {
-		static sf::Font font;
-		return font;
-	}
-
-	static void setDefaultFont(const std::string& dir) {
-		getDefaultFont().loadFromFile(dir);
-	}
-
 	EventSource<> buttonPressed;
 	EventSource<> buttonReleased;
 	EventSource<> mouseEnter;
 	EventSource<> mouseLeave;
 
-	Button() : textLabel(getDefaultFont()) {
-		setFont(getDefaultFont());
+	Button() : textLabel() {
 		bindEvents();
 	}
 

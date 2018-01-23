@@ -13,7 +13,7 @@ int main() {
 
 	Statemachine statemachine(window);
 
-	Button::setDefaultFont("arial.ttf");
+	Label::setDefaultFont("arial.ttf");
 
 	// State definitions
 
@@ -21,6 +21,8 @@ int main() {
 	statemachine.registerState<Running>("running");
 	statemachine.registerState<MainMenu>("main-menu");
 	statemachine.registerState<GamePauze>("game-pauze");
+	statemachine.registerState<SettingsMenu>("settings-menu");
+
 
 	statemachine.doTransition("main-menu"); // initial state
 

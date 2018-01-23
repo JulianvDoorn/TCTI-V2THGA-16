@@ -127,6 +127,10 @@ public:
 		return lhs.id == rhs.id;
 	}
 
+	friend bool operator== (const EventConnection<Args...>& lhs, const uint32_t rhs) {
+		return lhs.id == rhs;
+	}
+
 	friend EventSource<Args...>;
 };
 
