@@ -175,6 +175,7 @@
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameObject.hpp" />
     <ClInclude Include="GameOver.hpp" />
+    <ClInclude Include="IOExceptions.hpp" />
     <ClInclude Include="State.hpp" />
     <ClInclude Include="GamePauze.hpp" />
     <ClInclude Include="GameStates.hpp" />
