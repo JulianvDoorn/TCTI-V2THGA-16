@@ -59,33 +59,33 @@ public:
 	}
 
 	void entry() override {
-        gameResumeButtonPressedConn = gameResumeButton.buttonPressed.connect([this]() {
-            gameResumeButton.setBackgroundColor({ 0, 163, 61 });
-        });
+
 
         gameRestartButtonPressedConn = gameRestartButton.buttonPressed.connect([this](){
             gameRestartButton.setBackgroundColor({0,163,61});
         });
 
+		gameRestartButtonReleasedConn = gameRestartButton.buttonReleased.connect([this]() {
+			statemachine.resetState("running");
+			statemachine.doTransition("running");
+		});
+
         gameExitButtonPressedConn = gameExitButton.buttonPressed.connect([this]() {
 			gameExitButton.setBackgroundColor({ 0, 163, 61 });
+		});
+
+		gameExitButtonReleasedConn = gameExitButton.buttonReleased.connect([this]() {
+			statemachine.resetState("running");
+			statemachine.doTransition("game-over");
 		});
 
         gameResumeButtonReleasedConn = gameResumeButton.buttonReleased.connect([this]() {
             statemachine.doTransition("running");
         });
 
-        gameRestartButtonReleasedConn = gameRestartButton.buttonReleased.connect([this]() {
-            statemachine.resetState("running");
-            statemachine.doTransition("running");
-        });
-
-        gameExitButtonReleasedConn = gameExitButton.buttonReleased.connect([this]() {
-            statemachine.resetState("running");
-            statemachine.doTransition("game-over");
+		gameResumeButtonPressedConn = gameResumeButton.buttonPressed.connect([this]() {
+			gameResumeButton.setBackgroundColor({ 0, 163, 61 });
 		});
-
-
 		
 		exitMouseEnterConn = gameExitButton.mouseEnter.connect([this]() {
 			gameExitButton.setBackgroundColor({ 0, 123, 21 });
@@ -101,6 +101,7 @@ public:
         restartMouseLeaveConn = gameRestartButton.mouseLeave.connect([this](){
             gameRestartButton.setBackgroundColor({0,153,51});
         });
+
 		resumeMouseEnterConn = gameResumeButton.mouseEnter.connect([this]() {
 			gameResumeButton.setBackgroundColor({ 0, 123, 21 });
 		});
@@ -126,7 +127,7 @@ public:
 		exitMouseEnterConn.disconnect();
 		exitMouseLeaveConn.disconnect();
 		resumeMouseEnterConn.disconnect();
-		restartMouseLeaveConn.disconnect();
+		resumeMouseLeaveConn.disconnect();
 		restartMouseEnterConn.disconnect();
 		restartMouseLeaveConn.disconnect();
 
