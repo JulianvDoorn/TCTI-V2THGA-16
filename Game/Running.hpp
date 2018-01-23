@@ -5,6 +5,7 @@
 #include "Statemachine.hpp"
 #include "Characters.hpp"
 #include "ViewFocus.hpp"
+#include "Label.hpp"
 #include <SFML\Audio.hpp>
 
 class Running : public State {
@@ -28,6 +29,7 @@ class Running : public State {
 	Rectangle wall1;
 	Rectangle crate;
 	Rectangle bush;
+	Label score;
 
 	bool gameOver = false;
 	float gameOverCounter = 3.0f;
@@ -38,13 +40,14 @@ public:
 		statemachine(statemachine),
 		focus(statemachine.window),
 		player(statemachine.window),
-		collisionGroup(player)
+		collisionGroup(player),
+		score(AssetManager::instance()->getFont("arial"))
 	{
 		collisionGroup.add(death);
 
 		floor0.setSize({ 400, 200 });
 		floor0.setPosition({ 0, 600 });
-		floor0.setTexture(game.assets.getTexture("ground"));
+		floor0.setTexture(AssetManager::instance()->getTexture("ground"));
 		collisionGroup.add(floor0);
 
 		wall.setSize({ 30, 60 });
@@ -57,12 +60,18 @@ public:
 
 		crate.setSize({ 30, 30 });
 		crate.setPosition({ 0, 450 });
-		crate.setTexture(game.assets.getTexture("brick"));
+		crate.setTexture(AssetManager::instance()->getTexture("brick"));
 		collisionGroup.add(crate);
 
 		bush.setSize({ 14, 14 });
 		bush.setPosition({ 150, 494 });
-		bush.setTexture(game.assets.getTexture("bush"));
+		bush.setTexture(AssetManager::instance()->getTexture("bush"));
+
+		// 1280, 720
+		score.setOrigin({ 1200, 650 });
+		score.setText("Score: 0");
+		score.setCharSize(24);
+		score.setColor(sf::Color::White);
 
 		statemachine.addState(*this);
 	}
@@ -132,11 +141,6 @@ public:
 
 		collisionGroup.resolveCollisions();
 
-		//player.resolveCollision(floor0);
-		//player.resolveCollision(floor1);
-		//player.resolveCollision(wall);
-		//player.deathByAntagonist(death);
-
 		player.draw(statemachine.window);
 		death.draw(statemachine.window);
 
@@ -146,6 +150,8 @@ public:
 		wall1.draw(statemachine.window);
 		crate.draw(statemachine.window);
 		bush.draw(statemachine.window);
+
+		score.draw(statemachine.window);
 
 		focus.update();
 	}

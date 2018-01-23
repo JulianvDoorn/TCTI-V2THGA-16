@@ -31,7 +31,7 @@ public:
         displayText.setFillColor(color);
     }
 
-    void setPosition(sf::Vector2f &position){
+    void setPosition(sf::Vector2f position){
         displayText.setPosition(position);
     }
 
@@ -46,9 +46,11 @@ public:
     void setOrigin(float x, float y){
         displayText.setOrigin({x,y});
     }
+
     void draw(sf::RenderWindow &window){
         window.draw(displayText);
     }
+
     sf::FloatRect getBounds(){
         return displayText.getLocalBounds();
     }

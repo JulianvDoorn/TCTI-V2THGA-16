@@ -7,22 +7,22 @@
 #include "AssetManager.hpp"
 
 int main() {
-
 	const float FPS = 60.0f;
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720, 32), "Hello");
 
 	game = Game(window);
-
-	game.assets.load("arial", "arial.ttf");
-	game.assets.load("game-over", "GameOver.wav");
-	game.assets.load("ground", "ground.png");
-	game.assets.load("bush", "bush.png");
-	game.assets.load("brick", "brickWall.png");
+	
+	// Load assets
+	AssetManager::instance()->load("arial", "arial.ttf");
+	AssetManager::instance()->load("game-over", "GameOver.wav");
+	AssetManager::instance()->load("ground", "ground.png");
+	AssetManager::instance()->load("bush", "bush.png");
+	AssetManager::instance()->load("brick", "brickWall.png");
 
 	Statemachine statemachine(window);
 
-	Button::setDefaultFont(game.assets.getFont("arial"));
+	Button::setDefaultFont(AssetManager::instance()->getFont("arial"));
 
 	// State definitions
 

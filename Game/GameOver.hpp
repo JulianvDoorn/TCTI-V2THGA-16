@@ -32,7 +32,7 @@ public:
 	}
 
 	void entry() override {
-		game.assets.getSound("game-over").play();
+		AssetManager::instance()->getSound("game-over").play();
 	}
 
 	void exit() override {

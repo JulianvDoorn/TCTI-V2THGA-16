@@ -52,7 +52,49 @@ private:
 	std::map<std::string, sf::Sound> sounds;
 	std::vector < std::unique_ptr < sf::SoundBuffer> > soundBuffers;
 
+	static AssetManager* sInstance;
+	//static std::shared_ptr<AssetManager> sInstance;
+
 public:
+	static AssetManager* instance()
+	{
+		if (!sInstance)
+			//sInstance = std::make_shared<AssetManager>(); // If we use a shared pointer, there are no memory leaks. The destructors are called, but this triggers an exception.
+			sInstance = new AssetManager();
+		return sInstance;
+	}
+
+	/**AssetManager() {
+		static int counterConstructed = 0;
+
+		counterConstructed++;
+
+		std::cout << "Asset manager " << counterConstructed << " constructed!\n";
+	}**/
+
+	/*~AssetManager() {
+		static int counterDestructed = 0;
+
+		counterDestructed++;
+
+		std::cout << "Asset manager " << counterDestructed << " destructed!\n";
+		std::cout << "Texture size: " << textures.size() << std::endl;
+		std::cout << "Fonts size: " << fonts.size() << std::endl;
+		std::cout << "Sounds size: " << sounds.size() << std::endl;
+		std::cout << "Sound buffers size: " << soundBuffers.size() << std::endl;
+	}**/
+
+	AssetManager & operator=(const AssetManager &rhs) {
+		textures = std::move(rhs.textures);
+		fonts = std::move(rhs.fonts);
+		sounds = std::move(rhs.sounds);
+
+		for (const auto& e : rhs.soundBuffers)
+			soundBuffers.push_back(std::make_unique<sf::SoundBuffer>(*e));
+
+		return *this;
+	}
+
 	void load(const std::string id, const std::string filename) {
 		std::string::size_type idx;
 
@@ -126,7 +168,7 @@ public:
 	}
 
 	sf::Sound& loadSound(const std::string id, const std::string filename) {
-		soundBuffers.push_back(std::make_unique<sf::SoundBuffer>());
+		soundBuffers.push_back(std::move(std::make_unique<sf::SoundBuffer>()));
 
 		if (soundBuffers.back()->loadFromFile(filename)) {
 			sf::Sound _sound;
@@ -157,3 +199,6 @@ public:
 		sounds.clear();
 	}
 };
+
+AssetManager* AssetManager::sInstance = nullptr;
+//std::shared_ptr<AssetManager> AssetManager::sInstance = nullptr;
