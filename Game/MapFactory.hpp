@@ -21,7 +21,7 @@ class MapFactory : public BaseFactory<PhysicsObject, std::string, std::istream&>
 
 public:
 	MapFactory() {
-		registerCreateMethod("texture", [this](std::istream& is) {
+		registerCreateMethod("asset", [this](std::istream& is) {
 			CurlyBracketList<KeyValuePair> curlyBracketList;
 
 			is >> exceptions >> curlyBracketList;
@@ -41,7 +41,7 @@ public:
 			}
 
 			if (id != nullptr && location != nullptr) {
-				AssetManager::instance()->loadTexture(*id, *location);
+				AssetManager::instance()->load(*id, *location);
 			}
 			else {
 				// TODO: throw exception

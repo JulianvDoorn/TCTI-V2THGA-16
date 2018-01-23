@@ -1,9 +1,9 @@
-texture {
+asset {
 	Id = "dikketieten"
 	Location = "brickWall.png"
 }
 
-texture {
+asset {
 	Id = "dikkebosjes"
 	Location = "bush.png"
 }
