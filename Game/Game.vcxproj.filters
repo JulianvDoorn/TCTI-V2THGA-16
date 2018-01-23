@@ -179,6 +179,9 @@
     <ClInclude Include="DrawableGroup.hpp">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="KeyValuePair.hpp">
+      <Filter>Header Files\MapLoader</Filter>
+    </ClInclude>
     <ClInclude Include="CurlyBracketList.hpp">
       <Filter>Header Files\MapLoader</Filter>
     </ClInclude>

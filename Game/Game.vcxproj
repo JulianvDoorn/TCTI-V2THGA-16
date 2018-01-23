@@ -160,6 +160,7 @@
     <ClInclude Include="BaseFactory.hpp" />
     <ClInclude Include="CurlyBracketList.hpp" />
     <ClInclude Include="DrawableGroup.hpp" />
+    <ClInclude Include="KeyValuePair.hpp" />
     <ClInclude Include="BracketEncapsulated.hpp" />
     <ClInclude Include="Button.hpp" />
     <ClInclude Include="CollisionGroup.hpp" />
