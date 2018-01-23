@@ -176,6 +176,9 @@
     <ClInclude Include="IOExceptions.hpp">
       <Filter>Header Files\MapLoader</Filter>
     </ClInclude>
+    <ClInclude Include="MapFactory.hpp">
+      <Filter>Header Files\MapLoader</Filter>
+    </ClInclude>
     <ClInclude Include="DrawableGroup.hpp">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
