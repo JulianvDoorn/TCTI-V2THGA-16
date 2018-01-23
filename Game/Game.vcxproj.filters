@@ -167,9 +167,6 @@
     <ClInclude Include="AssetManager.hpp">
       <Filter>Header Files\Assets</Filter>
     </ClInclude>
-    <ClInclude Include="BracketEncapsulated.hpp">
-      <Filter>Header Files\MapLoader</Filter>
-    </ClInclude>
     <ClInclude Include="ColorFactory.hpp">
       <Filter>Header Files\MapLoader</Filter>
     </ClInclude>

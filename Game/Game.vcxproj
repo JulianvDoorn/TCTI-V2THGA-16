@@ -162,7 +162,6 @@
     <ClInclude Include="DrawableGroup.hpp" />
     <ClInclude Include="KeyValuePair.hpp" />
     <ClInclude Include="MapFactory.hpp" />
-    <ClInclude Include="BracketEncapsulated.hpp" />
     <ClInclude Include="Button.hpp" />
     <ClInclude Include="CollisionGroup.hpp" />
     <ClInclude Include="Characters.hpp" />
