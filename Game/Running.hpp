@@ -52,8 +52,10 @@ public:
 		floor0.setTexture(AssetManager::instance()->getTexture("ground"));
 		collisionGroup.add(floor0);
 
-		wall.setSize({ 30, 60 });
-		wall.setPosition({ 250, 550 });
+		floor1.setSize({ 60, 10 });
+		floor1.setPosition({ 0, 500 });
+		collisionGroup.add(floor1);
+
 		collisionGroup.add(wall);
 
 		wall1.setSize({ 30, 60 });
