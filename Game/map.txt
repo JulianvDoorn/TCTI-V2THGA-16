@@ -1,0 +1,30 @@
+texture {
+	Id = "dikketieten"
+	Location = "brickWall.png"
+}
+
+texture {
+	Id = "dikkebosjes"
+	Location = "bush.png"
+}
+
+rectangle {
+	Color = #696969
+	Size = (100, 100)
+	Position = (0, 400)
+	TextureId = "dikketieten"
+}
+
+rectangle {
+	Color = #696969
+	Size = (100, 100)
+	Position = (100, 400)
+	TextureId = "dikketieten"
+}
+
+rectangle {
+	Color = #696969
+	Size = (100, 100)
+	Position = (200, 400)
+	TextureId = "dikkebosjes"
+}
