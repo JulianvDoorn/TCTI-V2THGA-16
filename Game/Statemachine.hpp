@@ -38,11 +38,9 @@ public:
  * @date	2018-01-19
  */
 
-class InvalidStateException : public std::exception {
+class InvalidStateException : public StatemachineException {
 public:
-	const char* what() const noexcept override {
-		return "You tried to transist into an invalid state";
-	}
+	InvalidStateException() : StatemachineException("Attempted to perform transition into an invalid state. Most likely an unregistered state.") { }
 };
 
 /**
