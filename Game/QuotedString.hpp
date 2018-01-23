@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <utility>
 #include "SpecialCharacter.hpp"
 #include "IOExceptions.hpp"
 
