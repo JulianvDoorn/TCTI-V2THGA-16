@@ -7,6 +7,8 @@
 #include "Characters.hpp"
 #include "ViewFocus.hpp"
 #include "Label.hpp"
+#include "MapFactory.hpp"
+#include "DrawableGroup.hpp"
 
 class Running : public State {
 	Statemachine& statemachine;
@@ -22,13 +24,16 @@ class Running : public State {
 	Player player;
 	Antagonist death;
 	CollisionGroup collisionGroup;
+	DrawableGroup drawableGroup;
 
-	Rectangle floor0;
-	Rectangle floor1;
-	Rectangle wall;
-	Rectangle wall1;
-	Rectangle crate;
-	Rectangle bush;
+	PhysicsObject* temp;
+
+	//Rectangle floor0;
+	//Rectangle floor1;
+	//Rectangle wall;
+	//Rectangle wall1;
+	//Rectangle crate;
+	//Rectangle bush;
 	Label score;
 
 	bool gameOver = false;
@@ -43,33 +48,69 @@ public:
 		score(AssetManager::instance()->getFont("arial"))
 	{
 		player.setPosition({ 150, 450 });
+		drawableGroup.add(player);
 		death.setPosition({ -200, 200 });
+		drawableGroup.add(death);
+
+
+
+		std::ifstream file;
+		file.exceptions(std::istream::failbit);
+		file.open("map.txt");
+
+		MapFactory mapFactory;
+
+		while (!file.eof()) {
+			std::string name;
+			file >> name;
+
+			PhysicsObject* ptr = mapFactory.create(name, file);
+
+			if (ptr != nullptr) {
+				drawableGroup.add(*ptr);
+				collisionGroup.add(*ptr);
+			}
+
+			file >> std::ws;
+		}
+
+
+
+		
 
 		collisionGroup.add(death);
 
-		floor0.setSize({ 400, 200 });
-		floor0.setPosition({ 0, 600 });
-		floor0.setTexture(AssetManager::instance()->getTexture("ground"));
-		collisionGroup.add(floor0);
+		Rectangle* floor0 = new Rectangle();
+		floor0->setSize({ 400, 200 });
+		floor0->setPosition({ 0, 600 });
+		floor0->setTexture(AssetManager::instance()->getTexture("ground"));
+		collisionGroup.add(*floor0);
+		drawableGroup.add(*floor0);
 
-		floor1.setSize({ 60, 10 });
-		floor1.setPosition({ 0, 500 });
-		collisionGroup.add(floor1);
+		Rectangle* floor1 = new Rectangle();
+		floor1->setSize({ 60, 10 });
+		floor1->setPosition({ 0, 500 });
+		collisionGroup.add(*floor1);
+		drawableGroup.add(*floor1);
 
-		collisionGroup.add(wall);
+		Rectangle* wall1 = new Rectangle();
+		wall1->setSize({ 30, 60 });
+		wall1->setPosition({ -200, 450 });
+		collisionGroup.add(*wall1);
+		drawableGroup.add(*wall1);
 
-		wall1.setSize({ 30, 60 });
-		wall1.setPosition({ -200, 450 });
-		collisionGroup.add(wall1);
+		Rectangle* crate = new Rectangle();
+		crate->setSize({ 30, 30 });
+		crate->setPosition({ 0, 450 });
+		crate->setTexture(AssetManager::instance()->getTexture("brick"));
+		collisionGroup.add(*crate);
+		drawableGroup.add(*crate);
 
-		crate.setSize({ 30, 30 });
-		crate.setPosition({ 0, 450 });
-		crate.setTexture(AssetManager::instance()->getTexture("brick"));
-		collisionGroup.add(crate);
-
-		bush.setSize({ 14, 14 });
-		bush.setPosition({ 150, 494 });
-		bush.setTexture(AssetManager::instance()->getTexture("bush"));
+		Rectangle* bush = new Rectangle();
+		bush->setSize({ 14, 14 });
+		bush->setPosition({ 150, 494 });
+		bush->setTexture(AssetManager::instance()->getTexture("bush"));
+		drawableGroup.add(*bush);
 
 	}
 
@@ -137,16 +178,19 @@ public:
 		death.update(elapsedTime);
 
 		collisionGroup.resolveCollisions();
+		drawableGroup.draw(statemachine.window);
 
-		player.draw(statemachine.window);
-		death.draw(statemachine.window);
+		//player.draw(statemachine.window);
+		//death.draw(statemachine.window);
 
-		floor0.draw(statemachine.window);
-		floor1.draw(statemachine.window);
-		wall.draw(statemachine.window);
-		wall1.draw(statemachine.window);
-		crate.draw(statemachine.window);
-		bush.draw(statemachine.window);
+		//temp->draw(statemachine.window);
+
+		//floor0.draw(statemachine.window);
+		//floor1.draw(statemachine.window);
+		//wall.draw(statemachine.window);
+		//wall1.draw(statemachine.window);
+		//crate.draw(statemachine.window);
+		//bush.draw(statemachine.window);
 
 		score.draw(statemachine.window);
 
