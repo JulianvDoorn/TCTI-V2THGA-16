@@ -50,8 +50,8 @@ public:
 		floor1.setPosition({ 0, 500 });
 		collisionGroup.add(floor1);
 
-		wall.setSize({ 20, 50 });
-		wall.setPosition({ 250, 550 });
+		wall.setSize({ 20, 120 });
+		wall.setPosition({ 250, 500 });
 		collisionGroup.add(wall);
 
 		wall1.setSize({ 20, 100 });
