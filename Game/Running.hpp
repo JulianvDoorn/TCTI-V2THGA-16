@@ -46,14 +46,19 @@ public:
 	{
 
 		brickTexture.loadFromFile("brickWall.png");
-		groundTexture.loadFromFile("ground.png");
+		groundTexture.loadFromFile("ground2.png");
 		bushTexture.loadFromFile("bush.png");
 		collisionGroup.add(death);
 
-		floor0.setSize({ 400, 200 });
+		floor0.setSize({ 800, 200 });
 		floor0.setPosition({ 0, 600 });
 		floor0.setTexture(&groundTexture);
 		collisionGroup.add(floor0);
+
+		floor1.setSize({ 800, 200 });
+		floor1.setPosition({ 800, 600 });
+		floor1.setTexture(&groundTexture);
+		collisionGroup.add(floor1);
 
 		wall.setSize({ 30, 60 });
 		wall.setPosition({ 250, 550 });
