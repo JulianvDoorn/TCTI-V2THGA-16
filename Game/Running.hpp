@@ -10,6 +10,8 @@
 #include "MapFactory.hpp"
 #include "DrawableGroup.hpp"
 
+#include <fstream>
+
 class Running : public State {
 	Statemachine& statemachine;
 
