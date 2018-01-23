@@ -2,6 +2,8 @@
 
 #include <exception>
 #include <string>
+#include <fstream>
+
 std::istream& exceptions(std::istream& is) {
 	is.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 
