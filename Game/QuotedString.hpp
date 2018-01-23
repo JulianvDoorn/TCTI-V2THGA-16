@@ -4,6 +4,8 @@
 #include "SpecialCharacter.hpp"
 #include "IOExceptions.hpp"
 
+#include <fstream>
+
 class QuotedString : public std::string {
 public:
 	QuotedString() : std::string() { }
