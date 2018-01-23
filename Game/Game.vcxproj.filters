@@ -173,6 +173,9 @@
     <ClInclude Include="ColorFactory.hpp">
       <Filter>Header Files\MapLoader</Filter>
     </ClInclude>
+    <ClInclude Include="CurlyBracketList.hpp">
+      <Filter>Header Files\MapLoader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="test.srt">
