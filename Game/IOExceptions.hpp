@@ -2,6 +2,11 @@
 
 #include <exception>
 #include <string>
+std::istream& exceptions(std::istream& is) {
+	is.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+
+	return is;
+}
 
 class BodyFactoryException : public std::exception {
 	std::string err;
