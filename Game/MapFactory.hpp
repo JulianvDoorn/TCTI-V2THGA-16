@@ -12,12 +12,6 @@
 #include "KeyValuePair.hpp"
 #include "CurlyBracketList.hpp"
 
-std::istream& operator>>(std::istream& is, sf::Color& c) {
-	ColorFactory colorFactory(is);
-	c = colorFactory.getColor();
-	return is;
-}
-
 class MapFactory : public BaseFactory<PhysicsObject, std::string, std::istream&> {
 	using Type = KeyValuePair::Type;
 
