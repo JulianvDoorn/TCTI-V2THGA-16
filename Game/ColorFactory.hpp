@@ -79,6 +79,8 @@ public:
 class ColorFactory {
 	std::istream& input;
 	
+	static ConversionTable<std::string, sf::Color> colorNameConversionTable;
+
 	static uint32_t readHex(const char* begin, const char* end) {
 		uint32_t buffer = 0;
 		
