@@ -12,7 +12,7 @@ public:
 		char c;
 		
 		try {
-			is >> c;
+			is >> exceptions >> c;
 		} catch (const std::istream::failure&) {
 			throw EOFException("Unexpected");
 		}

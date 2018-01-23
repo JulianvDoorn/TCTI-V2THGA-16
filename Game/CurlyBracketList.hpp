@@ -16,8 +16,8 @@ class CurlyBracketList : public std::vector<T> { };
 
 template<class T>
 std::istream& operator>> (std::istream& is, CurlyBracketList<T>& list) {
-	is >> SpecialCharacter::LeftCurlyBracket;
-	is >> ignoreLine;
+	is >> exceptions >> SpecialCharacter::LeftCurlyBracket;
+	is >> exceptions >> ignoreLine;
 
 	while (true) {
 		std::string line;
@@ -25,12 +25,12 @@ std::istream& operator>> (std::istream& is, CurlyBracketList<T>& list) {
 		std::istringstream iss(line);
 
 		char c;
-		iss >> c;
+		iss >> exceptions >> c;
 
 		if (c != SpecialCharacter::RightCurlyBracket) {
 			iss.seekg(0);
 			list.push_back(T());
-			iss >> list.back();
+			iss >> exceptions >> list.back();
 		}
 		else {
 			// } found

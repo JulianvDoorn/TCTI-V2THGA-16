@@ -10,8 +10,8 @@ std::ostream& operator<< (std::ostream& os, sf::Vector2<T> v) {
 
 template<class T>
 std::istream& operator>> (std::istream& is, sf::Vector2<T>& v) {
-	NumberValue<T> x;
-	NumberValue<T> y;
+	SecureRead<T> x;
+	SecureRead<T> y;
 
 	is >> SpecialCharacter::LeftBracket;
 	is >> x;

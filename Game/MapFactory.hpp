@@ -33,7 +33,7 @@ public:
 		registerCreateMethod("texture", [this](std::istream& is) {
 			CurlyBracketList<KeyValuePair> curlyBracketList;
 
-			is >> curlyBracketList;
+			is >> exceptions >> curlyBracketList;
 
 			std::string* id = nullptr;
 			std::string* location = nullptr;

@@ -62,7 +62,7 @@ std::istream& operator>> (std::istream& is, KeyValuePair& pair) {
 	if (std::isdigit(c)) {
 		// parse float
 		float_t* f = new float_t();
-		iss >> *f;
+		iss >> static_cast<SecureRead<float_t&>>(*f);
 
 		std::cout << "float: " << *f << std::endl;
 
@@ -70,7 +70,7 @@ std::istream& operator>> (std::istream& is, KeyValuePair& pair) {
 		pair.value.f = f;
 	} else if (c == '(') {
 		// parse vector
-		sf::Vector2f* v = new sf::Vector2f;
+		sf::Vector2f* v = new sf::Vector2f();
 		iss >> *v;
 
 		std::cout << "vector: " << *v << std::endl;
@@ -79,7 +79,7 @@ std::istream& operator>> (std::istream& is, KeyValuePair& pair) {
 		pair.value.v = v;
 	} else if (c == '"') {
 		// parse string
-		QuotedString* s = new QuotedString;
+		QuotedString* s = new QuotedString();
 		iss >> *s;
 
 		std::cout << "string: " << *s << std::endl;
