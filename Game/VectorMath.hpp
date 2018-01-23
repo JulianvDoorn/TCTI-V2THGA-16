@@ -8,6 +8,22 @@ std::ostream& operator<< (std::ostream& os, sf::Vector2<T> v) {
 	return os << "Vector2(" << v.x << ", " << v.y << ')';
 }
 
+template<class T>
+std::istream& operator>> (std::istream& is, sf::Vector2<T>& v) {
+	NumberValue<T> x;
+	NumberValue<T> y;
+
+	is >> SpecialCharacter::LeftBracket;
+	is >> x;
+	is >> SpecialCharacter::Comma;
+	is >> y;
+	is >> SpecialCharacter::RightBracket;
+
+	v = sf::Vector2<T>(x, y);
+
+	return is;
+}
+
 /**
  * @fn	sf::Vector2f operator/ (const sf::Vector2f& v, int i)
  *
