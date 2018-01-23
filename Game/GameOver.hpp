@@ -32,7 +32,7 @@ public:
 		mainMenuButton(),
         menuLabel()
 	{
-		menuLabel.setPosition({ 640, 360 });
+		menuLabel.setPosition({ 540, 360 });
 		menuLabel.setCharSize(32);
         menuLabel.setColor(sf::Color::White);
 		menuLabel.setText("Game over");
@@ -54,7 +54,6 @@ public:
 	}
 
 	void entry() override {
-        std::cout << "Game-over state" << std::endl;
 		mainMenuButtonPressedConn = mainMenuButton.buttonPressed.connect([this](){
 			mainMenuButton.setBackgroundColor({0,163,61});
 		});

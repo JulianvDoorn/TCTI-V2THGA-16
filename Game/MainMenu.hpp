@@ -31,8 +31,8 @@ public:
         menuLabel(),
         exitButton()
 	{
-        menuLabel.setPosition({ 640, 50 });
-        menuLabel.setCharSize(32);
+        menuLabel.setPosition({ 550, 200 });
+        menuLabel.setCharSize(45);
         menuLabel.setColor(sf::Color::White);
         menuLabel.setText("Fimmy");
         menuLabel.setStyle(sf::Text::Bold);
