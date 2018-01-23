@@ -5,8 +5,8 @@
 #include <exception>
 #include <memory>
 #include <vector>
-#include <SFML\Graphics.hpp>
-#include <SFML\Audio.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 class AssetTypeNotResolvedException : public std::exception {
 private:
@@ -50,6 +50,7 @@ private:
 	std::map<std::string, sf::Texture> textures;
 	std::map<std::string, sf::Font> fonts;
 	std::map<std::string, sf::Sound> sounds;
+	
 	std::vector < std::unique_ptr < sf::SoundBuffer> > soundBuffers;
 
 	static AssetManager* sInstance;
@@ -112,6 +113,9 @@ public:
 			else if (extension == "wav") {
 				loadSound(id, filename);
 			}
+			else if (extension == "srt") {
+				loadSubtitle(id, filename);
+			}
 			else {
 				// Unknown asset extension
 				throw AssetTypeNotResolvedException(filename);
@@ -123,13 +127,15 @@ public:
 		}
 	}
 
-	sf::Texture& loadTexture(const std::string id, const std::string filename) {
+	void loadTexture(const std::string id, const std::string filename) {
+		if (textures.find(id) != textures.end()) {
+			return;
+		}
+
 		sf::Texture _texture;
 
 		if (_texture.loadFromFile(filename)) {
 			textures[id] = _texture;
-
-			return textures.at(id);
 		}
 		else {
 			throw AssetNotFoundByPathException(filename, "texture");
@@ -145,13 +151,15 @@ public:
 		}
 	}
 
-	sf::Font& loadFont(const std::string id, const std::string filename) {
+	void loadFont(const std::string id, const std::string filename) {
+		if (fonts.find(id) != fonts.end()) {
+			return;
+		}
+
 		sf::Font _font;
 
 		if (_font.loadFromFile(filename)) {
 			fonts[id] = _font;
-
-			return fonts.at(id);
 		}
 		else {
 			throw AssetNotFoundByPathException(filename, "font");
@@ -167,7 +175,11 @@ public:
 		}
 	}
 
-	sf::Sound& loadSound(const std::string id, const std::string filename) {
+	void loadSound(const std::string id, const std::string filename) {
+		if (sounds.find(id) != sounds.end()) {
+			return;
+		}
+
 		soundBuffers.push_back(std::move(std::make_unique<sf::SoundBuffer>()));
 
 		if (soundBuffers.back()->loadFromFile(filename)) {
@@ -176,8 +188,6 @@ public:
 			_sound.setBuffer(*soundBuffers.back());
 
 			sounds[id] = _sound;
-
-			return sounds.at(id);
 		}
 		else {
 			throw AssetNotFoundByPathException(filename, "sound");
@@ -193,6 +203,10 @@ public:
 		}
 	}
 
+	void loadSubtitle(const std::string, const std::string filename) {
+
+	}
+
 	void clear() {
 		textures.clear();
 		fonts.clear();
@@ -201,4 +215,3 @@ public:
 };
 
 AssetManager* AssetManager::sInstance = nullptr;
-//std::shared_ptr<AssetManager> AssetManager::sInstance = nullptr;

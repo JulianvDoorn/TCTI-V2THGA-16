@@ -88,6 +88,8 @@ public:
 			view.setCenter(window.getDefaultView().getCenter());
 		}
 
+		//view.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
+
 		window.setView(view);
 	}
 };

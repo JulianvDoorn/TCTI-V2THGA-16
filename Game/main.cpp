@@ -20,20 +20,24 @@ int main() {
 	AssetManager::instance()->load("bush", "bush.png");
 	AssetManager::instance()->load("brick", "brickWall.png");
 
+	AssetManager::instance()->loadTexture("dikkebmw", "dikkebmw.jpg");
+
 	Statemachine statemachine(window);
 
 	Label::setDefaultFont(AssetManager::instance()->getFont("arial"));
 
 	// State definitions
-
 	statemachine.registerState<GameOver>("game-over");
 	statemachine.registerState<Running>("running");
 	statemachine.registerState<MainMenu>("main-menu");
 	statemachine.registerState<GamePauze>("game-pauze");
 	statemachine.registerState<SettingsMenu>("settings-menu");
+	statemachine.registerState<Cutscene>("cutscene");
 
 
-	statemachine.doTransition("main-menu"); // initial state
+
+	//statemachine.doTransition("main-menu"); // initial state
+	statemachine.doTransition("cutscene");
 
 	// End state definitions
 	

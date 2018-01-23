@@ -1,7 +1,7 @@
 #pragma once
 
 #include <array>
-#include <SFML\Audio.hpp>
+#include <SFML/Audio.hpp>
 #include "State.hpp"
 #include "Statemachine.hpp"
 #include "Characters.hpp"
@@ -135,12 +135,6 @@ public:
 			}
 		});
 
-		game.keyboard.keyPressed.connect([this](sf::Keyboard::Key key) {
-			if (key == sf::Keyboard::Key::Z) {
-				player.setActiveKeyScheme(player.findKeyScheme(KeyScheme::Difficulty::MODERATE));
-			}
-		});
-
 		diedConnection = game.died.connect([this]() {
 			diedConnection.disconnect();
 			std::cout << "/!\\ death got you /!\\" << std::endl;
@@ -170,9 +164,11 @@ public:
 	void update(const float elapsedTime) override {
 		if (!gameOver) {
 			player.update(elapsedTime);
-		} else if (gameOverCounter > 0) {
+		}
+		else if (gameOverCounter > 0) {
 			gameOverCounter -= elapsedTime;
-		} else {
+		}
+		else {
 			statemachine.doTransition("game-over");
 			return;
 		}
