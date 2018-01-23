@@ -28,7 +28,7 @@ public:
 		statemachine(statemachine),
 		startButton(),
         settingsButton(),
-        menuLabel(Button::getDefaultFont()),
+        menuLabel(),
         exitButton()
 	{
         menuLabel.setPosition({ 640, 50 });

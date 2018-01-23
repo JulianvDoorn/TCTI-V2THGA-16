@@ -7,7 +7,21 @@ private:
     sf::Font &font;
     sf::Text displayText;
 public:
-	Label(sf::Font& font) : font(font) { }
+    static sf::Font& getDefaultFont() {
+        static sf::Font font;
+        return font;
+    }
+
+    static void setDefaultFont(const std::string& dir) {
+        getDefaultFont().loadFromFile(dir);
+    }
+    Label() : font(getDefaultFont()){
+        displayText.setFont(font);
+    }
+
+	Label(sf::Font& font) : font(font) {
+        displayText.setFont(font);
+    }
 
     Label(std::string &text, sf::Font &font, sf::Vector2f position, int size, sf::Color color = sf::Color::White, sf::Text::Style style = sf::Text::Bold) : font(font) {
         displayText.setPosition(position);

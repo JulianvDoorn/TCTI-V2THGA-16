@@ -13,7 +13,7 @@ int main() {
 
 	Statemachine statemachine(window);
 
-	Button::setDefaultFont("arial.ttf");
+	Label::setDefaultFont("arial.ttf");
 
 	// State definitions
 

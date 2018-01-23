@@ -30,7 +30,7 @@ public:
 		State("game-over"),
 		statemachine(statemachine),
 		mainMenuButton(),
-        menuLabel(Button::getDefaultFont())
+        menuLabel()
 	{
 		menuLabel.setPosition({ 640, 360 });
 		menuLabel.setCharSize(32);
