@@ -12,6 +12,7 @@ class Cutscene : public State {
 	SubtitleVector subtitles;
 	SubtitleParser parser;
 	Label subtitleText;
+	Rectangle imageBackground;
 
 	sf::Clock clock;
 	sf::Time lastTime;
@@ -27,6 +28,11 @@ public:
 		subtitleText.setFont(AssetManager::instance()->getFont("arial"));
 		subtitleText.setPosition({100.0f, statemachine.window.getSize().y - 80.0f});
 		subtitleText.setText("Hello World!");
+
+		imageBackground.setPosition({640, 360});
+		imageBackground.setSize({ 1280, 720 });
+		imageBackground.setTexture(AssetManager::instance()->getTexture("dikkebmw"));
+		imageBackground.setTextureRect({ 0, 0, 1280, 720 });
 
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
@@ -83,7 +89,9 @@ public:
 		}
 
 		
+		imageBackground.draw(statemachine.window);
 		subtitleText.draw(statemachine.window);
+		
 		
 		//gameExitButton.draw(statemachine.window);
 		//gameResumeButton.draw(statemachine.window);

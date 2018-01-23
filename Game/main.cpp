@@ -20,6 +20,8 @@ int main() {
 	AssetManager::instance()->load("bush", "bush.png");
 	AssetManager::instance()->load("brick", "brickWall.png");
 
+	AssetManager::instance()->loadTexture("dikkebmw", "dikkebmw.jpg");
+
 	Statemachine statemachine(window);
 
 	Label::setDefaultFont(AssetManager::instance()->getFont("arial"));

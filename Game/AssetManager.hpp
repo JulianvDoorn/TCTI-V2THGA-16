@@ -127,13 +127,15 @@ public:
 		}
 	}
 
-	sf::Texture& loadTexture(const std::string id, const std::string filename) {
+	void loadTexture(const std::string id, const std::string filename) {
+		if (textures.find(id) != textures.end()) {
+			return;
+		}
+
 		sf::Texture _texture;
 
 		if (_texture.loadFromFile(filename)) {
 			textures[id] = _texture;
-
-			return textures.at(id);
 		}
 		else {
 			throw AssetNotFoundByPathException(filename, "texture");
@@ -149,13 +151,15 @@ public:
 		}
 	}
 
-	sf::Font& loadFont(const std::string id, const std::string filename) {
+	void loadFont(const std::string id, const std::string filename) {
+		if (fonts.find(id) != fonts.end()) {
+			return;
+		}
+
 		sf::Font _font;
 
 		if (_font.loadFromFile(filename)) {
 			fonts[id] = _font;
-
-			return fonts.at(id);
 		}
 		else {
 			throw AssetNotFoundByPathException(filename, "font");
@@ -171,7 +175,11 @@ public:
 		}
 	}
 
-	sf::Sound& loadSound(const std::string id, const std::string filename) {
+	void loadSound(const std::string id, const std::string filename) {
+		if (sounds.find(id) != sounds.end()) {
+			return;
+		}
+
 		soundBuffers.push_back(std::move(std::make_unique<sf::SoundBuffer>()));
 
 		if (soundBuffers.back()->loadFromFile(filename)) {
@@ -180,8 +188,6 @@ public:
 			_sound.setBuffer(*soundBuffers.back());
 
 			sounds[id] = _sound;
-
-			return sounds.at(id);
 		}
 		else {
 			throw AssetNotFoundByPathException(filename, "sound");
