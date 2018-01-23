@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cctype>
 
+#include "SecureRead.hpp"
 #include "SpecialCharacter.hpp"
 
 class KeyValuePair {
