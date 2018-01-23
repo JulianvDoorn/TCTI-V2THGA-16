@@ -65,14 +65,18 @@ public:
         exitButtonPressedConn = exitButton.buttonPressed.connect([this](){
             exitButton.setBackgroundColor({0,163,61});
         });
+
         startButtonReleasedConn = startButton.buttonReleased.connect([this]() {
-			statemachine.doTransition("running");
+            statemachine.resetState("running");
+            statemachine.doTransition("running");
 		});
+        settingsButtonReleasedConn = settingsButton.buttonReleased.connect([this](){
+            std::cout << "Settings Button Released Connection" << std::endl;
+			statemachine.doTransition("settings-menu");
+
+        });
         exitButtonReleasedConn = exitButton.buttonReleased.connect([this]() {
             statemachine.window.close();
-        });
-        settingsButtonReleasedConn = settingsButton.buttonReleased.connect([this](){
-            statemachine.doTransition("settings-menu");
         });
 
 		mouseEnterConn = startButton.mouseEnter.connect([this]() {

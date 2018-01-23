@@ -10,16 +10,16 @@ class GameOver : public State {
 	Statemachine& statemachine;
 
     Label menuLabel;
-	Button gameOverButton;
 	Button mainMenuButton;
+    Button restartGameButton;
     Button exitButton;
 
 	sf::Music gameOver;
 
-	EventConnection<> gameOverButtonPressedConn;
-	EventConnection<> gameOverButtonReleasedConn;
 	EventConnection<> mainMenuButtonPressedConn;
-	EventConnection<> mainMenuButtonReleasedConn;
+    EventConnection<> mainMenuButtonReleasedConn;
+    EventConnection<> restartGameButtonPressedConn;
+    EventConnection<> restartGameButtonReleasedConn;
     EventConnection<> exitButtonPressedConn;
     EventConnection<> exitButtonReleasedConn;
 	EventConnection<> mouseEnterConn;
@@ -43,8 +43,14 @@ public:
 		mainMenuButton.setBackgroundColor({ 0, 153, 51 });
 		mainMenuButton.setText("Main Menu");
 
+        restartGameButton.setSize({ 300, 100 });
+        restartGameButton.setPosition({ 640, 620 });
+        restartGameButton.setCharSize(32);
+        restartGameButton.setBackgroundColor({ 0, 153, 51 });
+        restartGameButton.setText("Restart Game");
+
         exitButton.setSize({300,100});
-        exitButton.setPosition({640,620});
+        exitButton.setPosition({640,750});
         exitButton.setCharSize(32);
         exitButton.setBackgroundColor({0,153,51});
         exitButton.setText("Exit game");
@@ -54,13 +60,21 @@ public:
 		mainMenuButtonPressedConn = mainMenuButton.buttonPressed.connect([this](){
 			mainMenuButton.setBackgroundColor({0,163,61});
 		});
+        restartGameButtonPressedConn =restartGameButton.buttonPressed.connect([this](){
+            restartGameButton.setBackgroundColor({0,163,61});
+        });
         exitButtonPressedConn = exitButton.buttonPressed.connect([this](){
             exitButton.setBackgroundColor({0,163,61});
         });
 
         mainMenuButtonReleasedConn = mainMenuButton.buttonReleased.connect([this]() {
-			statemachine.doTransition("main-menu");
+            std::cout << "Main menu button" << std::endl;
+            statemachine.doTransition("main-menu");
 		});
+        restartGameButtonReleasedConn = restartGameButton.buttonReleased.connect([this]() {
+            statemachine.resetState("running");
+            statemachine.doTransition("running");
+        });
         exitButtonReleasedConn = exitButton.buttonReleased.connect([this]() {
             statemachine.window.close();
         });
@@ -71,12 +85,18 @@ public:
         mouseEnterConn = mainMenuButton.mouseEnter.connect([this]() {
             mainMenuButton.setBackgroundColor({ 0, 123, 21 });
         });
+        mouseEnterConn = restartGameButton.mouseEnter.connect([this](){
+            restartGameButton.setBackgroundColor({0,123,21});
+        });
         mouseEnterConn = exitButton.mouseEnter.connect([this]() {
             exitButton.setBackgroundColor({ 0, 123, 21 });
         });
 
         mouseLeaveConn = mainMenuButton.mouseLeave.connect([this]() {
             mainMenuButton.setBackgroundColor({ 0, 153, 51 });
+        });
+        mouseLeaveConn=  restartGameButton.mouseLeave.connect([this](){
+            restartGameButton.setBackgroundColor({0,153,21});
         });
         mouseLeaveConn = exitButton.mouseLeave.connect([this]() {
             exitButton.setBackgroundColor({ 0, 153, 51 });
@@ -86,6 +106,8 @@ public:
 	void exit() override {
         mainMenuButtonPressedConn.disconnect();
         mainMenuButtonReleasedConn.disconnect();
+        restartGameButtonPressedConn.disconnect();
+        restartGameButtonReleasedConn.disconnect();
         exitButtonPressedConn.disconnect();
         exitButtonReleasedConn.disconnect();
 	}
@@ -93,6 +115,7 @@ public:
 	void update(const float elapsedTime) override {
 		menuLabel.draw(statemachine.window);
         mainMenuButton.draw(statemachine.window);
+        restartGameButton.draw(statemachine.window);
         exitButton.draw(statemachine.window);
 	}
 };

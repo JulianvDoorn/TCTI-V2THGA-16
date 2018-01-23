@@ -10,14 +10,10 @@ class SettingsMenu : public State {
 
     Label menuLabel;
     Button exitButton;
-    Button settingsButton;
 
-    EventConnection<> startButtonPressedConn;
-    EventConnection<> startButtonReleasedConn;
     EventConnection<> exitButtonPressedConn;
     EventConnection<> exitButtonReleasedConn;
-    EventConnection<> settingsButtonPressedConn;
-    EventConnection<> settingsButtonReleasedConn;
+
     EventConnection<> mouseEnterConn;
     EventConnection<> mouseLeaveConn;
 
@@ -42,9 +38,6 @@ public:
     }
 
     void entry() override {
-        settingsButtonPressedConn = settingsButton.buttonPressed.connect([this](){
-            settingsButton.setBackgroundColor({0,163,61});
-        });
         exitButtonPressedConn = exitButton.buttonPressed.connect([this](){
             exitButton.setBackgroundColor({0,163,61});
         });
@@ -52,29 +45,16 @@ public:
         exitButtonReleasedConn = exitButton.buttonReleased.connect([this]() {
             statemachine.doTransition("main-menu");
         });
-        settingsButtonReleasedConn = settingsButton.buttonReleased.connect([this](){
-            statemachine.doTransition("settings-menu");
-        });
 
-        mouseEnterConn = settingsButton.mouseEnter.connect([this]() {
-            settingsButton.setBackgroundColor({ 0, 123, 21 });
-        });
-
-        mouseLeaveConn = settingsButton.mouseLeave.connect([this]() {
-            settingsButton.setBackgroundColor({ 0, 153, 51 });
-        });
         mouseEnterConn = exitButton.mouseEnter.connect([this]() {
             exitButton.setBackgroundColor({ 0, 123, 21 });
         });
-
         mouseLeaveConn = exitButton.mouseLeave.connect([this]() {
             exitButton.setBackgroundColor({ 0, 153, 51 });
         });
     }
 
     void exit() override {
-        settingsButtonPressedConn.disconnect();
-        settingsButtonReleasedConn.disconnect();
         exitButtonPressedConn.disconnect();
         exitButtonReleasedConn.disconnect();
         mouseEnterConn.disconnect();
@@ -83,7 +63,6 @@ public:
 
     void update(const float elapsedTime) override {
         menuLabel.draw(statemachine.window);
-        settingsButton.draw(statemachine.window);
         exitButton.draw(statemachine.window);
     }
 };
