@@ -70,6 +70,7 @@ public:
 
         mainMenuButtonReleasedConn = mainMenuButton.buttonReleased.connect([this]() {
             std::cout << "Main menu button" << std::endl;
+			statemachine.resetState("main-menu");
             statemachine.doTransition("main-menu");
 		});
         restartGameButtonReleasedConn = restartGameButton.buttonReleased.connect([this]() {
@@ -110,6 +111,8 @@ public:
         restartGameButtonReleasedConn.disconnect();
         exitButtonPressedConn.disconnect();
         exitButtonReleasedConn.disconnect();
+		mouseEnterConn.disconnect();
+		mouseLeaveConn.disconnect();
 	}
 
 	void update(const float elapsedTime) override {

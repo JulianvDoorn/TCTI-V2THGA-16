@@ -125,6 +125,11 @@ public:
 		gameExitButtonReleasedConn.disconnect();
 		exitMouseEnterConn.disconnect();
 		exitMouseLeaveConn.disconnect();
+		resumeMouseEnterConn.disconnect();
+		restartMouseLeaveConn.disconnect();
+		restartMouseEnterConn.disconnect();
+		restartMouseLeaveConn.disconnect();
+
 		keyReleasedConnection.disconnect();
 	}
 
