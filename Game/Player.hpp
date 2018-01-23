@@ -15,7 +15,7 @@ using KeySchemes = std::array<KeyScheme, 100>;
 class KeySchemeNotFoundException : public std::exception {
 public:
 	const char* what() const noexcept {
-		return "KeyScheme with given difficuly cannot been found!";
+		return "KeyScheme with given difficulty cannot been found!";
 	}
 };
 
@@ -35,6 +35,7 @@ private:
     bool spammingRunKey = false;
     float runningSpammingFactor = 1;
 	bool jump = false;
+	bool roll = false;
     sf::Time lastKeyPressTime;
     bool runKeyPressed = false;
 	int deathcase = 0;
@@ -76,6 +77,10 @@ public:
 			else if (key == activeKeyScheme.moveRight) {
 				walk(walkDirection + 1);
 			}
+			else if (key == activeKeyScheme.roll) {
+				doRoll();
+				clock.restart();
+			}
 		});
 
 		keyReleasedConn = game.keyboard.keyReleased.connect([this](const sf::Keyboard::Key key) {
@@ -109,14 +114,33 @@ public:
 		PhysicsObject::update(elapsedTime);
 
 		if (walkDirection != 0) {
-			setVelocity({ walkDirection * walkspeed, getVelocity().y });
+			if (!roll) {
+				setVelocity({ walkDirection * walkspeed, getVelocity().y });
+			}
+			else {
+				setVelocity({ walkDirection * (walkspeed * float(1.5)), getVelocity().y });
+			}
 		} else {
-			setVelocity({ 0, getVelocity().y });
+			if (!roll) {
+				setVelocity({ 0, getVelocity().y });
+			}
+			else {
+				setVelocity({ walkDirection * (walkspeed * float(1.5)), getVelocity().y });
+			}
 		}
 
 		if (jump) {
 			applyForce({ 0, -jumpForce });
 			jump = false;
+		}
+		if (roll) {
+			applyForce({ 0, jumpForce });
+			setSize({ 20, 15 });
+			roll = true;
+			if ((clock.getElapsedTime().asSeconds()) > 2) {
+				setSize({ 20, 20 });
+				roll = false;
+			}
 		}
 		checkDeath();
         if (clock.getElapsedTime().asMilliseconds() -lastKeyPressTime.asMilliseconds() > 250 && !runKeyPressed ){
@@ -137,7 +161,7 @@ public:
 	}
 
 	void doRoll() {
-		//roll = true;
+		roll = true;
 	}
 
 	void checkDeath() {
@@ -145,7 +169,6 @@ public:
 			game.fellOffMap.fire();
 		}
 	}
-
 
 	sf::FloatRect getBounds() override {
 		return getGlobalBounds();
@@ -171,6 +194,10 @@ public:
 
 	void setActiveKeyScheme(KeyScheme s) {
 		activeKeyScheme = s;
+	}
+
+	KeyScheme& getActiveKeyScheme() {
+		return activeKeyScheme;
 	}
 
 	using Rectangle::getCollision;

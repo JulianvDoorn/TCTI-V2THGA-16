@@ -27,6 +27,10 @@ public:
 		return sf::RectangleShape::getGlobalBounds().contains(pos);
 	}
 
+	void setTexture(const sf::Texture& texture) {
+		sf::RectangleShape::setTexture(&texture);
+	}
+
 	using PhysicsObject::update;
 	using PhysicsObject::setPosition;
 	using PhysicsObject::getPosition;
