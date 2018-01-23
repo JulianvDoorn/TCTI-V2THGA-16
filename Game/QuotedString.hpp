@@ -40,7 +40,3 @@ std::istream& operator>> (std::istream& is, QuotedString& qs) {
 	
 	return is;
 }
-
-std::ostream& operator<< (std::ostream& os, QuotedString qs) {
-	return os << SpecialCharacter::Quote << (std::string) std::move(qs) << SpecialCharacter::Quote;
-}
