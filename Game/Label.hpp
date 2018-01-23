@@ -7,7 +7,22 @@ private:
     sf::Font &font;
     sf::Text displayText;
 public:
-	Label(sf::Font& font) : font(font) { }
+    static sf::Font& getDefaultFont() {
+        static sf::Font font;
+        return font;
+    }
+
+    static void setDefaultFont(sf::Font &font) {
+		getDefaultFont() = font;
+    }
+
+    Label() : font(getDefaultFont()){
+        displayText.setFont(font);
+    }
+
+	Label(sf::Font& font) : font(font) {
+        displayText.setFont(font);
+    }
 
     Label(std::string &text, sf::Font &font, sf::Vector2f position, int size, sf::Color color = sf::Color::White, sf::Text::Style style = sf::Text::Bold) : font(font) {
         displayText.setPosition(position);
@@ -31,7 +46,7 @@ public:
         displayText.setFillColor(color);
     }
 
-    void setPosition(sf::Vector2f &position){
+    void setPosition(sf::Vector2f position){
         displayText.setPosition(position);
     }
 
@@ -46,12 +61,17 @@ public:
     void setOrigin(float x, float y){
         displayText.setOrigin({x,y});
     }
+
     void draw(sf::RenderWindow &window){
         window.draw(displayText);
     }
+
     sf::FloatRect getBounds(){
         return displayText.getLocalBounds();
     }
 
+    void setStyle(sf::Text::Style style){
+        displayText.setStyle(style);
+    }
 };
 

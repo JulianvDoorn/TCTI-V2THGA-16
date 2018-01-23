@@ -72,16 +72,22 @@ public:
 
 		sf::Vector2f mtv;
 
-		if ((collision.getIntersect().x - collision.getIntersect().y) > 8) {//8 is the treshold of detecting if the collision is worth resolving.
+		if ((collision.getIntersect().x - collision.getIntersect().y) > 8) {//8 is the treshold of detecting if the collision is worth resolving
 			sideCollision = true;
 
 			if (collision.getDelta().x > 0.0f) {
 				mtv = sf::Vector2f(collision.getIntersect().x, 0.0f);
-			} else {
+			}
+			else {
 				mtv = sf::Vector2f(-collision.getIntersect().x, 0.0f);
 			}
 
 			setPosition(getPosition() + mtv);
+
+			if (getVelocity().x > 0) { // set horizontal velocity to 0
+				setVelocity({ 0, getVelocity().y });
+			}
+
 			return;
 		}
 
@@ -95,12 +101,13 @@ public:
 
 		if (collision.getDelta().y > 0.0f) { //resols a collision of y type
 			mtv = sf::Vector2f(0.0f, collision.getIntersect().y);
-		} else {
+		}
+		else {
 			mtv = sf::Vector2f(0.0f, -collision.getIntersect().y);
 			setVelocity({ getVelocity().x, 0 });
 		}
 
-		if (getVelocity().y > 0) {
+		if (getVelocity().y > 0) { //set vertical velocity to 0
 			setVelocity({ getVelocity().x, 0 });
 		}
 

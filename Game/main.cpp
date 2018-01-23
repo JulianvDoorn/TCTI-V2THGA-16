@@ -4,29 +4,37 @@
 
 #include "GameStates.hpp"
 #include "Events.hpp"
+#include "AssetManager.hpp"
 
 int main() {
 	const float FPS = 60.0f;
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720, 32), "Hello");
+
 	game = Game(window);
+	
+	// Load assets
+	AssetManager::instance()->load("arial", "arial.ttf");
+	AssetManager::instance()->load("game-over", "GameOver.wav");
+	AssetManager::instance()->load("ground", "ground.png");
+	AssetManager::instance()->load("bush", "bush.png");
+	AssetManager::instance()->load("brick", "brickWall.png");
 
 	Statemachine statemachine(window);
 
-	Button::setDefaultFont("arial.ttf");
+	Label::setDefaultFont(AssetManager::instance()->getFont("arial"));
 
 	// State definitions
-
-	GameOver gameOver(statemachine);
-	Running running(statemachine);
-	MainMenu mainMenu(statemachine);
-	GamePauze gamePauzeMenu(statemachine);
+	statemachine.registerState<GameOver>("game-over");
+	statemachine.registerState<Running>("running");
+	statemachine.registerState<MainMenu>("main-menu");
+	statemachine.registerState<GamePauze>("game-pauze");
+    statemachine.registerState<SettingsMenu>("settings-menu");
 
 
 	statemachine.doTransition("main-menu"); // initial state
 
 	// End state definitions
-
 	
 	window.setFramerateLimit((int) FPS);
 	sf::Clock clock;

@@ -1,11 +1,12 @@
 #pragma once
 
 #include <array>
+#include <SFML/Audio.hpp>
 #include "State.hpp"
 #include "Statemachine.hpp"
 #include "Characters.hpp"
 #include "ViewFocus.hpp"
-#include <SFML\Audio.hpp>
+#include "Label.hpp"
 
 class Running : public State {
 	Statemachine& statemachine;
@@ -35,44 +36,56 @@ class Running : public State {
 	sf::Texture grassTexture;
 	sf::Texture bushTexture;
 
+	Label score;
+
 	bool gameOver = false;
 	float gameOverCounter = 3.0f;
 
 public:
 	Running(Statemachine& statemachine) :
-		State("running"),
 		statemachine(statemachine),
 		focus(statemachine.window),
 		player(statemachine.window),
-		collisionGroup(player)
+		collisionGroup(player),
+		score(AssetManager::instance()->getFont("arial"))
 	{
 
-		brickTexture.loadFromFile("brickWall.png");
-		groundTexture.loadFromFile("ground2.png");
-		grassTexture.loadFromFile("ground3.png");
-		grassTexture.setRepeated(true);
-		bushTexture.loadFromFile("bush.png");
+		AssetManager::instance()->load("brickWall", "brickWall.png");
+		AssetManager::instance()->load("rockFloor", "ground2.png");
+		AssetManager::instance()->load("grassFloor", "ground3.png");
+		AssetManager::instance()->load("bush", "bush.png");
 		collisionGroup.add(death);
+
+		sf::Texture& rockFloorTexture = AssetManager::instance()->getTexture("rockFloor");
+		sf::Texture& grassFloorTexture = AssetManager::instance()->getTexture("grassFloor");
+		sf::Texture& brickWallTexture = AssetManager::instance()->getTexture("brickWall");
+		sf::Texture& bushTexture = AssetManager::instance()->getTexture("bush");
+		grassFloorTexture.setRepeated(true);
 
 		rockFloor1.setSize({ 800, 200 });
 		rockFloor1.setPosition({ 0, 600 });
-		rockFloor1.setTexture(&groundTexture);
+		rockFloor1.setTexture(rockFloorTexture);
 		collisionGroup.add(rockFloor1);
 
 		rockFloor2.setSize({ 800, 200 });
 		rockFloor2.setPosition({ 800, 600 });
-		rockFloor2.setTexture(&groundTexture);
+		rockFloor2.setTexture(rockFloorTexture);
 		collisionGroup.add(rockFloor2);
 
 		grassFloor.setSize({ 1600, 20 });
 		grassFloor.setTextureRect({0,0, 1600, 20 });
 		grassFloor.setPosition({ 400,500 });
-		grassFloor.setTexture(&grassTexture);
+		grassFloor.setTexture(grassFloorTexture);
 		collisionGroup.add(grassFloor);
 
 		wall.setSize({ 30, 60 });
 		wall.setPosition({ 250, 550 });
 		collisionGroup.add(wall);
+
+		player.setPosition({ 150, 450 });
+		death.setPosition({ -200, 200 });
+		collisionGroup.add(death);
+		
 
 		wall1.setSize({ 30, 60 });
 		wall1.setPosition({ -200, 450 });
@@ -80,14 +93,12 @@ public:
 
 		crate.setSize({ 30, 30 });
 		crate.setPosition({ 0, 450 });
-		crate.setTexture(&brickTexture);
+		crate.setTexture(brickWallTexture);
 		collisionGroup.add(crate);
 
 		bush.setSize({ 14, 14 });
 		bush.setPosition({ 150, 486 });
-		bush.setTexture(&bushTexture);
-
-		statemachine.addState(*this);
+		bush.setTexture(bushTexture);
 	}
 
 	void entry() override {
@@ -105,13 +116,7 @@ public:
 
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
-				statemachine.doTransition("game-pauze-menu");
-			}
-		});
-
-		game.keyboard.keyPressed.connect([this](sf::Keyboard::Key key) {
-			if (key == sf::Keyboard::Key::Z) {
-				player.setActiveKeyScheme(player.findKeyScheme(KeyScheme::Difficulty::MODERATE));
+				statemachine.doTransition("game-pauze");
 			}
 		});
 
@@ -156,7 +161,6 @@ public:
 		death.update(elapsedTime);
 
 		collisionGroup.resolveCollisions();
-
 		//player.resolveCollision(rockFloor1);
 		//player.resolveCollision(rockFloor2);
 		//player.resolveCollision(wall);
@@ -172,6 +176,8 @@ public:
 		wall1.draw(statemachine.window);
 		crate.draw(statemachine.window);
 		bush.draw(statemachine.window);
+
+		score.draw(statemachine.window);
 
 		focus.update();
 	}

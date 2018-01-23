@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 /**
  * @class	State
  *
@@ -13,19 +15,6 @@ class State {
 	/** @brief	Name of the State, used for doing transitions towards this state */
 	const std::string name;
 public:
-
-	/**
-	 * @fn	State::State(const std::string& name) : name(std::move(name))
-	 *
-	 * @brief	Constructor
-	 *
-	 * @author	Julian
-	 * @date	2018-01-19
-	 *
-	 * @param	name	Name of the state
-	 */
-
-	State(const std::string& name) : name(std::move(name)) { }
 
 	/**
 	 * @fn	virtual void State::update(const float elapsedTime) = 0;
@@ -65,7 +54,7 @@ public:
 	virtual void exit() { };
 
 	/**
-	 * @fn	friend bool State::operator==(State* state, const std::string& name)
+	 * @fn	friend bool State::operator==(std::unique_ptr<State>& state, const std::string& name)
 	 *
 	 * @brief	Equality operator.
 	 *
@@ -78,7 +67,18 @@ public:
 	 * @return	state->name == name
 	 */
 
-	friend bool operator==(State* state, const std::string& name) {
+	friend bool operator==(std::unique_ptr<State>& state, const std::string& name) {
 		return state->name == name;
 	}
+
+	/**
+	 * @fn	virtual State::~State()
+	 *
+	 * @brief	Destructor
+	 *
+	 * @author	Julian
+	 * @date	2018-01-22
+	 */
+
+	virtual ~State() { }
 };
