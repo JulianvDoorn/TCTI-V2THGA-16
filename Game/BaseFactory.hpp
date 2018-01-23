@@ -20,7 +20,7 @@ protected:
 	FactoryException(const std::string& err) : err(std::move(err)) { }
 
 public:
-	virtual const char* what() const override {
+	virtual const char* what() const noexcept override {
 		return err.c_str();
 	}
 };
