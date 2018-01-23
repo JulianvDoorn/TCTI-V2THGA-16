@@ -50,6 +50,7 @@ private:
 	std::map<std::string, sf::Texture> textures;
 	std::map<std::string, sf::Font> fonts;
 	std::map<std::string, sf::Sound> sounds;
+	
 	std::vector < std::unique_ptr < sf::SoundBuffer> > soundBuffers;
 
 	static AssetManager* sInstance;
@@ -111,6 +112,9 @@ public:
 			}
 			else if (extension == "wav") {
 				loadSound(id, filename);
+			}
+			else if (extension == "srt") {
+				loadSubtitle(id, filename);
 			}
 			else {
 				// Unknown asset extension
@@ -191,6 +195,10 @@ public:
 		catch (const std::out_of_range) {
 			throw AssetNotLoadedException(id);
 		}
+	}
+
+	void loadSubtitle(const std::string, const std::string filename) {
+
 	}
 
 	void clear() {

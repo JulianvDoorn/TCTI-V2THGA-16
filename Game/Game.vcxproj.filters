@@ -164,6 +164,9 @@
     <ClInclude Include="AssetManager.hpp">
       <Filter>Header Files\Assets</Filter>
     </ClInclude>
+    <ClInclude Include="Cutscene.hpp">
+      <Filter>Header Files\GameStates\States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="test.srt">

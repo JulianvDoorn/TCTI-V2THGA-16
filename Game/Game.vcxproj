@@ -164,6 +164,7 @@
     <ClInclude Include="Collidable.hpp" />
     <ClInclude Include="Collision.hpp" />
     <ClInclude Include="CollisionDetection.hpp" />
+    <ClInclude Include="Cutscene.hpp" />
     <ClInclude Include="Drawable.hpp" />
     <ClInclude Include="Events.hpp" />
     <ClInclude Include="EventConnection.hpp" />

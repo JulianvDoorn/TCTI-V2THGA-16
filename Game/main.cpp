@@ -31,9 +31,11 @@ int main() {
 	statemachine.registerState<MainMenu>("main-menu");
 	statemachine.registerState<GamePauze>("game-pauze");
 	statemachine.registerState<SettingsMenu>("settings-menu");
+	statemachine.registerState<Cutscene>("cutscene");
 
 
-	statemachine.doTransition("main-menu"); // initial state
+	//statemachine.doTransition("main-menu"); // initial state
+	statemachine.doTransition("cutscene");
 
 	// End state definitions
 	
