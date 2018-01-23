@@ -173,9 +173,6 @@
     <ClInclude Include="IOExceptions.hpp">
       <Filter>Header Files\MapLoader</Filter>
     </ClInclude>
-    <ClInclude Include="NumberValue.hpp">
-      <Filter>Header Files\MapLoader</Filter>
-    </ClInclude>
     <ClInclude Include="QuotedString.hpp">
       <Filter>Header Files\MapLoader</Filter>
     </ClInclude>
@@ -196,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="Cutscene.hpp">
       <Filter>Header Files\GameStates\States</Filter>
+	</ClInclude>
+    <ClInclude Include="SecureRead.hpp">
+      <Filter>Header Files\MapLoader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
