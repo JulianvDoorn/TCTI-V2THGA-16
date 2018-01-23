@@ -35,27 +35,18 @@ public:
 	}
 };
 
-class SpecialCharacter {
-public:
-	const static SpecialCharacterType<'{', OpeningBracketMissingException> LeftCurlyBracket;
-	const static SpecialCharacterType<'}', ClosingBracketMissingException> RightCurlyBracket;
-	const static SpecialCharacterType<'(', OpeningBracketMissingException> LeftBracket;
-	const static SpecialCharacterType<')', ClosingBracketMissingException> RightBracket;
-	const static SpecialCharacterType<',', CommaMissingException> Comma;
-	const static SpecialCharacterType<'\"', QuoteMissingException> Quote;
-	const static SpecialCharacterType<'#', HashtagMissingException> Hashtag;
-	const static SpecialCharacterType<'=', HashtagMissingException> Assignment;
-};
+namespace SpecialCharacter {
+	const SpecialCharacterType<'{', OpeningBracketMissingException> LeftCurlyBracket;
 
-const SpecialCharacterType<'{', OpeningBracketMissingException> SpecialCharacter::LeftCurlyBracket;
-const SpecialCharacterType<'}', ClosingBracketMissingException> SpecialCharacter::RightCurlyBracket;
-const SpecialCharacterType<'(', OpeningBracketMissingException> SpecialCharacter::LeftBracket;
-const SpecialCharacterType<')', ClosingBracketMissingException> SpecialCharacter::RightBracket;
-const SpecialCharacterType<',', CommaMissingException> SpecialCharacter::Comma;
-const SpecialCharacterType<'\"', QuoteMissingException> SpecialCharacter::Quote;
-const SpecialCharacterType<'#', HashtagMissingException> SpecialCharacter::Hashtag;
-const SpecialCharacterType<'=', HashtagMissingException> SpecialCharacter::Assignment;
+	const SpecialCharacterType<'}', ClosingBracketMissingException> RightCurlyBracket;
 
+	const SpecialCharacterType<'(', OpeningBracketMissingException> LeftBracket;
+	const SpecialCharacterType<')', ClosingBracketMissingException> RightBracket;
+	const SpecialCharacterType<',', CommaMissingException> Comma;
+	const SpecialCharacterType<'\"', QuoteMissingException> Quote;
+	const SpecialCharacterType<'#', HashtagMissingException> Hashtag;
+	const SpecialCharacterType<'=', AssignmentMissingException> Assignment;
+}
 template<char C, class E>
 std::istream& operator>>(std::istream& is, SpecialCharacterType<C, E> _) {
 	SpecialCharacterType<C, E>::check(is);
