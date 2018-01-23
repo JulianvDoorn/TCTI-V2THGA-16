@@ -71,6 +71,7 @@ class HashtagMissingException : public SyntaxException {
 public:
 	explicit HashtagMissingException(int64_t position) : SyntaxException(std::string("Quote missing at [") + std::to_string(position) + "]") { }
 	explicit HashtagMissingException(int64_t position, const std::string& unexpectedSymbol) : SyntaxException(std::string("Quote missing at [") + std::to_string(position) + "] unexpected symbol: " + unexpectedSymbol) { }
+};
 
 class AssignmentMissingException : public SyntaxException {
 public:
