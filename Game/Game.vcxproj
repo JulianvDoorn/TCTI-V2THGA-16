@@ -179,6 +179,7 @@
     <ClInclude Include="GameOver.hpp" />
     <ClInclude Include="IOExceptions.hpp" />
     <ClInclude Include="NumberValue.hpp" />
+    <ClInclude Include="QuotedString.hpp" />
     <ClInclude Include="State.hpp" />
     <ClInclude Include="GamePauze.hpp" />
     <ClInclude Include="GameStates.hpp" />

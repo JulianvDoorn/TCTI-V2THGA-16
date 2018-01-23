@@ -179,6 +179,9 @@
     <ClInclude Include="NumberValue.hpp">
       <Filter>Header Files\MapLoader</Filter>
     </ClInclude>
+    <ClInclude Include="QuotedString.hpp">
+      <Filter>Header Files\MapLoader</Filter>
+    </ClInclude>
     <ClInclude Include="MapFactory.hpp">
       <Filter>Header Files\MapLoader</Filter>
     </ClInclude>
