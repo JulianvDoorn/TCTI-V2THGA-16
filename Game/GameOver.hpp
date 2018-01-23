@@ -27,7 +27,6 @@ class GameOver : public State {
 
 public:
 	GameOver(Statemachine& statemachine) :
-		State("game-over"),
 		statemachine(statemachine),
 		mainMenuButton(),
         menuLabel()
@@ -49,8 +48,6 @@ public:
         exitButton.setCharSize(32);
         exitButton.setBackgroundColor({0,153,51});
         exitButton.setText("Exit game");
-
-        statemachine.addState(*this);
 	}
 
 	void entry() override {

@@ -16,13 +16,11 @@ int main() {
 	Label::setDefaultFont("arial.ttf");
 
 	// State definitions
-
-	GameOver gameOver(statemachine);
-	Running running(statemachine);
-	MainMenu mainMenu(statemachine);
-	GamePauze gamePauzeMenu(statemachine);
-    SettingsMenu settingsMenu(statemachine);
-
+	statemachine.registerState<GameOver>("game-over");
+	statemachine.registerState<Running>("running");
+	statemachine.registerState<MainMenu>("main-menu");
+	statemachine.registerState<GamePauze>("game-pauze");
+    statemachine.registerState<SettingsMenu>("settings-menu");
 
 	statemachine.doTransition("main-menu"); // initial state
 

@@ -23,7 +23,6 @@ class GamePauze : public State {
 	EventConnection<> resumeMouseLeaveConn;
 public:
 	GamePauze(Statemachine& statemachine) :
-		State("game-pauze-menu"),
 		statemachine(statemachine),
 		gameExitButton(),
 		gameResumeButton()
@@ -39,8 +38,6 @@ public:
 		gameResumeButton.setCharSize(32);
 		gameResumeButton.setBackgroundColor({ 0, 153, 51 });
 		gameResumeButton.setText("Resume game");
-
-		statemachine.addState(*this);
 	}
 
 	void entry() override {
@@ -57,6 +54,7 @@ public:
 		});
 
 		gameResumeButtonReleasedConn = gameResumeButton.buttonReleased.connect([this]() {
+			statemachine.resetState("running");
 			statemachine.doTransition("running");
 		});
 		

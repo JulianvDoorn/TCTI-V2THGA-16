@@ -23,7 +23,6 @@ class SettingsMenu : public State {
 
 public:
     SettingsMenu(Statemachine& statemachine) :
-            State("settings-menu"),
             statemachine(statemachine),
             menuLabel(),
             exitButton()
@@ -40,7 +39,6 @@ public:
         exitButton.setCharSize(32);
         exitButton.setBackgroundColor({0,153,51});
         exitButton.setText("Return to main menu");
-        statemachine.addState(*this);
     }
 
     void entry() override {

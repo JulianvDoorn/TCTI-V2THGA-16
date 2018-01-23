@@ -24,7 +24,6 @@ class MainMenu : public State {
 
 public:
 	MainMenu(Statemachine& statemachine) :
-		State("main-menu"),
 		statemachine(statemachine),
 		startButton(),
         settingsButton(),
@@ -54,7 +53,6 @@ public:
 		exitButton.setCharSize(32);
 		exitButton.setBackgroundColor({0,153,51});
 		exitButton.setText("Exit game");
-		statemachine.addState(*this);
 	}
 
 	void entry() override {

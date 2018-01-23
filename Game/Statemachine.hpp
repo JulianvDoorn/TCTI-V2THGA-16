@@ -1,11 +1,33 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <vector>
+#include <map>
 #include <string>
 
 #include "State.hpp"
 #include "Events.hpp"
+#include "BaseFactory.hpp"
+
+/**
+* @class	StatemachineException
+*
+* @brief	Exception for signalling statemachine errors.
+*
+* @author	Julian
+* @date	2018-01-22
+*/
+
+class StatemachineException : public std::exception {
+	std::string err;
+
+protected:
+	StatemachineException(const std::string& err) : err(std::move(err)) { }
+
+public:
+	virtual const char* what() const noexcept override {
+		return err.c_str();
+	}
+};
 
 /**
  * @class	InvalidStateException
@@ -16,21 +38,56 @@
  * @date	2018-01-19
  */
 
-class InvalidStateException : public std::exception {
+class InvalidStateException : public StatemachineException {
 public:
-	const char* what() const noexcept override {
-		return "You tried to transist into an invalid state";
-	}
+	InvalidStateException() : StatemachineException("Attempted to perform transition into an invalid state. Most likely an unregistered state.") { }
 };
+
+/**
+ * @class	Statemachine
+ *
+ * @brief	Game statemachine.
+ * 			Allows for transitioning between states.
+ * 			Calls entry and exit on the related states.
+ * 			Also allows for completely resetting states using destructors and constructors.
+ *
+ * @author	Julian
+ * @date	2018-01-22
+ */
 
 class Statemachine {
 	/** @brief	Available states to do transitions towards. */
-	std::vector<State*> states;
+	std::map<std::string, std::unique_ptr<State>> states;
 
 	/** @brief	The current state. */
 	State* currentState = nullptr;
 
+	/** @brief	The state factory. Used for constructing states by name. */
+	BaseFactory<State, std::string> stateFactory;
+
 public:
+
+	/**
+	 * @fn	template<class T> void Statemachine::registerState(const std::string& name)
+	 *
+	 * @brief	Registers state class T with a name
+	 *
+	 * @author	Julian
+	 * @date	2018-01-22
+	 *
+	 * @tparam	T	Generic type parameter.
+	 * @param	name	The name of T
+	 */
+
+	template<class T>
+	void registerState(const std::string& name) {
+		stateFactory.registerCreateMethod(name, [this]() {
+			return new T(*this);
+		});
+
+		addState(name, *stateFactory.create(name));
+	}
+
 	/** @brief	The window to render to. */
 	sf::RenderWindow& window;
 
@@ -58,8 +115,34 @@ public:
 	 * @param [in,out]	gameState	State of the game.
 	 */
 
-	void addState(State& gameState) {
-		states.push_back(&gameState);
+	void addState(const std::string& name, State& gameState) {
+		states[name] = std::move(std::unique_ptr<State>(&gameState));
+	}
+
+	/**
+	 * @fn	void Statemachine::resetState(const std::string& name)
+	 *
+	 * @brief	Resets the state identified by name.
+	 * 			The reset is done using the stateFactory.
+	 * 			This is done by destructing the state and constructing a new one and update the pointers.
+	 *
+	 * @author	Julian
+	 * @date	2018-01-22
+	 *
+	 * @exception	InvalidStateException	Thrown when a transition is requested to an invalid state. Usually non-existent states.
+	 *
+	 * @param	name	The name of the state to reset.
+	 */
+
+	void resetState(const std::string& name) {
+		auto it = states.find(name); // requires: operator==(std::unique_ptr<State>&, const std::string&)
+
+		if (it != states.end()) {
+			it->second.reset();
+			it->second = std::move(std::unique_ptr<State>(stateFactory.create(name)));
+		} else { // 'name' not a registered state
+			throw InvalidStateException();
+		}
 	}
 
 	/**
@@ -81,15 +164,14 @@ public:
 			currentState->exit();
 		}
 
-		auto it = std::find(states.begin(), states.end(), name); // requires: operator==(State*, const std::string&)
+		auto it = states.find(name); // requires: operator==(std::unique_ptr<State>&, const std::string&)
 
-		if (it == states.end()) { // 'name' not a registered state
+		if (it != states.end()) {
+			currentState = &(*it->second); // dereference iterator to get unique_ptr<State>, dereference unique_ptr<State> to get State, get address of State to store
+			currentState->entry();
+		} else { // 'name' not a registered state
 			throw InvalidStateException();
 		}
-
-		currentState = *it; // dereference iterator to get pointer to State
-
-		currentState->entry();
 	}
 
 	/**

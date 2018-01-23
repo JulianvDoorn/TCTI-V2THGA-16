@@ -32,12 +32,14 @@ class Running : public State {
 
 public:
 	Running(Statemachine& statemachine) :
-		State("running"),
 		statemachine(statemachine),
 		focus(statemachine.window),
 		player(statemachine.window),
 		collisionGroup(player)
 	{
+		player.setPosition({ 150, 450 });
+		death.setPosition({ -200, 200 });
+
 		collisionGroup.add(death);
 
 		floor0.setSize({ 600, 100 });
@@ -71,8 +73,6 @@ public:
 
 
 		//KeyScheme& scheme = new KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W);
-
-		statemachine.addState(*this);
 	}
 
 	void entry() override {
@@ -90,7 +90,7 @@ public:
 
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
-				statemachine.doTransition("game-pauze-menu");
+				statemachine.doTransition("game-pauze");
 			}
 		});
 
