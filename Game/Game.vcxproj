@@ -158,6 +158,7 @@
     <ClInclude Include="AssetManager.hpp" />
     <ClInclude Include="Ball.hpp" />
     <ClInclude Include="BaseFactory.hpp" />
+    <ClInclude Include="BracketEncapsulated.hpp" />
     <ClInclude Include="Button.hpp" />
     <ClInclude Include="CollisionGroup.hpp" />
     <ClInclude Include="Characters.hpp" />

@@ -43,6 +43,9 @@
     <Filter Include="Header Files\Assets">
       <UniqueIdentifier>{75b2f29c-8b9a-4647-919a-f8d7fe7e7a7a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\MapLoader">
+      <UniqueIdentifier>{6dc2e34b-cac6-4a68-82fd-03f9298f53ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -163,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="AssetManager.hpp">
       <Filter>Header Files\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="BracketEncapsulated.hpp">
+      <Filter>Header Files\MapLoader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
