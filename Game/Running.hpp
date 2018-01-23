@@ -1,11 +1,12 @@
 #pragma once
 
 #include <array>
+#include <SFML\Audio.hpp>
 #include "State.hpp"
 #include "Statemachine.hpp"
 #include "Characters.hpp"
 #include "ViewFocus.hpp"
-#include <SFML/Audio.hpp>
+#include "Label.hpp"
 
 class Running : public State {
 	Statemachine& statemachine;
@@ -26,6 +27,9 @@ class Running : public State {
 	Rectangle floor1;
 	Rectangle wall;
 	Rectangle wall1;
+	Rectangle crate;
+	Rectangle bush;
+	Label score;
 
 	bool gameOver = false;
 	float gameOverCounter = 3.0f;
@@ -35,44 +39,36 @@ public:
 		statemachine(statemachine),
 		focus(statemachine.window),
 		player(statemachine.window),
-		collisionGroup(player)
+		collisionGroup(player),
+		score(AssetManager::instance()->getFont("arial"))
 	{
 		player.setPosition({ 150, 450 });
 		death.setPosition({ -200, 200 });
 
 		collisionGroup.add(death);
 
-		floor0.setSize({ 600, 100 });
+		floor0.setSize({ 400, 200 });
 		floor0.setPosition({ 0, 600 });
+		floor0.setTexture(AssetManager::instance()->getTexture("ground"));
 		collisionGroup.add(floor0);
 
-		floor1.setSize({ 60, 10 });
-		floor1.setPosition({ 0, 500 });
-		collisionGroup.add(floor1);
-
-		wall.setSize({ 20, 50 });
+		wall.setSize({ 30, 60 });
 		wall.setPosition({ 250, 550 });
 		collisionGroup.add(wall);
 
-		wall1.setSize({ 20, 100 });
+		wall1.setSize({ 30, 60 });
 		wall1.setPosition({ -200, 450 });
 		collisionGroup.add(wall1);
 
-		wall1.setSize({ 20, 100 });
-		wall1.setPosition({ -200, 450 });
-		collisionGroup.add(wall1);
+		crate.setSize({ 30, 30 });
+		crate.setPosition({ 0, 450 });
+		crate.setTexture(AssetManager::instance()->getTexture("brick"));
+		collisionGroup.add(crate);
 
+		bush.setSize({ 14, 14 });
+		bush.setPosition({ 150, 494 });
+		bush.setTexture(AssetManager::instance()->getTexture("bush"));
 
-
-
-
-		//KeyScheme& scheme = new KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W);
-
-
-
-
-
-		//KeyScheme& scheme = new KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W);
 	}
 
 	void entry() override {
@@ -91,12 +87,6 @@ public:
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
 				statemachine.doTransition("game-pauze");
-			}
-		});
-
-		game.keyboard.keyPressed.connect([this](sf::Keyboard::Key key) {
-			if (key == sf::Keyboard::Key::Z) {
-				player.setActiveKeyScheme(player.findKeyScheme(KeyScheme::Difficulty::MODERATE));
 			}
 		});
 
@@ -146,11 +136,6 @@ public:
 
 		collisionGroup.resolveCollisions();
 
-		//player.resolveCollision(floor0);
-		//player.resolveCollision(floor1);
-		//player.resolveCollision(wall);
-		//player.deathByAntagonist(death);
-
 		player.draw(statemachine.window);
 		death.draw(statemachine.window);
 
@@ -158,6 +143,10 @@ public:
 		floor1.draw(statemachine.window);
 		wall.draw(statemachine.window);
 		wall1.draw(statemachine.window);
+		crate.draw(statemachine.window);
+		bush.draw(statemachine.window);
+
+		score.draw(statemachine.window);
 
 		focus.update();
 	}

@@ -40,6 +40,9 @@
     <Filter Include="Header Files\Subtitles">
       <UniqueIdentifier>{f8657aeb-2879-40e2-8bd4-fda7cd239df2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Assets">
+      <UniqueIdentifier>{75b2f29c-8b9a-4647-919a-f8d7fe7e7a7a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -157,6 +160,9 @@
     </ClInclude>
     <ClInclude Include="BaseFactory.hpp">
       <Filter>Header Files\GameStates\Statemachine</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.hpp">
+      <Filter>Header Files\Assets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

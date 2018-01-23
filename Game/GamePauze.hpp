@@ -21,6 +21,8 @@ class GamePauze : public State {
 
 	EventConnection<> resumeMouseEnterConn;
 	EventConnection<> resumeMouseLeaveConn;
+
+	EventConnection<sf::Keyboard::Key> keyReleasedConnection;
 public:
 	GamePauze(Statemachine& statemachine) :
 		statemachine(statemachine),
@@ -73,6 +75,12 @@ public:
 		resumeMouseLeaveConn = gameResumeButton.mouseLeave.connect([this]() {
 			gameResumeButton.setBackgroundColor({ 0, 153, 51 });
 		});
+
+		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
+			if (key == sf::Keyboard::Key::Escape) {
+				statemachine.doTransition("running");
+			}
+		});
 	}
 
 	void exit() override {
@@ -82,6 +90,7 @@ public:
 		gameResumeButtonReleasedConn.disconnect();
 		exitMouseEnterConn.disconnect();
 		exitMouseLeaveConn.disconnect();
+		keyReleasedConnection.disconnect();
 	}
 
 	void update(const float elapsedTime) override {

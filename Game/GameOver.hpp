@@ -14,8 +14,6 @@ class GameOver : public State {
 	Button mainMenuButton;
     Button exitButton;
 
-	sf::Music gameOver;
-
 	EventConnection<> gameOverButtonPressedConn;
 	EventConnection<> gameOverButtonReleasedConn;
 	EventConnection<> mainMenuButtonPressedConn;
@@ -67,9 +65,6 @@ public:
             statemachine.window.close();
         });
 
-		gameOver.openFromFile("Gameover.wav");
-		gameOver.play();
-
         mouseEnterConn = mainMenuButton.mouseEnter.connect([this]() {
             mainMenuButton.setBackgroundColor({ 0, 123, 21 });
         });
@@ -83,6 +78,8 @@ public:
         mouseLeaveConn = exitButton.mouseLeave.connect([this]() {
             exitButton.setBackgroundColor({ 0, 153, 51 });
         });
+
+		AssetManager::instance()->getSound("game-over").play();
 	}
 
 	void exit() override {

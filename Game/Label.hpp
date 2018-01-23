@@ -12,9 +12,10 @@ public:
         return font;
     }
 
-    static void setDefaultFont(const std::string& dir) {
-        getDefaultFont().loadFromFile(dir);
+    static void setDefaultFont(sf::Font &font) {
+		getDefaultFont() = font;
     }
+
     Label() : font(getDefaultFont()){
         displayText.setFont(font);
     }
@@ -60,9 +61,11 @@ public:
     void setOrigin(float x, float y){
         displayText.setOrigin({x,y});
     }
+
     void draw(sf::RenderWindow &window){
         window.draw(displayText);
     }
+
     sf::FloatRect getBounds(){
         return displayText.getLocalBounds();
     }

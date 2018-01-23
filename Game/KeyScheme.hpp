@@ -11,7 +11,7 @@ public:
 		UNDEFINED
 	};
 
-	KeyScheme(sf::Keyboard::Key moveLeft, sf::Keyboard::Key moveRight, sf::Keyboard::Key jump, sf::Keyboard::Key roll, sf::Keyboard::Key run,Difficulty difficulty = Difficulty::UNDEFINED) :
+	KeyScheme(sf::Keyboard::Key moveLeft, sf::Keyboard::Key moveRight, sf::Keyboard::Key jump, sf::Keyboard::Key roll, sf::Keyboard::Key run, Difficulty difficulty = Difficulty::UNDEFINED) :
 		moveLeft(moveLeft),
 		moveRight(moveRight),
 		jump(jump),
@@ -29,4 +29,11 @@ public:
 	sf::Keyboard::Key jump;
 	sf::Keyboard::Key roll;
 	sf::Keyboard::Key run;
+
+	friend std::ostream& operator<<(std::ostream &os, sf::Keyboard::Key key);
 };
+
+std::ostream& operator<<(std::ostream &os, sf::Keyboard::Key key) {
+	os << static_cast<char>('A' + key);
+	return os;
+}
