@@ -21,7 +21,7 @@ std::istream& operator>> (std::istream& is, QuotedString& qs) {
 	
 	while (nextc != SpecialCharacter::Quote && nextc != '\n') {
 		char c;
-		
+
 		try {
 			is >> exceptions >> c;
 		} catch (const std::istream::failure&) {
@@ -31,7 +31,11 @@ std::istream& operator>> (std::istream& is, QuotedString& qs) {
 		qs.push_back(c);
 		nextc = is.peek();
 	}
-	
+
+	if (nextc == '\n') {
+		throw QuoteMissingException(is.tellg());
+	}
+
 	if (skipwsFlag) {
 		is.setf(std::ios::skipws);
 	}
