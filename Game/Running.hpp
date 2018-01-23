@@ -22,8 +22,9 @@ class Running : public State {
 	Antagonist death;
 	CollisionGroup collisionGroup;
 
-	Rectangle floor0;
-	Rectangle floor1;
+	Rectangle rockFloor1;
+	Rectangle rockFloor2;
+	Rectangle grassFloor;
 	Rectangle wall;
 	Rectangle wall1;
 	Rectangle crate;
@@ -31,6 +32,7 @@ class Running : public State {
 
 	sf::Texture brickTexture;
 	sf::Texture groundTexture;
+	sf::Texture grassTexture;
 	sf::Texture bushTexture;
 
 	bool gameOver = false;
@@ -47,18 +49,26 @@ public:
 
 		brickTexture.loadFromFile("brickWall.png");
 		groundTexture.loadFromFile("ground2.png");
+		grassTexture.loadFromFile("ground3.png");
+		grassTexture.setRepeated(true);
 		bushTexture.loadFromFile("bush.png");
 		collisionGroup.add(death);
 
-		floor0.setSize({ 800, 200 });
-		floor0.setPosition({ 0, 600 });
-		floor0.setTexture(&groundTexture);
-		collisionGroup.add(floor0);
+		rockFloor1.setSize({ 800, 200 });
+		rockFloor1.setPosition({ 0, 600 });
+		rockFloor1.setTexture(&groundTexture);
+		collisionGroup.add(rockFloor1);
 
-		floor1.setSize({ 800, 200 });
-		floor1.setPosition({ 800, 600 });
-		floor1.setTexture(&groundTexture);
-		collisionGroup.add(floor1);
+		rockFloor2.setSize({ 800, 200 });
+		rockFloor2.setPosition({ 800, 600 });
+		rockFloor2.setTexture(&groundTexture);
+		collisionGroup.add(rockFloor2);
+
+		grassFloor.setSize({ 1600, 20 });
+		grassFloor.setTextureRect({0,0, 1600, 20 });
+		grassFloor.setPosition({ 400,500 });
+		grassFloor.setTexture(&grassTexture);
+		collisionGroup.add(grassFloor);
 
 		wall.setSize({ 30, 60 });
 		wall.setPosition({ 250, 550 });
@@ -74,7 +84,7 @@ public:
 		collisionGroup.add(crate);
 
 		bush.setSize({ 14, 14 });
-		bush.setPosition({ 150, 494 });
+		bush.setPosition({ 150, 486 });
 		bush.setTexture(&bushTexture);
 
 		statemachine.addState(*this);
@@ -147,16 +157,17 @@ public:
 
 		collisionGroup.resolveCollisions();
 
-		//player.resolveCollision(floor0);
-		//player.resolveCollision(floor1);
+		//player.resolveCollision(rockFloor1);
+		//player.resolveCollision(rockFloor2);
 		//player.resolveCollision(wall);
 		//player.deathByAntagonist(death);
 
 		player.draw(statemachine.window);
 		death.draw(statemachine.window);
 
-		floor0.draw(statemachine.window);
-		floor1.draw(statemachine.window);
+		rockFloor1.draw(statemachine.window);
+		rockFloor2.draw(statemachine.window);
+		grassFloor.draw(statemachine.window);
 		wall.draw(statemachine.window);
 		wall1.draw(statemachine.window);
 		crate.draw(statemachine.window);
