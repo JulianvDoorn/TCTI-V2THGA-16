@@ -7,11 +7,8 @@
 #include "Ball.hpp"
 #include "IOExceptions.hpp"
 #include "Rectangle.hpp"
-#include "QuotedString.hpp"
 #include "ColorFactory.hpp"
-#include "BracketEncapsulated.hpp"
 #include "VectorMath.hpp"
-
 #include "KeyValuePair.hpp"
 #include "CurlyBracketList.hpp"
 
