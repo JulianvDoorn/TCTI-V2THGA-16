@@ -38,19 +38,19 @@ public:
 		gameExitButton()
 	{
 		gameResumeButton.setSize({ 300, 100 });
-		gameResumeButton.setPosition({ 640, 335 });
+		gameResumeButton.setPosition({ 640, 360 });
 		gameResumeButton.setCharSize(32);
 		gameResumeButton.setBackgroundColor({ 0, 153, 51 });
 		gameResumeButton.setText("Resume game");
 
 		gameRestartButton.setSize({ 300, 100 });
-		gameRestartButton.setPosition({ 640, 485 });
+		gameRestartButton.setPosition({ 640, 490 });
 		gameRestartButton.setCharSize(32);
 		gameRestartButton.setBackgroundColor({ 0, 153, 51 });
 		gameRestartButton.setText("Restart game");
 
 		gameExitButton.setSize({ 300, 100 });
-		gameExitButton.setPosition({ 640, 635 });
+		gameExitButton.setPosition({ 640, 620 });
 		gameExitButton.setCharSize(32);
 		gameExitButton.setBackgroundColor({ 0, 153, 51 });
 		gameExitButton.setText("Exit game");

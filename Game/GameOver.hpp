@@ -31,7 +31,7 @@ public:
 		mainMenuButton(),
         menuLabel()
 	{
-		menuLabel.setPosition({ 540, 360 });
+		menuLabel.setPosition({ 540, 185 });
 
 		menuLabel.setCharSize(32);
         menuLabel.setColor(sf::Color::White);
@@ -39,19 +39,19 @@ public:
         menuLabel.setStyle(sf::Text::Bold);
 
 		mainMenuButton.setSize({ 300, 100 });
-		mainMenuButton.setPosition({ 640, 490 });
+		mainMenuButton.setPosition({ 640, 360 });
 		mainMenuButton.setCharSize(32);
 		mainMenuButton.setBackgroundColor({ 0, 153, 51 });
 		mainMenuButton.setText("Main Menu");
 
         restartGameButton.setSize({ 300, 100 });
-        restartGameButton.setPosition({ 640, 620 });
+        restartGameButton.setPosition({ 640, 490 });
         restartGameButton.setCharSize(32);
         restartGameButton.setBackgroundColor({ 0, 153, 51 });
         restartGameButton.setText("Restart Game");
 
         exitButton.setSize({300,100});
-        exitButton.setPosition({640,750});
+        exitButton.setPosition({640,620});
         exitButton.setCharSize(32);
         exitButton.setBackgroundColor({0,153,51});
         exitButton.setText("Exit game");
@@ -78,7 +78,7 @@ public:
         });
         exitButtonReleasedConn = exitButton.buttonReleased.connect([this]() {
             statemachine.window.close();
-        });
+        }); 
 
         mouseEnterConn = mainMenuButton.mouseEnter.connect([this]() {
             mainMenuButton.setBackgroundColor({ 0, 123, 21 });
