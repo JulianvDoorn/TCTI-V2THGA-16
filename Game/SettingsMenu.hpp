@@ -8,37 +8,27 @@
 class SettingsMenu : public State {
     Statemachine& statemachine;
 
-    Button startButton;
+    Label menuLabel;
     Button exitButton;
-    Button settingsButton;
 
-    EventConnection<> startButtonPressedConn;
-    EventConnection<> startButtonReleasedConn;
     EventConnection<> exitButtonPressedConn;
     EventConnection<> exitButtonReleasedConn;
-    EventConnection<> settingsButtonPressedConn;
-    EventConnection<> settingsButtonReleasedConn;
+
     EventConnection<> mouseEnterConn;
     EventConnection<> mouseLeaveConn;
 
 public:
     SettingsMenu(Statemachine& statemachine) :
             statemachine(statemachine),
-            startButton(),
-            settingsButton(),
+            menuLabel(),
             exitButton()
     {
-        startButton.setSize({ 300, 100 });
-        startButton.setPosition({ 640, 360 });
-        startButton.setCharSize(32);
-        startButton.setBackgroundColor({ 0, 0,0 });
-        startButton.setText("Settings Menu ");
+        menuLabel.setPosition({ 500, 200 });
+        menuLabel.setCharSize(45);
+        menuLabel.setColor(sf::Color::White);
+        menuLabel.setText("Settings Menu");
+        menuLabel.setStyle(sf::Text::Bold);
 
-        settingsButton.setSize({300,100});
-        settingsButton.setPosition({640,490});
-        settingsButton.setCharSize(32);
-        settingsButton.setBackgroundColor({0,153,51});
-        settingsButton.setText("Settings");
 
         exitButton.setSize({350,100});
         exitButton.setPosition({640,620});
@@ -48,10 +38,6 @@ public:
     }
 
     void entry() override {
-        std::cout << "Settings-menu state" << std::endl;
-        settingsButtonPressedConn = settingsButton.buttonPressed.connect([this](){
-            settingsButton.setBackgroundColor({0,163,61});
-        });
         exitButtonPressedConn = exitButton.buttonPressed.connect([this](){
             exitButton.setBackgroundColor({0,163,61});
         });
@@ -59,29 +45,16 @@ public:
         exitButtonReleasedConn = exitButton.buttonReleased.connect([this]() {
             statemachine.doTransition("main-menu");
         });
-        settingsButtonReleasedConn = settingsButton.buttonReleased.connect([this](){
-            statemachine.doTransition("settings-menu");
-        });
 
-        mouseEnterConn = settingsButton.mouseEnter.connect([this]() {
-            settingsButton.setBackgroundColor({ 0, 123, 21 });
-        });
-
-        mouseLeaveConn = settingsButton.mouseLeave.connect([this]() {
-            settingsButton.setBackgroundColor({ 0, 153, 51 });
-        });
         mouseEnterConn = exitButton.mouseEnter.connect([this]() {
             exitButton.setBackgroundColor({ 0, 123, 21 });
         });
-
         mouseLeaveConn = exitButton.mouseLeave.connect([this]() {
             exitButton.setBackgroundColor({ 0, 153, 51 });
         });
     }
 
     void exit() override {
-        settingsButtonPressedConn.disconnect();
-        settingsButtonReleasedConn.disconnect();
         exitButtonPressedConn.disconnect();
         exitButtonReleasedConn.disconnect();
         mouseEnterConn.disconnect();
@@ -89,8 +62,7 @@ public:
     }
 
     void update(const float elapsedTime) override {
-        startButton.draw(statemachine.window);
-        settingsButton.draw(statemachine.window);
+        menuLabel.draw(statemachine.window);
         exitButton.draw(statemachine.window);
     }
 };

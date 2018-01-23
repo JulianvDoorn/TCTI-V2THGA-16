@@ -5,8 +5,8 @@
 #include <exception>
 #include <memory>
 #include <vector>
-#include <SFML\Graphics.hpp>
-#include <SFML\Audio.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 class AssetTypeNotResolvedException : public std::exception {
 private:
@@ -209,4 +209,3 @@ public:
 };
 
 AssetManager* AssetManager::sInstance = nullptr;
-//std::shared_ptr<AssetManager> AssetManager::sInstance = nullptr;

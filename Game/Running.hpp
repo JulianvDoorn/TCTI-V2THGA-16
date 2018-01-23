@@ -1,7 +1,7 @@
 #pragma once
 
 #include <array>
-#include <SFML\Audio.hpp>
+#include <SFML/Audio.hpp>
 #include "State.hpp"
 #include "Statemachine.hpp"
 #include "Characters.hpp"
@@ -23,12 +23,19 @@ class Running : public State {
 	Antagonist death;
 	CollisionGroup collisionGroup;
 
-	Rectangle floor0;
-	Rectangle floor1;
+	Rectangle rockFloor1;
+	Rectangle rockFloor2;
+	Rectangle grassFloor;
 	Rectangle wall;
 	Rectangle wall1;
 	Rectangle crate;
 	Rectangle bush;
+
+	sf::Texture brickTexture;
+	sf::Texture groundTexture;
+	sf::Texture grassTexture;
+	sf::Texture bushTexture;
+
 	Label score;
 
 	bool gameOver = false;
@@ -42,21 +49,43 @@ public:
 		collisionGroup(player),
 		score(AssetManager::instance()->getFont("arial"))
 	{
-		player.setPosition({ 150, 450 });
-		death.setPosition({ -200, 200 });
 
+		AssetManager::instance()->load("brickWall", "brickWall.png");
+		AssetManager::instance()->load("rockFloor", "ground2.png");
+		AssetManager::instance()->load("grassFloor", "ground3.png");
+		AssetManager::instance()->load("bush", "bush.png");
 		collisionGroup.add(death);
 
-		floor0.setSize({ 400, 200 });
-		floor0.setPosition({ 0, 600 });
-		floor0.setTexture(AssetManager::instance()->getTexture("ground"));
-		collisionGroup.add(floor0);
+		sf::Texture& rockFloorTexture = AssetManager::instance()->getTexture("rockFloor");
+		sf::Texture& grassFloorTexture = AssetManager::instance()->getTexture("grassFloor");
+		sf::Texture& brickWallTexture = AssetManager::instance()->getTexture("brickWall");
+		sf::Texture& bushTexture = AssetManager::instance()->getTexture("bush");
+		grassFloorTexture.setRepeated(true);
 
-		floor1.setSize({ 60, 10 });
-		floor1.setPosition({ 0, 500 });
-		collisionGroup.add(floor1);
+		rockFloor1.setSize({ 800, 200 });
+		rockFloor1.setPosition({ 0, 600 });
+		rockFloor1.setTexture(rockFloorTexture);
+		collisionGroup.add(rockFloor1);
 
+		rockFloor2.setSize({ 800, 200 });
+		rockFloor2.setPosition({ 800, 600 });
+		rockFloor2.setTexture(rockFloorTexture);
+		collisionGroup.add(rockFloor2);
+
+		grassFloor.setSize({ 1600, 20 });
+		grassFloor.setTextureRect({0,0, 1600, 20 });
+		grassFloor.setPosition({ 400,500 });
+		grassFloor.setTexture(grassFloorTexture);
+		collisionGroup.add(grassFloor);
+
+		wall.setSize({ 30, 60 });
+		wall.setPosition({ 250, 550 });
 		collisionGroup.add(wall);
+
+		player.setPosition({ 150, 450 });
+		death.setPosition({ -200, 200 });
+		collisionGroup.add(death);
+		
 
 		wall1.setSize({ 30, 60 });
 		wall1.setPosition({ -200, 450 });
@@ -64,13 +93,12 @@ public:
 
 		crate.setSize({ 30, 30 });
 		crate.setPosition({ 0, 450 });
-		crate.setTexture(AssetManager::instance()->getTexture("brick"));
+		crate.setTexture(brickWallTexture);
 		collisionGroup.add(crate);
 
 		bush.setSize({ 14, 14 });
-		bush.setPosition({ 150, 494 });
-		bush.setTexture(AssetManager::instance()->getTexture("bush"));
-
+		bush.setPosition({ 150, 486 });
+		bush.setTexture(bushTexture);
 	}
 
 	void entry() override {
@@ -89,12 +117,6 @@ public:
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
 				statemachine.doTransition("game-pauze");
-			}
-		});
-
-		game.keyboard.keyPressed.connect([this](sf::Keyboard::Key key) {
-			if (key == sf::Keyboard::Key::Z) {
-				player.setActiveKeyScheme(player.findKeyScheme(KeyScheme::Difficulty::MODERATE));
 			}
 		});
 
@@ -127,9 +149,11 @@ public:
 	void update(const float elapsedTime) override {
 		if (!gameOver) {
 			player.update(elapsedTime);
-		} else if (gameOverCounter > 0) {
+		}
+		else if (gameOverCounter > 0) {
 			gameOverCounter -= elapsedTime;
-		} else {
+		}
+		else {
 			statemachine.doTransition("game-over");
 			return;
 		}
@@ -137,12 +161,17 @@ public:
 		death.update(elapsedTime);
 
 		collisionGroup.resolveCollisions();
+		//player.resolveCollision(rockFloor1);
+		//player.resolveCollision(rockFloor2);
+		//player.resolveCollision(wall);
+		//player.deathByAntagonist(death);
 
 		player.draw(statemachine.window);
 		death.draw(statemachine.window);
 
-		floor0.draw(statemachine.window);
-		floor1.draw(statemachine.window);
+		rockFloor1.draw(statemachine.window);
+		rockFloor2.draw(statemachine.window);
+		grassFloor.draw(statemachine.window);
 		wall.draw(statemachine.window);
 		wall1.draw(statemachine.window);
 		crate.draw(statemachine.window);

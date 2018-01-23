@@ -8,13 +8,16 @@
 class GamePauze : public State {
 	Statemachine& statemachine;
 
-	Button gameExitButton;
 	Button gameResumeButton;
+	Button gameRestartButton;
+	Button gameExitButton;
 
-	EventConnection<> gameExitButtonPressedConn;
-	EventConnection<> gameExitButtonReleasedConn;
 	EventConnection<> gameResumeButtonPressedConn;
 	EventConnection<> gameResumeButtonReleasedConn;
+	EventConnection<> gameRestartButtonPressedConn;
+	EventConnection<> gameRestartButtonReleasedConn;
+	EventConnection<> gameExitButtonReleasedConn;
+	EventConnection<> gameExitButtonPressedConn;
 
 	EventConnection<> exitMouseEnterConn;
 	EventConnection<> exitMouseLeaveConn;
@@ -22,43 +25,67 @@ class GamePauze : public State {
 	EventConnection<> resumeMouseEnterConn;
 	EventConnection<> resumeMouseLeaveConn;
 
+	EventConnection<> restartMouseEnterConn;
+	EventConnection<> restartMouseLeaveConn;
+
 	EventConnection<sf::Keyboard::Key> keyReleasedConnection;
+
 public:
 	GamePauze(Statemachine& statemachine) :
 		statemachine(statemachine),
-		gameExitButton(),
-		gameResumeButton()
+		gameResumeButton(),
+		gameRestartButton(),
+		gameExitButton()
 	{
+		gameResumeButton.setSize({ 300, 100 });
+		gameResumeButton.setPosition({ 640, 360 });
+		gameResumeButton.setCharSize(32);
+		gameResumeButton.setBackgroundColor({ 0, 153, 51 });
+		gameResumeButton.setText("Resume game");
+
+		gameRestartButton.setSize({ 300, 100 });
+		gameRestartButton.setPosition({ 640, 490 });
+		gameRestartButton.setCharSize(32);
+		gameRestartButton.setBackgroundColor({ 0, 153, 51 });
+		gameRestartButton.setText("Restart game");
+
 		gameExitButton.setSize({ 300, 100 });
-		gameExitButton.setPosition({ 640, 435 });
+		gameExitButton.setPosition({ 640, 620 });
 		gameExitButton.setCharSize(32);
 		gameExitButton.setBackgroundColor({ 0, 153, 51 });
 		gameExitButton.setText("Exit game");
 
-		gameResumeButton.setSize({ 300, 100 });
-		gameResumeButton.setPosition({ 640, 285 });
-		gameResumeButton.setCharSize(32);
-		gameResumeButton.setBackgroundColor({ 0, 153, 51 });
-		gameResumeButton.setText("Resume game");
+
 	}
 
 	void entry() override {
-		gameExitButtonPressedConn = gameExitButton.buttonPressed.connect([this]() {
+        gameResumeButtonPressedConn = gameResumeButton.buttonPressed.connect([this]() {
+            gameResumeButton.setBackgroundColor({ 0, 163, 61 });
+        });
+
+        gameRestartButtonPressedConn = gameRestartButton.buttonPressed.connect([this](){
+            gameRestartButton.setBackgroundColor({0,163,61});
+        });
+
+        gameExitButtonPressedConn = gameExitButton.buttonPressed.connect([this]() {
 			gameExitButton.setBackgroundColor({ 0, 163, 61 });
 		});
 
-		gameResumeButtonPressedConn = gameResumeButton.buttonPressed.connect([this]() {
-			gameResumeButton.setBackgroundColor({ 0, 163, 61 });
+        gameResumeButtonReleasedConn = gameResumeButton.buttonReleased.connect([this]() {
+            statemachine.doTransition("running");
+        });
+
+        gameRestartButtonReleasedConn = gameRestartButton.buttonReleased.connect([this]() {
+            statemachine.resetState("running");
+            statemachine.doTransition("running");
+        });
+
+        gameExitButtonReleasedConn = gameExitButton.buttonReleased.connect([this]() {
+            statemachine.resetState("running");
+            statemachine.doTransition("game-over");
 		});
 
-		gameExitButtonReleasedConn = gameExitButton.buttonReleased.connect([this]() {
-			statemachine.doTransition("game-over");
-		});
 
-		gameResumeButtonReleasedConn = gameResumeButton.buttonReleased.connect([this]() {
-			statemachine.resetState("running");
-			statemachine.doTransition("running");
-		});
 		
 		exitMouseEnterConn = gameExitButton.mouseEnter.connect([this]() {
 			gameExitButton.setBackgroundColor({ 0, 123, 21 });
@@ -68,6 +95,12 @@ public:
 			gameExitButton.setBackgroundColor({ 0, 153, 51 });
 		});
 
+        restartMouseEnterConn = gameRestartButton.mouseEnter.connect([this](){
+            gameRestartButton.setBackgroundColor({0,121,21});
+        });
+        restartMouseLeaveConn = gameRestartButton.mouseLeave.connect([this](){
+            gameRestartButton.setBackgroundColor({0,153,51});
+        });
 		resumeMouseEnterConn = gameResumeButton.mouseEnter.connect([this]() {
 			gameResumeButton.setBackgroundColor({ 0, 123, 21 });
 		});
@@ -84,17 +117,25 @@ public:
 	}
 
 	void exit() override {
-		gameExitButtonPressedConn.disconnect();
-		gameExitButtonReleasedConn.disconnect();
 		gameResumeButtonPressedConn.disconnect();
 		gameResumeButtonReleasedConn.disconnect();
+		gameRestartButtonPressedConn.disconnect();
+		gameRestartButtonReleasedConn.disconnect();
+		gameExitButtonPressedConn.disconnect();
+		gameExitButtonReleasedConn.disconnect();
 		exitMouseEnterConn.disconnect();
 		exitMouseLeaveConn.disconnect();
+		resumeMouseEnterConn.disconnect();
+		restartMouseLeaveConn.disconnect();
+		restartMouseEnterConn.disconnect();
+		restartMouseLeaveConn.disconnect();
+
 		keyReleasedConnection.disconnect();
 	}
 
 	void update(const float elapsedTime) override {
-		gameExitButton.draw(statemachine.window);
 		gameResumeButton.draw(statemachine.window);
+		gameRestartButton.draw(statemachine.window);
+		gameExitButton.draw(statemachine.window);
 	}
 };
