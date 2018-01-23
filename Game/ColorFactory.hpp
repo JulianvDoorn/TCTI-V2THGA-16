@@ -3,9 +3,9 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <sstream>
-#include <iostream>
 #include <iomanip>
 #include <algorithm>
+#include <map>
 #include "IOExceptions.hpp"
 #include "QuotedString.hpp"
 #include "SpecialCharacter.hpp"
@@ -30,31 +30,54 @@ public:
 	explicit UnexpectedHexCharException(UnexpectedHexChar e, const std::string& s) : BodyFactoryException(std::string("Malformed hex char \"") + (char) e + "\" in \"" + s + "\"") { }
 };
 
-class ConversionTable : public std::map<const std::string, const sf::Color> {
+template<class L, class R>
+class ConversionTable : public std::map<const L, const R> {
+	using ConversionMap = std::map<const L, const R>;
+
 public:
-	ConversionTable(std::initializer_list<std::pair<const std::string, const sf::Color>> list) : map(list) { }
-	
-	iterator convert(const std::string& name) {
-		return find(name);
+	template<class T>
+	struct Conversion {
+		bool success;
+		T conversion;
+
+		Conversion(bool success, T conversion) : success(success), conversion(conversion) { }
+
+		operator T() const {
+			return conversion;
+		}
+
+		operator T&() {
+			return conversion;
+		}
+	};
+
+	ConversionTable(std::initializer_list<std::pair<const L, const R>> list) : ConversionMap(list) { }
+
+	Conversion<const R&> convert(const L& lhs) {
+		auto it = ConversionMap::find(lhs);
+
+		if (it != ConversionMap::end()) {
+			return { true, it->second };
+		} else {
+			return { false, R() };
+		}
 	}
-	
-	iterator convert(const sf::Color& color) {
-		iterator it;
+
+	Conversion<const L&> convert(const R& rhs) {
+		ConversionMap::iterator it;
 		
-		for (it = begin(); it != end(); it++) {
-			if (it->second == color) {
-				return it;
+		for (it = ConversionMap::begin(); it != ConversionMap::end(); it++) {
+			if (it->second == rhs) {
+				return { true, it->first };
 			}
 		}
 		
-		return it;
+		return { false, L() };
 	}
 };
 
 class ColorFactory {
 	std::istream& input;
-	
-	static ConversionTable colorNameConversionTable;
 	
 	static uint32_t readHex(const char* begin, const char* end) {
 		uint32_t buffer = 0;
@@ -78,32 +101,31 @@ class ColorFactory {
 	
 public:
 	ColorFactory(std::istream& input) : input(input) { }
-	
 	sf::Color getColor() {
 		char c;
-		input >> c;
+		input >> exceptions >> c;
 		input.seekg(-1, std::ios::cur);
 		
 		if (c == '#') {
 			std::string color;
-			input >> color;
+			input >> exceptions >> color;
 			return getColorFromString(color);
 		} else if (c == '\"') {
 			QuotedString color;
-			input >> color;
+			input >> exceptions >> color;
 			return getColorFromString(color);
 		} else {
 			std::string unexpectedSymbol;
-			input >> unexpectedSymbol;
+			input >> exceptions >> unexpectedSymbol;
 			throw MalformedColorStringException(unexpectedSymbol);
 		}
 	}
 	
 	static sf::Color getColorFromString(const std::string& name) {
-		ConversionTable::iterator conversion = colorNameConversionTable.convert(name);
+		auto conversion = colorNameConversionTable.convert(name);
 		
-		if(conversion != colorNameConversionTable.end()) {
-		   return conversion->second;
+		if(conversion.success) {
+		   return conversion;
 		} else {
 			if (name[0] != '#') {
 				throw MalformedColorStringException(name);
@@ -137,12 +159,12 @@ public:
 	}
 	
 	static std::string getStringFromColor(const sf::Color& color) {
-		ConversionTable::iterator conversion = colorNameConversionTable.convert(color);
+		auto conversion = colorNameConversionTable.convert(color);
 
-		if (conversion != colorNameConversionTable.end()) {
+		if (conversion.success) {
 			std::string str;
 			str += SpecialCharacter::Quote;
-			str += conversion->first;
+			str += conversion;
 			str += SpecialCharacter::Quote;
 			return str;
 		} else {
@@ -160,7 +182,7 @@ public:
 	}
 };
 
-ConversionTable ColorFactory::colorNameConversionTable = {
+ConversionTable<std::string, sf::Color> ColorFactory::colorNameConversionTable = {
 		{ "red", sf::Color::Red },
 		{ "black", sf::Color::Black },
 		{ "blue", sf::Color::Blue },
