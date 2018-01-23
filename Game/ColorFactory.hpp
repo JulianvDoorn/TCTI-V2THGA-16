@@ -10,10 +10,29 @@
 #include "QuotedString.hpp"
 #include "SpecialCharacter.hpp"
 
+/**
+ * @class	MalformedColorStringException
+ *
+ * @brief	Exception for signalling when a color is malformed.
+ *
+ * @author	Julian
+ * @date	2018-01-23
+ */
+
 class MalformedColorStringException : public BodyFactoryException {
 public:
 	explicit MalformedColorStringException(const std::string& s) : BodyFactoryException("Malformed/unknown color: \"" + s + "\"") { }
 };
+
+/**
+ * @class	UnexpectedHexChar
+ *
+ * @brief	Thrown when an unexpected hexadecimal character has been read.
+ * 			E.g. anything outside the following range: 0123456789ABCDEF
+ *
+ * @author	Julian
+ * @date	2018-01-23
+ */
 
 class UnexpectedHexChar {
 public:
@@ -25,10 +44,46 @@ public:
 	}
 };
 
+/**
+ * @class	UnexpectedHexCharException
+ *
+ * @brief	Exception for signalling unexpected hexadecimal character errors.
+ *
+ * @author	Julian
+ * @date	2018-01-23
+ */
+
 class UnexpectedHexCharException : public BodyFactoryException {
 public:
 	explicit UnexpectedHexCharException(UnexpectedHexChar e, const std::string& s) : BodyFactoryException(std::string("Malformed hex char \"") + (char) e + "\" in \"" + s + "\"") { }
 };
+
+/**
+ * @class	ConversionTable
+ *
+ * @brief	A map based conversion table template.
+ * 			Doing conversions from L to R are generally more efficient than from R to L.
+ * 			
+ * @detailed @code
+ * 			 ConversionTable<std::string, sf::Color> colorNameConversionTable = {
+ * 				{ "red", sf::Color::Red },
+ * 				{ "black", sf::Color::Black },
+ * 				{ "blue", sf::Color::Blue },
+ * 				{ "cyan", sf::Color::Cyan },
+ * 				{ "green", sf::Color::Green },
+ * 				{ "magenta", sf::Color::Magenta },
+ * 				{ "transparent", sf::Color::Transparent },
+ * 				{ "white", sf::Color::White },
+ * 				{ "yellow", sf::Color::Yellow }
+ * 			 };
+ * 			 @endcode
+ *
+ * @author	Julian
+ * @date	2018-01-23
+ *
+ * @tparam	L	Type of lhs
+ * @tparam	R	Type of rhs
+ */
 
 template<class L, class R>
 class ConversionTable : public std::map<const L, const R> {
@@ -51,7 +106,32 @@ public:
 		}
 	};
 
+	/**
+	 * @fn	ConversionTable::ConversionTable(std::initializer_list<std::pair<const L, const R>> list)
+	 *
+	 * @brief	Constructor
+	 *
+	 * @author	Julian
+	 * @date	2018-01-23
+	 *
+	 * @param	list	List of std::pair<const L, const R> to put inside the conversion map.
+	 */
+
 	ConversionTable(std::initializer_list<std::pair<const L, const R>> list) : ConversionMap(list) { }
+
+	/**
+	 * @fn	iterator ConversionTable::convertLeftToRight(const L& lhs)
+	 *
+	 * @brief	Converts the given L value to the corresponding R value.
+	 * 			Returns the iterator for allowing to check if iterator == ConversionTable.end()
+	 *
+	 * @author	Julian
+	 * @date	2018-01-23
+	 *
+	 * @param	L value to convert into R value
+	 *
+	 * @return	iterator
+	 */
 
 	Conversion<const R&> convert(const L& lhs) {
 		auto it = ConversionMap::find(lhs);
@@ -62,6 +142,20 @@ public:
 			return { false, R() };
 		}
 	}
+
+	/**
+	* @fn	iterator ConversionTable::convertRightToLeft(const R& rhs)
+	*
+	* @brief	Converts the given R value to the corresponding L value.
+	* 			Returns the iterator for allowing to check if iterator == ConversionTable.end()
+	*
+	* @author	Julian
+	* @date		2018-01-23
+	*
+	* @param	R value to convert into L value
+	*
+	* @return	iterator
+	*/
 
 	Conversion<const L&> convert(const R& rhs) {
 		ConversionMap::iterator it;
@@ -76,10 +170,41 @@ public:
 	}
 };
 
+/**
+ * @class	ColorFactory
+ *
+ * @brief	Color factory used for turning std::istream& input into colors, to turn std::string int colors and turn colors into std::strings.
+ *
+ * @author	Julian
+ * @date	2018-01-23
+ */
+
+// TODO: try to work out if ColorFactory can inherit from BaseFactory
+
 class ColorFactory {
 	std::istream& input;
 	
+	/** @brief	Conversion table for turning colors into human-friendly string names and vice versa */
 	static ConversionTable<std::string, sf::Color> colorNameConversionTable;
+
+	/**
+	 * @fn	static uint32_t ColorFactory::readHex(const char* begin, const char* end)
+	 *
+	 * @brief	Reads a hex string and turns it into a uint32_t
+	 * 			
+	 * @detailed Processes every char between const char* begin and const char* end.
+	 *
+	 * @author	Julian
+	 * @date	2018-01-23
+	 *
+	 * @exception	UnexpectedHexChar	Thrown when an unexpected Hexadecimal Character error
+	 *  condition occurs.
+	 *
+	 * @param	begin	Pointer to the begin of the string.
+	 * @param	end  	Pointer to the end of the string.
+	 *
+	 * @return	The int representation of the given string.
+	 */
 
 	static uint32_t readHex(const char* begin, const char* end) {
 		uint32_t buffer = 0;
@@ -102,7 +227,38 @@ class ColorFactory {
 	}
 	
 public:
+
+	/**
+	 * @fn	ColorFactory::ColorFactory(std::istream& input)
+	 *
+	 * @brief	Constructor
+	 *
+	 * @author	Julian
+	 * @date	2018-01-23
+	 *
+	 * @param [in,out]	input	Input stream to run getColor() on.
+	 */
+
 	ColorFactory(std::istream& input) : input(input) { }
+
+	/**
+	 * @fn	sf::Color ColorFactory::getColor()
+	 *
+	 * @brief	Retrieves a color from the input string given inside the constructor.
+	 * 			
+	 * @detailed Turns #........ into a color based on hex values.
+	 * 			 Turns "......" into a color based on string values.
+	 * 			 Else throws a MalformedColorStringException
+	 *
+	 * @author	Julian
+	 * @date	2018-01-23
+	 *
+	 * @exception	MalformedColorStringException	Thrown when a Malformed Color String error
+	 *  condition occurs.
+	 *
+	 * @return	The parsed sf::Color
+	 */
+
 	sf::Color getColor() {
 		char c;
 		input >> exceptions >> c;
@@ -122,7 +278,25 @@ public:
 			throw MalformedColorStringException(unexpectedSymbol);
 		}
 	}
-	
+
+	/**
+	 * @fn	static sf::Color ColorFactory::getColorFromString(const std::string& name)
+	 *
+	 * @brief	Gets color from string
+	 *
+	 * @author	Julian
+	 * @date	2018-01-23
+	 *
+	 * @exception	MalformedColorStringException	Thrown when a Malformed Color String error
+	 *  condition occurs.
+	 * @exception	UnexpectedHexCharException   	Thrown when an Unexpected Hexadecimal Character
+	 *  error condition occurs.
+	 *
+	 * @param	name	Name of the color to turn into sf::Color
+	 *
+	 * @return	Color of the string parsed
+	 */
+
 	static sf::Color getColorFromString(const std::string& name) {
 		auto conversion = colorNameConversionTable.convert(name);
 		
@@ -159,7 +333,20 @@ public:
 			return { r, g, b, a };
 		}
 	}
-	
+
+	/**
+	 * @fn	static std::string ColorFactory::getStringFromColor(const sf::Color& color)
+	 *
+	 * @brief	Gets string from color
+	 *
+	 * @author	Julian
+	 * @date	2018-01-23
+	 *
+	 * @param	color	The color to process into a string
+	 *
+	 * @return	string representation of either the hex format or the char string format 
+	 */
+
 	static std::string getStringFromColor(const sf::Color& color) {
 		auto conversion = colorNameConversionTable.convert(color);
 
