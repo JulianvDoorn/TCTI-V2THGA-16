@@ -47,7 +47,6 @@ private:
 public:
 	Player() {
 		setSize({ 20, 40 });
-		setFillColor(sf::Color(0, 255, 0));
 
 		keyPressedConn = game.keyboard.keyPressed.connect([this](const sf::Keyboard::Key key) {
 			if (key == activeKeyScheme.jump) {
@@ -113,11 +112,18 @@ public:
 		PhysicsObject::update(elapsedTime);
 		
 		if (walkDirection != 0) {
+			if (walkDirection > 0) {
+				setTexture(AssetManager::instance()->getTexture("fimmyRight"));	
+			}
+			if (walkDirection < 0) {
+				setTexture(AssetManager::instance()->getTexture("fimmyLeft"));
+			}
 			if (!roll) {
 				setVelocity({ walkDirection * walkspeed, getVelocity().y });
 			}
 		} else {
 			if (!roll) {
+				setTexture(AssetManager::instance()->getTexture("fimmyStanding"));
 				setVelocity({ 0, getVelocity().y });
 			}
 		}
