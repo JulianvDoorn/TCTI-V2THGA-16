@@ -158,13 +158,17 @@
     <ClInclude Include="AssetManager.hpp" />
     <ClInclude Include="Ball.hpp" />
     <ClInclude Include="BaseFactory.hpp" />
+    <ClInclude Include="CurlyBracketList.hpp" />
+    <ClInclude Include="DrawableGroup.hpp" />
+    <ClInclude Include="KeyValuePair.hpp" />
+    <ClInclude Include="MapFactory.hpp" />
     <ClInclude Include="Button.hpp" />
     <ClInclude Include="CollisionGroup.hpp" />
     <ClInclude Include="Characters.hpp" />
     <ClInclude Include="Collidable.hpp" />
     <ClInclude Include="Collision.hpp" />
     <ClInclude Include="CollisionDetection.hpp" />
-    <ClInclude Include="Cutscene.hpp" />
+    <ClInclude Include="ColorFactory.hpp" />
     <ClInclude Include="Drawable.hpp" />
     <ClInclude Include="Events.hpp" />
     <ClInclude Include="EventConnection.hpp" />
@@ -172,6 +176,10 @@
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameObject.hpp" />
     <ClInclude Include="GameOver.hpp" />
+    <ClInclude Include="IOExceptions.hpp" />
+    <ClInclude Include="SecureRead.hpp" />
+    <ClInclude Include="QuotedString.hpp" />
+    <ClInclude Include="SpecialCharacter.hpp" />
     <ClInclude Include="State.hpp" />
     <ClInclude Include="GamePauze.hpp" />
     <ClInclude Include="GameStates.hpp" />
@@ -197,6 +205,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="test.srt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="map.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

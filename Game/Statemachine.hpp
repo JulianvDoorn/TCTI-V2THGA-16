@@ -63,7 +63,7 @@ class Statemachine {
 	State* currentState = nullptr;
 
 	/** @brief	The state factory. Used for constructing states by name. */
-	BaseFactory<State, std::string> stateFactory;
+	BaseFactory<State*, std::string> stateFactory;
 
 public:
 

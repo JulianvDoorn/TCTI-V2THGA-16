@@ -43,6 +43,9 @@
     <Filter Include="Header Files\Assets">
       <UniqueIdentifier>{75b2f29c-8b9a-4647-919a-f8d7fe7e7a7a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\MapLoader">
+      <UniqueIdentifier>{6dc2e34b-cac6-4a68-82fd-03f9298f53ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -164,13 +167,45 @@
     <ClInclude Include="AssetManager.hpp">
       <Filter>Header Files\Assets</Filter>
     </ClInclude>
+    <ClInclude Include="ColorFactory.hpp">
+      <Filter>Header Files\MapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="IOExceptions.hpp">
+      <Filter>Header Files\MapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="QuotedString.hpp">
+      <Filter>Header Files\MapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="SpecialCharacter.hpp">
+      <Filter>Header Files\MapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="MapFactory.hpp">
+      <Filter>Header Files\MapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawableGroup.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyValuePair.hpp">
+      <Filter>Header Files\MapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="CurlyBracketList.hpp">
+      <Filter>Header Files\MapLoader</Filter>
+    </ClInclude>
     <ClInclude Include="Cutscene.hpp">
       <Filter>Header Files\GameStates\States</Filter>
+	</ClInclude>
+    <ClInclude Include="SecureRead.hpp">
+      <Filter>Header Files\MapLoader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="test.srt">
       <Filter>Source Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="map.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -1,0 +1,66 @@
+asset {
+	Id = "game-over"
+	Location = "GameOver.wav"
+}
+
+asset {
+	Id = "ground"
+	Location = "ground.png"
+}
+
+asset {
+	Id = "rockFloor"
+	Location = "ground2.png"
+}
+
+asset {
+	Id = "grassFloor"
+	Location = "ground3.png"
+}
+
+asset {
+	Id = "bush"
+	Location = "bush.png"
+}
+
+asset {
+	Id = "brick"
+	Location = "brickWall.png"
+}
+
+player {
+	Position = (150, 450)
+}
+
+death {
+	Position = (-200, 200)
+}
+
+rectangle {
+	Size = (400, 200)
+	Position = (0, 600)
+	TextureId = "ground"
+}
+
+rectangle {
+	Size = (60, 10)
+	Position = (0, 500)
+}
+
+rectangle {
+	Size = (30, 60)
+	Position = (-200, 450)
+}
+
+rectangle {
+	Size = (30, 30)
+	Position = (0, 450)
+	TextureId = "brick"
+}
+
+rectangle {
+	Size = (14, 14)
+	Position = (150, 494)
+	TextureId = "bush"
+	CanCollide = false
+}

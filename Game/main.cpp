@@ -15,12 +15,7 @@ int main() {
 	
 	// Load assets
 	AssetManager::instance()->load("arial", "arial.ttf");
-	AssetManager::instance()->load("game-over", "GameOver.wav");
-	AssetManager::instance()->load("ground", "ground.png");
-	AssetManager::instance()->load("brickWall", "brickWall.png");
-	AssetManager::instance()->load("rockFloor", "ground2.png");
-	AssetManager::instance()->load("grassFloor", "ground3.png");
-	AssetManager::instance()->load("bush", "bush.png");
+
 	AssetManager::instance()->loadTexture("dikkebmw", "dikkebmw.jpg");
 
 	Statemachine statemachine(window);
