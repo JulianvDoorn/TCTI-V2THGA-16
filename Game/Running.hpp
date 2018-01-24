@@ -89,7 +89,7 @@ public:
 
 	void entry() override {
 		backgroundMusic.openFromFile("sound.wav");
-		backgroundMusic.setLoop("true");
+		backgroundMusic.setLoop(true);
 		backgroundMusic.play();
 		focus.setFocus(player);
 		focus.update();
