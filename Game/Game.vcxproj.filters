@@ -191,11 +191,11 @@
     <ClInclude Include="CurlyBracketList.hpp">
       <Filter>Header Files\MapLoader</Filter>
     </ClInclude>
-    <ClInclude Include="Cutscene.hpp">
-      <Filter>Header Files\GameStates\States</Filter>
-	</ClInclude>
     <ClInclude Include="SecureRead.hpp">
       <Filter>Header Files\MapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsMenu.hpp">
+      <Filter>Header Files\GameStates\States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

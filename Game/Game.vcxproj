@@ -179,6 +179,7 @@
     <ClInclude Include="IOExceptions.hpp" />
     <ClInclude Include="SecureRead.hpp" />
     <ClInclude Include="QuotedString.hpp" />
+    <ClInclude Include="SettingsMenu.hpp" />
     <ClInclude Include="SpecialCharacter.hpp" />
     <ClInclude Include="State.hpp" />
     <ClInclude Include="GamePauze.hpp" />
