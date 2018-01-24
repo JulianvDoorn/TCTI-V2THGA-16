@@ -42,6 +42,10 @@ public:
         displayText.setString(text);
     }
 
+	std::string getText() const {
+		return displayText.getString();
+	}
+
     void setColor(sf::Color color){
         displayText.setFillColor(color);
     }

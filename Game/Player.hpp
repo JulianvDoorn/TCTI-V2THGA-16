@@ -111,8 +111,6 @@ public:
 
 	void update(const float elapsedTime) override {
 		PhysicsObject::update(elapsedTime);
-
-		std::cout << "\n";
 		
 		if (walkDirection != 0) {
 			if (!roll) {

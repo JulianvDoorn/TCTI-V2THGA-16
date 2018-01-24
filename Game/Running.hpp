@@ -89,9 +89,13 @@ public:
 
 	void entry() override {
 		backgroundMusic.openFromFile("sound.wav");
-		backgroundMusic.setLoop("true");
+		backgroundMusic.setLoop(true);
 		backgroundMusic.play();
 		focus.setFocus(player);
+        focus.setLeftBorder(500);
+        focus.setRightBorder(500);
+        focus.setTopBorder(320);
+        focus.setBottomBorder(50);
 		focus.update();
 
 		player.collided.connect([this](Collidable& other) {
@@ -107,13 +111,11 @@ public:
 		});
 
 		diedConnection = game.died.connect([this]() {
-			diedConnection.disconnect();
 			std::cout << "/!\\ death got you /!\\" << std::endl;
 			gameOver = true;
 		});
 
 		fellOffMapConnection = game.fellOffMap.connect([this]() {
-			fellOffMapConnection.disconnect();
 			std::cout << "/!\\ fell out of the world /!\\" << std::endl;
 			gameOver = true;
 		});
@@ -135,11 +137,15 @@ public:
 	void update(const float elapsedTime) override {
 		if (!gameOver) {
 			player.update(elapsedTime);
+			death.update(elapsedTime);
 		}
 		else if (gameOverCounter > 0) {
 			gameOverCounter -= elapsedTime;
 		}
 		else {
+			diedConnection.disconnect();
+			fellOffMapConnection.disconnect();
+			
 			statemachine.doTransition("game-over");
 			return;
 		}

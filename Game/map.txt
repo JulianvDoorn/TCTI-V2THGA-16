@@ -4,75 +4,95 @@ asset {
 }
 
 asset {
+	Id = "fimmyStanding"
+	Location = "fimmy.png"
+}
+asset {
+	Id = "fimmyLeft"
+	Location = "FimmyWalkLeft.png"
+}
+
+asset {
+	Id = "fimmyRight"
+	Location = "FimmyWalkRight.png"
+}
+
+texture {
 	Id = "ground"
 	Location = "ground.png"
+	Repeated = true
 }
 
-asset {
+texture {
 	Id = "rockFloor"
 	Location = "ground2.png"
+	Repeated = true
 }
 
-asset {
+texture {
 	Id = "grassFloor"
 	Location = "ground3.png"
+	Repeated = true
 }
 
-asset {
+texture {
 	Id = "bush"
 	Location = "bush.png"
 }
 
-asset {
+texture {
 	Id = "brick"
 	Location = "brickWall.png"
+	Repeated = true
 }
 
 player {
-	Position = (150, 450)
+	Position = Vector2(150, 450)
 }
 
 death {
-	Position = (-200, 200)
+	Position = Vector2(-200, 200)
 }
 
 rectangle {
-	Size = (800, 200)
-	Position = (0, 600)
+	Size = Vector2(3200, 200)
+	TextureRect = Rect(0, 0, 3200, 200) 
+	Position = Vector2(0, 600)
 	TextureId = "rockFloor"
 }
-
 rectangle {
-	Size = (800, 200)
-	Position = (800, 600)
-	TextureId = "rockFloor"
-}
-
-
-rectangle {
-	Size = (30, 120)
-	Position = (-200, 380)
+	Size = Vector2(3200, 20)
+	TextureRect = Rect(0, 0, 3200, 20)
+	Position = Vector2(0, 500)
+	TextureId = "grassFloor"
 }
 
 rectangle {
-	Size = (30, 20)
-	Position = (200, 430)
+	Size = Vector2(60, 10)
+	Position = Vector2(0, 500)
 }
 
 rectangle {
-	Size = (30, 100)
-	Position = (400, 430)
+	Size = Vector2(30, 60)
+	Position = Vector2(-200, 450)
 }
 
 rectangle {
-	Size = (30, 30)
-	Position = (0, 450)
+	Size = Vector2(30, 30)
+	Position = Vector2(0, 450)
 	TextureId = "brick"
 }
 
 rectangle {
-	Size = (14, 14)
-	Position = (150, 494)
+	Size = Vector2(14, 14)
+	Position = Vector2(150, 494)
+	TextureId = "bush"
+	CanCollide = false
+}
+
+rectangle {
+	Size = Vector2(14, 14)
+	Position = Vector2(120, 494)
 	TextureId = "bush"
 	CanCollide = false
 }

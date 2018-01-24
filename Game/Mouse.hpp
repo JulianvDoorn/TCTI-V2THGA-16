@@ -59,6 +59,8 @@ public:
 	/** @brief	Mouse moved, fires when the mouse is moved. */
 	EventSource<sf::Vector2i> mouseMoved;
 
+	bool mouseLeftPressed = false, mouseRightPressed = false;
+
 	/**
 	 * @fn	virtual void SFMLEventDecoder::decodeSFMLEvent(sf::Event ev) const = 0;
 	 *

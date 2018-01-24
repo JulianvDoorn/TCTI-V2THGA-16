@@ -71,9 +71,7 @@ public:
 		onCollide(other);
 
 		sf::Vector2f mtv;
-		std::cout << "Delta: " << collision.getDelta().y << std::endl;
-		std::cout << "Velocity: "<<getVelocity().y << std::endl;
-		if ((collision.getDelta().y > 30 && collision.getDelta().y < -20) || getVelocity().y == 0) {
+		if ((collision.getDelta().y > 30 && collision.getDelta().y < -20) || getVelocity().y == 0) {//to check if the bottom type of resolving is needed
 			if ((collision.getIntersect().x - collision.getIntersect().y) > -10) {//-10 is the treshold of detecting if the horizontal collision is worth resolvin
 				//for the bottom of an object
 				sideCollision = true;
