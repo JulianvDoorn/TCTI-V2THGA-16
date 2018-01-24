@@ -55,12 +55,17 @@ death {
 }
 
 rectangle {
-	Size = Vector2(1600, 200)
-	TextureRect = Rect(0, 0, 1600, 200) 
+	Size = Vector2(3200, 200)
+	TextureRect = Rect(0, 0, 3200, 200) 
 	Position = Vector2(0, 600)
 	TextureId = "rockFloor"
 }
-
+rectangle {
+	Size = Vector2(3200, 20)
+	TextureRect = Rect(0, 0, 3200, 20)
+	Position = Vector2(0, 500)
+	TextureId = "grassFloor"
+}
 rectangle {
 	Size = Vector2(60, 10)
 	Position = Vector2(0, 500)
