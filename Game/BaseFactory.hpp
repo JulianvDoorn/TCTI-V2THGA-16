@@ -56,7 +56,7 @@ template<class V, class T, class... Args>
 class BaseFactory {
 public:
 	/** @brief	FactoryCreateMethod definition */
-	using FactoryCreateMethod = std::function<V*(Args...)>;
+	using FactoryCreateMethod = std::function<V(Args...)>;
 
 private:
 	/** @brief	Map for registered FactoryCreateMethods with T as identifiers */
@@ -82,7 +82,7 @@ public:
 	 * @return	Pointer to newly created V
 	 */
 
-	V* create(T id, Args... args) {
+	V create(T id, Args... args) {
 		auto it = createMethods.find(id);
 
 		if (it != createMethods.end()) {
