@@ -41,7 +41,8 @@ public:
 		Float,
 		Vector,
 		String,
-		Color
+		Color,
+		Bool
 	};
 
 	/**
@@ -56,10 +57,11 @@ public:
 	 */
 
 	union Value {
-		float_t* f;
+		float_t f;
 		sf::Vector2f* v;
 		std::string* s;
 		sf::Color* c;
+		bool b;
 	};
 
 	Type type;
@@ -74,7 +76,7 @@ public:
 		// TODO: find out if the destructor actually selects the right destructor for the union Value.
 
 		if (type == Type::Float) {
-			//delete value.f;
+
 		}
 		else if (type == Type::Vector) {
 			//delete value.v;
@@ -84,6 +86,9 @@ public:
 		}
 		else if (type == Type::Color) {
 			//delete value.c;
+		}
+		else if (type == Type::Bool) {
+			
 		}
 	}
 };
@@ -110,6 +115,7 @@ std::istream& operator>> (std::istream& is, KeyValuePair& pair) {
 
 	std::string reading;
 
+	int64_t pos = is.tellg();
 	getline(is, reading);
 
 	std::istringstream iss(reading);
@@ -120,10 +126,8 @@ std::istream& operator>> (std::istream& is, KeyValuePair& pair) {
 
 	if (std::isdigit(c)) {
 		// parse float
-		float_t* f = new float_t();
-		iss >> static_cast<SecureRead<float_t&>>(*f);
-
-		std::cout << "float: " << *f << std::endl;
+		float_t f;
+		iss >> static_cast<SecureRead<float_t&>>(f);
 
 		pair.type = KeyValuePair::Type::Float;
 		pair.value.f = f;
@@ -132,16 +136,12 @@ std::istream& operator>> (std::istream& is, KeyValuePair& pair) {
 		sf::Vector2f* v = new sf::Vector2f();
 		iss >> *v;
 
-		std::cout << "vector: " << *v << std::endl;
-
 		pair.type = KeyValuePair::Type::Vector;
 		pair.value.v = v;
 	} else if (c == '"') {
 		// parse string
 		QuotedString* s = new QuotedString();
 		iss >> *s;
-
-		std::cout << "string: " << *s << std::endl;
 
 		pair.type = KeyValuePair::Type::String;
 		pair.value.s = s;
@@ -150,10 +150,29 @@ std::istream& operator>> (std::istream& is, KeyValuePair& pair) {
 		ColorFactory colorFactory(iss);
 		sf::Color* c = new sf::Color(colorFactory.getColor());
 
-		std::cout << "color: " << ColorFactory::getStringFromColor(*c) << std::endl;
-
 		pair.type = KeyValuePair::Type::Color;
 		pair.value.c = c;
+	}
+	else {
+		// parse keywords
+		std::string s;
+		iss >> s;
+
+		pair.type = KeyValuePair::Type::Bool;
+
+		if (s == "true") {
+			pair.value.b = true;
+		}
+		else if (s == "false") {
+			pair.value.b = false;
+		}
+		else {
+			std::string unexpectedSymbol;
+
+			iss.seekg(0);
+			iss >> unexpectedSymbol;
+			throw UnexpectedValueException(pos, unexpectedSymbol);
+		}
 	}
 
 	return is;
