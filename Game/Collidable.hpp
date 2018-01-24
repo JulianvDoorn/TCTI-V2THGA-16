@@ -72,7 +72,7 @@ public:
 
 		sf::Vector2f mtv;
 
-		if ((collision.getIntersect().x - collision.getIntersect().y) > 8) {//8 is the treshold of detecting if the collision is worth resolving
+		if ((collision.getIntersect().x - collision.getIntersect().y) > 6) {//6 is the treshold of detecting if the horizontal collision is worth resolving
 			sideCollision = true;
 
 			if (collision.getDelta().x > 0.0f) {

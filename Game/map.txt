@@ -9,6 +9,16 @@ asset {
 }
 
 asset {
+	Id = "rockFloor"
+	Location = "ground2.png"
+}
+
+asset {
+	Id = "grassFloor"
+	Location = "ground3.png"
+}
+
+asset {
 	Id = "bush"
 	Location = "bush.png"
 }
