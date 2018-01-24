@@ -8,7 +8,7 @@
 
 int main() {
 	const float FPS = 60.0f;
-	const bool ENABLE_CUTSCENE = true;
+	const bool ENABLE_CUTSCENE = false;
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720, 32), "Hello");
 
@@ -32,9 +32,9 @@ int main() {
 	statemachine.registerState<Cutscene>("cutscene");
 
 	if (ENABLE_CUTSCENE) {
-		statemachine.doTransition("main-menu");
-	} else {
 		statemachine.doTransition("cutscene");
+	} else {
+		statemachine.doTransition("main-menu");
 	}
 
 	// End state definitions
