@@ -3,6 +3,20 @@ asset {
 	Location = "GameOver.wav"
 }
 
+asset {
+	Id = "fimmyStanding"
+	Location = "fimmy.png"
+}
+asset {
+	Id = "fimmyLeft"
+	Location = "FimmyWalkLeft.png"
+}
+
+asset {
+	Id = "fimmyRight"
+	Location = "FimmyWalkRight.png"
+}
+
 texture {
 	Id = "ground"
 	Location = "ground.png"
@@ -33,7 +47,7 @@ texture {
 }
 
 player {
-	Position = Vector2(150, 450)
+	Position = (150, 450)
 }
 
 death {
@@ -41,16 +55,14 @@ death {
 }
 
 rectangle {
-	Size = Vector2(1600, 200)
-	Position = Vector2(0, 600)
-	TextureId = "rockFloor"
-	TextureRect = Rect(0, 0, 800, 100)
+	Size = (400, 200)
+	Position = (0, 600)
+	TextureId = "ground"
 }
 
 rectangle {
-	Size = Vector2(60, 10)
-	Position = Vector2(0, 500)
-	TextureId = "grassFloor"
+	Size = (60, 10)
+	Position = (0, 500)
 }
 
 rectangle {

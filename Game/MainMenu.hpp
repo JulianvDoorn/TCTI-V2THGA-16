@@ -67,11 +67,11 @@ public:
         });
 
         startButtonReleasedConn = startButton.buttonReleased.connect([this]() {
-            statemachine.resetState("running");
-            statemachine.doTransition("running");
+			statemachine.resetState("running");
+			statemachine.doTransition("running");
 		});
+
         settingsButtonReleasedConn = settingsButton.buttonReleased.connect([this](){
-            std::cout << "Settings Button Released Connection" << std::endl;
 			statemachine.doTransition("settings-menu");
 
         });
@@ -79,27 +79,27 @@ public:
             statemachine.window.close();
         });
 
-		mouseEnterConn = startButton.mouseEnter.connect([this]() {
-			startButton.setBackgroundColor({ 0, 123, 21 });
-		});
+		//mouseEnterConn = startButton.mouseEnter.connect([this]() {
+		//	startButton.setBackgroundColor({ 0, 123, 21 });
+		//});
 
-		mouseLeaveConn = startButton.mouseLeave.connect([this]() {
+		/*startButtonMouseLeaveConn = startButton.mouseLeave.connect([this]() {
 			startButton.setBackgroundColor({ 0, 153, 51 });
 		});
-        mouseEnterConn = settingsButton.mouseEnter.connect([this]() {
+       settingsButtonMouseEnterConn = settingsButton.mouseEnter.connect([this]() {
             settingsButton.setBackgroundColor({ 0, 123, 21 });
         });
 
-        mouseLeaveConn = settingsButton.mouseLeave.connect([this]() {
+        settingsButtonMouseLeaveConn = settingsButton.mouseLeave.connect([this]() {
             settingsButton.setBackgroundColor({ 0, 153, 51 });
         });
-        mouseEnterConn = exitButton.mouseEnter.connect([this]() {
+		exitButtonMouseEnterConn = exitButton.mouseEnter.connect([this]() {
             exitButton.setBackgroundColor({ 0, 123, 21 });
         });
 
-        mouseLeaveConn = exitButton.mouseLeave.connect([this]() {
+        exitButtonMouseLeaveConn = exitButton.mouseLeave.connect([this]() {
             exitButton.setBackgroundColor({ 0, 153, 51 });
-        });
+        });*/
 	}
 
 	void exit() override {
@@ -108,9 +108,7 @@ public:
         settingsButtonPressedConn.disconnect();
         settingsButtonReleasedConn.disconnect();
         exitButtonPressedConn.disconnect();
-        exitButtonReleasedConn.disconnect();
-		mouseEnterConn.disconnect();
-		mouseLeaveConn.disconnect();
+		exitButtonReleasedConn.disconnect();
 	}
 
 	void update(const float elapsedTime) override {
