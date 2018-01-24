@@ -55,9 +55,9 @@ death {
 }
 
 rectangle {
-	Size = Vector2(400, 200)
+	Size = Vector2(1600, 200)
 	Position = Vector2(0, 600)
-	TextureId = "ground"
+	TextureId = "rockFloor"
 }
 
 rectangle {
