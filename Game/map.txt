@@ -47,7 +47,7 @@ texture {
 }
 
 player {
-	Position = (150, 450)
+	Position = Vector2(150, 450)
 }
 
 death {
@@ -55,14 +55,14 @@ death {
 }
 
 rectangle {
-	Size = (400, 200)
-	Position = (0, 600)
+	Size = Vector2(400, 200)
+	Position = Vector2(0, 600)
 	TextureId = "ground"
 }
 
 rectangle {
-	Size = (60, 10)
-	Position = (0, 500)
+	Size = Vector2(60, 10)
+	Position = Vector2(0, 500)
 }
 
 rectangle {
