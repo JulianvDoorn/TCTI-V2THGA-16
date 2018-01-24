@@ -110,11 +110,10 @@ public:
 
 	void update() {
 		// Check if focus object is outside of border and how much it is outside the border. Move view the delta of border and focus object position.
-        int leftDiff = (focus->getPosition().x - (view.getCenter().x  -(view.getSize().x/2)+leftBorder));
-        int rightDiff = (focus->getPosition().x - (view.getCenter().x + (view.getSize().x/2) - rightBorder));
-
-        int topDiff = (focus->getPosition().y - (view.getCenter().y + (view.getSize().y/2) -topBorder));
-        int bottomDiff = (focus->getPosition().y -( view.getCenter().y - (view.getSize().y/2) +bottomBorder));
+        float leftDiff = (focus->getPosition().x - (view.getCenter().x  -(view.getSize().x/2)+leftBorder));
+        float rightDiff = (focus->getPosition().x - (view.getCenter().x + (view.getSize().x/2) - rightBorder));
+        float topDiff = (focus->getPosition().y - (view.getCenter().y + (view.getSize().y/2) -topBorder));
+        float bottomDiff = (focus->getPosition().y -( view.getCenter().y - (view.getSize().y/2) +bottomBorder));
 
 		if (leftDiff < 0 || rightDiff > 0 || topDiff < 0 || bottomDiff > 0 ){
 			if (focus != nullptr) {
