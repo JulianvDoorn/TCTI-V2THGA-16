@@ -59,11 +59,11 @@ public:
 	 */
 
 	union Value {
-		float_t f;
-		sf::Vector2f* v;
-		sf::FloatRect* r;
-		std::string* s;
-		sf::Color* c;
+		float_t floatValue;
+		sf::Vector2f* vectorValue;
+		sf::FloatRect* rectValue;
+		std::string* stringValue;
+		sf::Color* colorValue;
 		bool b;
 	};
 
@@ -82,16 +82,16 @@ public:
 
 		}
 		else if (type == Type::Vector) {
-			//delete value.v;
+			//delete value.vectorValue;
 		}
 		else if (type == Type::Rect) {
-			//delete value.r;
+			//delete value.rectValue;
 		}
 		else if (type == Type::String) {
-			//delete value.s;
+			//delete value.stringValue;
 		}
 		else if (type == Type::Color) {
-			//delete value.c;
+			//delete value.colorValue;
 		}
 		else if (type == Type::Bool) {
 			
@@ -100,12 +100,12 @@ public:
 };
 
 template<class T>
-std::ostream& operator<< (std::ostream& os, sf::Rect<T>& v) {
-	return os << "Rect(" << v.left << ", " <<  v.top << ", " << v.width << ", " << v.height << ')';
+std::ostream& operator<< (std::ostream& os, sf::Rect<T>& vectorValue) {
+	return os << "Rect(" << vectorValue.left << ", " <<  vectorValue.top << ", " << vectorValue.width << ", " << vectorValue.height << ')';
 }
 
 template<class T>
-std::istream& operator>> (std::istream& is, sf::Rect<T>& v) {
+std::istream& operator>> (std::istream& is, sf::Rect<T>& vectorValue) {
 	is >> ConsumeString("Rect");
 
 	SecureRead<T> left;
@@ -123,7 +123,7 @@ std::istream& operator>> (std::istream& is, sf::Rect<T>& v) {
 	is >> std::ws >> height;
 	is >> std::ws >> SpecialCharacter::RightBracket;
 
-	v = sf::Rect<T>(left, top, width, height);
+	vectorValue = sf::Rect<T>(left, top, width, height);
 
 	return is;
 }
@@ -161,52 +161,52 @@ std::istream& operator>> (std::istream& is, KeyValuePair& pair) {
 
 	if (isdigit(rhs[0])) {
 		// parse float
-		float_t f;
-		iss >> static_cast<SecureRead<float_t&>>(f);
+		float_t floatValue;
+		iss >> static_cast<SecureRead<float_t&>>(floatValue);
 
 		pair.type = KeyValuePair::Type::Float;
-		pair.value.f = f;
+		pair.value.floatValue = floatValue;
 	}
 	else if (rhs.compare(0, 8, "Vector2(") == 0) {
 		// parse vector
-		sf::Vector2f* v = new sf::Vector2f();
-		iss >> *v;
+		sf::Vector2f* vectorValue = new sf::Vector2f();
+		iss >> *vectorValue;
 
 		pair.type = KeyValuePair::Type::Vector;
-		pair.value.v = v;
+		pair.value.vectorValue = vectorValue;
 	} else if (rhs.compare(0, 5, "Rect(") == 0) {
 		// parse rect
-		sf::FloatRect* r = new sf::FloatRect();
-		iss >> *r;
+		sf::FloatRect* rectValue = new sf::FloatRect();
+		iss >> *rectValue;
 
 		pair.type = KeyValuePair::Type::Rect;
-		pair.value.r = r;
+		pair.value.rectValue = rectValue;
 	} else if (rhs[0] == '"') {
 		// parse string
-		QuotedString* s = new QuotedString();
-		iss >> *s;
+		QuotedString* stringValue = new QuotedString();
+		iss >> *stringValue;
 
 		pair.type = KeyValuePair::Type::String;
-		pair.value.s = s;
+		pair.value.stringValue = stringValue;
 	} else if (rhs[0] == '#') {
 		// parse color
 		ColorFactory colorFactory(iss);
-		sf::Color* c = new sf::Color(colorFactory.getColor());
+		sf::Color* colorValue = new sf::Color(colorFactory.getColor());
 
 		pair.type = KeyValuePair::Type::Color;
-		pair.value.c = c;
+		pair.value.colorValue = colorValue;
 	}
 	else {
 		// parse keywords
-		std::string s;
-		iss >> s;
+		std::string stringValue;
+		iss >> stringValue;
 
 		pair.type = KeyValuePair::Type::Bool;
 
-		if (s == "true") {
+		if (stringValue == "true") {
 			pair.value.b = true;
 		}
-		else if (s == "false") {
+		else if (stringValue == "false") {
 			pair.value.b = false;
 		}
 		else {
