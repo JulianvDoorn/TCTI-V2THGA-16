@@ -72,7 +72,8 @@ public:
 
 		sf::Vector2f mtv;
 
-		if ((collision.getIntersect().x - collision.getIntersect().y) > 8) {//8 is the treshold of detecting if the collision is worth resolving
+		if ((collision.getIntersect().x - collision.getIntersect().y) > 6) {//8 is the treshold of detecting if the collision is worth resolving
+			std::cout << "horezontal collision\n";
 			sideCollision = true;
 
 			if (collision.getDelta().x > 0.0f) {
@@ -100,6 +101,7 @@ public:
 		}
 
 		if (collision.getDelta().y > 0.0f) { //resols a collision of y type
+			std::cout << "vertical collision\n";
 			mtv = sf::Vector2f(0.0f, collision.getIntersect().y);
 		}
 		else {
