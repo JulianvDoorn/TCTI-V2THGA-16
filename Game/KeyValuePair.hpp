@@ -8,6 +8,7 @@
 
 #include "SecureRead.hpp"
 #include "SpecialCharacter.hpp"
+#include "ConsumeString.hpp"
 
 /**
  * @class	KeyValuePair
@@ -40,6 +41,7 @@ public:
 	enum class Type {
 		Float,
 		Vector,
+		Rect,
 		String,
 		Color,
 		Bool
@@ -59,6 +61,7 @@ public:
 	union Value {
 		float_t f;
 		sf::Vector2f* v;
+		sf::FloatRect* r;
 		std::string* s;
 		sf::Color* c;
 		bool b;
@@ -81,6 +84,9 @@ public:
 		else if (type == Type::Vector) {
 			//delete value.v;
 		}
+		else if (type == Type::Rect) {
+			//delete value.r;
+		}
 		else if (type == Type::String) {
 			//delete value.s;
 		}
@@ -92,6 +98,35 @@ public:
 		}
 	}
 };
+
+template<class T>
+std::ostream& operator<< (std::ostream& os, sf::Rect<T>& v) {
+	return os << "Rect(" << v.left << ", " <<  v.top << ", " << v.width << ", " << v.height << ')';
+}
+
+template<class T>
+std::istream& operator>> (std::istream& is, sf::Rect<T>& v) {
+	is >> ConsumeString("Rect");
+
+	SecureRead<T> left;
+	SecureRead<T> top;
+	SecureRead<T> width;
+	SecureRead<T> height;
+
+	is >> std::ws >> SpecialCharacter::LeftBracket;
+	is >> std::ws >> left;
+	is >> std::ws >> SpecialCharacter::Comma;
+	is >> std::ws >> top;
+	is >> std::ws >> SpecialCharacter::Comma;
+	is >> std::ws >> width;
+	is >> std::ws >> SpecialCharacter::Comma;
+	is >> std::ws >> height;
+	is >> std::ws >> SpecialCharacter::RightBracket;
+
+	v = sf::Rect<T>(left, top, width, height);
+
+	return is;
+}
 
 /**
  * @fn	std::istream& operator>> (std::istream& is, KeyValuePair& pair)
@@ -120,32 +155,40 @@ std::istream& operator>> (std::istream& is, KeyValuePair& pair) {
 
 	std::istringstream iss(reading);
 
-	char c;
-	iss >> c;
+	std::string rhs;
+	iss >> rhs;
 	iss.seekg(0);
 
-	if (std::isdigit(c)) {
+	if (isdigit(rhs[0])) {
 		// parse float
 		float_t f;
 		iss >> static_cast<SecureRead<float_t&>>(f);
 
 		pair.type = KeyValuePair::Type::Float;
 		pair.value.f = f;
-	} else if (c == '(') {
+	}
+	else if (rhs.compare(0, 8, "Vector2(") == 0) {
 		// parse vector
 		sf::Vector2f* v = new sf::Vector2f();
 		iss >> *v;
 
 		pair.type = KeyValuePair::Type::Vector;
 		pair.value.v = v;
-	} else if (c == '"') {
+	} else if (rhs.compare(0, 5, "Rect(") == 0) {
+		// parse rect
+		sf::FloatRect* r = new sf::FloatRect();
+		iss >> *r;
+
+		pair.type = KeyValuePair::Type::Rect;
+		pair.value.r = r;
+	} else if (rhs[0] == '"') {
 		// parse string
 		QuotedString* s = new QuotedString();
 		iss >> *s;
 
 		pair.type = KeyValuePair::Type::String;
 		pair.value.s = s;
-	} else if (c == '#') {
+	} else if (rhs[0] == '#') {
 		// parse color
 		ColorFactory colorFactory(iss);
 		sf::Color* c = new sf::Color(colorFactory.getColor());
