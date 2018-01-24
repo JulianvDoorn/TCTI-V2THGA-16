@@ -66,6 +66,7 @@ rectangle {
 	Position = Vector2(0, 500)
 	TextureId = "grassFloor"
 }
+
 rectangle {
 	Size = Vector2(60, 10)
 	Position = Vector2(0, 500)

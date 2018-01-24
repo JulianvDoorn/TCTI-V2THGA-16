@@ -71,25 +71,46 @@ public:
 		onCollide(other);
 
 		sf::Vector2f mtv;
+		if ((collision.getDelta().y > 30 && collision.getDelta().y < -20) || getVelocity().y == 0) {//to check if the bottom type of resolving is needed
+			if ((collision.getIntersect().x - collision.getIntersect().y) > -10) {//-10 is the treshold of detecting if the horizontal collision is worth resolvin
+				//for the bottom of an object
+				sideCollision = true;
 
-		if ((collision.getIntersect().x - collision.getIntersect().y) > 6) {//6 is the treshold of detecting if the horizontal collision is worth resolving
-			sideCollision = true;
+				if (collision.getDelta().x > 0.0f) {
+					mtv = sf::Vector2f(collision.getIntersect().x, 0.0f);
+				}
+				else {
+					mtv = sf::Vector2f(-collision.getIntersect().x, 0.0f);
+				}
 
-			if (collision.getDelta().x > 0.0f) {
-				mtv = sf::Vector2f(collision.getIntersect().x, 0.0f);
+				setPosition(getPosition() + mtv);
+
+				if (getVelocity().x > 0) { // set horizontal velocity to 0
+					setVelocity({ 0, getVelocity().y });
+				}
+
+				return;
 			}
-			else {
-				mtv = sf::Vector2f(-collision.getIntersect().x, 0.0f);
-			}
-
-			setPosition(getPosition() + mtv);
-
-			if (getVelocity().x > 0) { // set horizontal velocity to 0
-				setVelocity({ 0, getVelocity().y });
-			}
-
-			return;
 		}
+			if ((collision.getIntersect().x - collision.getIntersect().y) > 10) {//10 is the treshold of detecting if the horizontal collision is worth resolving
+			//for the top of an object
+				sideCollision = true;
+
+				if (collision.getDelta().x > 0.0f) {
+					mtv = sf::Vector2f(collision.getIntersect().x, 0.0f);
+				}
+				else {
+					mtv = sf::Vector2f(-collision.getIntersect().x, 0.0f);
+				}
+
+				setPosition(getPosition() + mtv);
+
+				if (getVelocity().x > 0) { // set horizontal velocity to 0
+					setVelocity({ 0, getVelocity().y });
+				}
+
+				return;
+			}
 
 		if (sideCollision) { // to check if the last collision was with the side
 			sideCollision = false;
