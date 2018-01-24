@@ -37,9 +37,15 @@ death {
 }
 
 rectangle {
-	Size = (400, 200)
+	Size = (800, 200)
 	Position = (0, 600)
-	TextureId = "ground"
+	TextureId = "rockFloor"
+}
+
+rectangle {
+	Size = (800, 200)
+	Position = (800, 600)
+	TextureId = "rockFloor"
 }
 
 rectangle {
