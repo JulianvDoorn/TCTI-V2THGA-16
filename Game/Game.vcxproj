@@ -160,6 +160,7 @@
     <ClInclude Include="BaseFactory.hpp" />
     <ClInclude Include="ConsumeString.hpp" />
     <ClInclude Include="CurlyBracketList.hpp" />
+    <ClInclude Include="Cutscene.hpp" />
     <ClInclude Include="DrawableGroup.hpp" />
     <ClInclude Include="KeyValuePair.hpp" />
     <ClInclude Include="MapFactory.hpp" />

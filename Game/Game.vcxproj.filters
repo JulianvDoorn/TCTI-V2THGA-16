@@ -200,6 +200,9 @@
     <ClInclude Include="ConsumeString.hpp">
       <Filter>Header Files\MapLoader</Filter>
     </ClInclude>
+    <ClInclude Include="Cutscene.hpp">
+      <Filter>Header Files\GameStates\States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="test.srt">

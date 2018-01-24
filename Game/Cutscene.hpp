@@ -31,8 +31,8 @@ public:
 
 		imageBackground.setPosition({640, 360});
 		imageBackground.setSize({ 1280, 720 });
-		imageBackground.setTexture(AssetManager::instance()->getTexture("dikkebmw"));
-		imageBackground.setTextureRect({ 0, 0, 1280, 720 });
+		//imageBackground.setTextureRect({ 0, 0, 1280, 720 });
+		imageBackground.setFillColor(sf::Color{ 0, 0 ,0 });
 
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
