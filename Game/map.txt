@@ -85,14 +85,14 @@ rectangle {
 
 rectangle {
 	Size = Vector2(14, 14)
-	Position = Vector2(150, 494)
+	Position = Vector2(150, 486)
 	TextureId = "bush"
 	CanCollide = false
 }
 
 rectangle {
 	Size = Vector2(14, 14)
-	Position = Vector2(120, 494)
+	Position = Vector2(120, 486)
 	TextureId = "bush"
 	CanCollide = false
 }
