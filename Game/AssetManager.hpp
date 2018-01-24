@@ -10,38 +10,37 @@
 
 class AssetTypeNotResolvedException : public std::exception {
 private:
-	const std::string& filename;
+	std::string msg;
 
 public:
-	AssetTypeNotResolvedException(const std::string &filename) : filename(filename) {};
+	AssetTypeNotResolvedException(const std::string &filename) : msg("Cannot determine asset type with filename '" + filename + "'!") {};
 
 	const char* what() const noexcept {
-		return std::string("Cannot determine asset type with filename '" + filename + "'!").c_str();
+		return msg.c_str();
 	}
 };
 
 class AssetNotFoundByPathException : public std::exception {
 private:
-	const std::string& filename;
-	const std::string& type;
+	std::string msg;
 
 public:
-	AssetNotFoundByPathException(const std::string &filename, const std::string &type) : filename(filename), type(type) {};
+	AssetNotFoundByPathException(const std::string &filename, const std::string &type) : msg("Asset type with filename '" + filename + "' and type '" + type + "' cannot been found!") {};
 
 	const char* what() const noexcept {
-		return std::string("Asset type with filename '" + filename + "' cannot been found!").c_str();
+		return msg.c_str();
 	}
 };
 
 class AssetNotLoadedException : public std::exception {
 private:
-	const std::string& id;
+	std::string msg;
 	
 public:
-	AssetNotLoadedException(const std::string& id) : id(id) {};
+	AssetNotLoadedException(const std::string& id) : msg("Asset with id '" + id +  "' is not loaded! Please load it first.") {};
 
 	const char* what() const noexcept {
-		return std::string("Asset with id '" + id + "' is not loaded! Please load it first.").c_str();
+		return msg.c_str();
 	}
 };
 

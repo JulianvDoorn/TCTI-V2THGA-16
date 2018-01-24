@@ -17,8 +17,6 @@ int main() {
 	// Load assets
 	AssetManager::instance()->load("arial", "arial.ttf");
 
-	AssetManager::instance()->loadTexture("dikkebmw", "dikkebmw.jpg");
-
 	Statemachine statemachine(window);
 
 	Label::setDefaultFont(AssetManager::instance()->getFont("arial"));
@@ -37,8 +35,6 @@ int main() {
 		statemachine.doTransition("main-menu");
 	}
 
-	// End state definitions
-	
 	window.setFramerateLimit((int) FPS);
 	sf::Clock clock;
 
