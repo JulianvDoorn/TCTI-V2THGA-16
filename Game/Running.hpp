@@ -71,7 +71,7 @@ public:
 		grassFloor.setSize({ 1600, 20 });
 		grassFloor.setTextureRect({0,0, 1600, 20 });
 		grassFloor.setPosition({ 400,500 });
-		//grassFloor.setTexture(grassFloorTexture);
+		grassFloor.setTexture(grassFloorTexture);
 		collisionGroup.add(grassFloor);
 
 		wall.setSize({ 30, 60 });
