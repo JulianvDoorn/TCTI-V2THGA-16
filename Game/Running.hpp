@@ -71,7 +71,7 @@ public:
 		grassFloor.setSize({ 1600, 20 });
 		grassFloor.setTextureRect({0,0, 1600, 20 });
 		grassFloor.setPosition({ 400,500 });
-		grassFloor.setTexture(grassFloorTexture);
+		//grassFloor.setTexture(grassFloorTexture);
 		collisionGroup.add(grassFloor);
 
 		wall.setSize({ 30, 60 });
@@ -83,12 +83,12 @@ public:
 		collisionGroup.add(death);
 		
 
-		wall1.setSize({ 30, 60 });
-		wall1.setPosition({ -200, 450 });
+		wall1.setSize({ 30, 100 });
+		wall1.setPosition({ -200, 350 });
 		collisionGroup.add(wall1);
 
 		crate.setSize({ 30, 30 });
-		crate.setPosition({ 0, 450 });
+		crate.setPosition({ 0, 445 });
 		crate.setTexture(brickWallTexture);
 		collisionGroup.add(crate);
 
