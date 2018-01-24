@@ -48,14 +48,20 @@ rectangle {
 	TextureId = "rockFloor"
 }
 
+
 rectangle {
-	Size = (60, 10)
-	Position = (0, 500)
+	Size = (30, 120)
+	Position = (-200, 380)
 }
 
 rectangle {
-	Size = (30, 60)
-	Position = (-200, 450)
+	Size = (30, 20)
+	Position = (200, 430)
+}
+
+rectangle {
+	Size = (30, 100)
+	Position = (400, 430)
 }
 
 rectangle {
