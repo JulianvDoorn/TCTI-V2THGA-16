@@ -55,9 +55,9 @@ public:
 	EventSource<> buttonReleased;
 	EventSource<> mouseEnter;
 	EventSource<> mouseLeave;
-./**
- *  @brief Empty constructor for button, create a empty button without text.
- */
+	/**
+	 *  @brief Empty constructor for button, create a empty button without text.
+	 */
 	Button() : textLabel() {
 		bindEvents();
 	}
