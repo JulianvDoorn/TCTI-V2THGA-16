@@ -15,10 +15,6 @@ int main() {
 	
 	// Load assets
 	AssetManager::instance()->load("arial", "arial.ttf");
-	AssetManager::instance()->load("game-over", "GameOver.wav");
-	AssetManager::instance()->load("ground", "ground.png");
-	AssetManager::instance()->load("bush", "bush.png");
-	AssetManager::instance()->load("brick", "brickWall.png");
 
 	AssetManager::instance()->loadTexture("dikkebmw", "dikkebmw.jpg");
 

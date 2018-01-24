@@ -7,11 +7,16 @@
 #include "Characters.hpp"
 #include "ViewFocus.hpp"
 #include "Label.hpp"
+#include "MapFactory.hpp"
+#include "DrawableGroup.hpp"
+
+#include <fstream>
 
 class Running : public State {
 	Statemachine& statemachine;
 
 	ViewFocus focus;
+	Map map;
 
 	sf::Music backgroundMusic;
 
@@ -21,88 +26,70 @@ class Running : public State {
 
 	Player player;
 	Antagonist death;
-	CollisionGroup collisionGroup;
-
-	Rectangle rockFloor1;
-	Rectangle rockFloor2;
-	Rectangle grassFloor;
-	Rectangle wall;
-	Rectangle wall1;
-	Rectangle crate;
-	Rectangle bush;
-
-	sf::Texture brickTexture;
-	sf::Texture groundTexture;
-	sf::Texture grassTexture;
-	sf::Texture bushTexture;
 
 	Label score;
 
 	bool gameOver = false;
 	float gameOverCounter = 3.0f;
 
+	using Type = Map::Type;
+
 public:
 	Running(Statemachine& statemachine) :
 		statemachine(statemachine),
 		focus(statemachine.window),
-		player(statemachine.window),
-		collisionGroup(player),
 		score(AssetManager::instance()->getFont("arial"))
 	{
+		map.registerCreateMethod("player", [&](std::istream& is) {
+			CurlyBracketList<KeyValuePair> curlyBracketList;
 
-		AssetManager::instance()->load("brickWall", "brickWall.png");
-		AssetManager::instance()->load("rockFloor", "ground2.png");
-		AssetManager::instance()->load("grassFloor", "ground3.png");
-		AssetManager::instance()->load("bush", "bush.png");
-		collisionGroup.add(death);
+			is >> curlyBracketList;
 
-		sf::Texture& rockFloorTexture = AssetManager::instance()->getTexture("rockFloor");
-		sf::Texture& grassFloorTexture = AssetManager::instance()->getTexture("grassFloor");
-		sf::Texture& brickWallTexture = AssetManager::instance()->getTexture("brickWall");
-		sf::Texture& bushTexture = AssetManager::instance()->getTexture("bush");
-		grassFloorTexture.setRepeated(true);
+			for (const KeyValuePair& pair : curlyBracketList) {
+				if (pair.key == "Position") {
+					Map::checkTypeMatch(pair.type, Type::Vector);
+					player.setPosition(*pair.value.v);
+				}
+				else if (pair.key == "TextureId") {
+					Map::checkTypeMatch(pair.type, Type::String);
+					sf::Texture& texture = AssetManager::instance()->getTexture(*pair.value.s);
+					player.setTexture(texture);
+				}
+			}
 
-		rockFloor1.setSize({ 800, 200 });
-		rockFloor1.setPosition({ 0, 600 });
-		rockFloor1.setTexture(rockFloorTexture);
-		collisionGroup.add(rockFloor1);
+			map.drawableGroup.add(player);
+			map.collisionGroup.setPrimaryCollidable(player);
+		});
 
-		rockFloor2.setSize({ 800, 200 });
-		rockFloor2.setPosition({ 800, 600 });
-		rockFloor2.setTexture(rockFloorTexture);
-		collisionGroup.add(rockFloor2);
+		map.registerCreateMethod("death", [&](std::istream& is) {
+			CurlyBracketList<KeyValuePair> curlyBracketList;
 
-		grassFloor.setSize({ 1600, 20 });
-		grassFloor.setTextureRect({0,0, 1600, 20 });
-		grassFloor.setPosition({ 400,500 });
-		grassFloor.setTexture(grassFloorTexture);
-		collisionGroup.add(grassFloor);
+			is >> curlyBracketList;
 
-		wall.setSize({ 30, 60 });
-		wall.setPosition({ 250, 550 });
-		collisionGroup.add(wall);
+			for (const KeyValuePair& pair : curlyBracketList) {
+				if (pair.key == "Position") {
+					Map::checkTypeMatch(pair.type, Type::Vector);
+					death.setPosition(*pair.value.v);
+				}
+				else if (pair.key == "TextureId") {
+					Map::checkTypeMatch(pair.type, Type::String);
+					sf::Texture& texture = AssetManager::instance()->getTexture(*pair.value.s);
+					death.setTexture(texture);
+				}
+			}
 
-		player.setPosition({ 150, 450 });
-		death.setPosition({ -200, 200 }); // (-200, 200)
-		collisionGroup.add(death);
+			map.drawableGroup.add(death);
+			map.collisionGroup.add(death);
+		});
 
-		wall1.setSize({ 30, 60 });
-		wall1.setPosition({ -200, 450 });
-		collisionGroup.add(wall1);
-
-		crate.setSize({ 30, 30 });
-		crate.setPosition({ 0, 450 });
-		crate.setTexture(brickWallTexture);
-		collisionGroup.add(crate);
-
-		bush.setSize({ 14, 14 });
-		bush.setPosition({ 150, 486 });
-		bush.setTexture(bushTexture);
+		std::ifstream file;
+		file.open("map.txt");
+		map.readFile(file);
 	}
 
 	void entry() override {
 		backgroundMusic.openFromFile("sound.wav");
-		backgroundMusic.setLoop("true");
+		backgroundMusic.setLoop(true);
 		backgroundMusic.play();
 		focus.setFocus(player);
 		focus.update();
@@ -159,22 +146,10 @@ public:
 			return;
 		}
 
-		collisionGroup.resolveCollisions();
-		//player.resolveCollision(rockFloor1);
-		//player.resolveCollision(rockFloor2);
-		//player.resolveCollision(wall);
-		//player.deathByAntagonist(death);
+		death.update(elapsedTime);
 
-		player.draw(statemachine.window);
-		death.draw(statemachine.window);
-
-		rockFloor1.draw(statemachine.window);
-		rockFloor2.draw(statemachine.window);
-		grassFloor.draw(statemachine.window);
-		wall.draw(statemachine.window);
-		wall1.draw(statemachine.window);
-		crate.draw(statemachine.window);
-		bush.draw(statemachine.window);
+		map.collisionGroup.resolveCollisions();
+		map.drawableGroup.draw(statemachine.window);
 
 		score.draw(statemachine.window);
 

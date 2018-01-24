@@ -21,7 +21,6 @@ public:
 
 class Player : public Rectangle {
 private:
-	sf::RenderWindow &window;
 	KeyScheme activeKeyScheme = KeyScheme(sf::Keyboard::Key::A, sf::Keyboard::Key::D, sf::Keyboard::Key::W, sf::Keyboard::Key::S,sf::Keyboard::LShift);
 	KeySchemes keySchemes = {
 		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift ,KeyScheme::Difficulty::MODERATE),
@@ -46,8 +45,8 @@ private:
 	EventConnection<sf::Keyboard::Key> keyReleasedConn;
 
 public:
-	Player(sf::RenderWindow &window) : window(window) {
-		setSize({ 20, 20 });
+	Player() {
+		setSize({ 20, 40 });
 		setFillColor(sf::Color(0, 255, 0));
 
 		keyPressedConn = game.keyboard.keyPressed.connect([this](const sf::Keyboard::Key key) {
@@ -117,15 +116,9 @@ public:
 			if (!roll) {
 				setVelocity({ walkDirection * walkspeed, getVelocity().y });
 			}
-			else {
-				setVelocity({ walkDirection * (walkspeed * float(1.5)), getVelocity().y });
-			}
 		} else {
 			if (!roll) {
 				setVelocity({ 0, getVelocity().y });
-			}
-			else {
-				setVelocity({ walkDirection * (walkspeed * float(1.5)), getVelocity().y });
 			}
 		}
 
@@ -134,11 +127,19 @@ public:
 			jump = false;
 		}
 		if (roll) {
-			applyForce({ 0, jumpForce });
-			setSize({ 20, 15 });
+			if (getVelocity().x > 0) {
+				applyForce({ 1, jumpForce });
+			}
+			else if(getVelocity().x < 0) {
+				applyForce({ -1, jumpForce });
+			}
+			else {
+				applyForce({ 0, jumpForce });
+			}
+			setSize({ 20, 20 });
 			roll = true;
-			if ((clock.getElapsedTime().asSeconds()) > 2) {
-				setSize({ 20, 20 });
+			if (((clock.getElapsedTime().asSeconds()) > 2) || getVelocity().x == 0) {
+				setSize({ 20, 40 });
 				roll = false;
 			}
 		}
