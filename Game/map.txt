@@ -1,30 +1,56 @@
 asset {
-	Id = "dikketieten"
-	Location = "brickWall.png"
+	Id = "game-over"
+	Location = "GameOver.wav"
 }
 
 asset {
-	Id = "dikkebosjes"
+	Id = "ground"
+	Location = "ground.png"
+}
+
+asset {
+	Id = "bush"
 	Location = "bush.png"
 }
 
-rectangle {
-	Color = #696969
-	Size = (100, 100)
-	Position = (0, 400)
-	TextureId = "dikketieten"
+asset {
+	Id = "brick"
+	Location = "brickWall.png"
+}
+
+player {
+	Position = (150, 450)
+}
+
+death {
+	Position = (-200, 200)
 }
 
 rectangle {
-	Color = #696969
-	Size = (100, 100)
-	Position = (100, 400)
-	TextureId = "dikketieten"
+	Size = (400, 200)
+	Position = (0, 600)
+	TextureId = "ground"
 }
 
 rectangle {
-	Color = #696969
-	Size = (100, 100)
-	Position = (200, 400)
-	TextureId = "dikkebosjes"
+	Size = (60, 10)
+	Position = (0, 500)
+}
+
+rectangle {
+	Size = (30, 60)
+	Position = (-200, 450)
+}
+
+rectangle {
+	Size = (30, 30)
+	Position = (0, 450)
+	TextureId = "brick"
+}
+
+rectangle {
+	Size = (14, 14)
+	Position = (150, 494)
+	TextureId = "bush"
+	CanCollide = false
 }

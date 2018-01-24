@@ -16,6 +16,7 @@ class Running : public State {
 	Statemachine& statemachine;
 
 	ViewFocus focus;
+	Map map;
 
 	sf::Music backgroundMusic;
 
@@ -25,95 +26,65 @@ class Running : public State {
 
 	Player player;
 	Antagonist death;
-	CollisionGroup collisionGroup;
-	DrawableGroup drawableGroup;
 
-	PhysicsObject* temp;
-
-	//Rectangle floor0;
-	//Rectangle floor1;
-	//Rectangle wall;
-	//Rectangle wall1;
-	//Rectangle crate;
-	//Rectangle bush;
 	Label score;
 
 	bool gameOver = false;
 	float gameOverCounter = 3.0f;
 
+	using Type = Map::Type;
+
 public:
 	Running(Statemachine& statemachine) :
 		statemachine(statemachine),
 		focus(statemachine.window),
-		player(statemachine.window),
-		collisionGroup(player),
 		score(AssetManager::instance()->getFont("arial"))
 	{
-		player.setPosition({ 150, 450 });
-		drawableGroup.add(player);
-		death.setPosition({ -200, 200 });
-		drawableGroup.add(death);
+		map.registerCreateMethod("player", [&](std::istream& is) {
+			CurlyBracketList<KeyValuePair> curlyBracketList;
 
+			is >> curlyBracketList;
 
-
-		std::ifstream file;
-		file.exceptions(std::istream::failbit);
-		file.open("map.txt");
-
-		MapFactory mapFactory;
-
-		while (!file.eof()) {
-			std::string name;
-			file >> name;
-
-			PhysicsObject* ptr = mapFactory.create(name, file);
-
-			if (ptr != nullptr) {
-				drawableGroup.add(*ptr);
-				collisionGroup.add(*ptr);
+			for (const KeyValuePair& pair : curlyBracketList) {
+				if (pair.key == "Position") {
+					Map::checkTypeMatch(pair.type, Type::Vector);
+					player.setPosition(*pair.value.v);
+				}
+				else if (pair.key == "TextureId") {
+					Map::checkTypeMatch(pair.type, Type::String);
+					sf::Texture& texture = AssetManager::instance()->getTexture(*pair.value.s);
+					player.setTexture(texture);
+				}
 			}
 
-			file >> std::ws;
-		}
+			map.drawableGroup.add(player);
+			map.collisionGroup.setPrimaryCollidable(player);
+		});
 
+		map.registerCreateMethod("death", [&](std::istream& is) {
+			CurlyBracketList<KeyValuePair> curlyBracketList;
 
+			is >> curlyBracketList;
 
-		
+			for (const KeyValuePair& pair : curlyBracketList) {
+				if (pair.key == "Position") {
+					Map::checkTypeMatch(pair.type, Type::Vector);
+					death.setPosition(*pair.value.v);
+				}
+				else if (pair.key == "TextureId") {
+					Map::checkTypeMatch(pair.type, Type::String);
+					sf::Texture& texture = AssetManager::instance()->getTexture(*pair.value.s);
+					death.setTexture(texture);
+				}
+			}
 
-		collisionGroup.add(death);
+			map.drawableGroup.add(death);
+			map.collisionGroup.add(death);
+		});
 
-		Rectangle* floor0 = new Rectangle();
-		floor0->setSize({ 400, 200 });
-		floor0->setPosition({ 0, 600 });
-		floor0->setTexture(AssetManager::instance()->getTexture("ground"));
-		collisionGroup.add(*floor0);
-		drawableGroup.add(*floor0);
-
-		Rectangle* floor1 = new Rectangle();
-		floor1->setSize({ 60, 10 });
-		floor1->setPosition({ 0, 500 });
-		collisionGroup.add(*floor1);
-		drawableGroup.add(*floor1);
-
-		Rectangle* wall1 = new Rectangle();
-		wall1->setSize({ 30, 60 });
-		wall1->setPosition({ -200, 450 });
-		collisionGroup.add(*wall1);
-		drawableGroup.add(*wall1);
-
-		Rectangle* crate = new Rectangle();
-		crate->setSize({ 30, 30 });
-		crate->setPosition({ 0, 450 });
-		crate->setTexture(AssetManager::instance()->getTexture("brick"));
-		collisionGroup.add(*crate);
-		drawableGroup.add(*crate);
-
-		Rectangle* bush = new Rectangle();
-		bush->setSize({ 14, 14 });
-		bush->setPosition({ 150, 494 });
-		bush->setTexture(AssetManager::instance()->getTexture("bush"));
-		drawableGroup.add(*bush);
-
+		std::ifstream file;
+		file.open("map.txt");
+		map.readFile(file);
 	}
 
 	void entry() override {
@@ -175,20 +146,8 @@ public:
 
 		death.update(elapsedTime);
 
-		collisionGroup.resolveCollisions();
-		drawableGroup.draw(statemachine.window);
-
-		//player.draw(statemachine.window);
-		//death.draw(statemachine.window);
-
-		//temp->draw(statemachine.window);
-
-		//floor0.draw(statemachine.window);
-		//floor1.draw(statemachine.window);
-		//wall.draw(statemachine.window);
-		//wall1.draw(statemachine.window);
-		//crate.draw(statemachine.window);
-		//bush.draw(statemachine.window);
+		map.collisionGroup.resolveCollisions();
+		map.drawableGroup.draw(statemachine.window);
 
 		score.draw(statemachine.window);
 
