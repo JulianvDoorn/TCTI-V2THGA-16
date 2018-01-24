@@ -11,17 +11,31 @@
 #include "VectorMath.hpp"
 #include "KeyValuePair.hpp"
 #include "CurlyBracketList.hpp"
+#include "CollisionDetection.hpp"
+#include "DrawableGroup.hpp"
 
-class MapFactory : public BaseFactory<PhysicsObject, std::string, std::istream&> {
+class Map : public BaseFactory<void, std::string, std::istream&> {
+public:
 	using Type = KeyValuePair::Type;
 
-	void checkTypeMatch(Type lhs, Type rhs) {
+	static void checkTypeMatch(Type lhs, Type rhs) {
 		// TODO
 	}
 
-public:
-	MapFactory() {
-		registerCreateMethod("asset", [this](std::istream& is) {
+	DrawableGroup drawableGroup;
+	CollisionGroup collisionGroup;
+
+	void readFile(std::istream& is) {
+		while (!is.eof()) {
+			std::string name;
+			is >> name;
+			create(name, is);
+			is >> std::ws;
+		}
+	}
+
+	Map() {
+		registerCreateMethod("asset", [&](std::istream& is) {
 			CurlyBracketList<KeyValuePair> curlyBracketList;
 
 			is >> exceptions >> curlyBracketList;
@@ -46,16 +60,16 @@ public:
 			else {
 				// TODO: throw exception
 			}
-
-			return nullptr; // no real return value
 		});
 
-		registerCreateMethod("rectangle", [this](std::istream& is) {
+		registerCreateMethod("rectangle", [&](std::istream& is) {
 			CurlyBracketList<KeyValuePair> curlyBracketList;
 
 			is >> curlyBracketList;
 
 			Rectangle* rectangle = new Rectangle();
+
+			bool canCollide = true;
 
 			for (const KeyValuePair& pair : curlyBracketList) {
 				if (pair.key == "Color") {
@@ -75,9 +89,17 @@ public:
 					sf::Texture& texture = AssetManager::instance()->getTexture(*pair.value.s);
 					rectangle->setTexture(texture);
 				}
+				else if (pair.key == "CanCollide") {
+					checkTypeMatch(pair.type, Type::Bool);
+					canCollide = pair.value.b;
+				}
 			}
 
-			return rectangle;
+			drawableGroup.add(*rectangle);
+
+			if (canCollide) {
+				collisionGroup.add(*rectangle);
+			}
 		});
 	}
 };
