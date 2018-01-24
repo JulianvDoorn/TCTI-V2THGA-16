@@ -46,7 +46,7 @@ private:
 
 public:
 	Player() {
-		setSize({ 20, 20 });
+		setSize({ 20, 40 });
 		setFillColor(sf::Color(0, 255, 0));
 
 		keyPressedConn = game.keyboard.keyPressed.connect([this](const sf::Keyboard::Key key) {
@@ -116,16 +116,10 @@ public:
 			if (!roll) {
 				setVelocity({ walkDirection * walkspeed, getVelocity().y });
 			}
-			//else {
-				//setVelocity({ walkDirection * (walkspeed * float(1.5)), getVelocity().y });
-			//}
 		} else {
 			if (!roll) {
 				setVelocity({ 0, getVelocity().y });
 			}
-			//else {
-				//setVelocity({ walkDirection * (walkspeed * float(1.5)), getVelocity().y });
-			//}
 		}
 
 		if (jump) {
