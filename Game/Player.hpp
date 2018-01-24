@@ -21,7 +21,6 @@ public:
 
 class Player : public Rectangle {
 private:
-	sf::RenderWindow &window;
 	KeyScheme activeKeyScheme = KeyScheme(sf::Keyboard::Key::A, sf::Keyboard::Key::D, sf::Keyboard::Key::W, sf::Keyboard::Key::S,sf::Keyboard::LShift);
 	KeySchemes keySchemes = {
 		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift ,KeyScheme::Difficulty::MODERATE),
@@ -46,7 +45,7 @@ private:
 	EventConnection<sf::Keyboard::Key> keyReleasedConn;
 
 public:
-	Player(sf::RenderWindow &window) : window(window) {
+	Player() {
 		setSize({ 20, 20 });
 		setFillColor(sf::Color(0, 255, 0));
 
