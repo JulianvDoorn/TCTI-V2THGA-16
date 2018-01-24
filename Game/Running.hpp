@@ -50,10 +50,6 @@ public:
 		score(AssetManager::instance()->getFont("arial"))
 	{
 
-		AssetManager::instance()->load("brickWall", "brickWall.png");
-		AssetManager::instance()->load("rockFloor", "ground2.png");
-		AssetManager::instance()->load("grassFloor", "ground3.png");
-		AssetManager::instance()->load("bush", "bush.png");
 		collisionGroup.add(death);
 
 		sf::Texture& rockFloorTexture = AssetManager::instance()->getTexture("rockFloor");
