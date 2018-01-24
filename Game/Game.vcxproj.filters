@@ -205,13 +205,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="test.srt">
-      <Filter>Source Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="map.txt">
       <Filter>Source Files</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cutscene.srt">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

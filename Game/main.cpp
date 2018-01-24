@@ -6,6 +6,8 @@
 #include "Events.hpp"
 #include "AssetManager.hpp"
 
+#define DISABLE_CUTSCENE
+
 int main() {
 	const float FPS = 60.0f;
 
@@ -30,10 +32,11 @@ int main() {
 	statemachine.registerState<SettingsMenu>("settings-menu");
 	statemachine.registerState<Cutscene>("cutscene");
 
-
-
-	//statemachine.doTransition("main-menu"); // initial state
-	statemachine.doTransition("cutscene");
+	#ifdef DISABLE_CUTSCENE
+		statemachine.doTransition("main-menu");
+	#else
+		statemachine.doTransition("cutscene");
+	#endif
 
 	// End state definitions
 	

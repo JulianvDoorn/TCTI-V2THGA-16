@@ -21,17 +21,16 @@ class Cutscene : public State {
 public:
 	Cutscene(Statemachine& statemachine) :
 		statemachine(statemachine),
-		parser("test.srt")
+		parser("cutscene.srt")
 	{}
 
 	void entry() override {
 		subtitleText.setFont(AssetManager::instance()->getFont("arial"));
 		subtitleText.setPosition({100.0f, statemachine.window.getSize().y - 80.0f});
-		subtitleText.setText("Hello World!");
+		subtitleText.setText("");
 
 		imageBackground.setPosition({640, 360});
 		imageBackground.setSize({ 1280, 720 });
-		//imageBackground.setTextureRect({ 0, 0, 1280, 720 });
 		imageBackground.setFillColor(sf::Color{ 0, 0 ,0 });
 
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
@@ -40,12 +39,24 @@ public:
 			}
 		});
 
-		// Parse the srt file
-		parser.parse(subtitles);
+		try {
+			// Parse the srt file.
+			parser.parse(subtitles);
+		}
+		catch (SubtitleReadException &ex) {
+			// Cannot read the subtitle file, transition to the running state.
+			std::cout << ex.what() << std::endl;
+			statemachine.doTransition("running");
+			return;
+		}
 
-		// Reserve the result
+		// Reserve the result.
 		if (subtitles.size() > 1) {
 			std::reverse(subtitles.begin(), subtitles.end());
+		}
+		else {
+			// No subtitles available, skip the cutscene.
+			statemachine.doTransition("running");
 		}
 	}
 
@@ -69,31 +80,24 @@ public:
 				ssStart >> std::get_time(&subTimeStart, "%H:%M:%S");
 				ssStop >> std::get_time(&subTimeEnd, "%H:%M:%S");
 
-				subTimeStart.tm_min = 0;
-				subTimeEnd.tm_min = 0;
-
 				if (clock.getElapsedTime().asSeconds() >= (subTimeStart.tm_min * 60) + subTimeStart.tm_sec) {
 					subtitleText.setText(item->getText());
 				}
 
 				if (clock.getElapsedTime().asSeconds() >= (subTimeEnd.tm_min * 60) + subTimeEnd.tm_sec) {
 					subtitleText.setText("");
+					
 					subtitles.pop_back();
 				}
 			}
-			else {
+			else if (subtitleText.getText() == "") {
 				// Done with the cutscene, transition to running state.
 				statemachine.doTransition("running");
 			}
 
 		}
 
-		
 		imageBackground.draw(statemachine.window);
 		subtitleText.draw(statemachine.window);
-		
-		
-		//gameExitButton.draw(statemachine.window);
-		//gameResumeButton.draw(statemachine.window);
 	}
 };

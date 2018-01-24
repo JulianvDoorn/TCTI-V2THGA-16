@@ -2,12 +2,12 @@
 
 class SubtitleReadException : public std::exception {
 private:
-	const std::string filepath;
+	std::string msg;
 
 public:
-	SubtitleReadException(const std::string filepath) : filepath(filepath) {};
+	SubtitleReadException(const std::string& filepath) : msg(std::move(std::string("Error reading subtitle: " + filepath).c_str())) {};
 
 	const char* what() const noexcept {
-		return std::string("Error reading subtitle: " + filepath).c_str();
+		return msg.c_str();
 	}
 };

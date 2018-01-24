@@ -207,7 +207,7 @@
     <ClInclude Include="ViewFocus.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="test.srt" />
+    <None Include="cutscene.srt" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="map.txt" />
