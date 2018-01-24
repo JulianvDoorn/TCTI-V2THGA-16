@@ -6,15 +6,14 @@
 #include "Events.hpp"
 #include "AssetManager.hpp"
 
-#define DISABLE_CUTSCENE
-
 int main() {
 	const float FPS = 60.0f;
+	const bool ENABLE_CUTSCENE = true;
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720, 32), "Hello");
 
 	game = Game(window);
-	
+
 	// Load assets
 	AssetManager::instance()->load("arial", "arial.ttf");
 
@@ -32,11 +31,11 @@ int main() {
 	statemachine.registerState<SettingsMenu>("settings-menu");
 	statemachine.registerState<Cutscene>("cutscene");
 
-	#ifdef DISABLE_CUTSCENE
+	if (ENABLE_CUTSCENE) {
 		statemachine.doTransition("main-menu");
-	#else
+	} else {
 		statemachine.doTransition("cutscene");
-	#endif
+	}
 
 	// End state definitions
 	
