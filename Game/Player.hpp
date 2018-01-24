@@ -47,7 +47,7 @@ private:
 public:
 	Player() {
 		setSize({ 20, 40 });
-		setFillColor(sf::Color(0, 255, 0));
+		//setFillColor(sf::Color(0, 255, 0));
 
 		keyPressedConn = game.keyboard.keyPressed.connect([this](const sf::Keyboard::Key key) {
 			if (key == activeKeyScheme.jump) {

@@ -4,6 +4,20 @@ asset {
 }
 
 asset {
+	Id = "fimmyStanding"
+	Location = "fimmy.png"
+}
+asset {
+	Id = "fimmyLeft"
+	Location = "FimmyWalkLeft.png"
+}
+
+asset {
+	Id = "fimmyRight"
+	Location = "FimmyWalkRight.png"
+}
+
+asset {
 	Id = "ground"
 	Location = "ground.png"
 }
@@ -30,6 +44,7 @@ asset {
 
 player {
 	Position = (150, 450)
+	TextureId = "fimmyRight"
 }
 
 death {
