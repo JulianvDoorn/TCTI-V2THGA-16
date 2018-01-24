@@ -2,7 +2,8 @@
 
 #include <numeric>
 #include <SFML/Graphics.hpp>
-
+#include "SecureRead.hpp"
+#include "math.h"
 template<class T>
 std::ostream& operator<< (std::ostream& os, sf::Vector2<T> v) {
 	return os << "Vector2(" << v.x << ", " << v.y << ')';

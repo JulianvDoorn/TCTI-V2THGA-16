@@ -92,6 +92,10 @@ public:
 		backgroundMusic.setLoop(true);
 		backgroundMusic.play();
 		focus.setFocus(player);
+        focus.setLeftBorder(250);
+        focus.setRightBorder(250);
+        focus.setTopBorder(00);
+        focus.setBottomBorder(250);
 		focus.update();
 
 		player.collided.connect([this](Collidable& other) {
