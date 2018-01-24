@@ -4,6 +4,8 @@
 #include <sstream>
 #include <istream>
 
+#include "IOExceptions.hpp"
+
 /**
  * @fn	std::istream& ignoreLine(std::istream& is)
  *
@@ -64,7 +66,13 @@ class CurlyBracketList : public std::vector<T> { };
 
 template<class T>
 std::istream& operator>> (std::istream& is, CurlyBracketList<T>& list) {
-	is >> exceptions >> SpecialCharacter::LeftCurlyBracket;
+	try {
+		is >> exceptions >> SpecialCharacter::LeftCurlyBracket;
+	}
+	catch (const OpeningBracketMissingException&) {
+		is >> exceptions >> SpecialCharacter::LeftCurlyBracket;
+	}
+
 	is >> exceptions >> ignoreLine;
 
 	while (true) {
