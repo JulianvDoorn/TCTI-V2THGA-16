@@ -68,12 +68,26 @@ std::istream& operator>> (std::istream& is, CurlyBracketList<T>& list) {
 	is >> exceptions >> ignoreLine;
 
 	while (true) {
+		int64_t pos = is.tellg();
+
 		std::string line;
 		getline(is, line);
 		std::istringstream iss(line);
 
 		char c;
-		iss >> exceptions >> c;
+		
+		try {
+			iss >> exceptions >> c;
+		}
+		catch (const std::ios::failure&) {
+			is.seekg(pos);
+
+			std::string unexpectedSymbol;
+			is >> unexpectedSymbol;
+
+			throw ClosingBracketMissingException(pos, unexpectedSymbol);
+		}
+
 
 		if (c != SpecialCharacter::RightCurlyBracket) {
 			iss.seekg(0);
