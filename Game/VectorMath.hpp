@@ -2,6 +2,9 @@
 
 #include <numeric>
 #include <SFML/Graphics.hpp>
+#include "ConsumeString.hpp"
+#include "SecureRead.hpp"
+#include "math.h"
 
 template<class T>
 std::ostream& operator<< (std::ostream& os, sf::Vector2<T> v) {
@@ -10,14 +13,16 @@ std::ostream& operator<< (std::ostream& os, sf::Vector2<T> v) {
 
 template<class T>
 std::istream& operator>> (std::istream& is, sf::Vector2<T>& v) {
+	is >> ConsumeString("Vector2");
+
 	SecureRead<T> x;
 	SecureRead<T> y;
 
-	is >> SpecialCharacter::LeftBracket;
-	is >> x;
-	is >> SpecialCharacter::Comma;
-	is >> y;
-	is >> SpecialCharacter::RightBracket;
+	is >> std::ws >> SpecialCharacter::LeftBracket;
+	is >> std::ws >> x;
+	is >> std::ws >> SpecialCharacter::Comma;
+	is >> std::ws >> y;
+	is >> std::ws >> SpecialCharacter::RightBracket;
 
 	v = sf::Vector2<T>(x, y);
 

@@ -197,6 +197,9 @@
     <ClInclude Include="SettingsMenu.hpp">
       <Filter>Header Files\GameStates\States</Filter>
     </ClInclude>
+    <ClInclude Include="ConsumeString.hpp">
+      <Filter>Header Files\MapLoader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="test.srt">

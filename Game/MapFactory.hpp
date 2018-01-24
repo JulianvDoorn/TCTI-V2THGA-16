@@ -62,6 +62,48 @@ public:
 			}
 		});
 
+		registerCreateMethod("texture", [&](std::istream& is) {
+			CurlyBracketList<KeyValuePair> curlyBracketList;
+
+			is >> exceptions >> curlyBracketList;
+
+			std::string* id = nullptr;
+			std::string* location = nullptr;
+
+			bool loaded = false;
+
+			for (const KeyValuePair& pair : curlyBracketList) {
+				if (pair.key == "Id") {
+					checkTypeMatch(pair.type, Type::Color);
+					id = pair.value.s;
+				}
+				else if (pair.key == "Location") {
+					checkTypeMatch(pair.type, Type::String);
+					location = pair.value.s;
+				}
+				
+				if (id != nullptr && location != nullptr && loaded == false) {
+					AssetManager::instance()->load(*id, *location);
+					loaded = true;
+				} else if (loaded == true) {
+					sf::Texture& texture = AssetManager::instance()->getTexture(*id);
+
+					if (pair.key == "Repeated") {
+						checkTypeMatch(pair.type, Type::Bool);
+						texture.setRepeated(pair.value.b);
+					}
+					else if (pair.key == "Smooth") {
+						checkTypeMatch(pair.type, Type::Bool);
+						texture.setSmooth(pair.value.b);
+					}
+				}
+			}
+
+			if (id == nullptr || location == nullptr) {
+				// TODO: throw exception
+			}
+		});
+
 		registerCreateMethod("rectangle", [&](std::istream& is) {
 			CurlyBracketList<KeyValuePair> curlyBracketList;
 
@@ -88,6 +130,10 @@ public:
 					checkTypeMatch(pair.type, Type::String);
 					sf::Texture& texture = AssetManager::instance()->getTexture(*pair.value.s);
 					rectangle->setTexture(texture);
+				}
+				else if (pair.key == "TextureRect") {
+					checkTypeMatch(pair.type, Type::Rect);
+					rectangle->setTextureRect(static_cast<sf::IntRect>(*pair.value.r));
 				}
 				else if (pair.key == "CanCollide") {
 					checkTypeMatch(pair.type, Type::Bool);

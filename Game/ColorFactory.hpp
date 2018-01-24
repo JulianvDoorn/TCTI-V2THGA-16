@@ -158,7 +158,7 @@ public:
 	*/
 
 	Conversion<const L&> convert(const R& rhs) {
-		ConversionMap::iterator it;
+		typename ConversionMap::iterator it;
 		
 		for (it = ConversionMap::begin(); it != ConversionMap::end(); it++) {
 			if (it->second == rhs) {

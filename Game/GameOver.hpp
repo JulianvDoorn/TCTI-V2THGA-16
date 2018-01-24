@@ -94,7 +94,7 @@ public:
             mainMenuButton.setBackgroundColor({ 0, 153, 51 });
         });
         mouseLeaveConn=  restartGameButton.mouseLeave.connect([this](){
-            restartGameButton.setBackgroundColor({0,153,21});
+            restartGameButton.setBackgroundColor({0,153,51});
         });
         mouseLeaveConn = exitButton.mouseLeave.connect([this]() {
             exitButton.setBackgroundColor({ 0, 153, 51 });
