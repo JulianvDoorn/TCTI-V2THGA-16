@@ -15,17 +15,20 @@ private:
     Label textLabel;
 
 	bool mouseInside = false;
+	bool isPressed = false;
 
 	void bindEvents() {
 		game.mouse.mouseLeftButtonDown.connect([this](const sf::Vector2i mousePos) {
 			if (background.contains(static_cast<sf::Vector2f>(mousePos))) {
 				buttonPressed.fire();
+				isPressed = true;
 			}
 		});
 
 		game.mouse.mouseLeftButtonUp.connect([this](const sf::Vector2i mousePos) {
-			if (background.contains(static_cast<sf::Vector2f>(mousePos))) {
+			if (background.contains(static_cast<sf::Vector2f>(mousePos)) && isPressed) {
 				buttonReleased.fire();
+				isPressed = false;
 			}
 		});
 

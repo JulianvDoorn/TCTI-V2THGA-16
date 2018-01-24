@@ -39,7 +39,7 @@ public:
         menuLabel.setStyle(sf::Text::Bold);
 
 		mainMenuButton.setSize({ 300, 100 });
-		mainMenuButton.setPosition({ 640, 360 });
+		mainMenuButton.setPosition({ 840, 360 });
 		mainMenuButton.setCharSize(32);
 		mainMenuButton.setBackgroundColor({ 0, 153, 51 });
 		mainMenuButton.setText("Main Menu");
@@ -69,8 +69,7 @@ public:
         });
 
         mainMenuButtonReleasedConn = mainMenuButton.buttonReleased.connect([this]() {
-            std::cout << "Main menu button" << std::endl;
-			statemachine.resetState("main-menu");
+			//statemachine.resetState("main-menu");
             statemachine.doTransition("main-menu");
 		});
         restartGameButtonReleasedConn = restartGameButton.buttonReleased.connect([this]() {

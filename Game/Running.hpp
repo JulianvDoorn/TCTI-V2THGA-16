@@ -83,9 +83,8 @@ public:
 		collisionGroup.add(wall);
 
 		player.setPosition({ 150, 450 });
-		death.setPosition({ -200, 200 });
+		death.setPosition({ -200, 200 }); // (-200, 200)
 		collisionGroup.add(death);
-		
 
 		wall1.setSize({ 30, 60 });
 		wall1.setPosition({ -200, 450 });
@@ -121,13 +120,11 @@ public:
 		});
 
 		diedConnection = game.died.connect([this]() {
-			diedConnection.disconnect();
 			std::cout << "/!\\ death got you /!\\" << std::endl;
 			gameOver = true;
 		});
 
 		fellOffMapConnection = game.fellOffMap.connect([this]() {
-			fellOffMapConnection.disconnect();
 			std::cout << "/!\\ fell out of the world /!\\" << std::endl;
 			gameOver = true;
 		});
@@ -149,16 +146,18 @@ public:
 	void update(const float elapsedTime) override {
 		if (!gameOver) {
 			player.update(elapsedTime);
+			death.update(elapsedTime);
 		}
 		else if (gameOverCounter > 0) {
 			gameOverCounter -= elapsedTime;
 		}
 		else {
+			diedConnection.disconnect();
+			fellOffMapConnection.disconnect();
+			
 			statemachine.doTransition("game-over");
 			return;
 		}
-
-		death.update(elapsedTime);
 
 		collisionGroup.resolveCollisions();
 		//player.resolveCollision(rockFloor1);
