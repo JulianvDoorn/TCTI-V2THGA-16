@@ -38,6 +38,10 @@ public:
 
 	CollisionGroup(Collidable& collidable) : primaryCollidable(&collidable) { }
 
+	void setPrimaryCollidable(Collidable& collidable) {
+		primaryCollidable = &collidable;
+	}
+
 	/**
 	 * @fn	void CollisionGroup::add(Collidable& collidable)
 	 *
