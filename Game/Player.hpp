@@ -113,11 +113,18 @@ public:
 		PhysicsObject::update(elapsedTime);
 
 		if (walkDirection != 0) {
+			if (walkDirection > 0) {
+				setTexture(AssetManager::instance()->getTexture("fimmyRight"));
+			}
+			if (walkDirection < 0) {
+				setTexture(AssetManager::instance()->getTexture("fimmyLeft"));
+			}
 			if (!roll) {
 				setVelocity({ walkDirection * walkspeed, getVelocity().y });
 			}
 		} else {
 			if (!roll) {
+				setTexture(AssetManager::instance()->getTexture("fimmyStanding"));
 				setVelocity({ 0, getVelocity().y });
 			}
 		}
