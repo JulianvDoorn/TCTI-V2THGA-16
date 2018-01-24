@@ -9,7 +9,7 @@ class ConsumeStringException : std::exception {
 public:
 	ConsumeStringException(const std::string& consumeString, const std::string& consumed) : err(std::string("[") + consumeString + "] does not match [" + consumed + "]") { }
 
-	const char* what() const override {
+	const char* what() const noexcept override {
 		return err.c_str();
 	}
 };
