@@ -5,17 +5,17 @@ asset {
 
 texture {
 	Id = "fimmyStanding"
-	Location = "fimmy.png"
+	Location = "Fimmy/fimmy.png"
 }
 
 texture {
 	Id = "fimmyLeft"
-	Location = "FimmyWalkLeft.png"
+	Location = "Fimmy/FimmyWalkLeft.png"
 }
 
 texture {
 	Id = "fimmyRight"
-	Location = "FimmyWalkRight.png"
+	Location = "Fimmy/FimmyWalkRight.png"
 }
 
 texture {
