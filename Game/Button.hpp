@@ -37,9 +37,9 @@ private:
 	/** @brief	True if the button is pressed, false if not */
 	bool isPressed = false;
 
-	EventConnection<sf::Vector2i> mouseLeftButtonDownConn;
-	EventConnection<sf::Vector2i> mouseLeftButtonUpConn;
-	EventConnection<sf::Vector2i> mouseMovedConn;
+	EventConnection mouseLeftButtonDownConn;
+	EventConnection mouseLeftButtonUpConn;
+	EventConnection mouseMovedConn;
 
 	/**
 	 * @fn	void Button::bindEvents()

@@ -7,10 +7,10 @@
 #include "Events.hpp"
 
 class PhysicsObject : public Drawable, public Collidable {
-	EventConnection<sf::Vector2i> masterMouseLeftButtonDown;
-	EventConnection<sf::Vector2i> masterMouseLeftButtonUp;
-	EventConnection<sf::Vector2i> masterMouseRightButtonDown;
-	EventConnection<sf::Vector2i> masterMouseRightButtonUp;
+	EventConnection masterMouseLeftButtonDown;
+	EventConnection masterMouseLeftButtonUp;
+	EventConnection masterMouseRightButtonDown;
+	EventConnection masterMouseRightButtonUp;
 
 protected:
 	sf::Transformable& transformable;

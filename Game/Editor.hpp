@@ -23,8 +23,8 @@ class Editor : public State {
 	
 	Rectangle cameraFocus;
 
-	EventConnection<sf::Keyboard::Key> keyPressedConnection;
-	EventConnection<sf::Keyboard::Key> keyReleasedConnection;
+	EventConnection keyPressedConnection;
+	EventConnection keyReleasedConnection;
 
 public:
 

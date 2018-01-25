@@ -32,19 +32,19 @@ class SettingsMenu : public State {
     Button exitButton;
 
     /** @brief	The exit button pressed connection */
-    EventConnection<> exitButtonPressedConn;
+    EventConnection exitButtonPressedConn;
 
     /** @brief	The exit button released connection */
-    EventConnection<> exitButtonReleasedConn;
+    EventConnection exitButtonReleasedConn;
 
 	/** @brief	The change volume connection */
-	EventConnection<sf::Keyboard::Key> changeVolumeConn;
+	EventConnection changeVolumeConn;
 
     /** @brief	The mouse enter connection */
-    EventConnection<> mouseEnterConn;
+    EventConnection mouseEnterConn;
 
     /** @brief	The mouse leave connection */
-    EventConnection<> mouseLeaveConn;
+    EventConnection mouseLeaveConn;
 
 public:
 
