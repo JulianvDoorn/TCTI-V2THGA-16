@@ -6,12 +6,14 @@
 #include "Events.hpp"
 #include "AssetManager.hpp"
 
+//#define ENABLE_DEBUG_MODE
+
 int main() {
 	// Game constants.
 	const float FPS = 60.0f;
 	const bool  ENABLE_CUTSCENE = true;
 
-	sf::RenderWindow window(sf::VideoMode(1280, 720, 32), "Hello");
+	sf::RenderWindow window(sf::VideoMode(1280, 720, 32), "Fimmy the Game");
 
 	window.setFramerateLimit(static_cast<unsigned int>(FPS));
 
@@ -58,7 +60,9 @@ int main() {
 		}
 
 		if (elapsedTime >= 1.0f / FPS) {
+#ifdef ENABLE_DEBUG_MODE
 			window.setTitle(std::to_string(1 / elapsedTime));
+#endif // ENABLE_DEBUG_MODE
 			clock.restart();
 			statemachine.update(elapsedTime);
 		}
