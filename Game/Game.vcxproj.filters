@@ -46,6 +46,15 @@
     <Filter Include="Header Files\MapLoader">
       <UniqueIdentifier>{6dc2e34b-cac6-4a68-82fd-03f9298f53ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\MapLoader\Factories">
+      <UniqueIdentifier>{de92877c-d4dc-4b55-8273-e9c839acf4d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MapLoader\StreamUtils">
+      <UniqueIdentifier>{c575223a-631e-4822-bde7-bee75c33f9fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MapLoader\Factories\Utils">
+      <UniqueIdentifier>{36446231-c35e-4b3f-9395-66d925d7d2eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -167,41 +176,65 @@
     <ClInclude Include="AssetManager.hpp">
       <Filter>Header Files\Assets</Filter>
     </ClInclude>
-    <ClInclude Include="ColorFactory.hpp">
-      <Filter>Header Files\MapLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="IOExceptions.hpp">
-      <Filter>Header Files\MapLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="QuotedString.hpp">
-      <Filter>Header Files\MapLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="SpecialCharacter.hpp">
-      <Filter>Header Files\MapLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapFactory.hpp">
-      <Filter>Header Files\MapLoader</Filter>
-    </ClInclude>
     <ClInclude Include="DrawableGroup.hpp">
       <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyValuePair.hpp">
-      <Filter>Header Files\MapLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="CurlyBracketList.hpp">
-      <Filter>Header Files\MapLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="SecureRead.hpp">
-      <Filter>Header Files\MapLoader</Filter>
     </ClInclude>
     <ClInclude Include="SettingsMenu.hpp">
       <Filter>Header Files\GameStates\States</Filter>
     </ClInclude>
-    <ClInclude Include="ConsumeString.hpp">
-      <Filter>Header Files\MapLoader</Filter>
-    </ClInclude>
     <ClInclude Include="Cutscene.hpp">
       <Filter>Header Files\GameStates\States</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsumeString.hpp">
+      <Filter>Header Files\MapLoader\StreamUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="CurlyBracketList.hpp">
+      <Filter>Header Files\MapLoader\StreamUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="QuotedString.hpp">
+      <Filter>Header Files\MapLoader\StreamUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="SecureRead.hpp">
+      <Filter>Header Files\MapLoader\StreamUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="SpecialCharacter.hpp">
+      <Filter>Header Files\MapLoader\StreamUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorFactory.hpp">
+      <Filter>Header Files\MapLoader\Factories</Filter>
+    </ClInclude>
+    <ClInclude Include="MapFactory.hpp">
+      <Filter>Header Files\MapLoader\Factories</Filter>
+    </ClInclude>
+    <ClInclude Include="StreamUtils.hpp">
+      <Filter>Header Files\MapLoader\StreamUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyValuePair.hpp">
+      <Filter>Header Files\MapLoader\Factories\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.hpp">
+      <Filter>Header Files\MapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="MapItemProperties.hpp">
+      <Filter>Header Files\MapLoader\Factories\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyResolutionLambda.hpp">
+      <Filter>Header Files\MapLoader\Factories\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="MapLoader.hpp">
+      <Filter>Header Files\MapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseStreamExceptions.hpp">
+      <Filter>Header Files\MapLoader\StreamUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="StreamManipulators.hpp">
+      <Filter>Header Files\MapLoader\StreamUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="RectStreamOperators.hpp">
+      <Filter>Header Files\MapLoader\StreamUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorStreamOperators.hpp">
+      <Filter>Header Files\MapLoader\StreamUtils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

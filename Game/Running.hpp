@@ -1,16 +1,15 @@
 #pragma once
 
-#include <array>
 #include <SFML/Audio.hpp>
+#include <array>
+#include <fstream>
+
 #include "State.hpp"
 #include "Statemachine.hpp"
 #include "Characters.hpp"
 #include "ViewFocus.hpp"
 #include "Label.hpp"
-#include "MapFactory.hpp"
-#include "DrawableGroup.hpp"
-
-#include <fstream>
+#include "MapLoader.hpp"
 
 class Running : public State {
 	Statemachine& statemachine;
@@ -32,55 +31,39 @@ class Running : public State {
 	bool gameOver = false;
 	float gameOverCounter = 3.0f;
 
-	using Type = Map::Type;
-
 public:
 	Running(Statemachine& statemachine) :
 		statemachine(statemachine),
 		focus(statemachine.window),
 		score(AssetManager::instance()->getFont("arial"))
 	{
-		map.registerCreateMethod("player", [&](std::istream& is) {
-			CurlyBracketList<KeyValuePair> curlyBracketList;
+		using Type = MapFactory::Type;
+		using Value = MapFactory::Value;
 
-			is >> curlyBracketList;
+		std::ifstream file("map.txt");
+		MapFactory mapFactory(file);
 
-			for (const KeyValuePair& pair : curlyBracketList) {
-				if (pair.key == "Position") {
-					player.setPosition(*pair.value.vectorValue);
-				}
-				else if (pair.key == "TextureId") {
-					sf::Texture& texture = AssetManager::instance()->getTexture(*pair.value.stringValue);
-					player.setTexture(texture);
-				}
-			}
+		mapFactory.registerCreateMethod("player", [&](Map& map, const MapItemProperties& properties) {
+			properties.read({
+				{ "Position", Type::Vector, [&](Value value) { player.setPosition(*value.vectorValue); } },
+				{ "TextureId", Type::String, [&](Value value) { player.setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } }
+			});
 
-			map.drawableGroup.add(player);
-			map.collisionGroup.setPrimaryCollidable(player);
+			map.addDrawable(player);
+			map.setPrimaryCollidable(player);
 		});
 
-		map.registerCreateMethod("death", [&](std::istream& is) {
-			CurlyBracketList<KeyValuePair> curlyBracketList;
+		mapFactory.registerCreateMethod("death", [&](Map& map, const MapItemProperties& properties) {
+			properties.read({
+				{ "Position", Type::Vector, [&](Value value) { death.setPosition(*value.vectorValue); } },
+				{ "TextureId", Type::String, [&](Value value) { death.setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } }
+			});
 
-			is >> curlyBracketList;
-
-			for (const KeyValuePair& pair : curlyBracketList) {
-				if (pair.key == "Position") {
-					death.setPosition(*pair.value.vectorValue);
-				}
-				else if (pair.key == "TextureId") {
-					sf::Texture& texture = AssetManager::instance()->getTexture(*pair.value.stringValue);
-					death.setTexture(texture);
-				}
-			}
-
-			map.drawableGroup.add(death);
-			map.collisionGroup.add(death);
+			map.addDrawable(death);
+			map.addCollidable(death);
 		});
 
-		std::ifstream file;
-		file.open("map.txt");
-		map.readFile(file);
+		map = mapFactory.buildMap();
 	}
 
 	void entry() override {
@@ -148,8 +131,8 @@ public:
 
 		death.update(elapsedTime);
 
-		map.collisionGroup.resolveCollisions();
-		map.drawableGroup.draw(statemachine.window);
+		map.resolveCollisions();
+		map.draw(statemachine.window);
 
 		score.draw(statemachine.window);
 

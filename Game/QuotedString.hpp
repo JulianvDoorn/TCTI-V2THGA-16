@@ -1,10 +1,11 @@
 #pragma once
 
 #include <string>
-#include "SpecialCharacter.hpp"
-#include "IOExceptions.hpp"
+#include <istream>
 
-#include <fstream>
+#include "SpecialCharacter.hpp"
+#include "BaseStreamExceptions.hpp"
+#include "StreamManipulators.hpp"
 
 /**
  * @class	QuotedString
@@ -51,16 +52,13 @@ public:
 std::istream& operator>> (std::istream& is, QuotedString& qs) {
 	is >> SpecialCharacter::Quote;
 	
-	std::ios::fmtflags skipwsFlag = is.flags() & std::ios::skipws;
-	is.unsetf(std::ios::skipws);
-	
 	int nextc = is.peek();
 	
 	while (nextc != SpecialCharacter::Quote && nextc != '\n') {
 		char c;
 
 		try {
-			is >> exceptions >> c;
+			is >> exceptions >> std::noskipws >> c;
 		} catch (const std::istream::failure&) {
 			throw EOFException("Unexpected");
 		}
@@ -72,12 +70,8 @@ std::istream& operator>> (std::istream& is, QuotedString& qs) {
 	if (nextc == '\n') {
 		throw QuoteMissingException(is.tellg());
 	}
-
-	if (skipwsFlag) {
-		is.setf(std::ios::skipws);
-	}
 	
-	is >> SpecialCharacter::Quote;
+	is >> exceptions >> std::noskipws >> SpecialCharacter::Quote;
 	
 	return is;
 }

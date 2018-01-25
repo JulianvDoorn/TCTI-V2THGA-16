@@ -2,32 +2,7 @@
 
 #include <numeric>
 #include <SFML/Graphics.hpp>
-#include "ConsumeString.hpp"
-#include "SecureRead.hpp"
 #include "math.h"
-
-template<class T>
-std::ostream& operator<< (std::ostream& os, sf::Vector2<T> v) {
-	return os << "Vector2(" << v.x << ", " << v.y << ')';
-}
-
-template<class T>
-std::istream& operator>> (std::istream& is, sf::Vector2<T>& v) {
-	is >> ConsumeString("Vector2");
-
-	SecureRead<T> x;
-	SecureRead<T> y;
-
-	is >> std::ws >> SpecialCharacter::LeftBracket;
-	is >> std::ws >> x;
-	is >> std::ws >> SpecialCharacter::Comma;
-	is >> std::ws >> y;
-	is >> std::ws >> SpecialCharacter::RightBracket;
-
-	v = sf::Vector2<T>(x, y);
-
-	return is;
-}
 
 /**
  * @fn	sf::Vector2f operator/ (const sf::Vector2f& v, int i)
