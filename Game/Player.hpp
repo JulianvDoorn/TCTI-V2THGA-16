@@ -247,7 +247,6 @@ public:
                     rightLeg.draw(window);
                 }
                 if (rightArmDisplay){
-                    std::cout << "Why no show" << std::endl;
                     rightArm.setTexture(AssetManager::instance()->getTexture("fimmyRightArm"));
                     rightArm.draw(window);
                 }
