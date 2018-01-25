@@ -7,15 +7,71 @@ texture {
 	Id = "fimmyStanding"
 	Location = "Fimmy/fimmy.png"
 }
+texture {
+	Id = "fimmyStandingBody"
+	Location = "Fimmy/bodyparts/fimmyBody.png"
+}
+texture {
+	Id = "fimmyStandingHead"
+	Location = "Fimmy/bodyparts/fimmyHead.png"
+}
+texture {
+	Id = "fimmyStandingLeftArm"
+	Location = "Fimmy/bodyparts/fimmyLeftArm.png"
+}
+texture {
+	Id = "fimmyStandingRightArm"
+	Location = "Fimmy/bodyparts/fimmyRightArm.png"
+}
+texture {
+	Id = "fimmyStandingLeftLeg"
+	Location = "Fimmy/bodyparts/fimmyLeftLeg.png"
+}
+texture {
+	Id = "fimmyStandingRightLeg"
+	Location = "Fimmy/bodyparts/fimmyRightLeg.png"
+}
 
 texture {
 	Id = "fimmyLeft"
 	Location = "Fimmy/FimmyWalkLeft.png"
 }
+texture {
+	Id = "fimmyLeftArm"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftArm.png"
+}
+texture {
+	Id = "fimmyLeftBody"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftBody.png"
+}
+texture {
+	Id = "fimmyLeftHead"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftHead.png"
+}
+texture {
+	Id = "fimmyLeftLeg"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftLeg.png"
+}
 
 texture {
 	Id = "fimmyRight"
 	Location = "Fimmy/FimmyWalkRight.png"
+}
+texture {
+	Id = "fimmyRightArm"
+	Location = "Fimmy/walkingRight/FimmyWalkRightArm.png"
+}
+texture {
+	Id = "fimmyRightBody"
+	Location = "Fimmy/walkingRight/FimmyWalkRightBody.png"
+}
+texture {
+	Id = "fimmyRightHead"
+	Location = "Fimmy/walkingRight/FimmyWalkRightHead.png"
+}
+texture {
+	Id = "fimmyRightLeg"
+	Location = "Fimmy/walkingRight/FimmyWalkRightLeg.png"
 }
 
 texture {
