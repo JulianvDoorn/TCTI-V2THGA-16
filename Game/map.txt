@@ -91,6 +91,15 @@ texture {
 }
 
 texture {
+    Id = "fimmyRollLeft"
+    Location = "Fimmy/fimmyRollLeft.png"
+}
+texture {
+    Id = "fimmyRollRight"
+    Location = "Fimmy/fimmyRollRight.png"
+}
+
+texture {
 	Id = "ground"
 	Location = "ground.png"
 	Repeated = true

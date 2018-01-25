@@ -83,8 +83,8 @@ private:
 
     bool torsoDisplay = true;
     bool leftLegDisplay = true;
-    bool rightLegDisplay = false;
-    bool headDisplay = false;
+    bool rightLegDisplay = true;
+    bool headDisplay = true;
     bool leftArmDisplay = true;
     bool rightArmDisplay = true;
 
@@ -94,7 +94,7 @@ private:
     Rectangle head;
     Rectangle leftArm;
     Rectangle rightArm;
-
+    Rectangle rollRectangle;
 public:
 
 	/**
@@ -116,6 +116,7 @@ public:
         rightLeg.setSize(playersize);
         leftArm.setSize(playersize);
         rightArm.setSize(playersize);
+        rollRectangle.setSize({20,20});
 
 
 		keyPressedConn = game.keyboard.keyPressed.connect([this](const sf::Keyboard::Key key) {
@@ -203,6 +204,7 @@ public:
         leftLeg.setPosition(getPosition());
         rightLeg.setPosition(getPosition());
         leftArm.setPosition(getPosition());
+        rightArm.setPosition(getPosition());
         head.setPosition(getPosition());
         if (walkDirection == 0){
             if (torsoDisplay){
@@ -230,9 +232,8 @@ public:
                 rightArm.draw(window);
             }
         }
-		else if (walkDirection != 0) {
+		if (walkDirection != 0) {
 			if (walkDirection > 0) {
-
                 if (torsoDisplay){
                     torso.setTexture(AssetManager::instance()->getTexture("fimmyRightBody"));
                     torso.draw(window);
@@ -246,6 +247,7 @@ public:
                     rightLeg.draw(window);
                 }
                 if (rightArmDisplay){
+                    std::cout << "Why no show" << std::endl;
                     rightArm.setTexture(AssetManager::instance()->getTexture("fimmyRightArm"));
                     rightArm.draw(window);
                 }
@@ -275,31 +277,6 @@ public:
 			}
 		} else {
 			if (!roll) {
-                // fimmy roll
-                if (torsoDisplay){
-                    torso.setTexture(AssetManager::instance()->getTexture("fimmyStandingBody"));
-                    torso.draw(window);
-                }
-                if (headDisplay){
-                    head.setTexture(AssetManager::instance()->getTexture("fimmyStandingHead"));
-                    head.draw(window);
-                }
-                if (leftLegDisplay){
-                    leftLeg.setTexture(AssetManager::instance()->getTexture("fimmyStandingLeftLeg"));
-                    leftLeg.draw(window);
-                }
-                if (rightLegDisplay){
-                    rightLeg.setTexture(AssetManager::instance()->getTexture("fimmyStandingRightLeg"));
-                    rightLeg.draw(window);
-                }
-                if (leftArmDisplay){
-                    leftArm.setTexture(AssetManager::instance()->getTexture("fimmyStandingLeftArm"));
-                    leftArm.draw(window);
-                }
-                if (rightArmDisplay){
-                    rightArm.setTexture(AssetManager::instance()->getTexture("fimmyStandingRightArm"));
-                    rightArm.draw(window);
-                }
 				setVelocity({ 0, getVelocity().y });
 			}
 		}
@@ -310,13 +287,20 @@ public:
 		}
 		if (roll) {
 			if (walkDirection > 0) {
+				if (torsoDisplay){
+					rollRectangle.setTexture(AssetManager::instance()->getTexture("fimmyRollRight"));
+					rollRectangle.draw(window);
+				}
 				setVelocity({ 299, jumpForce });
 			}
 			else if (walkDirection < 0) {
 				setVelocity({ -299, jumpForce });
+				if (torsoDisplay){
+					rollRectangle.setTexture(AssetManager::instance()->getTexture("fimmyRollLeft"));
+					rollRectangle.draw(window);
+				}
 			}
 			else {
-				std::cout << "else\n";
 				setVelocity({ 0, jumpForce });
 			}
 			setSize({ 20, 20 });
@@ -471,6 +455,24 @@ public:
 
 	KeyScheme& getActiveKeyScheme() {
 		return activeKeyScheme;
+	}
+
+	void loseLeftLeg(){
+		leftLegDisplay = false;
+	}
+
+	void loseRightLeg(){
+		rightLegDisplay = false;
+	}
+
+	void loseLeftArm(){
+		leftArmDisplay = false;
+	}
+	void loseRightArm(){
+		rightArmDisplay = false;
+	}
+	void loseHead(){
+		headDisplay = false;
 	}
 
 	using Rectangle::getCollision;
