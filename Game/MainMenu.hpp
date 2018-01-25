@@ -98,7 +98,6 @@ public:
 	 * @date	1/25/2018
 	 */
 	void entry() override {
-		std::cout << "entry" << std::endl;
 		startButtonPressedConn = startButton.buttonPressed.connect([this]() {
 			startButton.setBackgroundColor({ 0, 163, 61 });
 		});
@@ -109,10 +108,10 @@ public:
             exitButton.setBackgroundColor({0,163,61});
         });
 
-		/*startButtonReleasedConn = startButton.buttonReleased.connect([this]() {
+		startButtonReleasedConn = startButton.buttonReleased.connect([this]() {
 			statemachine.resetState("running");
 			statemachine.doTransition("running");
-		});*/
+		});
 
         settingsButtonReleasedConn = settingsButton.buttonReleased.connect([this](){
 			statemachine.doTransition("settings-menu");
@@ -152,6 +151,7 @@ public:
 	 */
 
 	void exit() override {
+		startButton.setPosition({ 0,0 });
 		startButtonPressedConn.disconnect();
 		startButtonReleasedConn.disconnect();
         settingsButtonPressedConn.disconnect();
