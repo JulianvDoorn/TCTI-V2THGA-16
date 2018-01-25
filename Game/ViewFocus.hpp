@@ -26,7 +26,7 @@ public:
 	 */
 
 	ViewFocus(sf::RenderWindow& window, PhysicsObject& physicsObject) :
-		view(sf::Vector2f(150, 10), sf::Vector2f(1280, 720)),
+		view(sf::Vector2f(), sf::Vector2f(1280, 720)),
 		window(window),
 		focus(&physicsObject)
 	{ }
