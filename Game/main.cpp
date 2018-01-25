@@ -40,8 +40,10 @@ int main() {
 		statemachine.doTransition("main-menu");
 	}
 
+	// Clock used for frame timings.
 	sf::Clock clock;
 
+	// SFML event.
 	sf::Event ev;
 
 	while (window.isOpen()) {
