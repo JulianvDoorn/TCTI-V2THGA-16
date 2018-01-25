@@ -27,6 +27,8 @@ class MainMenu : public State {
     /** @brief	The settings button */
     Button settingsButton;
 
+	Button mapEditorButton;
+
 	/** @brief	The start button pressed connection */
 	EventConnection<> startButtonPressedConn;
 	/** @brief	The start button released connection */
@@ -44,6 +46,8 @@ class MainMenu : public State {
 	/** @brief	The mouse leave connection */
 	EventConnection<> mouseLeaveConn;
 
+	EventConnection<> mapEditorButtonReleasedConn;
+
 public:
 
 	/**
@@ -60,6 +64,7 @@ public:
 	MainMenu(Statemachine& statemachine) :
 		statemachine(statemachine),
 		startButton(),
+		mapEditorButton(),
         settingsButton(),
         menuLabel(),
         exitButton()
@@ -75,6 +80,12 @@ public:
 		startButton.setCharSize(32);
 		startButton.setBackgroundColor({ 0, 153, 51 });
 		startButton.setText("Start game");
+
+		mapEditorButton.setSize({ 300, 100 });
+		mapEditorButton.setPosition({ 960, 360 });
+		mapEditorButton.setCharSize(32);
+		mapEditorButton.setBackgroundColor({ 0, 153, 51 });
+		mapEditorButton.setText("Map editor");
 
         settingsButton.setSize({300,100});
         settingsButton.setPosition({640,490});
@@ -108,10 +119,16 @@ public:
             exitButton.setBackgroundColor({0,163,61});
         });
 
-        startButtonReleasedConn = startButton.buttonReleased.connect([this]() {
+		startButtonReleasedConn = startButton.buttonReleased.connect([this]() {
 			statemachine.resetState("running");
 			statemachine.doTransition("running");
 		});
+
+		mapEditorButtonReleasedConn = mapEditorButton.buttonReleased.connect([this]() {
+			statemachine.resetState("map-editor");
+			statemachine.doTransition("map-editor");
+		});
+
 
         settingsButtonReleasedConn = settingsButton.buttonReleased.connect([this](){
 			statemachine.doTransition("settings-menu");
@@ -160,6 +177,8 @@ public:
         settingsButtonReleasedConn.disconnect();
         exitButtonPressedConn.disconnect();
 		exitButtonReleasedConn.disconnect();
+
+		mapEditorButtonReleasedConn.disconnect();
 	}
 
 	/**
@@ -178,5 +197,6 @@ public:
 		startButton.draw(statemachine.window);
         settingsButton.draw(statemachine.window);
 		exitButton.draw(statemachine.window);
+		mapEditorButton.draw(statemachine.window);
 	}
 };

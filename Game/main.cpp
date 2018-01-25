@@ -12,7 +12,7 @@
 int main() {
 	// Game constants.
 	const float FPS = 60.0f;
-	const bool  ENABLE_CUTSCENE = true;
+	const bool  ENABLE_CUTSCENE = false;
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720, 32), "Fimmy the Game");
 
@@ -34,6 +34,7 @@ int main() {
 	// State definitions.
 	statemachine.registerState<GameOver>("game-over");
 	statemachine.registerState<Running>("running");
+	statemachine.registerState<Editor>("map-editor");
 	statemachine.registerState<MainMenu>("main-menu");
 	statemachine.registerState<GamePauze>("game-pauze");
 	statemachine.registerState<SettingsMenu>("settings-menu");
