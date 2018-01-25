@@ -3,16 +3,17 @@ asset {
 	Location = "GameOver.wav"
 }
 
-asset {
+texture {
 	Id = "fimmyStanding"
 	Location = "fimmy.png"
 }
-asset {
+
+texture {
 	Id = "fimmyLeft"
 	Location = "FimmyWalkLeft.png"
 }
 
-asset {
+texture {
 	Id = "fimmyRight"
 	Location = "FimmyWalkRight.png"
 }

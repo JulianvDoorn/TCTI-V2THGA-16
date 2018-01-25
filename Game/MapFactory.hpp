@@ -4,6 +4,7 @@
 #include <istream>
 #include <utility>
 #include <memory>
+#include <functional>
 #include "Ball.hpp"
 #include "IOExceptions.hpp"
 #include "Rectangle.hpp"
@@ -14,12 +15,34 @@
 #include "CollisionDetection.hpp"
 #include "DrawableGroup.hpp"
 
+class KeyDefinition {
+public:
+	const std::string name;
+	const KeyValuePair::Type type;
+	const std::function<void(KeyValuePair::Value)> func;
+
+	KeyDefinition(const std::string& name, const KeyValuePair::Type type, const std::function<void(KeyValuePair::Value)>& func) : name(std::move(name)), type(type), func(std::move(func)) { }
+
+	bool operator== (const std::string& rhs) const {
+		return name == rhs;
+	}
+};
+
 class Map : public BaseFactory<void, std::string, std::istream&> {
 public:
 	using Type = KeyValuePair::Type;
+	using Value = KeyValuePair::Value;
 
-	static void checkTypeMatch(Type lhs, Type rhs) {
-		// TODO
+	static void readDefinitions(const std::vector<KeyValuePair>& vector, std::vector<KeyDefinition> definitions) {
+		for (const KeyValuePair& pair : vector) {
+			auto it = std::find(definitions.begin(), definitions.end(), pair.key);
+
+			if (it != definitions.end()) {
+				if (it->type == pair.type) {
+					it->func(pair.value);
+				}
+			}
+		}
 	}
 
 	DrawableGroup drawableGroup;
@@ -43,21 +66,12 @@ public:
 			std::string* id = nullptr;
 			std::string* location = nullptr;
 
-			for (const KeyValuePair& pair : curlyBracketList) {
-				if (pair.key == "Id") {
-					checkTypeMatch(pair.type, Type::Color);
-					id = pair.value.s;
-				}
-				else if (pair.key == "Location") {
-					checkTypeMatch(pair.type, Type::String);
-					location = pair.value.s;
-				}
-			}
+			Map::readDefinitions(curlyBracketList, {
+				{ "Id", Type::String, [&](Value value) { id = value.stringValue; if (location != nullptr) AssetManager::instance()->load(*id, *location); } },
+				{ "Location", Type::String, [&](Value value) { location = value.stringValue; if (id != nullptr) AssetManager::instance()->load(*id, *location); } }
+			});
 
-			if (id != nullptr && location != nullptr) {
-				AssetManager::instance()->load(*id, *location);
-			}
-			else {
+			if (id == nullptr || location == nullptr) {
 				// TODO: throw exception
 			}
 		});
@@ -67,37 +81,17 @@ public:
 
 			is >> exceptions >> curlyBracketList;
 
-			std::string* id = nullptr;
-			std::string* location = nullptr;
+			const std::string* id = nullptr;
+			const std::string* location = nullptr;
 
 			bool loaded = false;
 
-			for (const KeyValuePair& pair : curlyBracketList) {
-				if (pair.key == "Id") {
-					checkTypeMatch(pair.type, Type::Color);
-					id = pair.value.s;
-				}
-				else if (pair.key == "Location") {
-					checkTypeMatch(pair.type, Type::String);
-					location = pair.value.s;
-				}
-				
-				if (id != nullptr && location != nullptr && loaded == false) {
-					AssetManager::instance()->load(*id, *location);
-					loaded = true;
-				} else if (loaded == true) {
-					sf::Texture& texture = AssetManager::instance()->getTexture(*id);
-
-					if (pair.key == "Repeated") {
-						checkTypeMatch(pair.type, Type::Bool);
-						texture.setRepeated(pair.value.b);
-					}
-					else if (pair.key == "Smooth") {
-						checkTypeMatch(pair.type, Type::Bool);
-						texture.setSmooth(pair.value.b);
-					}
-				}
-			}
+			Map::readDefinitions(curlyBracketList, {
+				{ "Id", Type::String, [&](Value value) { id = value.stringValue; if (location != nullptr) AssetManager::instance()->loadTexture(*id, *location); } },
+				{ "Location", Type::String, [&](Value value) { location = value.stringValue; if (id != nullptr) AssetManager::instance()->loadTexture(*id, *location); } },
+				{ "Repeated", Type::Bool, [&](Value value) { if (id != nullptr) AssetManager::instance()->getTexture(*id).setRepeated(value.b); } },
+				{ "Smooth", Type::Bool, [&](Value value) { if (id != nullptr) AssetManager::instance()->getTexture(*id).setSmooth(value.b); } }
+			});
 
 			if (id == nullptr || location == nullptr) {
 				// TODO: throw exception
@@ -113,33 +107,14 @@ public:
 
 			bool canCollide = true;
 
-			for (const KeyValuePair& pair : curlyBracketList) {
-				if (pair.key == "Color") {
-					checkTypeMatch(pair.type, Type::Color);
-					rectangle->setFillColor(*pair.value.c);
-				}
-				else if (pair.key == "Size") {
-					checkTypeMatch(pair.type, Type::Vector);
-					rectangle->setSize(*pair.value.v);
-				}
-				else if (pair.key == "Position") {
-					checkTypeMatch(pair.type, Type::Vector);
-					rectangle->setPosition(*pair.value.v);
-				}
-				else if (pair.key == "TextureId") {
-					checkTypeMatch(pair.type, Type::String);
-					sf::Texture& texture = AssetManager::instance()->getTexture(*pair.value.s);
-					rectangle->setTexture(texture);
-				}
-				else if (pair.key == "TextureRect") {
-					checkTypeMatch(pair.type, Type::Rect);
-					rectangle->setTextureRect(static_cast<sf::IntRect>(*pair.value.r));
-				}
-				else if (pair.key == "CanCollide") {
-					checkTypeMatch(pair.type, Type::Bool);
-					canCollide = pair.value.b;
-				}
-			}
+			Map::readDefinitions(curlyBracketList, {
+				{ "Color", Type::Color, [&](Value value) { rectangle->setFillColor(*value.colorValue); } },
+				{ "Size", Type::Vector, [&](Value value) { rectangle->setSize(*value.vectorValue); } },
+				{ "Position", Type::Vector, [&](Value value) { rectangle->setPosition(*value.vectorValue); } },
+				{ "TextureId", Type::String, [&](Value value) { rectangle->setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } },
+				{ "TextureRect", Type::Rect, [&](Value value) { rectangle->setTextureRect(static_cast<sf::IntRect>(*value.rectValue)); } },
+				{ "CanCollide", Type::Bool, [&](Value value) { canCollide = value.b; } }
+			});
 
 			drawableGroup.add(*rectangle);
 

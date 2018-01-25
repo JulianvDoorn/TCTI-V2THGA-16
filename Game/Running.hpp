@@ -47,12 +47,10 @@ public:
 
 			for (const KeyValuePair& pair : curlyBracketList) {
 				if (pair.key == "Position") {
-					Map::checkTypeMatch(pair.type, Type::Vector);
-					player.setPosition(*pair.value.v);
+					player.setPosition(*pair.value.vectorValue);
 				}
 				else if (pair.key == "TextureId") {
-					Map::checkTypeMatch(pair.type, Type::String);
-					sf::Texture& texture = AssetManager::instance()->getTexture(*pair.value.s);
+					sf::Texture& texture = AssetManager::instance()->getTexture(*pair.value.stringValue);
 					player.setTexture(texture);
 				}
 			}
@@ -68,12 +66,10 @@ public:
 
 			for (const KeyValuePair& pair : curlyBracketList) {
 				if (pair.key == "Position") {
-					Map::checkTypeMatch(pair.type, Type::Vector);
-					death.setPosition(*pair.value.v);
+					death.setPosition(*pair.value.vectorValue);
 				}
 				else if (pair.key == "TextureId") {
-					Map::checkTypeMatch(pair.type, Type::String);
-					sf::Texture& texture = AssetManager::instance()->getTexture(*pair.value.s);
+					sf::Texture& texture = AssetManager::instance()->getTexture(*pair.value.stringValue);
 					death.setTexture(texture);
 				}
 			}
