@@ -39,10 +39,10 @@ private:
 	int32_t walkDirection = 0;
 
 	/** @brief	The default walking speed */
-	float defaultWalkingSpeed = 50;
+	float defaultWalkingSpeed = 100;
 
     /** @brief	The walkspeed */
-    float walkspeed = 50;
+    float walkspeed = 100;
 
 	/** @brief	The jump force */
 	float jumpForce = 500;
@@ -109,9 +109,9 @@ public:
 					runningSpammingFactor =1;
 					walkspeed = defaultWalkingSpeed;
 				}
-				walkspeed *= 3 * runningSpammingFactor;
-				if (walkspeed > 500){
-					walkspeed = 500;
+				walkspeed *= 2 * runningSpammingFactor;
+				if (walkspeed > 299){ //max running speed without glitching
+					walkspeed = 299;
 				}
 				lastKeyPressTime = runClock.getElapsedTime();
 			}
@@ -140,7 +140,7 @@ public:
 					}
 				}
 				else{
-					walkspeed = 50;
+					walkspeed = 100;
 				}
 			}
 			else if (key == activeKeyScheme.moveRight) {
