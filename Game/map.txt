@@ -41,6 +41,14 @@ texture {
 	Location = "Fimmy/walkingleft/FimmyWalkLeftArm.png"
 }
 texture {
+	Id = "fimmyLeftArm2"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftArm2.png"
+}
+texture {
+	Id = "fimmyLeftArm3"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftArm3.png"
+}
+texture {
 	Id = "fimmyLeftBody"
 	Location = "Fimmy/walkingleft/FimmyWalkLeftBody.png"
 }
@@ -68,6 +76,14 @@ texture {
 texture {
 	Id = "fimmyRightArm"
 	Location = "Fimmy/walkingright/FimmyWalkRightArm.png"
+}
+texture {
+	Id = "fimmyRightArm2"
+	Location = "Fimmy/walkingright/FimmyWalkRightArm2.png"
+}
+texture {
+	Id = "fimmyRightArm3"
+	Location = "Fimmy/walkingright/FimmyWalkRightArm3.png"
 }
 texture {
 	Id = "fimmyRightBody"
