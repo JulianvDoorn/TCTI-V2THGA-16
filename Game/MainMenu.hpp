@@ -71,7 +71,7 @@ public:
         menuLabel.setStyle(sf::Text::Bold);
 
 		startButton.setSize({ 300, 100 });
-		startButton.setPosition({ 640, 360 });
+		startButton.setPosition({ 0, 0 });
 		startButton.setCharSize(32);
 		startButton.setBackgroundColor({ 0, 153, 51 });
 		startButton.setText("Start game");
@@ -172,6 +172,7 @@ public:
 	 */
 
 	void update(const float elapsedTime) override {
+		startButton.setPosition({ 640, 360 });
         menuLabel.draw(statemachine.window);
 		startButton.draw(statemachine.window);
         settingsButton.draw(statemachine.window);
