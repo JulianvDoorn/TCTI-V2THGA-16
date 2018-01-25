@@ -8,6 +8,15 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
+/**
+ * @class	AssetTypeNotResolvedException
+ *
+ * @brief	Exception for signalling when an asset type could not been resolved.
+ *
+ * @author	Wiebe
+ * @date	24-1-2018
+ */
+
 class AssetTypeNotResolvedException : public std::exception {
 private:
 	std::string msg;
@@ -19,6 +28,15 @@ public:
 		return msg.c_str();
 	}
 };
+
+/**
+ * @class	AssetNotFoundByPathException
+ *
+ * @brief	Exception for signalling when an asset is not found by the given path.
+ *
+ * @author	Wiebe
+ * @date	24-1-2018
+ */
 
 class AssetNotFoundByPathException : public std::exception {
 private:
@@ -32,6 +50,15 @@ public:
 	}
 };
 
+/**
+ * @class	AssetNotLoadedException
+ *
+ * @brief	Exception for signalling when an asset was not loaded into the AssetManager.
+ *
+ * @author	Wiebe
+ * @date	24-1-2018
+ */
+
 class AssetNotLoadedException : public std::exception {
 private:
 	std::string msg;
@@ -44,45 +71,72 @@ public:
 	}
 };
 
+/**
+ * @class	AssetManager
+ *
+ * @brief	Manager for assets.
+ *
+ * @author	Wiebe
+ * @date	24-1-2018
+ */
+
 class AssetManager {
 private:
+
+
+	/** @brief	The textures */
 	std::map<std::string, sf::Texture> textures;
+
+	/** @brief	The fonts */
 	std::map<std::string, sf::Font> fonts;
+
+	/** @brief	The sounds */
 	std::map<std::string, sf::Sound> sounds;
-	
+
+	/**
+	 * @property	std::vector < std::unique_ptr < sf::SoundBuffer> > soundBuffers
+	 *
+	 * @brief	Gets the sound buffers
+	 *
+	 * @return	The sound buffers.
+	 */
+
 	std::vector < std::unique_ptr < sf::SoundBuffer> > soundBuffers;
 
 	static AssetManager* sInstance;
-	//static std::shared_ptr<AssetManager> sInstance;
 
 public:
+
+	/**
+	 * @fn	static AssetManager* AssetManager::instance()
+	 *
+	 * @brief	Get an instance of AssetManager. This instance will always be the same in the entire application (aka an Singleton).
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 *
+	 * @return	Pointer to an AssetManager.
+	 */
+
 	static AssetManager* instance()
 	{
 		if (!sInstance)
-			//sInstance = std::make_shared<AssetManager>(); // If we use a shared pointer, there are no memory leaks. The destructors are called, but this triggers an exception.
 			sInstance = new AssetManager();
 		return sInstance;
 	}
 
-	/**AssetManager() {
-		static int counterConstructed = 0;
-
-		counterConstructed++;
-
-		std::cout << "Asset manager " << counterConstructed << " constructed!\n";
-	}**/
-
-	/*~AssetManager() {
-		static int counterDestructed = 0;
-
-		counterDestructed++;
-
-		std::cout << "Asset manager " << counterDestructed << " destructed!\n";
-		std::cout << "Texture size: " << textures.size() << std::endl;
-		std::cout << "Fonts size: " << fonts.size() << std::endl;
-		std::cout << "Sounds size: " << sounds.size() << std::endl;
-		std::cout << "Sound buffers size: " << soundBuffers.size() << std::endl;
-	}**/
+	/**
+	 * @fn	AssetManager & AssetManager::operator=(const AssetManager &rhs)
+	 *
+	 * @brief	Assignment operator
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 *
+	 * @param	rhs	The right hand side.
+	 *
+	 * @return	A shallow copy of this object.
+	 */
 
 	AssetManager & operator=(const AssetManager &rhs) {
 		textures = std::move(rhs.textures);
@@ -94,6 +148,24 @@ public:
 
 		return *this;
 	}
+
+	/**
+	 * @fn	void AssetManager::load(const std::string id, const std::string filename)
+	 *
+	 * @brief	Load an asset.
+	 * 
+	 * @detailed Matches an file extension with an appropiate asset. Throws
+	 * 			 an AssetTypeNotResolvedException when this can't be done.
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 *
+	 * @exception	AssetTypeNotResolvedException	Thrown when an Asset Type Not Resolved error
+	 * 												condition occurs.
+	 *
+	 * @param	id			The asset identifier.
+	 * @param	filename	Filename of the asset.
+	 */
 
 	void load(const std::string id, const std::string filename) {
 		std::string::size_type idx;
@@ -112,9 +184,6 @@ public:
 			else if (extension == "wav") {
 				loadSound(id, filename);
 			}
-			else if (extension == "srt") {
-				loadSubtitle(id, filename);
-			}
 			else {
 				// Unknown asset extension
 				throw AssetTypeNotResolvedException(filename);
@@ -125,6 +194,20 @@ public:
 			throw AssetTypeNotResolvedException(filename);
 		}
 	}
+
+	/**
+	 * @fn	void AssetManager::loadTexture(const std::string id, const std::string filename)
+	 *
+	 * @brief	Loads a texture
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 *
+	 * @exception	AssetNotFoundByPathException	Thrown when an asset could not be found by the given filename.
+	 * 
+	 * @param	id			The identifier.
+	 * @param	filename	Filename of the file.
+	 */
 
 	void loadTexture(const std::string id, const std::string filename) {
 		if (textures.find(id) != textures.end()) {
@@ -141,6 +224,21 @@ public:
 		}
 	}
 
+	/**
+	 * @fn	sf::Texture& AssetManager::getTexture(const std::string id)
+	 *
+	 * @brief	Gets a texture
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 *
+	 * @exception	AssetNotLoadedException	Thrown when an asset was not preloaded into the AssetManager.
+	 *
+	 * @param	id	The asset identifier.
+	 *
+	 * @return	The texture.
+	 */
+
 	sf::Texture& getTexture(const std::string id) {
 		try {
 			return textures.at(id);
@@ -149,6 +247,20 @@ public:
 			throw AssetNotLoadedException(id);
 		}
 	}
+
+	/**
+	 * @fn	void AssetManager::loadFont(const std::string id, const std::string filename)
+	 *
+	 * @brief	Loads a font
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 *
+	 * @exception	AssetNotFoundByPathException	Thrown when an asset could not be found by the given filename.
+	 *
+	 * @param	id			The asset identifier.
+	 * @param	filename	Filename of the file.
+	 */
 
 	void loadFont(const std::string id, const std::string filename) {
 		if (fonts.find(id) != fonts.end()) {
@@ -165,6 +277,21 @@ public:
 		}
 	}
 
+	/**
+	 * @fn	sf::Font& AssetManager::getFont(const std::string id)
+	 *
+	 * @brief	Gets a font
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 *
+	 * @exception	AssetNotLoadedException	Thrown when an asset was not preloaded into the AssetManager.
+	 *
+	 * @param	id	The asset identifier.
+	 *
+	 * @return	The font.
+	 */
+
 	sf::Font& getFont(const std::string id) {
 		try {
 			return fonts.at(id);
@@ -173,6 +300,20 @@ public:
 			throw AssetNotLoadedException(id);
 		}
 	}
+
+	/**
+	 * @fn	void AssetManager::loadSound(const std::string id, const std::string filename)
+	 *
+	 * @brief	Loads a sound
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 *
+	 * @exception	AssetNotFoundByPathException	Thrown when an asset could not be found by the given filename.
+	 *
+	 * @param	id			The asset identifier.
+	 * @param	filename	Filename of the file.
+	 */
 
 	void loadSound(const std::string id, const std::string filename) {
 		if (sounds.find(id) != sounds.end()) {
@@ -193,6 +334,21 @@ public:
 		}
 	}
 
+	/**
+	 * @fn	sf::Sound& AssetManager::getSound(const std::string id)
+	 *
+	 * @brief	Gets a sound
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 *
+	 * @exception	AssetNotLoadedException	Thrown when an asset was not preloaded into the AssetManager.
+	 *
+	 * @param	id	The asset identifier.
+	 *
+	 * @return	The sound.
+	 */
+
 	sf::Sound& getSound(const std::string id) {
 		try {
 			return sounds.at(id);
@@ -202,9 +358,14 @@ public:
 		}
 	}
 
-	void loadSubtitle(const std::string, const std::string filename) {
-
-	}
+	/**
+	 * @fn	void AssetManager::clear()
+	 *
+	 * @brief	Clears all preloaded assets.
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 */
 
 	void clear() {
 		textures.clear();
@@ -213,4 +374,5 @@ public:
 	}
 };
 
+/** @brief	The asset manager singleton instance */
 AssetManager* AssetManager::sInstance = nullptr;

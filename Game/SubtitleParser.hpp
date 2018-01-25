@@ -7,15 +7,51 @@
 #include "SubtitleReadException.hpp"
 #include "SubtitleItem.hpp"
 
+/**
+ * @typedef	std::vector<std::shared_ptr<SubtitleItem>> SubtitleVector
+ *
+ * @brief	Defines an alias representing the subtitle vector
+ */
+
 typedef std::vector<std::shared_ptr<SubtitleItem>> SubtitleVector;
+
+/**
+ * @class	SubtitleParser
+ *
+ * @brief	A subtitle parser.
+ *
+ * @author	Wiebe
+ * @date	24-1-2018
+ */
 
 class SubtitleParser {
 private:
+
+
+	/** @brief	Subtitle file filepath */
 	const std::string filepath;
+
+
+	/** @brief	The file stream */
 	std::ifstream fileStream;
 
 public:
 	SubtitleParser(const std::string filepath) : filepath(filepath), fileStream(filepath) {};
+
+	/**
+	 * @fn	SubtitleVector& SubtitleParser::parse(SubtitleVector& subtitles)
+	 *
+	 * @brief	Parses an subtitle file and saves the individual SubtitleItem instances into an SubtitleVector 
+	 *
+	 * @author	Wiebe
+	 * @date	24-1-2018
+	 *
+	 * @exception	SubtitleReadException	Thrown when a subtitle file read error occurres.
+	 *
+	 * @param [in,out]	subtitles SubtitleVector containg the individual SubtitleItem instances.
+	 *
+	 * @return	A reference to a SubtitleVector.
+	 */
 
 	SubtitleVector& parse(SubtitleVector& subtitles) {
 		if (!fileStream.is_open()) {
@@ -76,6 +112,21 @@ public:
 
 		return subtitles;
 	}
+
+	/**
+	 * @fn	inline std::vector<std::string>& SubtitleParser::split(const std::string &s, char delim, std::vector<std::string> &elems)
+	 *
+	 * @brief	Splits an subtitle using a delimeter.
+	 *
+	 * @author	Wiebe
+	 * @date	24-1-2018
+	 *
+	 * @param 		  	s	 	A std::string subtitle to process.
+	 * @param 		  	delim	The delimiter.
+	 * @param [in,out]	elems	The parsed elements.
+	 *
+	 * @return	A reference to a std::vector&lt;std::string&gt;
+	 */
 
 	inline std::vector<std::string>& split(const std::string &s, char delim, std::vector<std::string> &elems) {
 		std::stringstream ss(s);

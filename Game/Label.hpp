@@ -2,13 +2,26 @@
 
 #include <SFML/Graphics.hpp>
 
+/**
+ * @class	Label
+ *
+ * @brief	A displayable label.
+ *
+ * @author	Wiebe
+ * @date	25-1-2018
+ */
+
 class Label {
 private:
+
+    /** @brief	The font used */
     sf::Font &font;
+
+    /** @brief	The text that the label holds */
     sf::Text displayText;
 public:
     /**
-     *  @brief Get the stored default font..
+     *  @brief Get the stored default font.
      * @return Reference to the default font.
      */
     static sf::Font& getDefaultFont() {
@@ -57,7 +70,7 @@ public:
     }
 
     /**
-     *  @brief Set the font the text will be displayed in.
+     * @brief Set the font the text will be displayed in.
      * @param font A custom font.
      */
 	void setFont(sf::Font& font) {

@@ -6,22 +6,29 @@
 #include "Events.hpp"
 #include "AssetManager.hpp"
 
-int main() {
-	const float FPS = 60.0f;
-	const bool ENABLE_CUTSCENE = false;
+//#define ENABLE_DEBUG_MODE
 
-	sf::RenderWindow window(sf::VideoMode(1280, 720, 32), "Hello");
+int main() {
+	// Game constants.
+	const float FPS = 60.0f;
+	const bool  ENABLE_CUTSCENE = true;
+
+	sf::RenderWindow window(sf::VideoMode(1280, 720, 32), "Fimmy the Game");
+
+	window.setFramerateLimit(static_cast<unsigned int>(FPS));
 
 	game = Game(window);
 
-	// Load assets
+	// Load assets.
 	AssetManager::instance()->load("arial", "arial.ttf");
 
+	// Create an new statemachine.
 	Statemachine statemachine(window);
 
+	// Set the default font.
 	Label::setDefaultFont(AssetManager::instance()->getFont("arial"));
 
-	// State definitions
+	// State definitions.
 	statemachine.registerState<GameOver>("game-over");
 	statemachine.registerState<Running>("running");
 	statemachine.registerState<MainMenu>("main-menu");
@@ -35,9 +42,10 @@ int main() {
 		statemachine.doTransition("main-menu");
 	}
 
-	window.setFramerateLimit((int) FPS);
+	// Clock used for frame timings.
 	sf::Clock clock;
 
+	// SFML event.
 	sf::Event ev;
 
 	while (window.isOpen()) {
@@ -52,7 +60,9 @@ int main() {
 		}
 
 		if (elapsedTime >= 1.0f / FPS) {
+#ifdef ENABLE_DEBUG_MODE
 			window.setTitle(std::to_string(1 / elapsedTime));
+#endif // ENABLE_DEBUG_MODE
 			clock.restart();
 			statemachine.update(elapsedTime);
 		}

@@ -1,5 +1,14 @@
 #pragma once
 
+/**
+ * @class	SubtitleReadException
+ *
+ * @brief	Exception for signalling subtitle read errors.
+ *
+ * @author	Wiebe
+ * @date	24-1-2018
+ */
+
 class SubtitleReadException : public std::exception {
 private:
 	std::string msg;
