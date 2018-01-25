@@ -2,8 +2,29 @@
 
 #include <SFML/Graphics.hpp>
 
+/**
+ * @class	KeySchemeNotFoundException
+ *
+ * @brief	Exception for signalling key scheme not found errors.
+ *
+ * @author	Wiebe
+ * @date	25-1-2018
+ */
+
 class KeySchemeNotFoundException : public std::exception {
 public:
+
+	/**
+	 * @fn	const char* KeySchemeNotFoundException::what() const noexcept
+	 *
+	 * @brief	Gets the exception message.
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 *
+	 * @return	Null if it fails, else a pointer to a const char.
+	 */
+
 	const char* what() const noexcept {
 		return "KeyScheme with given difficulty cannot been found!";
 	}

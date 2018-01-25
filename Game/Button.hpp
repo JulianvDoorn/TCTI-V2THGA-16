@@ -90,6 +90,7 @@ public:
 
 	/** @brief	The mouse leave event source. */
 	EventSource<> mouseLeave;
+
 	/**
 	 *  @brief Empty constructor for button, create a empty button without text.
 	 */
