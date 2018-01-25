@@ -200,7 +200,6 @@
     <ClInclude Include="SFMLEventDecoder.hpp" />
     <ClInclude Include="Statemachine.hpp" />
     <ClInclude Include="SubtitleItem.hpp" />
-    <ClInclude Include="SubtitleIterator.hpp" />
     <ClInclude Include="SubtitleParser.hpp" />
     <ClInclude Include="SubtitleReadException.hpp" />
     <ClInclude Include="VectorMath.hpp" />

@@ -152,9 +152,6 @@
     <ClInclude Include="SubtitleParser.hpp">
       <Filter>Header Files\Subtitles</Filter>
     </ClInclude>
-    <ClInclude Include="SubtitleIterator.hpp">
-      <Filter>Header Files\Subtitles</Filter>
-    </ClInclude>
     <ClInclude Include="SubtitleItem.hpp">
       <Filter>Header Files\Subtitles</Filter>
     </ClInclude>

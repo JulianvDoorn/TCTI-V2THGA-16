@@ -8,7 +8,7 @@
 
 int main() {
 	const float FPS = 60.0f;
-	const bool ENABLE_CUTSCENE = false;
+	const bool ENABLE_CUTSCENE = true;
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720, 32), "Hello");
 
