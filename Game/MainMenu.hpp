@@ -98,6 +98,7 @@ public:
 	 * @date	1/25/2018
 	 */
 	void entry() override {
+		std::cout << "entry" << std::endl;
 		startButtonPressedConn = startButton.buttonPressed.connect([this]() {
 			startButton.setBackgroundColor({ 0, 163, 61 });
 		});
@@ -108,10 +109,10 @@ public:
             exitButton.setBackgroundColor({0,163,61});
         });
 
-        startButtonReleasedConn = startButton.buttonReleased.connect([this]() {
+		/*startButtonReleasedConn = startButton.buttonReleased.connect([this]() {
 			statemachine.resetState("running");
 			statemachine.doTransition("running");
-		});
+		});*/
 
         settingsButtonReleasedConn = settingsButton.buttonReleased.connect([this](){
 			statemachine.doTransition("settings-menu");
@@ -121,27 +122,24 @@ public:
             statemachine.window.close();
         });
 
-		//mouseEnterConn = startButton.mouseEnter.connect([this]() {
-		//	startButton.setBackgroundColor({ 0, 123, 21 });
-		//});
-
-		/*startButtonMouseLeaveConn = startButton.mouseLeave.connect([this]() {
-			startButton.setBackgroundColor({ 0, 153, 51 });
+		mouseEnterConn = startButton.mouseEnter.connect([this]() {
+            startButton.setBackgroundColor({ 0, 123, 21 });
+        });
+		mouseEnterConn = settingsButton.mouseEnter.connect([this]() {
+			settingsButton.setBackgroundColor({ 0, 123, 21 });
 		});
-       settingsButtonMouseEnterConn = settingsButton.mouseEnter.connect([this]() {
-            settingsButton.setBackgroundColor({ 0, 123, 21 });
+		mouseEnterConn = exitButton.mouseEnter.connect([this]() {
+			exitButton.setBackgroundColor({ 0, 123, 21 });
+		});
+        mouseLeaveConn = startButton.mouseLeave.connect([this]() {
+            startButton.setBackgroundColor({ 0, 153, 51 });
         });
-
-        settingsButtonMouseLeaveConn = settingsButton.mouseLeave.connect([this]() {
-            settingsButton.setBackgroundColor({ 0, 153, 51 });
-        });
-		exitButtonMouseEnterConn = exitButton.mouseEnter.connect([this]() {
-            exitButton.setBackgroundColor({ 0, 123, 21 });
-        });
-
-        exitButtonMouseLeaveConn = exitButton.mouseLeave.connect([this]() {
-            exitButton.setBackgroundColor({ 0, 153, 51 });
-        });*/
+		mouseLeaveConn = settingsButton.mouseLeave.connect([this]() {
+			settingsButton.setBackgroundColor({ 0, 153, 51 });
+		});
+		mouseLeaveConn = exitButton.mouseLeave.connect([this]() {
+			exitButton.setBackgroundColor({ 0, 153, 51 });
+		});
 	}
 
 	/**

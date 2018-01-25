@@ -44,10 +44,18 @@ class GameOver : public State {
     EventConnection<> exitButtonPressedConn;
     /** @brief	The exit button released connection */
     EventConnection<> exitButtonReleasedConn;
-	/** @brief	The mouse enter connection */
-	EventConnection<> mouseEnterConn;
-	/** @brief	The mouse leave connection */
-	EventConnection<> mouseLeaveConn;
+	/** @brief	The exitbutton mouse enter connection */
+	EventConnection<> exitMouseEnterConn;
+	/** @brief	The exitbutton mouse leave connection */
+	EventConnection<> exitMouseLeaveConn;
+	/** @brief	The restartbutton mouse enter connection */
+	EventConnection<> restartMouseEnterConn;
+	/** @brief	The restartbutton mouse leave connection */
+	EventConnection<> restartMouseLeaveConn;
+	/** @brief	The main-menubutton mouse enter connection */
+	EventConnection<> mainMenuMouseEnterConn;
+	/** @brief	The main-menubutton mouse leave connection */
+	EventConnection<> mainMenuMouseLeaveConn;
 
 public:
 
@@ -75,7 +83,7 @@ public:
         menuLabel.setStyle(sf::Text::Bold);
 
 		mainMenuButton.setSize({ 300, 100 });
-		mainMenuButton.setPosition({ 840, 360 });
+		mainMenuButton.setPosition({ 640, 360 });
 		mainMenuButton.setCharSize(32);
 		mainMenuButton.setBackgroundColor({ 0, 153, 51 });
 		mainMenuButton.setText("Main Menu");
@@ -114,7 +122,7 @@ public:
         });
 
         mainMenuButtonReleasedConn = mainMenuButton.buttonReleased.connect([this]() {
-			//statemachine.resetState("main-menu");
+			statemachine.resetState("running");
             statemachine.doTransition("main-menu");
 		});
         restartGameButtonReleasedConn = restartGameButton.buttonReleased.connect([this]() {
@@ -125,25 +133,28 @@ public:
             statemachine.window.close();
         }); 
 
-        mouseEnterConn = mainMenuButton.mouseEnter.connect([this]() {
-            mainMenuButton.setBackgroundColor({ 0, 123, 21 });
-        });
-        mouseEnterConn = restartGameButton.mouseEnter.connect([this](){
-            restartGameButton.setBackgroundColor({0,123,21});
-        });
-        mouseEnterConn = exitButton.mouseEnter.connect([this]() {
-            exitButton.setBackgroundColor({ 0, 123, 21 });
-        });
+		exitMouseEnterConn = exitButton.mouseEnter.connect([this]() {
+			exitButton.setBackgroundColor({ 0, 123, 21 });
+		});
 
-        mouseLeaveConn = mainMenuButton.mouseLeave.connect([this]() {
-            mainMenuButton.setBackgroundColor({ 0, 153, 51 });
-        });
-        mouseLeaveConn=  restartGameButton.mouseLeave.connect([this](){
-            restartGameButton.setBackgroundColor({0,153,51});
-        });
-        mouseLeaveConn = exitButton.mouseLeave.connect([this]() {
-            exitButton.setBackgroundColor({ 0, 153, 51 });
-        });
+		exitMouseLeaveConn = exitButton.mouseLeave.connect([this]() {
+			exitButton.setBackgroundColor({ 0, 153, 51 });
+		});
+
+		restartMouseEnterConn = restartGameButton.mouseEnter.connect([this]() {
+			restartGameButton.setBackgroundColor({ 0,121,21 });
+		});
+		restartMouseLeaveConn = restartGameButton.mouseLeave.connect([this]() {
+			restartGameButton.setBackgroundColor({ 0,153,51 });
+		});
+
+		mainMenuMouseEnterConn = mainMenuButton.mouseEnter.connect([this]() {
+			mainMenuButton.setBackgroundColor({ 0, 123, 21 });
+		});
+
+		mainMenuMouseLeaveConn = mainMenuButton.mouseLeave.connect([this]() {
+			mainMenuButton.setBackgroundColor({ 0, 153, 51 });
+		});
 
 		AssetManager::instance()->getSound("game-over").play();
 	}
@@ -164,8 +175,12 @@ public:
         restartGameButtonReleasedConn.disconnect();
         exitButtonPressedConn.disconnect();
         exitButtonReleasedConn.disconnect();
-		mouseEnterConn.disconnect();
-		mouseLeaveConn.disconnect();
+		exitMouseEnterConn.disconnect();
+		exitMouseLeaveConn.disconnect();
+		mainMenuMouseEnterConn.disconnect();
+		mainMenuMouseLeaveConn.disconnect();
+		restartMouseEnterConn.disconnect();
+		restartMouseLeaveConn.disconnect();
 	}
 
 	/**
