@@ -98,6 +98,10 @@ public:
 			if (key == activeKeyScheme.jump) {
 				doJump();
 			}
+			else if (key == activeKeyScheme.roll) {
+				doRoll();
+				rollClock.restart();
+			}
 			else if (key == activeKeyScheme.run){
 				runKeyPressed = true;
 				if (runClock.getElapsedTime().asMilliseconds() - lastKeyPressTime.asMilliseconds() <200){
@@ -120,10 +124,6 @@ public:
 			}
 			else if (key == activeKeyScheme.moveRight) {
 				walk(walkDirection + 1);
-			}
-			else if (key == activeKeyScheme.roll) {
-				doRoll();
-				rollClock.restart();
 			}
 		});
 
@@ -199,18 +199,20 @@ public:
 			jump = false;
 		}
 		if (roll) {
-			if (getVelocity().x > 0) {
-				applyForce({ 1, jumpForce });
+			if (walkDirection > 0) {
+				setVelocity({ 299, 0 });
+				applyForce({ 0, jumpForce });
 			}
-			else if(getVelocity().x < 0) {
-				applyForce({ -1, jumpForce });
+			else if (walkDirection < 0) {
+				setVelocity({ -299, 0 });
+				applyForce({ 0, jumpForce });
 			}
 			else {
 				applyForce({ 0, jumpForce });
 			}
 			setSize({ 20, 20 });
 			roll = true;
-			if (((rollClock.getElapsedTime().asSeconds()) > 2) || getVelocity().x == 0) {
+			if (((rollClock.getElapsedTime().asSeconds()) > 1)) {
 				setSize({ 20, 40 });
 				roll = false;
 			}
