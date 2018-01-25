@@ -55,6 +55,9 @@
     <Filter Include="Header Files\MapLoader\Factories\Utils">
       <UniqueIdentifier>{36446231-c35e-4b3f-9395-66d925d7d2eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameStates\Statemachine\Exceptions">
+      <UniqueIdentifier>{df6b4c03-cc92-4fdc-9823-eca30f7c5438}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -238,6 +241,12 @@
     </ClInclude>
     <ClInclude Include="Editor.hpp">
       <Filter>Header Files\GameStates\States</Filter>
+    </ClInclude>
+    <ClInclude Include="InvalidStateException.hpp">
+      <Filter>Header Files\GameStates\Statemachine\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="StatemachineException.hpp">
+      <Filter>Header Files\GameStates\Statemachine\Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="EventConnectionVector.hpp">
       <Filter>Header Files\Events</Filter>
