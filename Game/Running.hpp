@@ -41,7 +41,8 @@ class Running : public State {
 	EventConnection<> fellOffMapConnection;
 
 	/** @brief	The player */
-	Player player;
+    Player player;
+
 	/** @brief	The death */
 	Antagonist death;
 
@@ -69,7 +70,8 @@ public:
 	Running(Statemachine& statemachine) :
 		statemachine(statemachine),
 		focus(statemachine.window),
-		score(AssetManager::instance()->getFont("arial"))
+		score(AssetManager::instance()->getFont("arial")),
+        player(statemachine.window)
 	{
 		using Type = MapFactory::Type;
 		using Value = MapFactory::Value;
@@ -78,11 +80,10 @@ public:
 		MapFactory mapFactory(file);
 
 		mapFactory.registerCreateMethod("player", [&](Map& map, const MapItemProperties& properties) {
-			properties.read({
+            properties.read({
 				{ "Position", Type::Vector, [&](Value value) { player.setPosition(*value.vectorValue); } },
 				{ "TextureId", Type::String, [&](Value value) { player.setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } }
 			});
-
 			map.addDrawable(player);
 			map.setPrimaryCollidable(player);
 		});

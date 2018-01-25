@@ -3,6 +3,8 @@
 #include <istream>
 
 #include "BaseStreamExceptions.hpp"
+#include "StreamManipulators.hpp"
+
 
 /**
  * @class	SecureRead
@@ -57,7 +59,7 @@ public:
 template<class T>
 std::istream& operator>> (std::istream& is, SecureRead<T>& v) {
 	int64_t pos = is.tellg();
-	
+
 	try {
 		is >> exceptions >> (T&) v;
 	} catch (const std::istream::failure&) {
@@ -67,6 +69,6 @@ std::istream& operator>> (std::istream& is, SecureRead<T>& v) {
 		is >> unexpectedSymbol;
 		throw UnexpectedValueException(pos, unexpectedSymbol);
 	}
-	
+
 	return is;
 }

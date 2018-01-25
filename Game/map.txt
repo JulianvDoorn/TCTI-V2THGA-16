@@ -169,3 +169,8 @@ rectangle {
 	TextureId = "bush"
 	CanCollide = false
 }
+
+rectangle {
+    Size = Vector2(20,40)
+    TextureId = "fimmyStandingBody"
+}

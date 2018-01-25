@@ -5,6 +5,7 @@
 #include <sstream>
 #include <iostream>
 #include <cctype>
+#include <math.h>
 
 #include "SecureRead.hpp"
 #include "SpecialCharacter.hpp"

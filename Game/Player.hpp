@@ -24,6 +24,7 @@ using KeySchemes = std::array<KeyScheme, 100>;
 
 class Player : public Rectangle {
 private:
+    sf::RenderWindow &window;
 
 	/** @brief	The current active key scheme */
 	KeyScheme activeKeyScheme = KeyScheme(sf::Keyboard::Key::A, sf::Keyboard::Key::D, sf::Keyboard::Key::W, sf::Keyboard::Key::S,sf::Keyboard::LShift);
@@ -80,6 +81,20 @@ private:
 	/** @brief	The key released connection */
 	EventConnection<sf::Keyboard::Key> keyReleasedConn;
 
+    bool torsoDisplay = true;
+    bool leftLegDisplay = true;
+    bool rightLegDisplay = false;
+    bool headDisplay = false;
+    bool leftArmDisplay = true;
+    bool rightArmDisplay = true;
+
+    Rectangle torso;
+    Rectangle leftLeg;
+    Rectangle rightLeg;
+    Rectangle head;
+    Rectangle leftArm;
+    Rectangle rightArm;
+
 public:
 
 	/**
@@ -90,9 +105,18 @@ public:
 	 * @author	Wiebe
 	 * @date	25-1-2018
 	 */
+	Player(sf::RenderWindow &window) : window(window){
+		sf::Vector2f playersize = {20,40};
+        setSize(playersize);
 
-	Player() {
-		setSize({ 20, 40 });
+        setFillColor(sf::Color::Transparent);
+        torso.setSize(playersize);
+        head.setSize(playersize);
+        leftLeg.setSize(playersize);
+        rightLeg.setSize(playersize);
+        leftArm.setSize(playersize);
+        rightArm.setSize(playersize);
+
 
 		keyPressedConn = game.keyboard.keyPressed.connect([this](const sf::Keyboard::Key key) {
 			if (key == activeKeyScheme.jump) {
@@ -173,23 +197,109 @@ public:
 	 *
 	 * @param	elapsedTime	The elapsed time.
 	 */
-
 	void update(const float elapsedTime) override {
 		PhysicsObject::update(elapsedTime);
-		
-		if (walkDirection != 0) {
+        torso.setPosition(getPosition());
+        leftLeg.setPosition(getPosition());
+        rightLeg.setPosition(getPosition());
+        leftArm.setPosition(getPosition());
+        head.setPosition(getPosition());
+        if (walkDirection == 0){
+            if (torsoDisplay){
+                torso.setTexture(AssetManager::instance()->getTexture("fimmyStandingBody"));
+                torso.draw(window);
+            }
+            if (headDisplay){
+                head.setTexture(AssetManager::instance()->getTexture("fimmyStandingHead"));
+                head.draw(window);
+            }
+            if (leftLegDisplay){
+                leftLeg.setTexture(AssetManager::instance()->getTexture("fimmyStandingLeftLeg"));
+                leftLeg.draw(window);
+            }
+            if (rightLegDisplay){
+                rightLeg.setTexture(AssetManager::instance()->getTexture("fimmyStandingRightLeg"));
+                rightLeg.draw(window);
+            }
+            if (leftArmDisplay){
+                leftArm.setTexture(AssetManager::instance()->getTexture("fimmyStandingLeftArm"));
+                leftArm.draw(window);
+            }
+            if (rightArmDisplay){
+                rightArm.setTexture(AssetManager::instance()->getTexture("fimmyStandingRightArm"));
+                rightArm.draw(window);
+            }
+        }
+		else if (walkDirection != 0) {
 			if (walkDirection > 0) {
-				setTexture(AssetManager::instance()->getTexture("fimmyRight"));	
+
+                if (torsoDisplay){
+                    torso.setTexture(AssetManager::instance()->getTexture("fimmyRightBody"));
+                    torso.draw(window);
+                }
+                if (headDisplay){
+                    head.setTexture(AssetManager::instance()->getTexture("fimmyRightHead"));
+                    head.draw(window);
+                }
+                if (rightLegDisplay){
+                    rightLeg.setTexture(AssetManager::instance()->getTexture("fimmyRightLeg"));
+                    rightLeg.draw(window);
+                }
+                if (rightArmDisplay){
+                    rightArm.setTexture(AssetManager::instance()->getTexture("fimmyRightArm"));
+                    rightArm.draw(window);
+                }
 			}
 			if (walkDirection < 0) {
-				setTexture(AssetManager::instance()->getTexture("fimmyLeft"));
+
+                if (torsoDisplay){
+                    torso.setTexture(AssetManager::instance()->getTexture("fimmyLeftBody"));
+                    torso.draw(window);
+                }
+                if (headDisplay){
+                    head.setTexture(AssetManager::instance()->getTexture("fimmyLeftHead"));
+                    head.draw(window);
+                }
+                if (leftLegDisplay){
+                    leftLeg.setTexture(AssetManager::instance()->getTexture("fimmyLeftLeg"));
+                    leftLeg.draw(window);
+                }
+                if (leftArmDisplay){
+                    leftArm.setTexture(AssetManager::instance()->getTexture("fimmyLeftArm"));
+                    leftArm.draw(window);
+                }
+
 			}
 			if (!roll) {
 				setVelocity({ walkDirection * walkspeed, getVelocity().y });
 			}
 		} else {
 			if (!roll) {
-				setTexture(AssetManager::instance()->getTexture("fimmyStanding"));
+                // fimmy roll
+                if (torsoDisplay){
+                    torso.setTexture(AssetManager::instance()->getTexture("fimmyStandingBody"));
+                    torso.draw(window);
+                }
+                if (headDisplay){
+                    head.setTexture(AssetManager::instance()->getTexture("fimmyStandingHead"));
+                    head.draw(window);
+                }
+                if (leftLegDisplay){
+                    leftLeg.setTexture(AssetManager::instance()->getTexture("fimmyStandingLeftLeg"));
+                    leftLeg.draw(window);
+                }
+                if (rightLegDisplay){
+                    rightLeg.setTexture(AssetManager::instance()->getTexture("fimmyStandingRightLeg"));
+                    rightLeg.draw(window);
+                }
+                if (leftArmDisplay){
+                    leftArm.setTexture(AssetManager::instance()->getTexture("fimmyStandingLeftArm"));
+                    leftArm.draw(window);
+                }
+                if (rightArmDisplay){
+                    rightArm.setTexture(AssetManager::instance()->getTexture("fimmyStandingRightArm"));
+                    rightArm.draw(window);
+                }
 				setVelocity({ 0, getVelocity().y });
 			}
 		}
