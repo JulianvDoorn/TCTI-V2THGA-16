@@ -163,6 +163,7 @@
     <ClInclude Include="Cutscene.hpp" />
     <ClInclude Include="DrawableGroup.hpp" />
     <ClInclude Include="Editor.hpp" />
+    <ClInclude Include="EventConnectionVector.hpp" />
     <ClInclude Include="fimmyIcon.hpp" />
     <ClInclude Include="KeyValuePair.hpp" />
     <ClInclude Include="Map.hpp" />

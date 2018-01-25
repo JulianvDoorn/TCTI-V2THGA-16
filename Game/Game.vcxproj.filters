@@ -239,6 +239,9 @@
     <ClInclude Include="Editor.hpp">
       <Filter>Header Files\GameStates\States</Filter>
     </ClInclude>
+    <ClInclude Include="EventConnectionVector.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="map.txt">
