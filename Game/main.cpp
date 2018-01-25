@@ -9,7 +9,7 @@
 int main() {
 	// Game constants.
 	const float FPS = 60.0f;
-	const bool ENABLE_CUTSCENE = true;
+	const bool  ENABLE_CUTSCENE = true;
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720, 32), "Hello");
 
