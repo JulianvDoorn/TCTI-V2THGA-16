@@ -64,11 +64,13 @@ public:
 	 */
 
 	void resolveCollisions() {
-		for (Collidable* collidable : *this) {
-			Collision collision = primaryCollidable->getCollision(*collidable);
+		if (primaryCollidable != nullptr) {
+			for (Collidable* collidable : *this) {
+				Collision collision = primaryCollidable->getCollision(*collidable);
 
-			if (collision.intersects()) {
-				primaryCollidable->resolveCollision(*collidable, collision);
+				if (collision.intersects()) {
+					primaryCollidable->resolveCollision(*collidable, collision);
+				}
 			}
 		}
 	}
