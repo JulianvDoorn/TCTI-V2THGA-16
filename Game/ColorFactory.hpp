@@ -6,9 +6,11 @@
 #include <iomanip>
 #include <algorithm>
 #include <map>
-#include "IOExceptions.hpp"
+
+#include "BaseStreamExceptions.hpp"
 #include "QuotedString.hpp"
 #include "SpecialCharacter.hpp"
+#include "StreamManipulators.hpp"
 
 /**
  * @class	MalformedColorStringException
@@ -19,9 +21,9 @@
  * @date	2018-01-23
  */
 
-class MalformedColorStringException : public BodyFactoryException {
+class MalformedColorStringException : public StreamReadException {
 public:
-	explicit MalformedColorStringException(const std::string& s) : BodyFactoryException("Malformed/unknown color: \"" + s + "\"") { }
+	explicit MalformedColorStringException(const std::string& s) : StreamReadException("Malformed/unknown color: \"" + s + "\"") { }
 };
 
 /**
@@ -53,9 +55,9 @@ public:
  * @date	2018-01-23
  */
 
-class UnexpectedHexCharException : public BodyFactoryException {
+class UnexpectedHexCharException : public StreamReadException {
 public:
-	explicit UnexpectedHexCharException(UnexpectedHexChar e, const std::string& s) : BodyFactoryException(std::string("Malformed hex char \"") + (char) e + "\" in \"" + s + "\"") { }
+	explicit UnexpectedHexCharException(UnexpectedHexChar e, const std::string& s) : StreamReadException(std::string("Malformed hex char \"") + (char) e + "\" in \"" + s + "\"") { }
 };
 
 /**

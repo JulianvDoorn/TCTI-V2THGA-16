@@ -1,7 +1,8 @@
 #pragma once
 
 #include <istream>
-#include "IOExceptions.hpp"
+
+#include "BaseStreamExceptions.hpp"
 
 /**
  * @class	SecureRead

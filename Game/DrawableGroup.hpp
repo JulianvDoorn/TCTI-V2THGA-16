@@ -5,11 +5,7 @@
 #include <vector>
 #include <algorithm>
 
-class DrawableGroup {
-
-	/** @brief	The other collidables to compare with the primary collidable */
-	std::vector<Drawable*> drawableGroup;
-
+class DrawableGroup : public std::vector<Drawable*> {
 public:
 	/**
 	* @fn	void CollisionGroup::add(Collidable& collidable)
@@ -23,15 +19,15 @@ public:
 	*/
 
 	void add(Drawable& drawable) {
-		drawableGroup.push_back(&drawable);
+		push_back(&drawable);
 	}
 
 	void erase(Drawable& drawable) {
-		drawableGroup.erase(std::remove(drawableGroup.begin(), drawableGroup.end(), &drawable), drawableGroup.end());
+		std::vector<Drawable*>::erase(std::remove(begin(), end(), &drawable), end());
 	}
 
 	void draw(sf::RenderTarget& window) {
-		for (Drawable* drawable : drawableGroup) {
+		for (Drawable* drawable : *this) {
 			drawable->draw(window);
 		}
 	}

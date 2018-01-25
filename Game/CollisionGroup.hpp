@@ -2,12 +2,9 @@
 
 #include "Collidable.hpp"
 
-class CollisionGroup {
+class CollisionGroup : public std::vector<Collidable*> {
 	/** @brief	The primary collidable to compare with all otherCollidables */
 	Collidable* primaryCollidable;
-
-	/** @brief	The other collidables to compare with the primary collidable */
-	std::vector<Collidable*> otherCollidables;
 
 public:
 
@@ -54,7 +51,7 @@ public:
 	 */
 
 	void add(Collidable& collidable) {
-		otherCollidables.push_back(&collidable);
+		push_back(&collidable);
 	}
 
 	/**
@@ -67,7 +64,7 @@ public:
 	 */
 
 	void resolveCollisions() {
-		for (Collidable* collidable : otherCollidables) {
+		for (Collidable* collidable : *this) {
 			Collision collision = primaryCollidable->getCollision(*collidable);
 
 			if (collision.intersects()) {
