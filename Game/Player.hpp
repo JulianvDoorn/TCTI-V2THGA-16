@@ -207,67 +207,72 @@ public:
         rightArm.setPosition(getPosition());
         head.setPosition(getPosition());
         if (walkDirection == 0){
-            if (torsoDisplay){
-                torso.setTexture(AssetManager::instance()->getTexture("fimmyStandingBody"));
-                torso.draw(window);
-            }
-            if (headDisplay){
-                head.setTexture(AssetManager::instance()->getTexture("fimmyStandingHead"));
-                head.draw(window);
-            }
-            if (leftLegDisplay){
-                leftLeg.setTexture(AssetManager::instance()->getTexture("fimmyStandingLeftLeg"));
-                leftLeg.draw(window);
-            }
-            if (rightLegDisplay){
-                rightLeg.setTexture(AssetManager::instance()->getTexture("fimmyStandingRightLeg"));
-                rightLeg.draw(window);
-            }
-            if (leftArmDisplay){
-                leftArm.setTexture(AssetManager::instance()->getTexture("fimmyStandingLeftArm"));
-                leftArm.draw(window);
-            }
-            if (rightArmDisplay){
-                rightArm.setTexture(AssetManager::instance()->getTexture("fimmyStandingRightArm"));
-                rightArm.draw(window);
+            if (!roll) {
+                if (torsoDisplay) {
+                    torso.setTexture(AssetManager::instance()->getTexture("fimmyStandingBody"));
+                    torso.draw(window);
+                }
+                if (headDisplay) {
+                    head.setTexture(AssetManager::instance()->getTexture("fimmyStandingHead"));
+                    head.draw(window);
+                }
+                if (leftLegDisplay) {
+                    leftLeg.setTexture(AssetManager::instance()->getTexture("fimmyStandingLeftLeg"));
+                    leftLeg.draw(window);
+                }
+                if (rightLegDisplay) {
+                    rightLeg.setTexture(AssetManager::instance()->getTexture("fimmyStandingRightLeg"));
+                    rightLeg.draw(window);
+                }
+                if (leftArmDisplay) {
+                    leftArm.setTexture(AssetManager::instance()->getTexture("fimmyStandingLeftArm"));
+                    leftArm.draw(window);
+                }
+                if (rightArmDisplay) {
+                    rightArm.setTexture(AssetManager::instance()->getTexture("fimmyStandingRightArm"));
+                    rightArm.draw(window);
+                }
             }
         }
 		if (walkDirection != 0) {
 			if (walkDirection > 0) {
-                if (torsoDisplay){
-                    torso.setTexture(AssetManager::instance()->getTexture("fimmyRightBody"));
-                    torso.draw(window);
-                }
-                if (headDisplay){
-                    head.setTexture(AssetManager::instance()->getTexture("fimmyRightHead"));
-                    head.draw(window);
-                }
-                if (rightLegDisplay){
-                    rightLeg.setTexture(AssetManager::instance()->getTexture("fimmyRightLeg"));
-                    rightLeg.draw(window);
-                }
-                if (rightArmDisplay){
-                    rightArm.setTexture(AssetManager::instance()->getTexture("fimmyRightArm"));
-                    rightArm.draw(window);
+                if (!roll) {
+                    if (torsoDisplay) {
+                        torso.setTexture(AssetManager::instance()->getTexture("fimmyRightBody"));
+                        torso.draw(window);
+                    }
+                    if (headDisplay) {
+                        head.setTexture(AssetManager::instance()->getTexture("fimmyRightHead"));
+                        head.draw(window);
+                    }
+                    if (rightLegDisplay) {
+                        rightLeg.setTexture(AssetManager::instance()->getTexture("fimmyRightLeg"));
+                        rightLeg.draw(window);
+                    }
+                    if (rightArmDisplay) {
+                        rightArm.setTexture(AssetManager::instance()->getTexture("fimmyRightArm"));
+                        rightArm.draw(window);
+                    }
                 }
 			}
 			if (walkDirection < 0) {
-
-                if (torsoDisplay){
-                    torso.setTexture(AssetManager::instance()->getTexture("fimmyLeftBody"));
-                    torso.draw(window);
-                }
-                if (headDisplay){
-                    head.setTexture(AssetManager::instance()->getTexture("fimmyLeftHead"));
-                    head.draw(window);
-                }
-                if (leftLegDisplay){
-                    leftLeg.setTexture(AssetManager::instance()->getTexture("fimmyLeftLeg"));
-                    leftLeg.draw(window);
-                }
-                if (leftArmDisplay){
-                    leftArm.setTexture(AssetManager::instance()->getTexture("fimmyLeftArm"));
-                    leftArm.draw(window);
+                if (!roll) {
+                    if (torsoDisplay) {
+                        torso.setTexture(AssetManager::instance()->getTexture("fimmyLeftBody"));
+                        torso.draw(window);
+                    }
+                    if (headDisplay) {
+                        head.setTexture(AssetManager::instance()->getTexture("fimmyLeftHead"));
+                        head.draw(window);
+                    }
+                    if (leftLegDisplay) {
+                        leftLeg.setTexture(AssetManager::instance()->getTexture("fimmyLeftLeg"));
+                        leftLeg.draw(window);
+                    }
+                    if (leftArmDisplay) {
+                        leftArm.setTexture(AssetManager::instance()->getTexture("fimmyLeftArm"));
+                        leftArm.draw(window);
+                    }
                 }
 
 			}
@@ -286,18 +291,18 @@ public:
 		}
 		if (roll) {
 			if (walkDirection > 0) {
-				if (torsoDisplay){
+                    rollRectangle.setPosition(getPosition());
 					rollRectangle.setTexture(AssetManager::instance()->getTexture("fimmyRollRight"));
 					rollRectangle.draw(window);
-				}
+
 				setVelocity({ 299, jumpForce });
 			}
 			else if (walkDirection < 0) {
 				setVelocity({ -299, jumpForce });
-				if (torsoDisplay){
+                    rollRectangle.setPosition(getPosition());
 					rollRectangle.setTexture(AssetManager::instance()->getTexture("fimmyRollLeft"));
 					rollRectangle.draw(window);
-				}
+
 			}
 			else {
 				setVelocity({ 0, jumpForce });
