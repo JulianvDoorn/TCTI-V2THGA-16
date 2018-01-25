@@ -199,6 +199,7 @@ public:
 			jump = false;
 		}
 		if (roll) {
+			std::cout << getVelocity().x << std::endl;
 			if (getVelocity().x > 0) {
 				applyForce({ 1, jumpForce });
 			}

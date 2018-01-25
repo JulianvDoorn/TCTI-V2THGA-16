@@ -85,7 +85,7 @@ public:
 
 				setPosition(getPosition() + mtv);
 
-				if (getVelocity().x > 0) { // set horizontal velocity to 0
+				if (getVelocity().x != 0) { // set horizontal velocity to 0
 					setVelocity({ 0, getVelocity().y });
 				}
 
