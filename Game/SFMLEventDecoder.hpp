@@ -13,5 +13,5 @@ class SFMLEventDecoder {
 	 * @param	ev	SFML event to decode into an EventSource signal.
 	 */
 
-	virtual void decodeSFMLEvent(sf::Event ev) const = 0;
+	virtual void decodeSFMLEvent(sf::Event ev) = 0;
 };
