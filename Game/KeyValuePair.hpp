@@ -9,6 +9,10 @@
 #include "SecureRead.hpp"
 #include "SpecialCharacter.hpp"
 #include "ConsumeString.hpp"
+#include "QuotedString.hpp"
+#include "ColorFactory.hpp"
+#include "VectorStreamOperators.hpp"
+#include "RectStreamOperators.hpp"
 
 /**
  * @class	KeyValuePair
@@ -98,35 +102,6 @@ public:
 		}
 	}
 };
-
-template<class T>
-std::ostream& operator<< (std::ostream& os, sf::Rect<T>& vectorValue) {
-	return os << "Rect(" << vectorValue.left << ", " <<  vectorValue.top << ", " << vectorValue.width << ", " << vectorValue.height << ')';
-}
-
-template<class T>
-std::istream& operator>> (std::istream& is, sf::Rect<T>& vectorValue) {
-	is >> ConsumeString("Rect");
-
-	SecureRead<T> left;
-	SecureRead<T> top;
-	SecureRead<T> width;
-	SecureRead<T> height;
-
-	is >> std::ws >> SpecialCharacter::LeftBracket;
-	is >> std::ws >> left;
-	is >> std::ws >> SpecialCharacter::Comma;
-	is >> std::ws >> top;
-	is >> std::ws >> SpecialCharacter::Comma;
-	is >> std::ws >> width;
-	is >> std::ws >> SpecialCharacter::Comma;
-	is >> std::ws >> height;
-	is >> std::ws >> SpecialCharacter::RightBracket;
-
-	vectorValue = sf::Rect<T>(left, top, width, height);
-
-	return is;
-}
 
 /**
  * @fn	std::istream& operator>> (std::istream& is, KeyValuePair& pair)

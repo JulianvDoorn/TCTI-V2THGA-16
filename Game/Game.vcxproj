@@ -164,6 +164,7 @@
     <ClInclude Include="DrawableGroup.hpp" />
     <ClInclude Include="fimmyIcon.hpp" />
     <ClInclude Include="KeyValuePair.hpp" />
+    <ClInclude Include="Map.hpp" />
     <ClInclude Include="MapFactory.hpp" />
     <ClInclude Include="Button.hpp" />
     <ClInclude Include="CollisionGroup.hpp" />
@@ -179,7 +180,11 @@
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameObject.hpp" />
     <ClInclude Include="GameOver.hpp" />
-    <ClInclude Include="IOExceptions.hpp" />
+    <ClInclude Include="BaseStreamExceptions.hpp" />
+    <ClInclude Include="MapItemProperties.hpp" />
+    <ClInclude Include="MapLoader.hpp" />
+    <ClInclude Include="PropertyResolutionLambda.hpp" />
+    <ClInclude Include="RectStreamOperators.hpp" />
     <ClInclude Include="SecureRead.hpp" />
     <ClInclude Include="QuotedString.hpp" />
     <ClInclude Include="SettingsMenu.hpp" />
@@ -200,10 +205,13 @@
     <ClInclude Include="Shapes.hpp" />
     <ClInclude Include="SFMLEventDecoder.hpp" />
     <ClInclude Include="Statemachine.hpp" />
+    <ClInclude Include="StreamManipulators.hpp" />
+    <ClInclude Include="StreamUtils.hpp" />
     <ClInclude Include="SubtitleItem.hpp" />
     <ClInclude Include="SubtitleParser.hpp" />
     <ClInclude Include="SubtitleReadException.hpp" />
     <ClInclude Include="VectorMath.hpp" />
+    <ClInclude Include="VectorStreamOperators.hpp" />
     <ClInclude Include="ViewFocus.hpp" />
   </ItemGroup>
   <ItemGroup>
