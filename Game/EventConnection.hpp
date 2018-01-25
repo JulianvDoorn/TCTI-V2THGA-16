@@ -2,8 +2,7 @@
 
 #include <functional>
 
-template<class... Args>
-class EventSource;
+#include "EventSource.hpp"
 
 /**
  * @class	EventConnection
