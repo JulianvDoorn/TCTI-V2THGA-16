@@ -5,31 +5,31 @@ asset {
 
 texture {
 	Id = "fimmyStanding"
-	Location = "Fimmy/fimmy.png"
+	Location = "Fimmy/Fimmy.png"
 }
 texture {
 	Id = "fimmyStandingBody"
-	Location = "Fimmy/bodyparts/fimmyBody.png"
+	Location = "Fimmy/bodyparts/FimmyBody.png"
 }
 texture {
 	Id = "fimmyStandingHead"
-	Location = "Fimmy/bodyparts/fimmyHead.png"
+	Location = "Fimmy/bodyparts/FimmyHead.png"
 }
 texture {
 	Id = "fimmyStandingLeftArm"
-	Location = "Fimmy/bodyparts/fimmyLeftArm.png"
+	Location = "Fimmy/bodyparts/FimmyLeftArm.png"
 }
 texture {
 	Id = "fimmyStandingRightArm"
-	Location = "Fimmy/bodyparts/fimmyRightArm.png"
+	Location = "Fimmy/bodyparts/FimmyRightArm.png"
 }
 texture {
 	Id = "fimmyStandingLeftLeg"
-	Location = "Fimmy/bodyparts/fimmyLeftLeg.png"
+	Location = "Fimmy/bodyparts/FimmyLeftLeg.png"
 }
 texture {
 	Id = "fimmyStandingRightLeg"
-	Location = "Fimmy/bodyparts/fimmyRightLeg.png"
+	Location = "Fimmy/bodyparts/FimmyRightLeg.png"
 }
 
 texture {
@@ -67,36 +67,36 @@ texture {
 }
 texture {
 	Id = "fimmyRightArm"
-	Location = "Fimmy/walkingRight/FimmyWalkRightArm.png"
+	Location = "Fimmy/walkingright/FimmyWalkRightArm.png"
 }
 texture {
 	Id = "fimmyRightBody"
-	Location = "Fimmy/walkingRight/FimmyWalkRightBody.png"
+	Location = "Fimmy/walkingright/FimmyWalkRightBody.png"
 }
 texture {
 	Id = "fimmyRightHead"
-	Location = "Fimmy/walkingRight/FimmyWalkRightHead.png"
+	Location = "Fimmy/walkingright/FimmyWalkRightHead.png"
 }
 texture {
 	Id = "fimmyRightLeg"
-	Location = "Fimmy/walkingRight/FimmyWalkRightLeg.png"
+	Location = "Fimmy/walkingright/FimmyWalkRightLeg.png"
 }
 texture {
 	Id = "fimmyRightLeg2"
-	Location = "Fimmy/walkingRight/FimmyWalkRightLeg2.png"
+	Location = "Fimmy/walkingright/FimmyWalkRightLeg2.png"
 }
 texture {
 	Id = "fimmyRightLeg3"
-	Location = "Fimmy/walkingRight/FimmyWalkRightLeg3.png"
+	Location = "Fimmy/walkingright/FimmyWalkRightLeg3.png"
 }
 
 texture {
     Id = "fimmyRollLeft"
-    Location = "Fimmy/fimmyRollLeft.png"
+    Location = "Fimmy/FimmyRollLeft.png"
 }
 texture {
     Id = "fimmyRollRight"
-    Location = "Fimmy/fimmyRollRight.png"
+    Location = "Fimmy/FimmyRollRight.png"
 }
 
 texture {
