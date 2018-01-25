@@ -127,6 +127,7 @@ public:
 			});
 
 			map.addDrawable(rectangle);
+			map.addObject(rectangle);
 
 			if (canCollide) {
 				map.addCollidable(rectangle);
