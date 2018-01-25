@@ -4,6 +4,9 @@
 #include <vector>
 #include <deque>
 
+#include "EventConnection.hpp"
+#include "EventDisconnectable.hpp"
+
 /**
  * @class	DisconnectedEventConnectionException
  *
@@ -33,9 +36,6 @@ public:
 	}
 };
 
-template<class... Args>
-class EventConnection;
-
 /**
  * @class	EventSource
  *
@@ -48,7 +48,7 @@ class EventConnection;
  */
 
 template<class... Args>
-class EventSource {
+class EventSource : public EventDisconnectable {
 public:
 	/** @brief	The event function. */
 	using EventFunction = std::function<void(Args...)>;
@@ -70,7 +70,7 @@ private:
 			return *this;
 		}
 
-		bool operator== (const EventConnection<Args...>& rhs) const {
+		bool operator== (const EventConnection& rhs) const {
 			return rhs == id;
 		}
 	};
@@ -92,7 +92,8 @@ private:
 	 * @param [in,out]	conn	The Connection to disconnect.
 	 */
 
-	void disconnect(EventConnection<Args...>& conn) {
+protected:
+	void disconnect(EventConnection& conn) override {
 		bool disconnected = false;
 
 		{
@@ -146,10 +147,10 @@ public:
 	 * @return	An EventConnection<Args...>;
 	 */
 
-	EventConnection<Args...> connect(EventFunction func) {
+	EventConnection connect(EventFunction func) {
 		if (!locked) {
 			boundFunctions.emplace_back(func, idCounter++);
-			return EventConnection<Args...>(boundFunctions.back().id, *this);
+			return EventConnection(boundFunctions.back().id, *this);
 		}
 		else {
 			//std::cout << "event not yet connected; placed in queue" << std::endl;
@@ -157,7 +158,7 @@ public:
 			queuedFunctions.emplace_back(func, idCounter++);
 			//std::cout << "after: " << queuedFunctions.size() << std::endl;
 
-			return EventConnection<Args...>(queuedFunctions.back().id, *this);
+			return EventConnection(queuedFunctions.back().id, *this);
 		}
 	}
 
@@ -191,6 +192,4 @@ public:
 			binding.func(args...);
 		}
 	}
-
-	friend class EventConnection<Args...>;
 };
