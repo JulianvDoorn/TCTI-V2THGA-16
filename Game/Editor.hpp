@@ -17,6 +17,9 @@ class Editor : public State {
 	ViewFocus focus;
 
 	Map map;
+
+	float cameraSpeed = 100;
+	sf::Vector2i cameraMovement = { 0, 0 };
 	
 	Rectangle cameraFocus;
 
@@ -30,6 +33,7 @@ public:
 		focus(statemachine.window)
 	{
 		focus.setFocus(cameraFocus);
+		cameraFocus.setGravity({ 0, 0 });
 
 		using Type = MapFactory::Type;
 		using Value = MapFactory::Value;
@@ -58,13 +62,48 @@ public:
 		focus.setTopBorder(320);
 		focus.setBottomBorder(50);
 		focus.update();
+		focus.setDynamicCameraEnabled(false);
 
 		keyPressedConnection = game.keyboard.keyPressed.connect([this](sf::Keyboard::Key key) {
-		
+			if (key == sf::Keyboard::Key::W) {
+				cameraMovement += { 0, -1 };
+				cameraFocus.setVelocity({ cameraFocus.getVelocity().x, cameraMovement.y * cameraSpeed });
+			}
+			else if (key == sf::Keyboard::Key::A) {
+				cameraMovement += { -1, 0 };
+				cameraFocus.setVelocity({ cameraMovement.x * cameraSpeed, cameraFocus.getVelocity().y });
+			}
+			else if (key == sf::Keyboard::Key::S) {
+				cameraMovement += { 0, 1 };
+				cameraFocus.setVelocity({ cameraFocus.getVelocity().x, cameraMovement.y * cameraSpeed });
+
+			}
+			else if (key == sf::Keyboard::Key::D) {
+				cameraMovement += { 1, 0 };
+				cameraFocus.setVelocity({ cameraMovement.x * cameraSpeed, cameraFocus.getVelocity().y });
+			}
 		});
 
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
-			if (key == sf::Keyboard::Key::Escape) {
+			if (key == sf::Keyboard::Key::W) {
+				cameraMovement -= { 0, -1 };
+				cameraFocus.setVelocity({ cameraFocus.getVelocity().x, cameraMovement.y * cameraSpeed });
+			}
+			else if (key == sf::Keyboard::Key::A) {
+				cameraMovement -= { -1, 0 };
+				cameraFocus.setVelocity({ cameraMovement.x * cameraSpeed, cameraFocus.getVelocity().y });
+
+			}
+			else if (key == sf::Keyboard::Key::S) {
+				cameraMovement -= { 0, 1 };
+				cameraFocus.setVelocity({ cameraFocus.getVelocity().x, cameraMovement.y * cameraSpeed });
+
+			}
+			else if (key == sf::Keyboard::Key::D) {
+				cameraMovement -= { 1, 0 };
+				cameraFocus.setVelocity({ cameraMovement.x * cameraSpeed, cameraFocus.getVelocity().y });
+			}
+			else if (key == sf::Keyboard::Key::Escape) {
 				statemachine.doTransition("main-menu");
 			}
 		});
@@ -73,6 +112,7 @@ public:
 	void exit() override {
 		focus.unsetFocus();
 		focus.update();
+		focus.setDynamicCameraEnabled(true);
 
 		keyPressedConnection.disconnect();
 		keyReleasedConnection.disconnect();
@@ -82,6 +122,7 @@ public:
 		map.resolveCollisions();
 		map.draw(statemachine.window);
 
+		cameraFocus.update(elapsedTime);
 		focus.update();
 	}
 };

@@ -10,6 +10,7 @@ class ViewFocus {
 	int rightBorder;
     int topBorder;
     int bottomBorder;
+	bool dynamicCamera = true;
 public:
 
 	/**
@@ -46,6 +47,21 @@ public:
 		window(window),
 		focus(nullptr)
 	{ }
+
+	/**
+	 * @fn	void ViewFocus::setDynamicCameraEnabled(bool dynamicCamera)
+	 *
+	 * @brief	Sets dynamic camera enabled
+	 *
+	 * @author	Julian
+	 * @date	2018-01-25
+	 *
+	 * @param	dynamicCamera	Boolean to set
+	 */
+
+	void setDynamicCameraEnabled(bool dynamicCamera) {
+		this->dynamicCamera = dynamicCamera;
+	}
 
 	/**
 	 * @fn	void ViewFocus::setFocus(PhysicsObject& focus)
@@ -142,29 +158,34 @@ public:
 	void update() {
         // Check if focus is defined,  it can be undefined  if state is changing for example.
 		if (focus != nullptr) {
-			// Check if focus object is outside of border and how much it is outside the border. Move view the delta of border and focus object position.
-			float leftDiff = (focus->getPosition().x - (view.getCenter().x - (view.getSize().x / 2) + leftBorder));
-			float rightDiff = (focus->getPosition().x - (view.getCenter().x + (view.getSize().x / 2) - rightBorder));
-			float topDiff = (focus->getPosition().y - (view.getCenter().y + (view.getSize().y / 2) - topBorder));
-			float bottomDiff = (focus->getPosition().y - (view.getCenter().y - (view.getSize().y / 2) + bottomBorder));
+			if (dynamicCamera) {
+				// Check if focus object is outside of border and how much it is outside the border. Move view the delta of border and focus object position.
+				float leftDiff = (focus->getPosition().x - (view.getCenter().x - (view.getSize().x / 2) + leftBorder));
+				float rightDiff = (focus->getPosition().x - (view.getCenter().x + (view.getSize().x / 2) - rightBorder));
+				float topDiff = (focus->getPosition().y - (view.getCenter().y + (view.getSize().y / 2) - topBorder));
+				float bottomDiff = (focus->getPosition().y - (view.getCenter().y - (view.getSize().y / 2) + bottomBorder));
 
-            // Check if ouside of border
-			if (leftDiff < 0 || rightDiff > 0 || topDiff < 0 || bottomDiff > 0) {
-				if (leftDiff < 0) {
-					view.move(leftDiff, 0.0);
-				}
-				else if (rightDiff > 0) {
-					view.move(rightDiff, 0.0);
-				}
-				else if (topDiff > 0) {
-					view.move(0.0, topDiff);
-				}
-				else if (bottomDiff < 0) {
-					view.move(0.0, bottomDiff);
+				// Check if ouside of border
+				if (leftDiff < 0 || rightDiff > 0 || topDiff < 0 || bottomDiff > 0) {
+					if (leftDiff < 0) {
+						view.move(leftDiff, 0.0);
+					}
+					else if (rightDiff > 0) {
+						view.move(rightDiff, 0.0);
+					}
+					else if (topDiff > 0) {
+						view.move(0.0, topDiff);
+					}
+					else if (bottomDiff < 0) {
+						view.move(0.0, bottomDiff);
+					}
 				}
 			}
-            // Set default view if no focus object is defined.
+			else {
+				view.setCenter(focus->getPosition());
+			}
 		} else {
+			// Set default view if no focus object is defined.
 			view.setCenter(window.getDefaultView().getCenter());
 		}
 
