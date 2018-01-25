@@ -200,19 +200,18 @@ public:
 		}
 		if (roll) {
 			if (walkDirection > 0) {
-				setVelocity({ 299, 0 });
-				applyForce({ 0, jumpForce });
+				setVelocity({ 299, jumpForce });
 			}
 			else if (walkDirection < 0) {
-				setVelocity({ -299, 0 });
-				applyForce({ 0, jumpForce });
+				setVelocity({ -299, jumpForce });
 			}
 			else {
-				applyForce({ 0, jumpForce });
+				std::cout << "else\n";
+				setVelocity({ 0, jumpForce });
 			}
 			setSize({ 20, 20 });
 			roll = true;
-			if (((rollClock.getElapsedTime().asSeconds()) > 1)) {
+			if (((rollClock.getElapsedTime().asSeconds()) > 1) || getVelocity().x == 0) {
 				setSize({ 20, 40 });
 				roll = false;
 			}
