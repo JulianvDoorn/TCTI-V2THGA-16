@@ -5,32 +5,69 @@
 #include "Characters.hpp"
 #include "Button.hpp"
 
+/**
+ * @class	GamePauze
+ *
+ * @brief	A gamePauze screen with resume, restart and exit button. Using the event system to bind actions to the buttons.
+ *
+ * @author	Jeffrey de Waal
+ * @date	1/25/2018
+ */
+
 class GamePauze : public State {
+
+
+	/** @brief	The statemachine */
 	Statemachine& statemachine;
 
+	/** @brief	The game resume button */
 	Button gameResumeButton;
+	/** @brief	The game restart button */
 	Button gameRestartButton;
+	/** @brief	The game exit button */
 	Button gameExitButton;
 
+	/** @brief	The game resume button pressed connection */
 	EventConnection<> gameResumeButtonPressedConn;
+	/** @brief	The game resume button released connection */
 	EventConnection<> gameResumeButtonReleasedConn;
+	/** @brief	The game restart button pressed connection */
 	EventConnection<> gameRestartButtonPressedConn;
+	/** @brief	The game restart button released connection */
 	EventConnection<> gameRestartButtonReleasedConn;
+	/** @brief	The game exit button released connection */
 	EventConnection<> gameExitButtonReleasedConn;
+	/** @brief	The game exit button pressed connection */
 	EventConnection<> gameExitButtonPressedConn;
-
+	/** @brief	The exit mouse enter connection */
 	EventConnection<> exitMouseEnterConn;
+	/** @brief	The exit mouse leave connection */
 	EventConnection<> exitMouseLeaveConn;
-
+	/** @brief	The resume mouse enter connection */
 	EventConnection<> resumeMouseEnterConn;
+	/** @brief	The resume mouse leave connection */
 	EventConnection<> resumeMouseLeaveConn;
-
+	/** @brief	The restart mouse enter connection */
 	EventConnection<> restartMouseEnterConn;
+	/** @brief	The restart mouse leave connection */
 	EventConnection<> restartMouseLeaveConn;
 
+	/** @brief	The key released connection */
 	EventConnection<sf::Keyboard::Key> keyReleasedConnection;
 
 public:
+
+	/**
+	 * @fn	GamePauze::GamePauze(Statemachine& statemachine)
+	 *
+	 * @brief	Gamepauze state constructor, This constructor sets-up all the buttons.
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/25/2018
+	 *
+	 * @param [in,out]	statemachine	Give's a reference to the statemachine build in the main.cpp file.
+	 */
+
 	GamePauze(Statemachine& statemachine) :
 		statemachine(statemachine),
 		gameResumeButton(),
@@ -58,6 +95,14 @@ public:
 
 	}
 
+	/**
+	 * @fn	void GamePauze::entry() override
+	 *
+	 * @brief	On entry sets-up, connects all the eventconnections to the correct event and on event sets action.
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/25/2018
+	 */
 	void entry() override {
 
 
@@ -117,6 +162,15 @@ public:
 		});
 	}
 
+	/**
+	 * @fn	void GamePauze::exit() override
+	 *
+	 * @brief	Disconnects all the eventconnections used in this state.
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/25/2018
+	 */
+
 	void exit() override {
 		gameResumeButtonPressedConn.disconnect();
 		gameResumeButtonReleasedConn.disconnect();
@@ -133,6 +187,17 @@ public:
 
 		keyReleasedConnection.disconnect();
 	}
+
+	/**
+	 * @fn	void GamePauze::update(const float elapsedTime) override
+	 *
+	 * @brief	Updates the buttons.
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/25/2018
+	 *
+	 * @param	elapsedTime	The elapsed time.
+	 */
 
 	void update(const float elapsedTime) override {
 		gameResumeButton.draw(statemachine.window);

@@ -5,24 +5,58 @@
 #include "Characters.hpp"
 #include "Button.hpp"
 
+/**
+ * @class	MainMenu
+ *
+ * @brief	A Mainmenu screen with start, setting and exit button. Using the eventsystem to bind actions to the buttons.
+ *
+ * @author	Jeffrey de Waal
+ * @date	1/25/2018
+ */
+
 class MainMenu : public State {
+	/** @brief	The statemachine */
 	Statemachine& statemachine;
 
+    /** @brief	The menu label */
     Label menuLabel;
+	/** @brief	The start button */
 	Button startButton;
+	/** @brief	The exit button */
 	Button exitButton;
+    /** @brief	The settings button */
     Button settingsButton;
 
+	/** @brief	The start button pressed connection */
 	EventConnection<> startButtonPressedConn;
+	/** @brief	The start button released connection */
 	EventConnection<> startButtonReleasedConn;
+    /** @brief	The exit button pressed connection */
     EventConnection<> exitButtonPressedConn;
+    /** @brief	The exit button released connection */
     EventConnection<> exitButtonReleasedConn;
+    /** @brief	The settings button pressed connection */
     EventConnection<> settingsButtonPressedConn;
+    /** @brief	The settings button released connection */
     EventConnection<> settingsButtonReleasedConn;
+	/** @brief	The mouse enter connection */
 	EventConnection<> mouseEnterConn;
+	/** @brief	The mouse leave connection */
 	EventConnection<> mouseLeaveConn;
 
 public:
+
+	/**
+	 * @fn	MainMenu::MainMenu(Statemachine& statemachine)
+	 *
+	 * @brief	Mainmenu state constructor, This constructor sets-up all the buttons and the fimmy text above the buttons.
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/25/2018
+	 *
+	 * @param [in,out]	statemachine	Give's a reference to the statemachine build in the main.cpp file.
+	 */
+
 	MainMenu(Statemachine& statemachine) :
 		statemachine(statemachine),
 		startButton(),
@@ -55,6 +89,14 @@ public:
 		exitButton.setText("Exit game");
 	}
 
+	/**
+	 * @fn	void MainMenu::entry() override
+	 *
+	 * @brief	On entry sets-up, connects all the eventconnections to the correct event and on event sets action.
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/25/2018
+	 */
 	void entry() override {
 		startButtonPressedConn = startButton.buttonPressed.connect([this]() {
 			startButton.setBackgroundColor({ 0, 163, 61 });
@@ -102,6 +144,15 @@ public:
         });*/
 	}
 
+	/**
+	 * @fn	void exit() override
+	 *
+	 * @brief	Disconnects all the eventconnections used in this state.
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/25/2018
+	 */
+
 	void exit() override {
 		startButtonPressedConn.disconnect();
 		startButtonReleasedConn.disconnect();
@@ -110,6 +161,17 @@ public:
         exitButtonPressedConn.disconnect();
 		exitButtonReleasedConn.disconnect();
 	}
+
+	/**
+	 * @fn	void update(const float elapsedTime) override
+	 *
+	 * @brief	Updates the buttons and the fimmy text.
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/25/2018
+	 *
+	 * @param	elapsedTime	The elapsed time.
+	 */
 
 	void update(const float elapsedTime) override {
         menuLabel.draw(statemachine.window);

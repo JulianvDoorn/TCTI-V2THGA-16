@@ -6,26 +6,62 @@
 #include "Button.hpp"
 #include <SFML/Audio.hpp>
 
+/**
+ * @class	GameOver
+ *
+ * @brief	The Gameover screen with restart, exit and mainmenu button. Using the event system to bind actions to the buttons.
+ *
+ * @author	Jeffrey de Waal
+ * @date	1/25/2018
+ */
+
 class GameOver : public State {
+
+	/** @brief	The statemachine */
 	Statemachine& statemachine;
 
+    /** @brief	The menu label */
     Label menuLabel;
+	/** @brief	The main menu button */
 	Button mainMenuButton;
+    /** @brief	The restart game button */
     Button restartGameButton;
+    /** @brief	The exit button */
     Button exitButton;
 
+	/** @brief	The gameover sound */
 	sf::Music gameOver;
 
+	/** @brief	The main menu button pressed connection */
 	EventConnection<> mainMenuButtonPressedConn;
+    /** @brief	The main menu button released connection */
     EventConnection<> mainMenuButtonReleasedConn;
+    /** @brief	The restart game button pressed connection */
     EventConnection<> restartGameButtonPressedConn;
+    /** @brief	The restart game button released connection */
     EventConnection<> restartGameButtonReleasedConn;
+    /** @brief	The exit button pressed connection */
     EventConnection<> exitButtonPressedConn;
+    /** @brief	The exit button released connection */
     EventConnection<> exitButtonReleasedConn;
+	/** @brief	The mouse enter connection */
 	EventConnection<> mouseEnterConn;
+	/** @brief	The mouse leave connection */
 	EventConnection<> mouseLeaveConn;
 
 public:
+
+	/**
+	 * @fn	GameOver::GameOver(Statemachine& statemachine)
+	 *
+	 * @brief	Gameover state constructor, This constructor sets-up all the buttons and the gameover text.
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/25/2018
+	 *
+	 * @param [in,out]	statemachine	Give's a reference to the statemachine build in the main.cpp file.
+	 */
+
 	GameOver(Statemachine& statemachine) :
 		statemachine(statemachine),
 		mainMenuButton(),
@@ -56,6 +92,15 @@ public:
         exitButton.setBackgroundColor({0,153,51});
         exitButton.setText("Exit game");
 	}
+
+	/**
+	 * @fn	void GameOver::entry() override
+	 *
+	 * @brief	On entry sets-up, connects all the eventconnections to the correct event and on event sets action.
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/25/2018
+	 */
 
 	void entry() override {
 		mainMenuButtonPressedConn = mainMenuButton.buttonPressed.connect([this](){
@@ -103,6 +148,15 @@ public:
 		AssetManager::instance()->getSound("game-over").play();
 	}
 
+	/**
+	 * @fn	void GameOver::exit() override
+	 *
+	 * @brief	Disconnects all the eventconnections used in this state.
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/25/2018
+	 */
+
 	void exit() override {
         mainMenuButtonPressedConn.disconnect();
         mainMenuButtonReleasedConn.disconnect();
@@ -113,6 +167,17 @@ public:
 		mouseEnterConn.disconnect();
 		mouseLeaveConn.disconnect();
 	}
+
+	/**
+	 * @fn	void GameOver::update(const float elapsedTime) override
+	 *
+	 * @brief	Updates the buttons
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/25/2018
+	 *
+	 * @param	elapsedTime	The elapsed time.
+	 */
 
 	void update(const float elapsedTime) override {
 		menuLabel.draw(statemachine.window);
