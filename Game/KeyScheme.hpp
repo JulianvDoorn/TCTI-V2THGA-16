@@ -2,6 +2,13 @@
 
 #include <SFML/Graphics.hpp>
 
+class KeySchemeNotFoundException : public std::exception {
+public:
+	const char* what() const noexcept {
+		return "KeyScheme with given difficulty cannot been found!";
+	}
+};
+
 /**
  * @class	KeyScheme
  *

@@ -10,41 +10,87 @@
 #include "Keyboard.hpp"
 #include "KeyScheme.hpp"
 
+/** @brief	An (fixed-size) array holding key schemes. Maximum of 100 key schemes. */
 using KeySchemes = std::array<KeyScheme, 100>;
 
-class KeySchemeNotFoundException : public std::exception {
-public:
-	const char* what() const noexcept {
-		return "KeyScheme with given difficulty cannot been found!";
-	}
-};
+/**
+ * @class	Player
+ *
+ * @brief	A displayable player.
+ *
+ * @author	Wiebe
+ * @date	25-1-2018
+ */
 
 class Player : public Rectangle {
 private:
+
+	/** @brief	The current active key scheme */
 	KeyScheme activeKeyScheme = KeyScheme(sf::Keyboard::Key::A, sf::Keyboard::Key::D, sf::Keyboard::Key::W, sf::Keyboard::Key::S,sf::Keyboard::LShift);
+
+	/** @brief	The predefined player key schemes */
 	KeySchemes keySchemes = {
 		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift ,KeyScheme::Difficulty::MODERATE),
 		KeyScheme(sf::Keyboard::Key::J, sf::Keyboard::Key::L, sf::Keyboard::Key::I, sf::Keyboard::Key::J, sf::Keyboard::Key::LShift, KeyScheme::Difficulty::MODERATE)
 	};
 
+
+	/** @brief	The walk direction */
 	int32_t walkDirection = 0;
+
+	/** @brief	The default walking speed */
 	float defaultWalkingSpeed = 50;
+
+    /** @brief	The walkspeed */
     float walkspeed = 50;
+
+	/** @brief	The jump force */
 	float jumpForce = 500;
+
+    /** @brief	True to enable the spamming run key functionality */
     bool spammingRunKey = false;
+
+    /** @brief	The running spamming factor */
     float runningSpammingFactor = 1;
+
+	/** @brief	Jump flag */
 	bool jump = false;
+
+	/** @brief	Roll flag */
 	bool roll = false;
+
+    /** @brief	The last key press time */
     sf::Time lastKeyPressTime;
+
+    /** @brief	True if run key pressed */
     bool runKeyPressed = false;
+
+	/** @brief	The deathcase */
 	int deathcase = 0;
+
+    /** @brief	The run clock */
     sf::Clock runClock;
+
+	/** @brief	The roll clock */
 	sf::Clock rollClock;
 
+	/** @brief	The key pressed connection */
 	EventConnection<sf::Keyboard::Key> keyPressedConn;
+
+	/** @brief	The key released connection */
 	EventConnection<sf::Keyboard::Key> keyReleasedConn;
 
 public:
+
+	/**
+	 * @fn	Player::Player()
+	 *
+	 * @brief	Default constructor
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 */
+
 	Player() {
 		setSize({ 20, 40 });
 
@@ -103,10 +149,30 @@ public:
 		});
 	}
 
+	/**
+	 * @fn	Player::~Player()
+	 *
+	 * @brief	Destructor
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 */
+
 	~Player() {
 		keyPressedConn.disconnect();
 		keyReleasedConn.disconnect();
 	}
+
+	/**
+	 * @fn	void Player::update(const float elapsedTime) override
+	 *
+	 * @brief	Updates the window with the elapsed time in mind.
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 *
+	 * @param	elapsedTime	The elapsed time.
+	 */
 
 	void update(const float elapsedTime) override {
 		PhysicsObject::update(elapsedTime);
@@ -156,9 +222,29 @@ public:
         }
 	}
 
+	/**
+	 * @fn	void Player::walk(int32_t direction)
+	 *
+	 * @brief	Walk the given direction
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 *
+	 * @param	direction	The direction.
+	 */
+
 	void walk(int32_t direction) {
 		walkDirection = direction;
 	}
+
+	/**
+	 * @fn	void Player::doJump()
+	 *
+	 * @brief	Executes an jump action
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 */
 
 	void doJump() {
 		sf::Vector2f velocity = getVelocity();
@@ -167,9 +253,29 @@ public:
 		}
 	}
 
+	/**
+	 * @fn	void Player::doRoll()
+	 *
+	 * @brief	Executes an roll action
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 */
+
 	void doRoll() {
 		roll = true;
 	}
+
+	/**
+	 * @fn	void Player::checkDeath()
+	 *
+	 * @brief	Check if the player is death
+	 * 			
+	 * @detailed Fire the fellOfMap event if the player is death.
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 */
 
 	void checkDeath() {
 		if (getPosition().y > 2000) {
@@ -177,9 +283,36 @@ public:
 		}
 	}
 
+	/**
+	 * @fn	sf::FloatRect Player::getBounds() override
+	 *
+	 * @brief	Gets the player visual bounds
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 *
+	 * @return	The bounds.
+	 */
+
 	sf::FloatRect getBounds() override {
 		return getGlobalBounds();
 	}
+
+	/**
+	 * @fn	KeyScheme Player::findKeyScheme(const KeyScheme::Difficulty difficulty)
+	 *
+	 * @brief	Searches randomly for a key scheme which matches the required difficulty.
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 *
+	 * @exception	KeySchemeNotFoundException	Thrown when a Key Scheme Not Found error condition
+	 * 											occurs.
+	 *
+	 * @param	difficulty	The difficulty.
+	 *
+	 * @return	The found key scheme.
+	 */
 
 	KeyScheme findKeyScheme(const KeyScheme::Difficulty difficulty) {
 		std::vector<KeyScheme*> schemes;
@@ -199,9 +332,31 @@ public:
 		return *schemes.at(0);
 	}
 
+	/**
+	 * @fn	void Player::setActiveKeyScheme(KeyScheme s)
+	 *
+	 * @brief	Sets active key scheme
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 *
+	 * @param	s	A KeyScheme to process.
+	 */
+
 	void setActiveKeyScheme(KeyScheme s) {
 		activeKeyScheme = s;
 	}
+
+	/**
+	 * @fn	KeyScheme& Player::getActiveKeyScheme()
+	 *
+	 * @brief	Gets active key scheme
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 *
+	 * @return	The active key scheme.
+	 */
 
 	KeyScheme& getActiveKeyScheme() {
 		return activeKeyScheme;
