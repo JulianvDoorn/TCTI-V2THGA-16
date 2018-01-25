@@ -164,6 +164,7 @@
     <ClInclude Include="DrawableGroup.hpp" />
     <ClInclude Include="Editor.hpp" />
     <ClInclude Include="EventConnectionVector.hpp" />
+    <ClInclude Include="EventDisconnectable.hpp" />
     <ClInclude Include="fimmyIcon.hpp" />
     <ClInclude Include="InvalidStateException.hpp" />
     <ClInclude Include="KeyValuePair.hpp" />
