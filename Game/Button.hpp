@@ -7,18 +7,45 @@
 #include "EventConnection.hpp"
 #include "Mouse.hpp"
 
+/**
+ * @class	Button
+ *
+ * @brief	A displayable button.
+ *
+ * @author	Wiebe
+ * @date	25-1-2018
+ */
+
 class Button {
 private:
+
+    /** @brief	The button background */
     Rectangle background;
+
+    /** @brief	Size of the background */
     sf::Vector2f backgroundSize;
+
+    /** @brief	The button position */
     sf::Vector2f position;
+
+    /** @brief	The text label displayed in the button */
     Label textLabel;
 
+	/** @brief	True to mouse inside */
 	bool mouseInside = false;
+
+	/** @brief	True if the button is pressed, false if not */
 	bool isPressed = false;
-/**
- * @brief Connect all used mouse events to the eventmanager..
- */
+
+	/**
+	 * @fn	void Button::bindEvents()
+	 *
+	 * @brief	Connect all mouse events to the eventmanager.
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 */
+
 	void bindEvents() {
 		game.mouse.mouseLeftButtonDown.connect([this](const sf::Vector2i mousePos) {
 			if (background.contains(static_cast<sf::Vector2f>(mousePos))) {
@@ -51,9 +78,17 @@ private:
 	}
 
 public:
+
+	/** @brief	The button pressed event source. */
 	EventSource<> buttonPressed;
+
+	/** @brief	The button released event source. */
 	EventSource<> buttonReleased;
+
+	/** @brief	The mouse enter event source. */
 	EventSource<> mouseEnter;
+
+	/** @brief	The mouse leave event source. */
 	EventSource<> mouseLeave;
 	/**
 	 *  @brief Empty constructor for button, create a empty button without text.
@@ -91,10 +126,10 @@ public:
 	void setSize(sf::Vector2f size) {
 		background.setSize(size);
 	}
-/**
- * @brief Set the character size for the text that is displayed on the button.
- * @param size The character size.
- */
+	/**
+	 * @brief Set the character size for the text that is displayed on the button.
+	 * @param size The character size.
+	 */
 	void setCharSize(int32_t size) {
 		textLabel.setCharSize(size);
 	}

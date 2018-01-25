@@ -6,25 +6,70 @@
 #include "SubtitleParser.hpp"
 #include "Label.hpp"
 
+/**
+ * @class	Cutscene
+ *
+ * @brief	The cutscene state.
+ *
+ * @author	Wiebe
+ * @date	25-1-2018
+ */
+
 class Cutscene : public State {
+
+	/** @brief	The statemachine */
 	Statemachine& statemachine;
 
+
+	/** @brief	Vector containing subtitles for the cutscene. */
 	SubtitleVector subtitles;
+
+	/** @brief	The subtitle file parser. */
 	SubtitleParser parser;
+
+	/** @brief	The subtitle text displayed on the window. */
 	Label subtitleText;
+
+	/** @brief	The image background */
 	Rectangle imageBackground;
 
+	/** @brief	The clock used for timing the subtitle display events. */
 	sf::Clock clock;
-	sf::Time lastTime;
 
+	/** @brief	The last subtitle update time. */
+	sf::Time lastSubtitleUpdate;
+
+	/** @brief	The key released connection */
 	EventConnection<sf::Keyboard::Key> keyReleasedConnection;
 public:
+
+	/**
+	 * @fn	Cutscene::Cutscene(Statemachine& statemachine)
+	 *
+	 * @brief	Constructor
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 *
+	 * @param [in,out]	statemachine	The statemachine.
+	 */
+
 	Cutscene(Statemachine& statemachine) :
 		statemachine(statemachine),
 		parser("cutscene.srt")
 	{}
 
+	/**
+	 * @fn	void Cutscene::entry() override
+	 *
+	 * @brief	Preparation for the cutscene.
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 */
+
 	void entry() override {
+		// Prepare the cutscene.
 		subtitleText.setFont(AssetManager::instance()->getFont("arial"));
 		subtitleText.setPosition({100.0f, statemachine.window.getSize().y - 80.0f});
 		subtitleText.setText("");
@@ -60,6 +105,15 @@ public:
 		}
 	}
 
+	/**
+	 * @fn	void Cutscene::exit() override
+	 *
+	 * @brief	Exits the cutscene state
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 */
+
 	void exit() override {
 		// Empty subtitles vector
 		subtitles.clear();
@@ -67,8 +121,19 @@ public:
 		keyReleasedConnection.disconnect();
 	}
 
+	/**
+	 * @fn	void Cutscene::update(const float elapsedTime) override
+	 *
+	 * @brief	Updates the cutscene window
+	 *
+	 * @author	Wiebe
+	 * @date	25-1-2018
+	 *
+	 * @param	elapsedTime	The elapsed time.
+	 */
+
 	void update(const float elapsedTime) override {
-		if ((clock.getElapsedTime().asSeconds() - lastTime.asSeconds()) > 0) {
+		if ((clock.getElapsedTime().asSeconds() - lastSubtitleUpdate.asSeconds()) > 0) {
 			if (subtitles.size() > 0) {
 				auto item = subtitles.back();
 
@@ -77,6 +142,7 @@ public:
 				std::istringstream ssStart(item->getTimeStart());
 				std::istringstream ssStop(item->getTimeEnd());
 
+				// Parse the start and end time into an std::td (time) object.
 				ssStart >> std::get_time(&subTimeStart, "%H:%M:%S");
 				ssStop >> std::get_time(&subTimeEnd, "%H:%M:%S");
 

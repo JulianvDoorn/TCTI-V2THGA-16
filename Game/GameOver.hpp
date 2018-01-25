@@ -57,6 +57,7 @@ public:
         exitButton.setText("Exit game");
 	}
 
+
 	void entry() override {
 		mainMenuButtonPressedConn = mainMenuButton.buttonPressed.connect([this](){
 			mainMenuButton.setBackgroundColor({0,163,61});
