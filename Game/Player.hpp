@@ -38,8 +38,8 @@ private:
     sf::Time lastKeyPressTime;
     bool runKeyPressed = false;
 	int deathcase = 0;
-	//bool roll = false;
-    sf::Clock clock;
+    sf::Clock runClock;
+	sf::Clock rollClock;
 
 	EventConnection<sf::Keyboard::Key> keyPressedConn;
 	EventConnection<sf::Keyboard::Key> keyReleasedConn;
@@ -54,7 +54,7 @@ public:
 			}
 			else if (key == activeKeyScheme.run){
 				runKeyPressed = true;
-				if (clock.getElapsedTime().asMilliseconds() - lastKeyPressTime.asMilliseconds() <200){
+				if (runClock.getElapsedTime().asMilliseconds() - lastKeyPressTime.asMilliseconds() <200){
 					spammingRunKey = true;
 					runningSpammingFactor *= 1.5;
 				}
@@ -67,7 +67,7 @@ public:
 				if (walkspeed > 500){
 					walkspeed = 500;
 				}
-				lastKeyPressTime = clock.getElapsedTime();
+				lastKeyPressTime = runClock.getElapsedTime();
 			}
 			else if (key == activeKeyScheme.moveLeft) {
 				walk(walkDirection - 1);
@@ -77,7 +77,7 @@ public:
 			}
 			else if (key == activeKeyScheme.roll) {
 				doRoll();
-				clock.restart();
+				rollClock.restart();
 			}
 		});
 
@@ -88,7 +88,7 @@ public:
 			else if (key ==activeKeyScheme.run){
 				runKeyPressed = false;
 				if (spammingRunKey){
-					if (clock.restart().asMilliseconds() > 200){
+					if (runClock.restart().asMilliseconds() > 200){
 						walkspeed = defaultWalkingSpeed;
 						runningSpammingFactor = 1;
 					}
@@ -144,13 +144,13 @@ public:
 			}
 			setSize({ 20, 20 });
 			roll = true;
-			if (((clock.getElapsedTime().asSeconds()) > 2) || getVelocity().x == 0) {
+			if (((rollClock.getElapsedTime().asSeconds()) > 2) || getVelocity().x == 0) {
 				setSize({ 20, 40 });
 				roll = false;
 			}
 		}
 		checkDeath();
-        if (clock.getElapsedTime().asMilliseconds() -lastKeyPressTime.asMilliseconds() > 250 && !runKeyPressed ){
+        if (runClock.getElapsedTime().asMilliseconds() -lastKeyPressTime.asMilliseconds() > 250 && !runKeyPressed ){
             spammingRunKey = false;
             walkspeed = defaultWalkingSpeed;
         }
