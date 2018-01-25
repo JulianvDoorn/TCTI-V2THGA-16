@@ -5,6 +5,7 @@
 #include "GameStates.hpp"
 #include "Events.hpp"
 #include "AssetManager.hpp"
+#include "fimmyIcon.hpp"
 
 //#define ENABLE_DEBUG_MODE
 
@@ -14,6 +15,8 @@ int main() {
 	const bool  ENABLE_CUTSCENE = true;
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720, 32), "Fimmy the Game");
+
+	window.setIcon(sfml_icon.width, sfml_icon.height, sfml_icon.pixel_data);
 
 	window.setFramerateLimit(static_cast<unsigned int>(FPS));
 

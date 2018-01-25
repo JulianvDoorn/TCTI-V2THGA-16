@@ -200,6 +200,9 @@
     <ClInclude Include="Cutscene.hpp">
       <Filter>Header Files\GameStates\States</Filter>
     </ClInclude>
+    <ClInclude Include="fimmyIcon.hpp">
+      <Filter>Header Files\Assets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="map.txt">
