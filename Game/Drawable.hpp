@@ -9,7 +9,7 @@ protected:
 public:
 	virtual void update(const float elapsedTime) = 0;
 
-	virtual void draw(sf::RenderTarget& renderTarget) final {
+	virtual void draw(sf::RenderTarget& renderTarget)  {
 		renderTarget.draw(drawable);
 	};
 };

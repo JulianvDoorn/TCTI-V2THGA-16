@@ -36,51 +36,26 @@ private:
 	};
 
 
-	/** @brief	The walk direction */
 	int32_t walkDirection = 0;
 
-	/** @brief	The default walking speed */
 	float defaultWalkingSpeed = 100;
-
-    /** @brief	The walkspeed */
     float walkspeed = 100;
-
-	/** @brief	The jump force */
 	float jumpForce = 500;
-
-    /** @brief	True to enable the spamming run key functionality */
     bool spammingRunKey = false;
-
-    /** @brief	The running spamming factor */
     float runningSpammingFactor = 1;
-
-	/** @brief	Jump flag */
 	bool jump = false;
-
-	/** @brief	Roll flag */
 	bool roll = false;
-
-    /** @brief	The last key press time */
     sf::Time lastKeyPressTime;
-
-    /** @brief	True if run key pressed */
     bool runKeyPressed = false;
-
-	/** @brief	The deathcase */
 	int deathcase = 0;
 
-    /** @brief	The run clock */
     sf::Clock runClock;
-
-	/** @brief	The roll clock */
 	sf::Clock rollClock;
 
-	/** @brief	The key pressed connection */
 	EventConnection<sf::Keyboard::Key> keyPressedConn;
-
-	/** @brief	The key released connection */
 	EventConnection<sf::Keyboard::Key> keyReleasedConn;
 
+ /** @brief These variable are used to set a bodypart to display **/
     bool torsoDisplay = true;
     bool leftLegDisplay = true;
     bool rightLegDisplay = true;
@@ -95,6 +70,12 @@ private:
     Rectangle leftArm;
     Rectangle rightArm;
     Rectangle rollRectangle;
+
+    int defaultAnimationTimeInMiliseconds = 50;
+    int animationTimeInMiliseconds = defaultAnimationTimeInMiliseconds;
+	int animationCyle = 0;
+    sf::Clock animationClock;
+
 public:
 
 	/**
@@ -118,13 +99,12 @@ public:
         rightArm.setSize(playersize);
         rollRectangle.setSize({20,20});
 
-
 		keyPressedConn = game.keyboard.keyPressed.connect([this](const sf::Keyboard::Key key) {
 			if (key == activeKeyScheme.jump) {
 				doJump();
 			}
 			else if (key == activeKeyScheme.roll) {
-				doRoll();
+                roll = true;
 				rollClock.restart();
 			}
 			else if (key == activeKeyScheme.run){
@@ -139,22 +119,24 @@ public:
 					walkspeed = defaultWalkingSpeed;
 				}
 				walkspeed *= 2 * runningSpammingFactor;
+                animationTimeInMiliseconds /= 2;
+                animationTimeInMiliseconds /= runningSpammingFactor;
 				if (walkspeed > 299){ //max running speed without glitching
 					walkspeed = 299;
 				}
 				lastKeyPressTime = runClock.getElapsedTime();
 			}
 			else if (key == activeKeyScheme.moveLeft) {
-				walk(walkDirection - 1);
+				setWalkDirection(walkDirection - 1);
 			}
 			else if (key == activeKeyScheme.moveRight) {
-				walk(walkDirection + 1);
+				setWalkDirection(walkDirection + 1);
 			}
 		});
 
 		keyReleasedConn = game.keyboard.keyReleased.connect([this](const sf::Keyboard::Key key) {
 			if (key == activeKeyScheme.moveLeft) {
-				walk(walkDirection + 1);
+				setWalkDirection(walkDirection + 1);
 			}
 			else if (key ==activeKeyScheme.run){
 				runKeyPressed = false;
@@ -162,14 +144,16 @@ public:
 					if (runClock.restart().asMilliseconds() > 200){
 						walkspeed = defaultWalkingSpeed;
 						runningSpammingFactor = 1;
+						animationTimeInMiliseconds = defaultAnimationTimeInMiliseconds;
 					}
 				}
 				else{
 					walkspeed = 100;
+                    animationTimeInMiliseconds = defaultAnimationTimeInMiliseconds;
 				}
 			}
 			else if (key == activeKeyScheme.moveRight) {
-				walk(walkDirection - 1);
+				setWalkDirection(walkDirection - 1);
 			}
 		});
 	}
@@ -206,113 +190,13 @@ public:
         leftArm.setPosition(getPosition());
         rightArm.setPosition(getPosition());
         head.setPosition(getPosition());
-        if (walkDirection == 0){
-            if (!roll) {
-                if (torsoDisplay) {
-                    torso.setTexture(AssetManager::instance()->getTexture("fimmyStandingBody"));
-                    torso.draw(window);
-                }
-                if (headDisplay) {
-                    head.setTexture(AssetManager::instance()->getTexture("fimmyStandingHead"));
-                    head.draw(window);
-                }
-                if (leftLegDisplay) {
-                    leftLeg.setTexture(AssetManager::instance()->getTexture("fimmyStandingLeftLeg"));
-                    leftLeg.draw(window);
-                }
-                if (rightLegDisplay) {
-                    rightLeg.setTexture(AssetManager::instance()->getTexture("fimmyStandingRightLeg"));
-                    rightLeg.draw(window);
-                }
-                if (leftArmDisplay) {
-                    leftArm.setTexture(AssetManager::instance()->getTexture("fimmyStandingLeftArm"));
-                    leftArm.draw(window);
-                }
-                if (rightArmDisplay) {
-                    rightArm.setTexture(AssetManager::instance()->getTexture("fimmyStandingRightArm"));
-                    rightArm.draw(window);
-                }
-            }
-        }
-		if (walkDirection != 0) {
-			if (walkDirection > 0) {
-                if (!roll) {
-                    if (torsoDisplay) {
-                        torso.setTexture(AssetManager::instance()->getTexture("fimmyRightBody"));
-                        torso.draw(window);
-                    }
-                    if (headDisplay) {
-                        head.setTexture(AssetManager::instance()->getTexture("fimmyRightHead"));
-                        head.draw(window);
-                    }
-                    if (rightLegDisplay) {
-                        rightLeg.setTexture(AssetManager::instance()->getTexture("fimmyRightLeg"));
-                        rightLeg.draw(window);
-                    }
-                    if (rightArmDisplay) {
-                        rightArm.setTexture(AssetManager::instance()->getTexture("fimmyRightArm"));
-                        rightArm.draw(window);
-                    }
-                }
-			}
-			if (walkDirection < 0) {
-                if (!roll) {
-                    if (torsoDisplay) {
-                        torso.setTexture(AssetManager::instance()->getTexture("fimmyLeftBody"));
-                        torso.draw(window);
-                    }
-                    if (headDisplay) {
-                        head.setTexture(AssetManager::instance()->getTexture("fimmyLeftHead"));
-                        head.draw(window);
-                    }
-                    if (leftLegDisplay) {
-                        leftLeg.setTexture(AssetManager::instance()->getTexture("fimmyLeftLeg"));
-                        leftLeg.draw(window);
-                    }
-                    if (leftArmDisplay) {
-                        leftArm.setTexture(AssetManager::instance()->getTexture("fimmyLeftArm"));
-                        leftArm.draw(window);
-                    }
-                }
-
-			}
-			if (!roll) {
-				setVelocity({ walkDirection * walkspeed, getVelocity().y });
-			}
-		} else {
-			if (!roll) {
-				setVelocity({ 0, getVelocity().y });
-			}
-		}
-
+        doWalk();
 		if (jump) {
 			applyForce({ 0, -jumpForce });
 			jump = false;
 		}
 		if (roll) {
-			if (walkDirection > 0) {
-                    rollRectangle.setPosition(getPosition());
-					rollRectangle.setTexture(AssetManager::instance()->getTexture("fimmyRollRight"));
-					rollRectangle.draw(window);
-
-				setVelocity({ 299, jumpForce });
-			}
-			else if (walkDirection < 0) {
-				setVelocity({ -299, jumpForce });
-                    rollRectangle.setPosition(getPosition());
-					rollRectangle.setTexture(AssetManager::instance()->getTexture("fimmyRollLeft"));
-					rollRectangle.draw(window);
-
-			}
-			else {
-				setVelocity({ 0, jumpForce });
-			}
-			setSize({ 20, 20 });
-			roll = true;
-			if (((rollClock.getElapsedTime().asSeconds()) > 1) || getVelocity().x == 0) {
-				setSize({ 20, 40 });
-				roll = false;
-			}
+				doRoll();
 		}
 		checkDeath();
         if (runClock.getElapsedTime().asMilliseconds() -lastKeyPressTime.asMilliseconds() > 250 && !runKeyPressed ){
@@ -332,7 +216,7 @@ public:
 	 * @param	direction	The direction.
 	 */
 
-	void walk(int32_t direction) {
+	void setWalkDirection(int32_t direction) {
 		walkDirection = direction;
 	}
 
@@ -350,19 +234,6 @@ public:
 		if (velocity.y == 0) {
 			jump = true;
 		}
-	}
-
-	/**
-	 * @fn	void Player::doRoll()
-	 *
-	 * @brief	Executes an roll action
-	 *
-	 * @author	Wiebe
-	 * @date	25-1-2018
-	 */
-
-	void doRoll() {
-		roll = true;
 	}
 
 	/**
@@ -479,6 +350,135 @@ public:
 		headDisplay = false;
 	}
 
+    void doWalk(){
+        if (walkDirection == 0){
+            if (!roll) {
+                if (torsoDisplay) {
+                    torso.setTexture(AssetManager::instance()->getTexture("fimmyStandingBody"));
+                }
+                if (headDisplay) {
+                    head.setTexture(AssetManager::instance()->getTexture("fimmyStandingHead"));
+                }
+                if (leftLegDisplay) {
+                    leftLeg.setTexture(AssetManager::instance()->getTexture("fimmyStandingLeftLeg"));
+                }
+                if (rightLegDisplay) {
+                    rightLeg.setTexture(AssetManager::instance()->getTexture("fimmyStandingRightLeg"));
+                }
+                if (leftArmDisplay) {
+                    leftArm.setTexture(AssetManager::instance()->getTexture("fimmyStandingLeftArm"));
+                }
+                if (rightArmDisplay) {
+                    rightArm.setTexture(AssetManager::instance()->getTexture("fimmyStandingRightArm"));
+                }
+            }
+        }
+        if (walkDirection != 0) {
+            if (walkDirection > 0) {
+                if (!roll) {
+                    if (torsoDisplay) {
+                        torso.setTexture(AssetManager::instance()->getTexture("fimmyRightBody"));
+                    }
+                    if (headDisplay) {
+                        head.setTexture(AssetManager::instance()->getTexture("fimmyRightHead"));
+                    }
+                    if (rightLegDisplay) {
+                        if (animationClock.getElapsedTime().asMilliseconds() > animationTimeInMiliseconds) {
+                            switch (animationCyle) {
+                                case 1:
+                                    rightLeg.setTexture(AssetManager::instance()->getTexture("fimmyRightLeg"));
+                                    break;
+                                case 2:
+                                    rightLeg.setTexture(AssetManager::instance()->getTexture("fimmyRightLeg2"));
+                                    break;
+                                case 3:
+                                    rightLeg.setTexture(AssetManager::instance()->getTexture("fimmyRightLeg3"));
+                                    animationCyle = 0;
+                                    break;
+                            }
+                            animationClock.restart();
+                            animationCyle++;
+                        }
+                    }
+                    if (rightArmDisplay) {
+                        rightArm.setTexture(AssetManager::instance()->getTexture("fimmyRightArm"));
+                    }
+                }
+            }
+            if (walkDirection < 0) {
+                if (!roll) {
+                    if (torsoDisplay) {
+                        torso.setTexture(AssetManager::instance()->getTexture("fimmyLeftBody"));
+                    }
+                    if (headDisplay) {
+                        head.setTexture(AssetManager::instance()->getTexture("fimmyLeftHead"));
+                    }
+                    if (leftLegDisplay) {
+                        if (animationClock.getElapsedTime().asMilliseconds() > animationTimeInMiliseconds) {
+                            switch (animationCyle) {
+                                case 1:
+                                    leftLeg.setTexture(AssetManager::instance()->getTexture("fimmyLeftLeg"));
+                                    break;
+                                case 2:
+                                    leftLeg.setTexture(AssetManager::instance()->getTexture("fimmyLeftLeg2"));
+                                    break;
+                                case 3:
+                                    leftLeg.setTexture(AssetManager::instance()->getTexture("fimmyLeftLeg3"));
+                                    animationCyle = 0;
+                                    break;
+                            }
+                            animationClock.restart();
+                            animationCyle++;
+                        }
+                    }
+                    if (leftArmDisplay) {
+                        leftArm.setTexture(AssetManager::instance()->getTexture("fimmyLeftArm"));
+                    }
+                }
+            }
+            if (!roll) {
+                setVelocity({ walkDirection * walkspeed, getVelocity().y });
+            }
+        } else {
+            if (!roll) {
+                setVelocity({ 0, getVelocity().y });
+            }
+        }
+    }
+	void doRoll(){
+		if (walkDirection > 0) {
+			rollRectangle.setPosition(getPosition());
+			rollRectangle.setTexture(AssetManager::instance()->getTexture("fimmyRollRight"));
+
+			setVelocity({ 299, jumpForce });
+		}
+		else if (walkDirection < 0) {
+			setVelocity({ -299, jumpForce });
+			rollRectangle.setPosition(getPosition());
+			rollRectangle.setTexture(AssetManager::instance()->getTexture("fimmyRollLeft"));
+		}
+		else {
+			setVelocity({ 0, jumpForce });
+		}
+		setSize({ 20, 20 });
+		roll = true;
+		if (((rollClock.getElapsedTime().asSeconds()) > 1) || getVelocity().x == 0) {
+			setSize({ 20, 40 });
+			roll = false;
+            rollRectangle.setFillColor(sf::Color::Transparent);
+		}
+	}
+
+    void draw(sf::RenderTarget &window){
+        Drawable::draw(window);
+        head.draw(window);
+        torso.draw(window);
+        leftLeg.draw(window);
+        rightLeg.draw(window);
+        leftArm.draw(window);
+        rightArm.draw(window);
+        rollRectangle.draw(window);
+    }
 	using Rectangle::getCollision;
 	using Rectangle::setPosition;
 	using Rectangle::getPosition;
