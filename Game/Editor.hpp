@@ -146,13 +146,6 @@ public:
 		dock.draw();
 		rectContainer.draw();
 
-		sf::Vector2f mouseCoords = statemachine.window.mapPixelToCoords(sf::Mouse::getPosition(statemachine.window));
-
-		sf::RectangleShape rectShape;
-		rectShape.setSize({ 10, 10 });
-		rectShape.setPosition(mouseCoords);
-		statemachine.window.draw(rectShape);
-
 		cameraFocus.update(elapsedTime);
 		focus.update();
 	}
