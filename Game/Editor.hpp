@@ -275,6 +275,11 @@ public:
 		view.setCenter(position);
 		window.setView(view);
 	}
+
+	void reset() {
+		view.setCenter(window.getDefaultView().getCenter());
+		window.setView(view);
+	}
 };
 
 class Editor : public State {
@@ -378,7 +383,8 @@ public:
 
 	void exit() override {
 		camera.disconnect();
-		
+		camera.reset();
+
 		selection.disconnect();
 
 		physicsObjectConnVector.disconnect();
