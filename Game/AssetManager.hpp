@@ -93,6 +93,8 @@ private:
 	/** @brief	The sounds */
 	std::map<std::string, sf::Sound> sounds;
 
+	std::map<std::string, std::string> fileLocations;
+
 	/**
 	 * @property	std::vector < std::unique_ptr < sf::SoundBuffer> > soundBuffers
 	 *
@@ -217,6 +219,7 @@ public:
 		sf::Texture _texture;
 
 		if (_texture.loadFromFile(filename)) {
+			fileLocations[id] = filename;
 			textures[id] = _texture;
 		}
 		else {
@@ -244,6 +247,7 @@ public:
 			return textures.at(id);
 		}
 		catch (const std::out_of_range) {
+			std::cout << "Texture '" << id << "' is not loaded!\n";
 			throw AssetNotLoadedException(id);
 		}
 	}
@@ -270,6 +274,7 @@ public:
 		sf::Font _font;
 
 		if (_font.loadFromFile(filename)) {
+			fileLocations[id] = filename;
 			fonts[id] = _font;
 		}
 		else {
@@ -327,6 +332,7 @@ public:
 			
 			_sound.setBuffer(*soundBuffers.back());
 
+			fileLocations[id] = filename;
 			sounds[id] = _sound;
 		}
 		else {
@@ -355,6 +361,37 @@ public:
 		}
 		catch (const std::out_of_range) {
 			throw AssetNotLoadedException(id);
+		}
+	}
+
+	std::map<std::string, sf::Texture>& getTextures() {
+		return textures;
+	}
+
+	std::map<std::string, sf::Sound>& getSounds() {
+		return sounds;
+	}
+
+	std::map<std::string, sf::Font>& getFonts() {
+		return fonts;
+	}
+
+	std::string resolveTextureID(const sf::Texture &t) const {
+		for (const auto &mapT : textures) {
+			if (&mapT.second == &t) {
+				return mapT.first;
+			}
+		}
+
+		throw "Unable to resolve texture ID!";
+	}
+
+	std::string getFilename(std::string id) {
+		try {
+			return fileLocations.at(id);
+		}
+		catch (std::out_of_range) {
+			throw "Unable to resolve filename for id '" + id + "'";
 		}
 	}
 

@@ -10,6 +10,9 @@
 #include "ViewFocus.hpp"
 #include "Label.hpp"
 #include "MapLoader.hpp"
+#include "Dock.hpp"
+#include "AssetFileGenerator.hpp"
+#include "ShapeFileGenerator.hpp"
 #include "VectorMath.hpp"
 
 #include "VectorStreamOperators.hpp"
@@ -278,9 +281,19 @@ class Editor : public State {
 	Statemachine& statemachine;
 
 	FreeCamera camera;
+	Dock dock;
+
+	RectangleContainer rectContainer;
+
+	AssetFileGenerator assetFileGenerator;
+	ShapeFileGenerator shapeFileGenerator;
+	
+	std::ofstream fileOut;
+
 
 	Map map;
 
+	EventConnection keyPressedConnection;
 	EventConnection keyReleasedConnection;
 	EventConnection mouseLeftButtonUp;
 	EventConnection mouseMovedConn;
@@ -292,6 +305,10 @@ public:
 
 	Editor(Statemachine& statemachine) :
 		statemachine(statemachine),
+		rectContainer(statemachine.window),
+		dock(rectContainer, statemachine.window),
+		assetFileGenerator(fileOut),
+		shapeFileGenerator(fileOut),
 		camera(statemachine.window, 100)
 	{
 		using Type = MapFactory::Type;
@@ -311,6 +328,21 @@ public:
 		});
 
 		map = mapFactory.buildMap();
+		
+		std::map<std::string, sf::Texture>& textures = AssetManager::instance()->getTextures();
+
+		for (std::map<std::string, sf::Texture>::iterator it = textures.begin(); it != textures.end(); it++) {
+			std::shared_ptr<Rectangle> rect = std::make_shared < Rectangle >();
+
+			rect->setSize({ 40.0f, 40.0f });
+			
+			rect->setOutlineColor(sf::Color::White);
+			rect->setOutlineThickness(1.0f);
+			rect->setTexture(it->second);
+			rect->setTextureRect({ 0, 0, 20, 20 });
+
+			dock.addRectangle(rect);
+		}
 	}
 
 	void entry() override {
@@ -319,6 +351,12 @@ public:
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
 				statemachine.doTransition("main-menu");
+			}
+			else if (key == sf::Keyboard::Key::LControl) {
+				std::cout << "Writing assets to file...\n";
+				assetFileGenerator.generate("assets_generated.txt");
+				std::cout << "Writing map to file...\n";
+				shapeFileGenerator.generate("map_generated.txt", rectContainer);
 			}
 		});
 
@@ -357,6 +395,8 @@ public:
 
 		map.resolveCollisions();
 		map.draw(statemachine.window);
+		dock.draw();
+		rectContainer.draw();
 
 		selection.update(elapsedTime);
 		selection.draw(statemachine.window);
