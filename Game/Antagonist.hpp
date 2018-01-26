@@ -13,6 +13,7 @@
  */
 
 class Antagonist : public Rectangle {
+private:
 	/** @brief	The walk direction */
 	int32_t walkDirection = 1;
 
@@ -31,8 +32,7 @@ public:
 	 */
 
 	Antagonist() {
-		setSize({ 200, 200 });
-		setFillColor(sf::Color(255, 0, 0));
+		setSize({ 300, 400 });
 		setVelocity({ walkDirection * walkspeed, getVelocity().y });
 		setGravity({ 0, 0 });
 	}

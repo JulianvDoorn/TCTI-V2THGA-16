@@ -4,6 +4,10 @@ asset {
 }
 
 texture {
+	Id = "death"
+	Location = "death.png"
+}
+texture {
 	Id = "fimmyStanding"
 	Location = "Fimmy/Fimmy.png"
 }
@@ -122,6 +126,22 @@ texture {
 }
 
 texture {
+	Id = "block01"
+	Location = "block01.png"
+	Repeated = true
+}
+
+texture {
+	Id = "block02"
+	Location = "block02.png"
+	Repeated = true
+}
+texture {
+	Id = "block03"
+	Location = "block03.png"
+	Repeated = true
+}
+texture {
 	Id = "rockFloor"
 	Location = "ground2.png"
 	Repeated = true
@@ -149,7 +169,8 @@ player {
 }
 
 death {
-	Position = Vector2(-200, 200)
+	Position = Vector2(-200, 285)
+	TextureId = "death"
 }
 
 rectangle {
@@ -181,6 +202,24 @@ rectangle {
 	TextureId = "brick"
 }
 
+rectangle {
+	Size = Vector2(120, 30)
+	TextureRect = Rect(0, 0, 40, 10)
+	Position = Vector2(50, 450)
+	TextureId = "block01"
+}
+rectangle {
+	Size = Vector2(120, 30)
+	TextureRect = Rect(0, 0, 40, 10)
+	Position = Vector2(50, 400)
+	TextureId = "block02"
+}
+rectangle {
+	Size = Vector2(120, 30)
+	TextureRect = Rect(0, 0, 40, 10)
+	Position = Vector2(50, 350)
+	TextureId = "block03"
+}
 rectangle {
 	Size = Vector2(14, 14)
 	Position = Vector2(150, 486)
