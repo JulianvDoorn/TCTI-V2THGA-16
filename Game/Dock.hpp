@@ -68,12 +68,6 @@ public:
 	void selectRectangle(sf::Vector2i mousePos) {
 		for (auto &rectangle : rectanglesTemplates) {
 			if (rectangle->getBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
-				//selectedRectangle = *rectangle;
-				//rectanglesCopies.push_back(std::make_unique);
-				//selectedRect = std::make_unique<Rectangle>(*rectangle); <-- THIS MUST WORK WITH AN APPRIOPIATE COPY OPERATOR
-				//std::cout << "Memory addr 1: " << &*rectangle << std::endl;
-				//std::cout << "Memory addr 2: " << &*selectedRect << std::endl;
-				
 				std::unique_ptr<Rectangle> temp = std::make_unique<Rectangle>();
 
 				temp->setPosition(rectangle->getPosition());
@@ -81,18 +75,9 @@ public:
 				temp->setTextureRect(rectangle->getTextureRect());
 				temp->setSize(rectangle->getSize());
 
-				//rectangles.push_back(std::move(selectedRect));
 				selectedRect = std::move(temp);
 
-				std::cout << "Made deepcopy!\n";
-
 				isRectangleSelected = true;
-
-				//rectangles.add(selectedRect);
-
-				//rectangleSelected = true;
-
-				//std::cout << "Selected:\n x = " << rectangle->getPosition().x << " y = " << selectedRectangle->getPosition().y << std::endl;
 
 				return;
 			}
