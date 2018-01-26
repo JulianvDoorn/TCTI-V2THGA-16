@@ -161,6 +161,8 @@
     <ClInclude Include="ConsumeString.hpp" />
     <ClInclude Include="CurlyBracketList.hpp" />
     <ClInclude Include="Cutscene.hpp" />
+    <ClInclude Include="Dock.hpp" />
+    <ClInclude Include="RectangleContainer.hpp" />
     <ClInclude Include="DrawableGroup.hpp" />
     <ClInclude Include="Editor.hpp" />
     <ClInclude Include="fimmyIcon.hpp" />

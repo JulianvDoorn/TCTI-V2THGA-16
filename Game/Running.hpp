@@ -3,7 +3,6 @@
 #include <SFML/Audio.hpp>
 #include <array>
 #include <fstream>
-
 #include "State.hpp"
 #include "Statemachine.hpp"
 #include "Characters.hpp"

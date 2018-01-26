@@ -10,6 +10,7 @@
 #include "ViewFocus.hpp"
 #include "Label.hpp"
 #include "MapLoader.hpp"
+#include "Dock.hpp"
 
 class Editor : public State {
 	Statemachine& statemachine;
@@ -23,6 +24,10 @@ class Editor : public State {
 	
 	Rectangle cameraFocus;
 
+	Dock dock;
+
+	RectangleContainer rectContainer;
+
 	EventConnection<sf::Keyboard::Key> keyPressedConnection;
 	EventConnection<sf::Keyboard::Key> keyReleasedConnection;
 
@@ -30,7 +35,9 @@ public:
 
 	Editor(Statemachine& statemachine) :
 		statemachine(statemachine),
-		focus(statemachine.window)
+		focus(statemachine.window),
+		rectContainer(statemachine.window),
+		dock(rectContainer, statemachine.window)
 	{
 		focus.setFocus(cameraFocus);
 		cameraFocus.setGravity({ 0, 0 });
@@ -53,6 +60,21 @@ public:
 		});
 
 		map = mapFactory.buildMap();
+
+		std::map<std::string, sf::Texture>& textures = AssetManager::instance()->getTextures();
+
+		for (std::map<std::string, sf::Texture>::iterator it = textures.begin(); it != textures.end(); it++) {
+			std::shared_ptr<Rectangle> rect = std::make_shared < Rectangle >();
+
+			rect->setSize({ 40.0f, 40.0f });
+			
+			rect->setOutlineColor(sf::Color::White);
+			rect->setOutlineThickness(1.0f);
+			rect->setTexture(it->second);
+			rect->setTextureRect({ 0, 0, 20, 20 });
+
+			dock.addRectangle(rect);
+		}
 	}
 
 	void entry() override {
@@ -121,6 +143,15 @@ public:
 	void update(const float elapsedTime) override {
 		map.resolveCollisions();
 		map.draw(statemachine.window);
+		dock.draw();
+		rectContainer.draw();
+
+		sf::Vector2f mouseCoords = statemachine.window.mapPixelToCoords(sf::Mouse::getPosition(statemachine.window));
+
+		sf::RectangleShape rectShape;
+		rectShape.setSize({ 10, 10 });
+		rectShape.setPosition(mouseCoords);
+		statemachine.window.draw(rectShape);
 
 		cameraFocus.update(elapsedTime);
 		focus.update();

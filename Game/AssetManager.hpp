@@ -358,6 +358,10 @@ public:
 		}
 	}
 
+	std::map<std::string, sf::Texture>& getTextures() {
+		return textures;
+	}
+
 	/**
 	 * @fn	void AssetManager::clear()
 	 *
