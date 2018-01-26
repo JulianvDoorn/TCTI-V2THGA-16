@@ -9,23 +9,63 @@
 #include "RectangleContainer.hpp"
 #include "Button.hpp"
 
+/**
+ * @class	Dock
+ *
+ * @brief	Visible dock for the map editor.
+ *
+ * @author	Wiebe
+ * @date	26-1-2018
+ */
+
 class Dock {
 private:
+	/** @brief	The rectangles templates used for displaying texture dummy's */
 	std::vector<std::shared_ptr<Rectangle>> rectanglesTemplates;
 	
+	/** @brief	True if an rectangle is selected, false if not */
 	bool isRectangleSelected = false;
 	
+	/** @brief	The drag-and-dropped rectangles */
 	RectangleContainer &rectangles;
+
+	/** @brief	The selected rectangle as an unique pointer */
 	std::unique_ptr<Rectangle> selectedRect;
+
+	/**
+	 * @property	Button moveDockLeftBtn, moveDockRightBtn
+	 *
+	 * @brief	Moves the dock to the left and the right.
+	 *
+	 * @return	The move dock right button.
+	 */
+
 	Button moveDockLeftBtn, moveDockRightBtn;
 
+	/** @brief	The display window */
 	sf::RenderTarget &window;
 
+	/** @brief	The dock start x and y coordinates */
 	float dockStartX = 25.0f, dockStartY = 685.0f;
+
+	/** @brief	The dock item offset */
 	const float dockItemOffset = 55.0f;
 
 
 public:
+
+	/**
+	 * @fn	Dock::Dock(RectangleContainer &_rectangles, sf::RenderTarget &_window)
+	 *
+	 * @brief	Constructor
+	 *
+	 * @author	Wiebe
+	 * @date	26-1-2018
+	 *
+	 * @param [in,out]	_rectangles	The rectangles.
+	 * @param [in,out]	_window	   	The window.
+	 */
+
 	Dock(RectangleContainer &_rectangles, sf::RenderTarget &_window) : rectangles(_rectangles), window(_window) {
 		game.mouse.mouseLeftButtonDown.connect([this](const sf::Vector2i mousePos) {
 			selectRectangle(mousePos);
@@ -70,6 +110,17 @@ public:
 		
 	}
 
+	/**
+	 * @fn	void Dock::addRectangle(std::shared_ptr<Rectangle> r)
+	 *
+	 * @brief	Adds a rectangle
+	 *
+	 * @author	Wiebe
+	 * @date	26-1-2018
+	 *
+	 * @param	r	A std::shared_ptr&lt;Rectangle&gt; to process.
+	 */
+
 	void addRectangle(std::shared_ptr<Rectangle> r) {
 		if (rectanglesTemplates.size() > 50) {
 			throw "Unable to add more rectangles to the dock!";
@@ -81,6 +132,17 @@ public:
 
 		rectanglesTemplates.push_back(r);
 	}
+
+	/**
+	 * @fn	void Dock::selectRectangle(sf::Vector2i mousePos)
+	 *
+	 * @brief	Select a rectangle
+	 *
+	 * @author	Wiebe
+	 * @date	26-1-2018
+	 *
+	 * @param	mousePos	The mouse position.
+	 */
 
 	void selectRectangle(sf::Vector2i mousePos) {
 		for (auto &rectangle : rectanglesTemplates) {
@@ -100,6 +162,15 @@ public:
 			}
 		}
 	}
+
+	/**
+	 * @fn	void Dock::draw()
+	 *
+	 * @brief	Draw the created rectangles.
+	 *
+	 * @author	Wiebe
+	 * @date	26-1-2018
+	 */
 
 	void draw() {
 		sf::Vector2f oldPos = moveDockLeftBtn.getPosition();
