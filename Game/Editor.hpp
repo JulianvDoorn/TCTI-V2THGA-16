@@ -11,6 +11,8 @@
 #include "Label.hpp"
 #include "MapLoader.hpp"
 #include "Dock.hpp"
+#include "AssetFileGenerator.hpp"
+#include "ShapeFileGenerator.hpp"
 
 class Editor : public State {
 	Statemachine& statemachine;
@@ -30,13 +32,20 @@ class Editor : public State {
 	EventConnection keyPressedConnection;
 	EventConnection keyReleasedConnection;
 
+	AssetFileGenerator assetFileGenerator;
+	ShapeFileGenerator shapeFileGenerator;
+	
+	std::ofstream fileOut;
+
 public:
 
 	Editor(Statemachine& statemachine) :
 		statemachine(statemachine),
 		focus(statemachine.window),
 		rectContainer(statemachine.window),
-		dock(rectContainer, statemachine.window)
+		dock(rectContainer, statemachine.window),
+		assetFileGenerator(fileOut),
+		shapeFileGenerator(fileOut)
 	{
 		focus.setFocus(cameraFocus);
 		cameraFocus.setGravity({ 0, 0 });
@@ -126,6 +135,12 @@ public:
 			}
 			else if (key == sf::Keyboard::Key::Escape) {
 				statemachine.doTransition("main-menu");
+			}
+			else if (key == sf::Keyboard::Key::LControl) {
+				std::cout << "Writing assets to file...\n";
+				assetFileGenerator.generate("assets_generated.txt");
+				std::cout << "Writing map to file...\n";
+				shapeFileGenerator.generate("map_generated.txt", rectContainer);
 			}
 		});
 	}

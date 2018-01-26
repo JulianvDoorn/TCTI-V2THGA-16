@@ -20,6 +20,7 @@ public:
 						if (*it == rectangle)
 						{
 							it = this->erase(it);
+							
 							return;
 						}
 						else
@@ -36,31 +37,24 @@ public:
 				this->clear();
 			}
 		});
+
+		game.keyboard.keyPressed.connect([this](const sf::Keyboard::Key key) {
+			if (key == sf::Keyboard::Key::Z) {
+				if (!this->empty()) {
+					this->pop_back();
+				}
+			}
+		});
 	}
 
 	void add(std::shared_ptr<Rectangle> rect) {
 		std::vector<std::shared_ptr<Rectangle>>::push_back(rect);
 	}
 
-	/**void drawToCamera(sf::RenderTarget &window, std::shared_ptr<Rectangle> rectangle) {
-		sf::Vector2f oldPos = rectangle->getPosition();
-		sf::Vector2f cameraPos = window.mapPixelToCoords(static_cast<sf::Vector2i>(rectangle->getPosition()));
-
-		rectangle->setPosition(cameraPos);
-
-		window.draw(*rectangle);
-		rectangle->setPosition(oldPos);
-	}**/
 
 	void draw() {
 		for (auto rectangle : *this) {
-			//sf::Vector2f oldPos = rectangle->getPosition();
-			//sf::Vector2f cameraPos = rectangle->getPosition();
-
-			//rectangle->setPosition(cameraPos);
-
 			window.draw(*rectangle);
-			//rectangle->setPosition(oldPos);
 		}
 	}
 };

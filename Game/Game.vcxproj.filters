@@ -263,6 +263,12 @@
     <ClInclude Include="EventDisconnectable.hpp">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
+    <ClInclude Include="AssetFileGenerator.hpp">
+      <Filter>Header Files\MapEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeFileGenerator.hpp">
+      <Filter>Header Files\MapEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="map.txt">

@@ -73,6 +73,7 @@ public:
 		using Type = MapFactory::Type;
 		using Value = MapFactory::Value;
 
+		//std::ifstream file("map.txt");
 		std::ifstream file("map.txt");
 		MapFactory mapFactory(file);
 

@@ -206,7 +206,7 @@ public:
 	 * @brief Draw the button on a display.
 	 * @param window The display the button will be displayed on.
 	 */
-    void draw(sf::RenderWindow& window) {
+    void draw(sf::RenderTarget& window) {
         background.draw(window);
         textLabel.draw(window);
     }

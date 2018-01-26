@@ -7,6 +7,7 @@
 #include "EventConnection.hpp"
 #include "BaseFactory.hpp"
 #include "RectangleContainer.hpp"
+#include "Button.hpp"
 
 class Dock {
 private:
@@ -16,10 +17,11 @@ private:
 	
 	RectangleContainer &rectangles;
 	std::unique_ptr<Rectangle> selectedRect;
+	Button moveDockLeftBtn, moveDockRightBtn;
 
 	sf::RenderTarget &window;
 
-	float dockStartX = 50.0f, dockStartY = 685.0f;
+	float dockStartX = 25.0f, dockStartY = 685.0f;
 	const float dockItemOffset = 55.0f;
 
 
@@ -51,6 +53,21 @@ public:
 				isRectangleSelected = false;
 			}
 		});
+
+		moveDockLeftBtn.setPosition({ dockStartX, dockStartY });
+		moveDockLeftBtn.setText("<");
+		moveDockLeftBtn.setSize({ 40, 40 });
+		moveDockLeftBtn.setBackgroundColor(sf::Color::Black);
+		moveDockLeftBtn.setCharSize(18);
+
+		dockStartX += 50;
+
+		moveDockRightBtn.setText(">");
+		moveDockRightBtn.setSize({ 40, 40 });
+		moveDockRightBtn.setBackgroundColor(sf::Color::Black);
+		moveDockRightBtn.setCharSize(18);
+
+		
 	}
 
 	void addRectangle(std::shared_ptr<Rectangle> r) {
@@ -85,6 +102,13 @@ public:
 	}
 
 	void draw() {
+		sf::Vector2f oldPos = moveDockLeftBtn.getPosition();
+		moveDockLeftBtn.setPosition(window.mapPixelToCoords(static_cast<sf::Vector2i>(moveDockLeftBtn.getPosition())));
+
+		moveDockLeftBtn.draw(window);
+		moveDockLeftBtn.setPosition(oldPos);
+
+	
 		// Set the position of the selected rectangle to the position of the mouse.
 		for (auto rectangle : rectanglesTemplates) {
 			sf::Vector2f oldPos = rectangle->getPosition();
@@ -107,6 +131,12 @@ public:
 			selectedRect->setPosition(oldPos);
 		}
 
+		moveDockRightBtn.setPosition({ dockStartX, dockStartY });
+		oldPos = moveDockRightBtn.getPosition();
+		moveDockRightBtn.setPosition(window.mapPixelToCoords(static_cast<sf::Vector2i>(moveDockRightBtn.getPosition())));
+
+		moveDockRightBtn.draw(window);
+		moveDockRightBtn.setPosition(oldPos);
 
 	}
 };

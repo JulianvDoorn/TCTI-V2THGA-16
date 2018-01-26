@@ -138,7 +138,7 @@ public:
      * @brief Draw the text on a window.
      * @param window Reference to window the text will be displayed on.
      */
-    void draw(sf::RenderWindow &window){
+    void draw(sf::RenderTarget &window){
         window.draw(displayText);
     }
 

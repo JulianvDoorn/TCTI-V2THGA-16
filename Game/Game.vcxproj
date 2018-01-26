@@ -155,6 +155,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssetFileGenerator.hpp" />
     <ClInclude Include="AssetManager.hpp" />
     <ClInclude Include="Ball.hpp" />
     <ClInclude Include="BaseFactory.hpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="SecureRead.hpp" />
     <ClInclude Include="QuotedString.hpp" />
     <ClInclude Include="SettingsMenu.hpp" />
+    <ClInclude Include="ShapeFileGenerator.hpp" />
     <ClInclude Include="SpecialCharacter.hpp" />
     <ClInclude Include="State.hpp" />
     <ClInclude Include="GamePauze.hpp" />
