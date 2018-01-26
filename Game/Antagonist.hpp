@@ -13,7 +13,6 @@
  */
 
 class Antagonist : public Rectangle {
-private:
 	/** @brief	The walk direction */
 	int32_t walkDirection = 1;
 

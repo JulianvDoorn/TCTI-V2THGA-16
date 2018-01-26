@@ -93,7 +93,6 @@ public:
 				{ "Position", Type::Vector, [&](Value value) { death.setPosition(*value.vectorValue); } },
 				{ "TextureId", Type::String, [&](Value value) { death.setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } }
 			});
-
 			map.addDrawable(death);
 			map.addCollidable(death);
 		});
