@@ -23,7 +23,7 @@
 */
 
 template<class T>
-std::ostream& operator<< (std::ostream& os, sf::Rect<T>& vectorValue) {
+std::ostream& operator<< (std::ostream& os, const sf::Rect<T>& vectorValue) {
 	return os << "Rect(" << vectorValue.left << ", " << vectorValue.top << ", " << vectorValue.width << ", " << vectorValue.height << ')';
 }
 

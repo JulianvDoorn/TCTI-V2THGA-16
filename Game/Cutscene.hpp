@@ -40,7 +40,7 @@ class Cutscene : public State {
 	sf::Time lastSubtitleUpdate;
 
 	/** @brief	The key released connection */
-	EventConnection<sf::Keyboard::Key> keyReleasedConnection;
+	EventConnection keyReleasedConnection;
 public:
 
 	/**

@@ -23,13 +23,12 @@ class Editor : public State {
 	sf::Vector2i cameraMovement = { 0, 0 };
 	
 	Rectangle cameraFocus;
-
 	Dock dock;
 
 	RectangleContainer rectContainer;
 
-	EventConnection<sf::Keyboard::Key> keyPressedConnection;
-	EventConnection<sf::Keyboard::Key> keyReleasedConnection;
+	EventConnection keyPressedConnection;
+	EventConnection keyReleasedConnection;
 
 public:
 

@@ -2,8 +2,10 @@
 
 #include <functional>
 #include <vector>
+#include <deque>
 
 #include "EventConnection.hpp"
+#include "EventDisconnectable.hpp"
 
 /**
  * @class	DisconnectedEventConnectionException
@@ -20,6 +22,20 @@ class DisconnectedEventConnectionException : public std::exception {
 	}
 };
 
+class LockGuard {
+	std::function<void()> releaseLambda;
+
+public:
+	template<class CLAIM>
+	LockGuard(CLAIM claim, std::function<void()> release) : releaseLambda(std::move(release)) {
+		claim();
+	}
+
+	~LockGuard() {
+		releaseLambda();
+	}
+};
+
 /**
  * @class	EventSource
  *
@@ -32,12 +48,13 @@ class DisconnectedEventConnectionException : public std::exception {
  */
 
 template<class... Args>
-class EventSource {
+class EventSource : public EventDisconnectable {
 public:
 	/** @brief	The event function. */
 	using EventFunction = std::function<void(Args...)>;
 
 private:
+	bool locked = false;
 	uint32_t idCounter = 0;
 
 	struct EventBinding {
@@ -45,13 +62,21 @@ private:
 		EventFunction func;
 
 		EventBinding(EventFunction func, uint32_t id) : id(id), func(std::move(func)) { }
+		
+		EventBinding& operator= (const EventBinding& rhs) {
+			id = rhs.id;
+			func = std::move(rhs.func);
 
-		bool operator== (const EventConnection<Args...>& rhs) const {
+			return *this;
+		}
+
+		bool operator== (const EventConnection& rhs) const {
 			return rhs == id;
 		}
 	};
 
 	std::vector<EventBinding> boundFunctions;
+	std::deque<EventBinding> queuedFunctions;
 
 	/**
 	 * @fn	void EventSource::disconnect(EventConnection<Args...>& conn)
@@ -67,12 +92,29 @@ private:
 	 * @param [in,out]	conn	The Connection to disconnect.
 	 */
 
-	void disconnect(EventConnection<Args...>& conn) {
-		auto it = std::find(boundFunctions.begin(), boundFunctions.end(), conn);
-		
-		if (it != boundFunctions.end()) {
-			boundFunctions.erase(it);
-		} else {
+protected:
+	void disconnect(EventConnection& conn) override {
+		bool disconnected = false;
+
+		{
+			auto it = std::find(boundFunctions.begin(), boundFunctions.end(), conn);
+
+			if (it != boundFunctions.end()) {
+				boundFunctions.erase(it);
+				disconnected = true;
+			}
+		}
+
+		{
+			auto it = std::find(queuedFunctions.begin(), queuedFunctions.end(), conn);
+
+			if (it != queuedFunctions.end()) {
+				queuedFunctions.erase(it);
+				disconnected = true;
+			}
+		}
+
+		if (!disconnected) {
 			throw DisconnectedEventConnectionException();
 		}
 	}
@@ -105,10 +147,19 @@ public:
 	 * @return	An EventConnection<Args...>;
 	 */
 
-	EventConnection<Args...> connect(EventFunction func) {
-		boundFunctions.push_back(EventBinding(func, idCounter++));
+	EventConnection connect(EventFunction func) {
+		if (!locked) {
+			boundFunctions.emplace_back(func, idCounter++);
+			return EventConnection(boundFunctions.back().id, *this);
+		}
+		else {
+			//std::cout << "event not yet connected; placed in queue" << std::endl;
+			//std::cout << "before: " << queuedFunctions.size() << std::endl;
+			queuedFunctions.emplace_back(func, idCounter++);
+			//std::cout << "after: " << queuedFunctions.size() << std::endl;
 
-		return EventConnection<Args...>(boundFunctions.back().id, *this);
+			return EventConnection(queuedFunctions.back().id, *this);
+		}
 	}
 
 	/**
@@ -122,11 +173,23 @@ public:
 	 * @param	args	Variable arguments providing the arguments.
 	 */
 
-	void fire(Args... args) const {
+	void fire(Args... args) {
+		LockGuard lockGuard (
+			[&]() { locked = true; },
+			[&]() { locked = false; }
+		);
+
+		//if (queuedFunctions.size() > 0) {
+		//	std::cout << "flushing queue" << std::endl;
+		//}
+
+		while (queuedFunctions.size() > 0) {
+			boundFunctions.push_back(queuedFunctions.front());
+			queuedFunctions.pop_front();
+		}
+
 		for (const EventBinding& binding : boundFunctions) {
 			binding.func(args...);
 		}
 	}
-
-	friend class EventConnection<Args...>;
 };

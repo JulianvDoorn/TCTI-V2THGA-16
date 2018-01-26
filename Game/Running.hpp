@@ -33,11 +33,11 @@ class Running : public State {
 	sf::Music backgroundMusic;
 
 	/** @brief	The key released connection */
-	EventConnection<sf::Keyboard::Key> keyReleasedConnection;
+	EventConnection keyReleasedConnection;
 	/** @brief	The died connection */
-	EventConnection<> diedConnection;
+	EventConnection diedConnection;
 	/** @brief	The fell off map connection */
-	EventConnection<> fellOffMapConnection;
+	EventConnection fellOffMapConnection;
 
 	/** @brief	The player */
 	Player player;

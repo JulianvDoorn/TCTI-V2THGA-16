@@ -30,23 +30,23 @@ class MainMenu : public State {
 	Button mapEditorButton;
 
 	/** @brief	The start button pressed connection */
-	EventConnection<> startButtonPressedConn;
+	EventConnection startButtonPressedConn;
 	/** @brief	The start button released connection */
-	EventConnection<> startButtonReleasedConn;
+	EventConnection startButtonReleasedConn;
     /** @brief	The exit button pressed connection */
-    EventConnection<> exitButtonPressedConn;
+    EventConnection exitButtonPressedConn;
     /** @brief	The exit button released connection */
-    EventConnection<> exitButtonReleasedConn;
+    EventConnection exitButtonReleasedConn;
     /** @brief	The settings button pressed connection */
-    EventConnection<> settingsButtonPressedConn;
+    EventConnection settingsButtonPressedConn;
     /** @brief	The settings button released connection */
-    EventConnection<> settingsButtonReleasedConn;
+    EventConnection settingsButtonReleasedConn;
 	/** @brief	The mouse enter connection */
-	EventConnection<> mouseEnterConn;
+	EventConnection mouseEnterConn;
 	/** @brief	The mouse leave connection */
-	EventConnection<> mouseLeaveConn;
+	EventConnection mouseLeaveConn;
 
-	EventConnection<> mapEditorButtonReleasedConn;
+	EventConnection mapEditorButtonReleasedConn;
 
 public:
 

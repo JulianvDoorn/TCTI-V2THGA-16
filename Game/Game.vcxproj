@@ -165,7 +165,10 @@
     <ClInclude Include="RectangleContainer.hpp" />
     <ClInclude Include="DrawableGroup.hpp" />
     <ClInclude Include="Editor.hpp" />
+    <ClInclude Include="EventConnectionVector.hpp" />
+    <ClInclude Include="EventDisconnectable.hpp" />
     <ClInclude Include="fimmyIcon.hpp" />
+    <ClInclude Include="InvalidStateException.hpp" />
     <ClInclude Include="KeyValuePair.hpp" />
     <ClInclude Include="Map.hpp" />
     <ClInclude Include="MapFactory.hpp" />
@@ -208,6 +211,7 @@
     <ClInclude Include="Shapes.hpp" />
     <ClInclude Include="SFMLEventDecoder.hpp" />
     <ClInclude Include="Statemachine.hpp" />
+    <ClInclude Include="StatemachineException.hpp" />
     <ClInclude Include="StreamManipulators.hpp" />
     <ClInclude Include="StreamUtils.hpp" />
     <ClInclude Include="SubtitleItem.hpp" />
