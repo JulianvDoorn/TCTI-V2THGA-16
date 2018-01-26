@@ -76,10 +76,10 @@ private:
 	sf::Clock rollClock;
 
 	/** @brief	The key pressed connection */
-	EventConnection<sf::Keyboard::Key> keyPressedConn;
+	EventConnection keyPressedConn;
 
 	/** @brief	The key released connection */
-	EventConnection<sf::Keyboard::Key> keyReleasedConn;
+	EventConnection keyReleasedConn;
 
     bool torsoDisplay = true;
     bool leftLegDisplay = true;

@@ -37,6 +37,10 @@ private:
 	/** @brief	True if the button is pressed, false if not */
 	bool isPressed = false;
 
+	EventConnection mouseLeftButtonDownConn;
+	EventConnection mouseLeftButtonUpConn;
+	EventConnection mouseMovedConn;
+
 	/**
 	 * @fn	void Button::bindEvents()
 	 *
@@ -47,21 +51,21 @@ private:
 	 */
 
 	void bindEvents() {
-		game.mouse.mouseLeftButtonDown.connect([this](const sf::Vector2i mousePos) {
+		mouseLeftButtonDownConn = game.mouse.mouseLeftButtonDown.connect([this](const sf::Vector2i mousePos) {
 			if (background.contains(static_cast<sf::Vector2f>(mousePos))) {
 				buttonPressed.fire();
 				isPressed = true;
 			}
 		});
 
-		game.mouse.mouseLeftButtonUp.connect([this](const sf::Vector2i mousePos) {
+		mouseLeftButtonUpConn = game.mouse.mouseLeftButtonUp.connect([this](const sf::Vector2i mousePos) {
 			if (background.contains(static_cast<sf::Vector2f>(mousePos)) && isPressed) {
 				buttonReleased.fire();
 				isPressed = false;
 			}
 		});
 
-		game.mouse.mouseMoved.connect([this](const sf::Vector2i mousePos) {
+		mouseMovedConn = game.mouse.mouseMoved.connect([this](const sf::Vector2i mousePos) {
 			if (background.contains(static_cast<sf::Vector2f>(mousePos))) {
 				if (mouseInside == false) {
 					mouseInside = true;
@@ -119,6 +123,12 @@ public:
 
 		bindEvents();
     };
+
+	virtual ~Button() {
+		mouseLeftButtonDownConn.disconnect();
+		mouseLeftButtonUpConn.disconnect();
+		mouseMovedConn.disconnect();
+	}
 
 	/**
 	 * @brief Set the size of the background rectangle a button is based on.
@@ -196,7 +206,7 @@ public:
 	 * @brief Draw the button on a display.
 	 * @param window The display the button will be displayed on.
 	 */
-    void draw(sf::RenderWindow& window) {
+    void draw(sf::RenderTarget& window) {
         background.draw(window);
         textLabel.draw(window);
     }

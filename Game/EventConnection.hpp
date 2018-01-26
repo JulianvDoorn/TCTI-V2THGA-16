@@ -2,8 +2,7 @@
 
 #include <functional>
 
-template<class... Args>
-class EventSource;
+#include "EventDisconnectable.hpp"
 
 /**
  * @class	EventConnection
@@ -16,11 +15,10 @@ class EventSource;
  * @tparam	Args	Type of the arguments that are passed into the lambda function stored in EventConnection<Args...>::EventSource<Args...>*
  */
 
-template<class... Args>
 class EventConnection {
 	uint32_t id;
-	EventSource<Args...>* eventSource;
-
+	EventDisconnectable* eventSource;
+	
 	/**
 	 * @fn	EventConnection::EventConnection(uint32_t id, EventSource<Args...>& eventSource)
 	 *
@@ -33,9 +31,7 @@ class EventConnection {
 	 * @param [in,out]	eventSource	The event source to disconnect from.
 	 */
 
-	EventConnection(uint32_t id, EventSource<Args...>& eventSource) : id(id), eventSource(&eventSource) { }
-
-public:
+	EventConnection(uint32_t id, EventDisconnectable& eventSource) : id(id), eventSource(&eventSource) { }
 
 	/**
 	 * @fn	EventConnection::EventConnection()
@@ -46,6 +42,7 @@ public:
 	 * @date	2018-01-19
 	 */
 
+public:
 	EventConnection() { }
 
 	/**
@@ -101,7 +98,7 @@ public:
 	 * @return	A shallow copy of this object.
 	 */
 
-	EventConnection<Args...>& operator= (EventConnection<Args...> rhs) {
+	EventConnection& operator= (EventConnection rhs) {
 		id = rhs.id;
 		eventSource = rhs.eventSource;
 
@@ -123,14 +120,14 @@ public:
 	 * @return	True if the parameters are considered equivalent.
 	 */
 
-	friend bool operator== (const EventConnection<Args...>& lhs, const EventConnection<Args...>& rhs) {
+	friend bool operator== (const EventConnection& lhs, const EventConnection& rhs) {
 		return lhs.id == rhs.id;
 	}
 
-	friend bool operator== (const EventConnection<Args...>& lhs, const uint32_t rhs) {
+	friend bool operator== (const EventConnection& lhs, const uint32_t rhs) {
 		return lhs.id == rhs;
 	}
 
-	friend EventSource<Args...>;
+	template <class... Args> friend class EventSource;
 };
 

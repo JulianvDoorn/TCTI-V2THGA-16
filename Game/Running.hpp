@@ -3,7 +3,6 @@
 #include <SFML/Audio.hpp>
 #include <array>
 #include <fstream>
-
 #include "State.hpp"
 #include "Statemachine.hpp"
 #include "Characters.hpp"
@@ -34,11 +33,11 @@ class Running : public State {
 	sf::Music backgroundMusic;
 
 	/** @brief	The key released connection */
-	EventConnection<sf::Keyboard::Key> keyReleasedConnection;
+	EventConnection keyReleasedConnection;
 	/** @brief	The died connection */
-	EventConnection<> diedConnection;
+	EventConnection diedConnection;
 	/** @brief	The fell off map connection */
-	EventConnection<> fellOffMapConnection;
+	EventConnection fellOffMapConnection;
 
 	/** @brief	The player */
     Player player;
@@ -76,6 +75,7 @@ public:
 		using Type = MapFactory::Type;
 		using Value = MapFactory::Value;
 
+		//std::ifstream file("map.txt");
 		std::ifstream file("map.txt");
 		MapFactory mapFactory(file);
 

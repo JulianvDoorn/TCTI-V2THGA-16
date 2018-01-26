@@ -12,10 +12,12 @@
 int main() {
 	// Game constants.
 	const float FPS = 60.0f;
-	const bool  ENABLE_CUTSCENE = true;
+	const bool  ENABLE_CUTSCENE = false;
+	const bool  ENABLE_EDITOR = true;
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720, 32), "Fimmy the Game");
 
+	// Set window icon.
 	window.setIcon(sfml_icon.width, sfml_icon.height, sfml_icon.pixel_data);
 
 	window.setFramerateLimit(static_cast<unsigned int>(FPS));
@@ -34,15 +36,22 @@ int main() {
 	// State definitions.
 	statemachine.registerState<GameOver>("game-over");
 	statemachine.registerState<Running>("running");
+	statemachine.registerState<Editor>("map-editor");
 	statemachine.registerState<MainMenu>("main-menu");
 	statemachine.registerState<GamePauze>("game-pauze");
 	statemachine.registerState<SettingsMenu>("settings-menu");
 	statemachine.registerState<Cutscene>("cutscene");
 
-	if (ENABLE_CUTSCENE) {
-		statemachine.doTransition("cutscene");
-	} else {
-		statemachine.doTransition("main-menu");
+	if (ENABLE_EDITOR) {
+		statemachine.doTransition("map-editor");
+	}
+	else {
+		if (ENABLE_CUTSCENE) {
+			statemachine.doTransition("cutscene");
+		}
+		else {
+			statemachine.doTransition("main-menu");
+		}
 	}
 
 	// Clock used for frame timings.

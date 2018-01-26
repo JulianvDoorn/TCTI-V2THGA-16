@@ -33,29 +33,21 @@ class GameOver : public State {
 	sf::Music gameOver;
 
 	/** @brief	The main menu button pressed connection */
-	EventConnection<> mainMenuButtonPressedConn;
+	EventConnection mainMenuButtonPressedConn;
     /** @brief	The main menu button released connection */
-    EventConnection<> mainMenuButtonReleasedConn;
+    EventConnection mainMenuButtonReleasedConn;
     /** @brief	The restart game button pressed connection */
-    EventConnection<> restartGameButtonPressedConn;
+    EventConnection restartGameButtonPressedConn;
     /** @brief	The restart game button released connection */
-    EventConnection<> restartGameButtonReleasedConn;
+    EventConnection restartGameButtonReleasedConn;
     /** @brief	The exit button pressed connection */
-    EventConnection<> exitButtonPressedConn;
+    EventConnection exitButtonPressedConn;
     /** @brief	The exit button released connection */
-    EventConnection<> exitButtonReleasedConn;
-	/** @brief	The exitbutton mouse enter connection */
-	EventConnection<> exitMouseEnterConn;
-	/** @brief	The exitbutton mouse leave connection */
-	EventConnection<> exitMouseLeaveConn;
-	/** @brief	The restartbutton mouse enter connection */
-	EventConnection<> restartMouseEnterConn;
-	/** @brief	The restartbutton mouse leave connection */
-	EventConnection<> restartMouseLeaveConn;
-	/** @brief	The main-menubutton mouse enter connection */
-	EventConnection<> mainMenuMouseEnterConn;
-	/** @brief	The main-menubutton mouse leave connection */
-	EventConnection<> mainMenuMouseLeaveConn;
+    EventConnection exitButtonReleasedConn;
+  	/** @brief	The mouse enter connection */
+	  EventConnection mouseEnterConn;
+	  /** @brief	The mouse leave connection */
+	  EventConnection mouseLeaveConn;
 
 public:
 

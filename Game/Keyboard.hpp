@@ -62,7 +62,7 @@ public:
 	 * @param	ev	SFML event to decode into an EventSource signal.
 	 */
 
-	void decodeSFMLEvent(sf::Event ev) const override {
+	void decodeSFMLEvent(sf::Event ev) override {
 		if (ev.type == sf::Event::KeyPressed) {
 			keyPressed.fire(ev.key.code);
 		}

@@ -18,7 +18,8 @@
  * @return	Vector divided by integer
  */
 
-sf::Vector2f operator/ (const sf::Vector2f& v, int i) {
+template <class T, class U>
+auto operator/ (const sf::Vector2<T>& v, U i) -> sf::Vector2<decltype(T + U)> {
 	return { v.x / i, v.y / i };
 }
 
@@ -36,7 +37,8 @@ sf::Vector2f operator/ (const sf::Vector2f& v, int i) {
  * @return	Vector multiplied by integer
  */
 
-sf::Vector2f operator* (const sf::Vector2f& v, int i) {
+template <class T, class U>
+auto operator* (const sf::Vector2<T>& v, U i) -> sf::Vector2<decltype(T + U)> {
 	return { v.x * i, v.y * i };
 }
 
@@ -55,7 +57,8 @@ sf::Vector2f operator* (const sf::Vector2f& v, int i) {
  * @return	Normalized vector
  */
 
-sf::Vector2f normalize(const sf::Vector2f& v) {
+template <class T>
+sf::Vector2<T> normalize(const sf::Vector2<T>& v) {
 	float length = sqrtf((v.x * v.x) + (v.y * v.y));
 	if (length != 0) {
 		return { v.x / length, v.y / length };
@@ -80,7 +83,8 @@ sf::Vector2f normalize(const sf::Vector2f& v) {
  * @return	Distance between { 0, 0 } and v
  */
 
-float magnitude(const sf::Vector2f& v) {
+template <class T>
+float magnitude(const sf::Vector2<T>& v) {
 	return sqrtf((v.x * v.x) + (v.y * v.y));
 }
 
@@ -99,7 +103,8 @@ float magnitude(const sf::Vector2f& v) {
  * @return	Dot product of v0 and v1
  */
 
-float dot(const sf::Vector2f& v0, const sf::Vector2f& v1) {
+template <class T, class U>
+auto dot(const sf::Vector2<T>& v0, const sf::Vector2<U>& v1) -> decltype(T * U) {
 	return v0.x * v1.x + v0.y * v1.y;
 }
 
@@ -117,7 +122,8 @@ float dot(const sf::Vector2f& v0, const sf::Vector2f& v1) {
  * @return	The distance between Vector0 and Vector1
  */
 
-float getDistance(const sf::Vector2f& v0, const sf::Vector2f& v1) {
-	const sf::Vector2f n = v1 - v0;
+template <class T, class U>
+auto getDistance(const sf::Vector2<T>& v0, const sf::Vector2<U>& v1) -> decltype(T - U) {
+	const sf::Vector2<decltype(T - U)> n = v1 - v0;
 	return magnitude(n);
 }

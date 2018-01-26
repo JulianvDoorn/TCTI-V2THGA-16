@@ -40,7 +40,7 @@ class Cutscene : public State {
 	sf::Time lastSubtitleUpdate;
 
 	/** @brief	The key released connection */
-	EventConnection<sf::Keyboard::Key> keyReleasedConnection;
+	EventConnection keyReleasedConnection;
 public:
 
 	/**
@@ -71,12 +71,12 @@ public:
 	void entry() override {
 		// Prepare the cutscene.
 		subtitleText.setFont(AssetManager::instance()->getFont("arial"));
-		subtitleText.setPosition({100.0f, statemachine.window.getSize().y - 80.0f});
+		subtitleText.setPosition({50.0f, statemachine.window.getSize().y - 80.0f});
 		subtitleText.setText("");
 
 		imageBackground.setPosition({640, 360});
 		imageBackground.setSize({ 1280, 720 });
-		imageBackground.setFillColor(sf::Color{ 0, 0 ,0 });
+		imageBackground.setFillColor(sf::Color{ 0, 0, 0 });
 
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {

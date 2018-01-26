@@ -55,6 +55,12 @@
     <Filter Include="Header Files\MapLoader\Factories\Utils">
       <UniqueIdentifier>{36446231-c35e-4b3f-9395-66d925d7d2eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\MapEditor">
+      <UniqueIdentifier>{528889dd-c355-45b1-ba8d-cf0f8ce4c696}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameStates\Statemachine\Exceptions">
+      <UniqueIdentifier>{df6b4c03-cc92-4fdc-9823-eca30f7c5438}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -136,9 +142,6 @@
     </ClInclude>
     <ClInclude Include="State.hpp">
       <Filter>Header Files\GameStates\Statemachine</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePauze.hpp">
-      <Filter>Header Files\GameStates\States</Filter>
     </ClInclude>
     <ClInclude Include="Collidable.hpp">
       <Filter>Header Files\Graphics\CollisionDetection</Filter>
@@ -236,6 +239,36 @@
     <ClInclude Include="fimmyIcon.hpp">
       <Filter>Header Files\Assets</Filter>
     </ClInclude>
+    <ClInclude Include="Dock.hpp">
+      <Filter>Header Files\MapEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.hpp">
+      <Filter>Header Files\GameStates\States</Filter>
+    </ClInclude>
+    <ClInclude Include="RectangleContainer.hpp">
+      <Filter>Header Files\MapEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePauze.hpp">
+      <Filter>Header Files\GameStates\States</Filter>
+    </ClInclude>
+    <ClInclude Include="InvalidStateException.hpp">
+      <Filter>Header Files\GameStates\Statemachine\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="StatemachineException.hpp">
+      <Filter>Header Files\GameStates\Statemachine\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="EventConnectionVector.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="EventDisconnectable.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetFileGenerator.hpp">
+      <Filter>Header Files\MapEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeFileGenerator.hpp">
+      <Filter>Header Files\MapEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="map.txt">
@@ -246,5 +279,10 @@
     <None Include="cutscene.srt">
       <Filter>Source Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

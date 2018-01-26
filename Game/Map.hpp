@@ -1,6 +1,6 @@
 #pragma once
 
-#include <memory>
+#include <vector>
 
 #include "DrawableGroup.hpp"
 #include "CollisionGroup.hpp"
@@ -15,7 +15,7 @@
  * @date	2018-01-25
  */
 
-class Map {
+class Map : public std::vector<PhysicsObject*> {
 	/** @brief	Vector of drawables */
 	DrawableGroup drawableGroup;
 
@@ -161,5 +161,13 @@ public:
 
 	void addCollisionGroup(CollisionGroup& collisionGroup) {
 		collisionGroups.push_back(&collisionGroup);
+	}
+
+	void addObject(PhysicsObject& physicsObject) {
+		push_back(&physicsObject);
+	}
+
+	void addObject(PhysicsObject* physicsObject) {
+		push_back(physicsObject);
 	}
 };

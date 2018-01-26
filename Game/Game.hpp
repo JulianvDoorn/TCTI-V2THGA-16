@@ -23,7 +23,9 @@ class Game : public SFMLEventDecoder {
 public:
 	Game() { }
 
-	Game(sf::Window& window) : keyboard(window), mouse(window){ }
+	Game(sf::RenderWindow& window) : window(&window), keyboard(window), mouse(window){ }
+
+	sf::RenderWindow* window;
 
 	/** @brief	Died event, meant to be fired when the player dies. */
 	EventSource<> died;
@@ -50,29 +52,9 @@ public:
 	 * @param	ev	SFML event to decode into an EventSource signal.
 	 */
 
-	void decodeSFMLEvent(sf::Event ev) const override {
+	void decodeSFMLEvent(sf::Event ev) override {
 		keyboard.decodeSFMLEvent(ev);
 		mouse.decodeSFMLEvent(ev);
-	}
-
-	/**
-	 * @fn	Game& Game::operator= (const Game& rhs)
-	 *
-	 * @brief	Assignment operator
-	 *
-	 * @author	Julian
-	 * @date	2018-01-19
-	 *
-	 * @param	rhs	The right hand side.
-	 *
-	 * @return	A shallow copy of this object.
-	 */
-
-	Game& operator= (const Game& rhs) {
-		keyboard = rhs.keyboard;
-		mouse = rhs.mouse;
-
-		return *this;
 	}
 
 	/**~Game() {
