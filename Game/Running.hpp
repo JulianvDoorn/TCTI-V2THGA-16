@@ -1,93 +1,162 @@
 #pragma once
 
+#include <SFML/Audio.hpp>
 #include <array>
-#include "GameState.hpp"
+#include <fstream>
+
+#include "State.hpp"
 #include "Statemachine.hpp"
 #include "Characters.hpp"
 #include "ViewFocus.hpp"
+#include "Label.hpp"
+#include "MapLoader.hpp"
 
-class Running : public GameState {
+/**
+ * @class	Running
+ *
+ * @brief	The running state, this is the state in which the maingame plays.
+ *
+ * @author	Jeffrey de Waal
+ * @date	1/25/2018
+ */
+
+class Running : public State {
+
+	/** @brief	The statemachine */
 	Statemachine& statemachine;
 
+	/** @brief	The dynamic focus */
 	ViewFocus focus;
+	/** @brief	The map */
+	Map map;
 
+	/** @brief	The background music */
+	sf::Music backgroundMusic;
+
+	/** @brief	The key released connection */
 	EventConnection<sf::Keyboard::Key> keyReleasedConnection;
+	/** @brief	The died connection */
 	EventConnection<> diedConnection;
+	/** @brief	The fell off map connection */
 	EventConnection<> fellOffMapConnection;
 
-	Player player;
+	/** @brief	The player */
+    Player player;
+
+	/** @brief	The death */
 	Antagonist death;
-	CollisionObjects objects;
 
-	Rectangle floor0;
-	Rectangle floor1;
-	Rectangle wall;
+	/** @brief	The score label */
+	Label score;
 
+	/** @brief	Gameover boolean */
 	bool gameOver = false;
+	/** @brief	The game over counter */
 	float gameOverCounter = 3.0f;
 
 public:
+
+	/**
+	 * @fn	Running::Running(Statemachine& statemachine) : statemachine(statemachine), focus(statemachine.window), score(AssetManager::instance()->getFont("arial"))
+	 *
+	 * @brief	Running constructor, This constructor sets-up all the objects using The map file and adds collision. Creates the player and death with a default position and texture.
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/25/2018
+	 *
+	 * @param [in,out]	statemachine	A reference to the statemachine build in the main.cpp file.
+	 */
+
 	Running(Statemachine& statemachine) :
-		GameState("running"),
 		statemachine(statemachine),
 		focus(statemachine.window),
-		player(statemachine.window, statemachine.keyboard, statemachine.gameEvents)
+		score(AssetManager::instance()->getFont("arial")),
+        player(statemachine.window)
 	{
-		objects.add(death);
-		
-		floor0.setSize({ 600, 100 });
-		floor0.setPosition({ 0, 600 });
-		objects.add(floor0);
+		using Type = MapFactory::Type;
+		using Value = MapFactory::Value;
 
-		floor1.setSize({ 60, 10 });
-		floor1.setPosition({ 0, 500 });
-		objects.add(floor1);
+		std::ifstream file("map.txt");
+		MapFactory mapFactory(file);
 
-		wall.setSize({ 20, 50 });
-		wall.setPosition({ 250, 550 });
-		objects.add(wall);
+		mapFactory.registerCreateMethod("player", [&](Map& map, const MapItemProperties& properties) {
+            properties.read({
+				{ "Position", Type::Vector, [&](Value value) { player.setPosition(*value.vectorValue); } },
+				{ "TextureId", Type::String, [&](Value value) { player.setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } }
+			});
+			map.addDrawable(player);
+			map.setPrimaryCollidable(player);
+		});
 
+		mapFactory.registerCreateMethod("death", [&](Map& map, const MapItemProperties& properties) {
+			properties.read({
+				{ "Position", Type::Vector, [&](Value value) { death.setPosition(*value.vectorValue); } },
+				{ "TextureId", Type::String, [&](Value value) { death.setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } }
+			});
 
+			map.addDrawable(death);
+			map.addCollidable(death);
+		});
 
-
-
-		//KeyScheme& scheme = new KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W);
-
-		statemachine.addState(*this);
+		map = mapFactory.buildMap();
 	}
 
+	/**
+	 * @fn	void Running::entry() override
+	 *
+	 * @brief	On entry sets-up, connects all the eventconnections to the correct event and sets the on event action. Sets the beackground music. Places the dynamic focus on the player.
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/25/2018
+	 */
+
 	void entry() override {
+		backgroundMusic.openFromFile("sound.wav");
+		backgroundMusic.setLoop(true);
+		backgroundMusic.play();
 		focus.setFocus(player);
+        focus.setLeftBorder(500);
+        focus.setRightBorder(500);
+        focus.setTopBorder(320);
+        focus.setBottomBorder(50);
 		focus.update();
 
-		keyReleasedConnection = statemachine.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
+		player.collided.connect([this](Collidable& other) {
+			if (other == death) {
+				game.died.fire();
+			}
+		});
+
+		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
-				statemachine.doTransition("main-menu");
+				statemachine.doTransition("game-pauze");
 			}
 		});
 
-		statemachine.keyboard.keyPressed.connect([this](sf::Keyboard::Key key) {
-			if (key == sf::Keyboard::Key::Z) {
-				player.setActiveKeyScheme(player.findKeyScheme(KeyScheme::Difficulty::MODERATE));
-			}
-		});
-
-		diedConnection = statemachine.gameEvents.died.connect([this]() {
-			diedConnection.disconnect();
+		diedConnection = game.died.connect([this]() {
 			std::cout << "/!\\ death got you /!\\" << std::endl;
 			gameOver = true;
 		});
 
-		fellOffMapConnection = statemachine.gameEvents.fellOffMap.connect([this]() {
-			fellOffMapConnection.disconnect();
+		fellOffMapConnection = game.fellOffMap.connect([this]() {
 			std::cout << "/!\\ fell out of the world /!\\" << std::endl;
 			gameOver = true;
 		});
 	}
 
+	/**
+	 * @fn	void Running::exit() override
+	 *
+	 * @brief	Disconnects all the eventconnections used in this state and sets the focus to the default position
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/25/2018
+	 */
+
 	void exit() override {
 		focus.unsetFocus();
 		focus.update();
+		backgroundMusic.stop();
 
 		keyReleasedConnection.disconnect();
 
@@ -97,31 +166,37 @@ public:
 		}
 	}
 
+	/**
+	 * @fn	void Running::update(const float elapsedTime) override
+	 *
+	 * @brief	When not gameover updates the player and deaths position. Checks for collision between the player and the objects and the death. Updates the score and focus.
+	 * 			When gameover transitions to the game-over state.
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/25/2018
+	 *
+	 * @param	elapsedTime	The elapsed time.
+	 */
+
 	void update(const float elapsedTime) override {
 		if (!gameOver) {
 			player.update(elapsedTime);
-		} else if (gameOverCounter > 0) {
+			death.update(elapsedTime);
+		}
+		else if (gameOverCounter > 0) {
 			gameOverCounter -= elapsedTime;
-		} else {
+		}
+		else {			
 			statemachine.doTransition("game-over");
 			return;
 		}
 
 		death.update(elapsedTime);
 
-		player.detectCollision(objects);
+		map.resolveCollisions();
+		map.draw(statemachine.window);
 
-		//player.resolveCollision(floor0);
-		//player.resolveCollision(floor1);
-		//player.resolveCollision(wall);
-		//player.deathByAntagonist(death);
-
-		player.draw(statemachine.window);
-		death.draw(statemachine.window);
-
-		floor0.draw(statemachine.window);
-		floor1.draw(statemachine.window);
-		wall.draw(statemachine.window);
+		score.draw(statemachine.window);
 
 		focus.update();
 	}

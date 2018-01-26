@@ -41,13 +41,13 @@ private:
 	uint32_t idCounter = 0;
 
 	struct EventBinding {
-		EventConnection<Args...> conn;
+		uint32_t id;
 		EventFunction func;
 
-		EventBinding(EventFunction func, uint32_t id, EventSource<Args...>& eventSource) : conn(id, eventSource), func(std::move(func)) { }
+		EventBinding(EventFunction func, uint32_t id) : id(id), func(std::move(func)) { }
 
 		bool operator== (const EventConnection<Args...>& rhs) const {
-			return conn == rhs;
+			return rhs == id;
 		}
 	};
 
@@ -106,9 +106,9 @@ public:
 	 */
 
 	EventConnection<Args...> connect(EventFunction func) {
-		boundFunctions.push_back(EventBinding(func, idCounter++, *this));
+		boundFunctions.push_back(EventBinding(func, idCounter++));
 
-		return boundFunctions.back().conn;
+		return EventConnection<Args...>(boundFunctions.back().id, *this);
 	}
 
 	/**

@@ -1,0 +1,201 @@
+asset {
+	Id = "game-over"
+	Location = "GameOver.wav"
+}
+
+texture {
+	Id = "fimmyStanding"
+	Location = "Fimmy/Fimmy.png"
+}
+texture {
+	Id = "fimmyStandingBody"
+	Location = "Fimmy/bodyparts/FimmyBody.png"
+}
+texture {
+	Id = "fimmyStandingHead"
+	Location = "Fimmy/bodyparts/FimmyHead.png"
+}
+texture {
+	Id = "fimmyStandingLeftArm"
+	Location = "Fimmy/bodyparts/FimmyLeftArm.png"
+}
+texture {
+	Id = "fimmyStandingRightArm"
+	Location = "Fimmy/bodyparts/FimmyRightArm.png"
+}
+texture {
+	Id = "fimmyStandingLeftLeg"
+	Location = "Fimmy/bodyparts/FimmyLeftLeg.png"
+}
+texture {
+	Id = "fimmyStandingRightLeg"
+	Location = "Fimmy/bodyparts/FimmyRightLeg.png"
+}
+
+texture {
+	Id = "fimmyLeft"
+	Location = "Fimmy/FimmyWalkLeft.png"
+}
+texture {
+	Id = "fimmyLeftArm"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftArm.png"
+}
+texture {
+	Id = "fimmyLeftArm2"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftArm2.png"
+}
+texture {
+	Id = "fimmyLeftArm3"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftArm3.png"
+}
+texture {
+	Id = "fimmyLeftBody"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftBody.png"
+}
+texture {
+	Id = "fimmyLeftHead"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftHead.png"
+}
+texture {
+	Id = "fimmyLeftLeg"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftLeg.png"
+}
+texture {
+	Id = "fimmyLeftLeg2"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftLeg2.png"
+}
+texture {
+	Id = "fimmyLeftLeg3"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftLeg3.png"
+}
+
+texture {
+	Id = "fimmyRight"
+	Location = "Fimmy/FimmyWalkRight.png"
+}
+texture {
+	Id = "fimmyRightArm"
+	Location = "Fimmy/walkingright/FimmyWalkRightArm.png"
+}
+texture {
+	Id = "fimmyRightArm2"
+	Location = "Fimmy/walkingright/FimmyWalkRightArm2.png"
+}
+texture {
+	Id = "fimmyRightArm3"
+	Location = "Fimmy/walkingright/FimmyWalkRightArm3.png"
+}
+texture {
+	Id = "fimmyRightBody"
+	Location = "Fimmy/walkingright/FimmyWalkRightBody.png"
+}
+texture {
+	Id = "fimmyRightHead"
+	Location = "Fimmy/walkingright/FimmyWalkRightHead.png"
+}
+texture {
+	Id = "fimmyRightLeg"
+	Location = "Fimmy/walkingright/FimmyWalkRightLeg.png"
+}
+texture {
+	Id = "fimmyRightLeg2"
+	Location = "Fimmy/walkingright/FimmyWalkRightLeg2.png"
+}
+texture {
+	Id = "fimmyRightLeg3"
+	Location = "Fimmy/walkingright/FimmyWalkRightLeg3.png"
+}
+
+texture {
+    Id = "fimmyRollLeft"
+    Location = "Fimmy/FimmyRollLeft.png"
+}
+texture {
+    Id = "fimmyRollRight"
+    Location = "Fimmy/FimmyRollRight.png"
+}
+
+texture {
+	Id = "ground"
+	Location = "ground.png"
+	Repeated = true
+}
+
+texture {
+	Id = "rockFloor"
+	Location = "ground2.png"
+	Repeated = true
+}
+
+texture {
+	Id = "grassFloor"
+	Location = "ground3.png"
+	Repeated = true
+}
+
+texture {
+	Id = "bush"
+	Location = "bush.png"
+}
+
+texture {
+	Id = "brick"
+	Location = "brickWall.png"
+	Repeated = true
+}
+
+player {
+	Position = Vector2(150, 450)
+}
+
+death {
+	Position = Vector2(-200, 200)
+}
+
+rectangle {
+	Size = Vector2(6400, 200)
+	TextureRect = Rect(0, 0, 6400, 200) 
+	Position = Vector2(0, 600)
+	TextureId = "rockFloor"
+}
+rectangle {
+	Size = Vector2(6400, 20)
+	TextureRect = Rect(0, 0, 6400, 20)
+	Position = Vector2(0, 500)
+	TextureId = "grassFloor"
+}
+
+rectangle {
+	Size = Vector2(60, 10)
+	Position = Vector2(0, 500)
+}
+
+rectangle {
+	Size = Vector2(30, 60)
+	Position = Vector2(-200, 450)
+}
+
+rectangle {
+	Size = Vector2(30, 30)
+	Position = Vector2(0, 450)
+	TextureId = "brick"
+}
+
+rectangle {
+	Size = Vector2(14, 14)
+	Position = Vector2(150, 486)
+	TextureId = "bush"
+	CanCollide = false
+}
+
+rectangle {
+	Size = Vector2(14, 14)
+	Position = Vector2(120, 486)
+	TextureId = "bush"
+	CanCollide = false
+}
+
+rectangle {
+    Size = Vector2(20,40)
+    TextureId = "fimmyStandingBody"
+}

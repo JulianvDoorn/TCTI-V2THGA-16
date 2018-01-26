@@ -34,6 +34,27 @@
     <Filter Include="Header Files\Characters">
       <UniqueIdentifier>{d475da8c-7554-459b-9b36-61f168616320}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Graphics\CollisionDetection">
+      <UniqueIdentifier>{005f4cda-9d3d-4825-9119-098239b163bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Subtitles">
+      <UniqueIdentifier>{f8657aeb-2879-40e2-8bd4-fda7cd239df2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Assets">
+      <UniqueIdentifier>{75b2f29c-8b9a-4647-919a-f8d7fe7e7a7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MapLoader">
+      <UniqueIdentifier>{6dc2e34b-cac6-4a68-82fd-03f9298f53ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MapLoader\Factories">
+      <UniqueIdentifier>{de92877c-d4dc-4b55-8273-e9c839acf4d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MapLoader\StreamUtils">
+      <UniqueIdentifier>{c575223a-631e-4822-bde7-bee75c33f9fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MapLoader\Factories\Utils">
+      <UniqueIdentifier>{36446231-c35e-4b3f-9395-66d925d7d2eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,9 +66,6 @@
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsObject.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Collision.hpp">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Ball.hpp">
@@ -80,16 +98,10 @@
     <ClInclude Include="Events.hpp">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionObjects.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Keyboard.hpp">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
     <ClInclude Include="Statemachine.hpp">
-      <Filter>Header Files\GameStates\Statemachine</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.hpp">
       <Filter>Header Files\GameStates\Statemachine</Filter>
     </ClInclude>
     <ClInclude Include="Running.hpp">
@@ -113,17 +125,126 @@
     <ClInclude Include="Label.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameEvents.hpp">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
     <ClInclude Include="GameOver.hpp">
       <Filter>Header Files\GameStates\States</Filter>
     </ClInclude>
     <ClInclude Include="ViewFocus.hpp">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Game.hpp">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="State.hpp">
+      <Filter>Header Files\GameStates\Statemachine</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePauze.hpp">
+      <Filter>Header Files\GameStates\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Collidable.hpp">
+      <Filter>Header Files\Graphics\CollisionDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.hpp">
+      <Filter>Header Files\Graphics\CollisionDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionDetection.hpp">
+      <Filter>Header Files\Graphics\CollisionDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionGroup.hpp">
+      <Filter>Header Files\Graphics\CollisionDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.hpp">
+      <Filter>Header Files\Graphics\CollisionDetection</Filter>
+    </ClInclude>
     <ClInclude Include="KeyScheme.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SubtitleParser.hpp">
+      <Filter>Header Files\Subtitles</Filter>
+    </ClInclude>
+    <ClInclude Include="SubtitleItem.hpp">
+      <Filter>Header Files\Subtitles</Filter>
+    </ClInclude>
+    <ClInclude Include="SubtitleReadException.hpp">
+      <Filter>Header Files\Subtitles</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseFactory.hpp">
+      <Filter>Header Files\GameStates\Statemachine</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.hpp">
+      <Filter>Header Files\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawableGroup.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsMenu.hpp">
+      <Filter>Header Files\GameStates\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Cutscene.hpp">
+      <Filter>Header Files\GameStates\States</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsumeString.hpp">
+      <Filter>Header Files\MapLoader\StreamUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="CurlyBracketList.hpp">
+      <Filter>Header Files\MapLoader\StreamUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="QuotedString.hpp">
+      <Filter>Header Files\MapLoader\StreamUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="SecureRead.hpp">
+      <Filter>Header Files\MapLoader\StreamUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="SpecialCharacter.hpp">
+      <Filter>Header Files\MapLoader\StreamUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorFactory.hpp">
+      <Filter>Header Files\MapLoader\Factories</Filter>
+    </ClInclude>
+    <ClInclude Include="MapFactory.hpp">
+      <Filter>Header Files\MapLoader\Factories</Filter>
+    </ClInclude>
+    <ClInclude Include="StreamUtils.hpp">
+      <Filter>Header Files\MapLoader\StreamUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyValuePair.hpp">
+      <Filter>Header Files\MapLoader\Factories\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.hpp">
+      <Filter>Header Files\MapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="MapItemProperties.hpp">
+      <Filter>Header Files\MapLoader\Factories\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyResolutionLambda.hpp">
+      <Filter>Header Files\MapLoader\Factories\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="MapLoader.hpp">
+      <Filter>Header Files\MapLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseStreamExceptions.hpp">
+      <Filter>Header Files\MapLoader\StreamUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="StreamManipulators.hpp">
+      <Filter>Header Files\MapLoader\StreamUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="RectStreamOperators.hpp">
+      <Filter>Header Files\MapLoader\StreamUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorStreamOperators.hpp">
+      <Filter>Header Files\MapLoader\StreamUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="fimmyIcon.hpp">
+      <Filter>Header Files\Assets</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="map.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cutscene.srt">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

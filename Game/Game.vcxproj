@@ -100,7 +100,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\SFML-2.4.2\lib;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;sfml-network-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;sfml-network-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;openal32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -155,17 +155,42 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssetManager.hpp" />
     <ClInclude Include="Ball.hpp" />
+    <ClInclude Include="BaseFactory.hpp" />
+    <ClInclude Include="ConsumeString.hpp" />
+    <ClInclude Include="CurlyBracketList.hpp" />
+    <ClInclude Include="Cutscene.hpp" />
+    <ClInclude Include="DrawableGroup.hpp" />
+    <ClInclude Include="fimmyIcon.hpp" />
+    <ClInclude Include="KeyValuePair.hpp" />
+    <ClInclude Include="Map.hpp" />
+    <ClInclude Include="MapFactory.hpp" />
     <ClInclude Include="Button.hpp" />
+    <ClInclude Include="CollisionGroup.hpp" />
     <ClInclude Include="Characters.hpp" />
+    <ClInclude Include="Collidable.hpp" />
     <ClInclude Include="Collision.hpp" />
+    <ClInclude Include="CollisionDetection.hpp" />
+    <ClInclude Include="ColorFactory.hpp" />
     <ClInclude Include="Drawable.hpp" />
     <ClInclude Include="Events.hpp" />
     <ClInclude Include="EventConnection.hpp" />
     <ClInclude Include="EventSource.hpp" />
-    <ClInclude Include="GameEvents.hpp" />
+    <ClInclude Include="Game.hpp" />
+    <ClInclude Include="GameObject.hpp" />
     <ClInclude Include="GameOver.hpp" />
-    <ClInclude Include="GameState.hpp" />
+    <ClInclude Include="BaseStreamExceptions.hpp" />
+    <ClInclude Include="MapItemProperties.hpp" />
+    <ClInclude Include="MapLoader.hpp" />
+    <ClInclude Include="PropertyResolutionLambda.hpp" />
+    <ClInclude Include="RectStreamOperators.hpp" />
+    <ClInclude Include="SecureRead.hpp" />
+    <ClInclude Include="QuotedString.hpp" />
+    <ClInclude Include="SettingsMenu.hpp" />
+    <ClInclude Include="SpecialCharacter.hpp" />
+    <ClInclude Include="State.hpp" />
+    <ClInclude Include="GamePauze.hpp" />
     <ClInclude Include="GameStates.hpp" />
     <ClInclude Include="Keyboard.hpp" />
     <ClInclude Include="KeyScheme.hpp" />
@@ -173,7 +198,6 @@
     <ClInclude Include="MainMenu.hpp" />
     <ClInclude Include="Mouse.hpp" />
     <ClInclude Include="Antagonist.hpp" />
-    <ClInclude Include="CollisionObjects.hpp" />
     <ClInclude Include="PhysicsObject.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="Rectangle.hpp" />
@@ -181,8 +205,20 @@
     <ClInclude Include="Shapes.hpp" />
     <ClInclude Include="SFMLEventDecoder.hpp" />
     <ClInclude Include="Statemachine.hpp" />
+    <ClInclude Include="StreamManipulators.hpp" />
+    <ClInclude Include="StreamUtils.hpp" />
+    <ClInclude Include="SubtitleItem.hpp" />
+    <ClInclude Include="SubtitleParser.hpp" />
+    <ClInclude Include="SubtitleReadException.hpp" />
     <ClInclude Include="VectorMath.hpp" />
+    <ClInclude Include="VectorStreamOperators.hpp" />
     <ClInclude Include="ViewFocus.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cutscene.srt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="map.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
