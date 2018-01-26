@@ -6,6 +6,14 @@
 #include "CollisionDetection.hpp"
 #include "Events.hpp"
 
+enum class ResizeFace {
+	Top,
+	Bottom,
+	Left,
+	Right,
+	None
+};
+
 class PhysicsObject : public Drawable, public Collidable {
 	EventConnection masterMouseLeftButtonDown;
 	EventConnection masterMouseLeftButtonUp;
@@ -66,6 +74,8 @@ public:
 		masterMouseRightButtonDown.disconnect();
 		masterMouseRightButtonUp.disconnect();
 	}
+
+	virtual void resize(float diff, ResizeFace face) { }
 
 	virtual void update(const float elapsedTime) {
 		applyForce(gravity * elapsedTime);
