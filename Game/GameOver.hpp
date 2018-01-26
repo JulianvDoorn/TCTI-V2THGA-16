@@ -44,10 +44,18 @@ class GameOver : public State {
     EventConnection exitButtonPressedConn;
     /** @brief	The exit button released connection */
     EventConnection exitButtonReleasedConn;
-  	/** @brief	The mouse enter connection */
-	  EventConnection mouseEnterConn;
-	  /** @brief	The mouse leave connection */
-	  EventConnection mouseLeaveConn;
+	/** @brief  The exitbutton mouse enter connection */
+	EventConnection exitMouseEnterConn;
+	/** @brief  The exitbutton mouse leave connection */
+	EventConnection exitMouseLeaveConn;
+	/** @brief  The restartbutton mouse enter connection */
+	EventConnection restartMouseEnterConn;
+	/** @brief  The restartbutton mouse leave connection */
+	EventConnection restartMouseLeaveConn;
+	/** @brief  The main-menubutton mouse enter connection */
+	EventConnection mainMenuMouseEnterConn;
+	/** @brief  The main-menubutton mouse leave connection */
+	EventConnection mainMenuMouseLeaveConn;
 
 public:
 
