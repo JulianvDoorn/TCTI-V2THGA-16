@@ -120,7 +120,7 @@ public:
 				}
 				walkspeed *= 2 * runningSpammingFactor;
                 animationTimeInMiliseconds /= 2;
-                animationTimeInMiliseconds /= runningSpammingFactor;
+                animationTimeInMiliseconds /= int(runningSpammingFactor);
 				if (walkspeed > 299){ //max running speed without glitching
 					walkspeed = 299;
 				}
@@ -183,6 +183,21 @@ public:
 	 * @param	elapsedTime	The elapsed time.
 	 */
 	void update(const float elapsedTime) override {
+
+		doWalk();
+		if (jump) {
+			applyForce({ 0, -jumpForce });
+			jump = false;
+		}
+		if (roll) {
+			doRoll();
+		}
+		checkDeath();
+		if (runClock.getElapsedTime().asMilliseconds() - lastKeyPressTime.asMilliseconds() > 250 && !runKeyPressed) {
+			spammingRunKey = false;
+			walkspeed = defaultWalkingSpeed;
+		}
+		
 		PhysicsObject::update(elapsedTime);
         torso.setPosition(getPosition());
         leftLeg.setPosition(getPosition());
@@ -190,19 +205,7 @@ public:
         leftArm.setPosition(getPosition());
         rightArm.setPosition(getPosition());
         head.setPosition(getPosition());
-        doWalk();
-		if (jump) {
-			applyForce({ 0, -jumpForce });
-			jump = false;
-		}
-		if (roll) {
-				doRoll();
-		}
-		checkDeath();
-        if (runClock.getElapsedTime().asMilliseconds() -lastKeyPressTime.asMilliseconds() > 250 && !runKeyPressed ){
-            spammingRunKey = false;
-            walkspeed = defaultWalkingSpeed;
-        }
+       
 	}
 
 	/**
