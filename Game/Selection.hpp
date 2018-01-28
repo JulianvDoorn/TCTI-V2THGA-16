@@ -150,15 +150,23 @@ public:
 			boundingBox.setPosition({ bounds.left, bounds.top });
 			boundingBox.setOutlineColor(sf::Color::Cyan);
 
-			topResizeHandle.setFillColor(sf::Color::Cyan);
-			bottomResizeHandle.setFillColor(sf::Color::Cyan);
-			leftResizeHandle.setFillColor(sf::Color::Cyan);
-			rightResizeHandle.setFillColor(sf::Color::Cyan);
+			if (!dragging) {
+				topResizeHandle.setFillColor(sf::Color::Cyan);
+				bottomResizeHandle.setFillColor(sf::Color::Cyan);
+				leftResizeHandle.setFillColor(sf::Color::Cyan);
+				rightResizeHandle.setFillColor(sf::Color::Cyan);
 
-			topResizeHandle.setPosition({ bounds.left + bounds.width / 2, bounds.top });
-			bottomResizeHandle.setPosition({ bounds.left + bounds.width / 2, bounds.top + bounds.height });
-			leftResizeHandle.setPosition({ bounds.left, bounds.top + bounds.height / 2 });
-			rightResizeHandle.setPosition({ bounds.left + bounds.width, bounds.top + bounds.height / 2 });
+				topResizeHandle.setPosition({ bounds.left + bounds.width / 2, bounds.top });
+				bottomResizeHandle.setPosition({ bounds.left + bounds.width / 2, bounds.top + bounds.height });
+				leftResizeHandle.setPosition({ bounds.left, bounds.top + bounds.height / 2 });
+				rightResizeHandle.setPosition({ bounds.left + bounds.width, bounds.top + bounds.height / 2 });
+			}
+			else {
+				topResizeHandle.setFillColor(sf::Color::Transparent);
+				bottomResizeHandle.setFillColor(sf::Color::Transparent);
+				leftResizeHandle.setFillColor(sf::Color::Transparent);
+				rightResizeHandle.setFillColor(sf::Color::Transparent);
+			}
 		}
 		else {
 			boundingBox.setOutlineColor(sf::Color::Transparent);
