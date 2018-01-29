@@ -31,7 +31,7 @@ public:
 	 */
 
 	Antagonist() {
-		setSize({ 300, 400 });
+		setSize({ 200, 400 });
 		setVelocity({ walkDirection * walkspeed, getVelocity().y });
 		setGravity({ 0, 0 });
 	}

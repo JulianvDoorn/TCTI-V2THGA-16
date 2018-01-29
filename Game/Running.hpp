@@ -44,6 +44,7 @@ class Running : public State {
 
 	/** @brief	The death */
 	Antagonist death;
+	Antagonist deathSikkel;
 
 	/** @brief	The score label */
 	Label score;
@@ -93,7 +94,11 @@ public:
 				{ "Position", Type::Vector, [&](Value value) { death.setPosition(*value.vectorValue); } },
 				{ "TextureId", Type::String, [&](Value value) { death.setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } }
 			});
+			deathSikkel.setPosition({ -50, 285});
+			deathSikkel.setTexture(AssetManager::instance()->getTexture("deathsikkel"));
+			deathSikkel.setSize({ 100,400 });
 			map.addDrawable(death);
+			map.addDrawable(deathSikkel);
 			map.addCollidable(death);
 		});
 
@@ -186,6 +191,7 @@ public:
 			//player.draw(statemachine.window);
 			player.update(elapsedTime);
 			death.update(elapsedTime);
+			deathSikkel.update(elapsedTime);
 		}
 		else if (gameOverCounter > 0) {
 			gameOverCounter -= elapsedTime;
@@ -196,6 +202,7 @@ public:
 		}
 
 		death.update(elapsedTime);
+		deathSikkel.update(elapsedTime);
 
 		map.resolveCollisions();
 		map.draw(statemachine.window);

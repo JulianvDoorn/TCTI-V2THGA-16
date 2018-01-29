@@ -13,6 +13,11 @@ texture {
 	Location = "death.png"
 }
 texture {
+	Id = "deathsikkel"
+	Location = "sikkel.png"
+}
+
+texture {
 	Id = "fimmyStanding"
 	Location = "Fimmy/Fimmy.png"
 }
