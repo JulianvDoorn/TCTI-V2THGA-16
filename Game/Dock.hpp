@@ -27,7 +27,8 @@ private:
 	bool isRectangleSelected = false;
 	
 	/** @brief	The drag-and-dropped rectangles */
-	RectangleContainer &rectangles;
+	//RectangleContainer &rectangles;
+	Map &map;
 
 	/** @brief	The selected rectangle as an unique pointer */
 	std::unique_ptr<Rectangle> selectedRect;
@@ -66,7 +67,7 @@ public:
 	 * @param [in,out]	_window	   	The window.
 	 */
 
-	Dock(RectangleContainer &_rectangles, sf::RenderTarget &_window) : rectangles(_rectangles), window(_window) {
+	Dock(Map &_map, sf::RenderTarget &_window) : map(_map), window(_window) {
 		game.mouse.mouseLeftButtonDown.connect([this](const sf::Vector2i mousePos) {
 			selectRectangle(mousePos);
 		});
@@ -74,7 +75,7 @@ public:
 		game.mouse.mouseLeftButtonUp.connect([this](const sf::Vector2i mousePos) {
 			if (isRectangleSelected) {
 				selectedRect->setPosition(window.mapPixelToCoords(static_cast<sf::Vector2i>(selectedRect->getPosition())));
-				rectangles.add(std::move(selectedRect));
+				map.addDrawable(std::move(selectedRect));
 
 				selectedRect.reset();
 				isRectangleSelected = false;
