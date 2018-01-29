@@ -59,9 +59,6 @@ private:
 	/** @brief	The key released connection */
 	EventConnection keyReleasedConn;
 
-//	EventConnection<sf::Keyboard::Key> keyPressedConn;
-//	EventConnection<sf::Keyboard::Key> keyReleasedConn;
-
 
  /** @brief These variable are used to set a bodypart to display **/
     bool torsoDisplay = true;
@@ -205,7 +202,7 @@ public:
 			spammingRunKey = false;
 			walkspeed = defaultWalkingSpeed;
 		}
-		
+
 		PhysicsObject::update(elapsedTime);
         torso.setPosition(getPosition());
         leftLeg.setPosition(getPosition());
@@ -213,7 +210,7 @@ public:
         leftArm.setPosition(getPosition());
         rightArm.setPosition(getPosition());
         head.setPosition(getPosition());
-       
+
 	}
 
 	/**
@@ -243,8 +240,8 @@ public:
 	void doJump() {
 		sf::Vector2f velocity = getVelocity();
 		if (velocity.y == 0) {
-			AssetManager::instance()->getSound("jump").play();
-			jump = true;
+            AssetManager::instance()->getSound("jump").play();
+            jump = true;
 		}
 	}
 
@@ -252,7 +249,7 @@ public:
 	 * @fn	void Player::checkDeath()
 	 *
 	 * @brief	Check if the player is death
-	 * 			
+	 *
 	 * @detailed Fire the fellOfMap event if the player is death.
 	 *
 	 * @author	Wiebe
@@ -411,6 +408,7 @@ public:
                             animationClock.restart();
                             animationCyle++;
                         }
+                        leftArm.setFillColor(sf::Color::Transparent);
                     }
                     if (rightArmDisplay) {
                         rightArm.setTexture(AssetManager::instance()->getTexture("fimmyRightArm"));
@@ -442,6 +440,7 @@ public:
                             animationClock.restart();
                             animationCyle++;
                         }
+                        rightArm.setFillColor(sf::Color::Transparent);
                     }
                     if (leftArmDisplay) {
                         leftArm.setTexture(AssetManager::instance()->getTexture("fimmyLeftArm"));
