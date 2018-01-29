@@ -2,10 +2,19 @@
 
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 #include "DrawableGroup.hpp"
 #include "CollisionGroup.hpp"
 #include "Events.hpp"
+
+bool operator== (const std::unique_ptr<PhysicsObject>& lhs, PhysicsObject* rhs) {
+	return &(*lhs) == rhs;
+}
+
+bool operator== (PhysicsObject* lhs, const std::unique_ptr<PhysicsObject>& rhs) {
+	return lhs == &(*rhs);
+}
 
 /**
  * @class	Map
@@ -29,7 +38,7 @@ class Map : public std::vector<std::unique_ptr<PhysicsObject>> {
 
 public:
 	EventSource<PhysicsObject&> objectAdded;
-	EventSource<PhysicsObject&> objectRemoved;
+	EventSource<PhysicsObject&> objectRemoving;
 
 	/**
 	 * @fn	void Map::addDrawable(Drawable* drawable)
@@ -169,12 +178,28 @@ public:
 	}
 
 	void addObject(PhysicsObject& physicsObject) {
-		emplace_back(&physicsObject);
-		objectAdded.fire(physicsObject);
+		addObject(&physicsObject);
 	}
 
 	void addObject(PhysicsObject* physicsObject) {
 		emplace_back(physicsObject);
 		objectAdded.fire(*physicsObject);
+	}
+
+	void removeObject(PhysicsObject& physicsObject) {
+		removeObject(&physicsObject);
+	}
+
+	void removeObject(PhysicsObject* physicsObject) {
+		objectRemoving.fire(*physicsObject);
+
+		auto it = std::find(begin(), end(), physicsObject);
+
+		if (it != end()) {
+			erase(it);
+		}
+		
+		drawableGroup.erase(*physicsObject);
+		primaryCollisionGroup.erase(*physicsObject);
 	}
 };

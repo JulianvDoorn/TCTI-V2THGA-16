@@ -54,6 +54,14 @@ public:
 		push_back(&collidable);
 	}
 
+	void erase(Collidable& collidable) {
+		auto it = std::find(begin(), end(), &collidable);
+
+		if (it != end()) {
+			std::vector<Collidable*>::erase(it);
+		}
+	}
+
 	/**
 	 * @fn	void CollisionGroup::resolveCollisions()
 	 *

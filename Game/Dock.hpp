@@ -151,8 +151,6 @@ public:
 		for (auto &rectangle : rectanglesTemplates) {
 			if (rectangle->getBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
 				Rectangle* temp = new Rectangle();
-				
-				std::cout << "new rectangle: " << temp << std::endl;
 
 				map.addObject(temp);
 				map.addDrawable(temp);
@@ -161,8 +159,6 @@ public:
 				temp->setTexture(*rectangle->getTexture());
 				temp->setTextureRect(rectangle->getTextureRect());
 				temp->setSize(rectangle->getSize());
-
-				std::cout << temp << std::endl;
 
 				selection.select(temp);
 

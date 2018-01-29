@@ -23,7 +23,11 @@ public:
 	}
 
 	void erase(Drawable& drawable) {
-		std::vector<Drawable*>::erase(std::remove(begin(), end(), &drawable), end());
+		auto it = std::find(begin(), end(), &drawable);
+
+		if (it != end()) {
+			std::vector<Drawable*>::erase(it);
+		}
 	}
 
 	void draw(sf::RenderTarget& window) {

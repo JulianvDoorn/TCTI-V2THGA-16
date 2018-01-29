@@ -29,15 +29,48 @@ class Editor : public State {
 	EventConnection keyReleasedConnection;
 	EventConnection mouseLeftButtonUp;
 	EventConnection mouseMovedConn;
-	EventConnectionVector physicsObjectConnVector;
+	EventConnection objectAddedConn;
+	EventConnection objectRemovedConn;
+	
+	struct EditorEventBinding {
+		EventConnection mouseLeftButtonDown;
+		EventConnection mouseLeftButtonUp;
+
+		EditorEventBinding(EventConnection mouseLeftButtonDown, EventConnection mouseLeftButtonUp) :
+			mouseLeftButtonDown(mouseLeftButtonDown),
+			mouseLeftButtonUp(mouseLeftButtonUp)
+		{ }
+	};
+
+	std::map<PhysicsObject*, EditorEventBinding> editorEventConnMap;
 
 	Selection selection;
 
+	void bindEditorEvents(PhysicsObject& object) {
+		object.bindMouseEvents();
 
+		editorEventConnMap.insert(std::pair<PhysicsObject*, EditorEventBinding>(&object, EditorEventBinding {
+			object.mouseLeftButtonDown.connect([&object, this]() {
+				selection.select(object);
+			}),
 
+			object.mouseLeftButtonUp.connect([&object, this]() {
+				selection.stopDrag();
+			})
+		}));
+	}
 
+	void unbindEditorEvents(PhysicsObject& object) {
+		auto it = editorEventConnMap.find(&object);
 
+		if (it != editorEventConnMap.end()) {
+			it->first->unbindMouseEvents();
+			it->second.mouseLeftButtonDown.disconnect();
+			it->second.mouseLeftButtonUp.disconnect();
 
+			editorEventConnMap.erase(it);
+		}
+	}
 
 public:
 
@@ -47,7 +80,8 @@ public:
 		dock(map, statemachine.window, selection),
 		assetFileGenerator(fileOut),
 		shapeFileGenerator(fileOut),
-		camera(statemachine.window, 100)
+		camera(statemachine.window, 100),
+		selection(map)
 	{
 		using Type = MapFactory::Type;
 		using Value = MapFactory::Value;
@@ -86,8 +120,16 @@ public:
 	void entry() override {
 		camera.connect();
 
-		map.objectAdded.connect([this](PhysicsObject& physicsObject) {
-		
+		for (const std::unique_ptr<PhysicsObject>& physicsObject : map) {
+			bindEditorEvents(*physicsObject);
+		}
+
+		objectAddedConn = map.objectAdded.connect([this](PhysicsObject& physicsObject) {
+			bindEditorEvents(physicsObject);
+		});
+
+		objectRemovedConn = map.objectRemoving.connect([this](PhysicsObject& physicsObject) {
+			unbindEditorEvents(physicsObject);
 		});
 
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
@@ -104,20 +146,6 @@ public:
 
 		selection.deselect();
 		selection.connect();
-
-		for (const std::unique_ptr<PhysicsObject>& temp : map) {
-			PhysicsObject* physicsObject = &(*temp);
-
-			physicsObject->bindMouseEvents();
-
-			physicsObjectConnVector.connect(physicsObject->mouseLeftButtonDown, [physicsObject, this]() {
-				selection.select(*physicsObject);
-			});
-
-			physicsObjectConnVector.connect(physicsObject->mouseLeftButtonUp, [physicsObject, this]() {
-				selection.stopDrag();
-			});
-		}
 	}
 
 	void exit() override {
@@ -126,12 +154,11 @@ public:
 
 		selection.disconnect();
 
-		physicsObjectConnVector.disconnect();
+		objectAddedConn.disconnect();
+		objectRemovedConn.disconnect();
 
-		for (const std::unique_ptr<PhysicsObject>& temp : map) {
-			PhysicsObject* physicsObject = &(*temp);
-
-			physicsObject->unbindMouseEvents();
+		for (const std::unique_ptr<PhysicsObject>& physicsObject : map) {
+			unbindEditorEvents(*physicsObject);
 		}
 
 		keyReleasedConnection.disconnect();

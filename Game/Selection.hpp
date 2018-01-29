@@ -4,6 +4,7 @@
 
 #include "Drawable.hpp"
 #include "PhysicsObject.hpp"
+#include "Map.hpp"
 
 class Selection : public Drawable {
 	PhysicsObject* selection;
@@ -20,16 +21,20 @@ class Selection : public Drawable {
 	sf::CircleShape leftResizeHandle;
 	sf::CircleShape rightResizeHandle;
 
+	EventConnection keyReleasedConn;
 	EventConnection mouseMovedConn;
 	EventConnection mouseLeftButtonDown;
 	EventConnection mouseLeftButtonUp;
 
 	ResizeFace resizeDirection;
 
+	Map& map;
+
 public:
-	Selection() :
+	Selection(Map& map) :
 		Drawable(boundingBox),
-		selection(nullptr)
+		selection(nullptr),
+		map(map)
 	{
 		boundingBox.setFillColor(sf::Color::Transparent);
 		boundingBox.setOutlineColor(sf::Color::Cyan);
@@ -100,6 +105,15 @@ public:
 	}
 
 	void connect() {
+		keyReleasedConn = game.keyboard.keyPressed.connect([this](sf::Keyboard::Key key) {
+			if (key == sf::Keyboard::Key::Delete) {
+				if (selection != nullptr) {
+					map.removeObject(selection);
+					selection = nullptr;
+				}
+			}
+		});
+
 		mouseLeftButtonDown = game.mouse.mouseLeftButtonDown.connect([this](sf::Vector2i pos) {
 			sf::Vector2f posCoords = game.window->mapPixelToCoords(pos);
 
