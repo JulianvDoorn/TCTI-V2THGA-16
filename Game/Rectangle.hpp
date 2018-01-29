@@ -67,6 +67,24 @@ public:
 		sf::RectangleShape::setTexture(&texture);
 	}
 
+	std::ofstream& writeToFile(std::ofstream& of) override {
+		of << "rectangle {\n";
+		of << " Size = Vector2(" << getSize().x << ", " << getSize().y << ")\n";
+		of << " Position = Vector2(" << getPosition().x << ", " << getPosition().y << ")\n";
+
+		if (getTexture() != nullptr) {
+			of << " TextureId = \"" << AssetManager::instance()->resolveTextureID(*getTexture()) << "\"\n";
+			of << " TextureRect = Rect(" << getTextureRect().left << ", " << getTextureRect().top << ", " << getTextureRect().width << ", " << getTextureRect().height << ")\n";
+		}
+
+		of << " Color = #" << std::uppercase << std::hex << getFillColor().toInteger() << "\n";
+		of << std::dec;
+		of << " CanCollide = true\n";
+		of << "}\n";
+
+		return of;
+	}
+
 	using PhysicsObject::update;
 	using PhysicsObject::setPosition;
 	using PhysicsObject::getPosition;

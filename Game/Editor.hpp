@@ -17,11 +17,9 @@ class Editor : public State {
 
 	RectangleContainer rectContainer;
 
-	AssetFileGenerator assetFileGenerator;
-	ShapeFileGenerator shapeFileGenerator;
+	MapFileGenerator mapFileGenerator;
 	
 	std::ofstream fileOut;
-
 
 	Map map;
 
@@ -33,11 +31,7 @@ class Editor : public State {
 
 	Selection selection;
 
-
-
-
-
-
+	Rectangle player, death;
 
 public:
 
@@ -45,28 +39,29 @@ public:
 		statemachine(statemachine),
 		rectContainer(statemachine.window),
 		dock(map, statemachine.window, selection),
-		assetFileGenerator(fileOut),
-		shapeFileGenerator(fileOut),
+		mapFileGenerator(fileOut),
 		camera(statemachine.window, 100)
 	{
 		using Type = MapFactory::Type;
 		using Value = MapFactory::Value;
 
-		std::ifstream file("map.txt");
+		std::ifstream file("map_generated.txt");
 		MapFactory mapFactory(file);
 
 		mapFactory.registerCreateMethod("player", [&](Map& map, const MapItemProperties& properties) {
 			properties.read({
-				{ "Position", Type::Vector, [&](Value value) { camera.setPosition(*value.vectorValue); } }
+				{ "Position", Type::Vector, [&](Value value) { camera.setPosition(*value.vectorValue); player.setPosition(*value.vectorValue); } }
 			});
 		});
 
 		mapFactory.registerCreateMethod("death", [&](Map& map, const MapItemProperties& properties) {
-			// do nothing
+			properties.read({
+				{ "Position", Type::Vector, [&](Value value) { death.setPosition(*value.vectorValue); } }
+			});
 		});
 
 		map = mapFactory.buildMap();
-		
+
 		std::map<std::string, sf::Texture>& textures = AssetManager::instance()->getTextures();
 
 		for (std::map<std::string, sf::Texture>::iterator it = textures.begin(); it != textures.end(); it++) {
@@ -95,10 +90,8 @@ public:
 				statemachine.doTransition("main-menu");
 			}
 			else if (key == sf::Keyboard::Key::LControl) {
-				std::cout << "Writing assets to file...\n";
-				assetFileGenerator.generate("assets_generated.txt");
 				std::cout << "Writing map to file...\n";
-				shapeFileGenerator.generate("map_generated.txt", rectContainer);
+				mapFileGenerator.generate("map_generated.txt", map, player, death);
 			}
 		});
 

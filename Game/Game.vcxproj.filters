@@ -266,9 +266,6 @@
     <ClInclude Include="AssetFileGenerator.hpp">
       <Filter>Header Files\MapEditor</Filter>
     </ClInclude>
-    <ClInclude Include="ShapeFileGenerator.hpp">
-      <Filter>Header Files\MapEditor</Filter>
-    </ClInclude>
     <ClInclude Include="Selection.hpp">
       <Filter>Header Files\MapEditor</Filter>
     </ClInclude>
@@ -276,6 +273,9 @@
       <Filter>Header Files\MapEditor</Filter>
     </ClInclude>
     <ClInclude Include="MapEditor.hpp">
+      <Filter>Header Files\MapEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="MapFileGenerator.hpp">
       <Filter>Header Files\MapEditor</Filter>
     </ClInclude>
   </ItemGroup>
