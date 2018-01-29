@@ -332,6 +332,10 @@ public:
 			// do nothing
 		});
 
+		mapFactory.registerCreateMethod("power-up", [&](Map& map, const MapItemProperties& properties) {
+			// do nothing
+		});
+
 		map = mapFactory.buildMap();
 		
 		std::map<std::string, sf::Texture>& textures = AssetManager::instance()->getTextures();
