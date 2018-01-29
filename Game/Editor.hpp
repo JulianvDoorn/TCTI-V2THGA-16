@@ -33,12 +33,18 @@ class Editor : public State {
 
 	Selection selection;
 
+
+
+
+
+
+
 public:
 
 	Editor(Statemachine& statemachine) :
 		statemachine(statemachine),
 		rectContainer(statemachine.window),
-		dock(rectContainer, statemachine.window),
+		dock(map, statemachine.window, selection),
 		assetFileGenerator(fileOut),
 		shapeFileGenerator(fileOut),
 		camera(statemachine.window, 100)
@@ -80,6 +86,10 @@ public:
 	void entry() override {
 		camera.connect();
 
+		map.objectAdded.connect([this](PhysicsObject& physicsObject) {
+		
+		});
+
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
 				statemachine.doTransition("main-menu");
@@ -95,14 +105,16 @@ public:
 		selection.deselect();
 		selection.connect();
 
-		for (PhysicsObject* physicsObject : map) {
+		for (const std::unique_ptr<PhysicsObject>& temp : map) {
+			PhysicsObject* physicsObject = &(*temp);
+
 			physicsObject->bindMouseEvents();
 
 			physicsObjectConnVector.connect(physicsObject->mouseLeftButtonDown, [physicsObject, this]() {
-				selection.select(physicsObject);
+				selection.select(*physicsObject);
 			});
 
-			physicsObjectConnVector.connect(physicsObject->mouseLeftButtonUp, [&physicsObject, this]() {
+			physicsObjectConnVector.connect(physicsObject->mouseLeftButtonUp, [physicsObject, this]() {
 				selection.stopDrag();
 			});
 		}
@@ -116,7 +128,9 @@ public:
 
 		physicsObjectConnVector.disconnect();
 
-		for (PhysicsObject* physicsObject : map) {
+		for (const std::unique_ptr<PhysicsObject>& temp : map) {
+			PhysicsObject* physicsObject = &(*temp);
+
 			physicsObject->unbindMouseEvents();
 		}
 

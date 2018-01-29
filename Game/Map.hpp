@@ -5,6 +5,7 @@
 
 #include "DrawableGroup.hpp"
 #include "CollisionGroup.hpp"
+#include "Events.hpp"
 
 /**
  * @class	Map
@@ -27,6 +28,9 @@ class Map : public std::vector<std::unique_ptr<PhysicsObject>> {
 	std::vector<CollisionGroup*> collisionGroups;
 
 public:
+	EventSource<PhysicsObject&> objectAdded;
+	EventSource<PhysicsObject&> objectRemoved;
+
 	/**
 	 * @fn	void Map::addDrawable(Drawable* drawable)
 	 *
@@ -166,13 +170,11 @@ public:
 
 	void addObject(PhysicsObject& physicsObject) {
 		emplace_back(&physicsObject);
+		objectAdded.fire(physicsObject);
 	}
 
 	void addObject(PhysicsObject* physicsObject) {
 		emplace_back(physicsObject);
-	}
-
-	void addObject(std::unique_ptr<PhysicsObject> physicsObject) {
-		push_back(physicsObject);
+		objectAdded.fire(*physicsObject);
 	}
 };

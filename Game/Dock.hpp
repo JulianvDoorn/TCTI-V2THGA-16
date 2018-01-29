@@ -8,6 +8,7 @@
 #include "BaseFactory.hpp"
 #include "RectangleContainer.hpp"
 #include "Button.hpp"
+#include "Selection.hpp"
 
 /**
  * @class	Dock
@@ -24,14 +25,15 @@ private:
 	std::vector<std::shared_ptr<Rectangle>> rectanglesTemplates;
 	
 	/** @brief	True if an rectangle is selected, false if not */
-	bool isRectangleSelected = false;
+	//bool isRectangleSelected = false;
 	
 	/** @brief	The drag-and-dropped rectangles */
 	//RectangleContainer &rectangles;
 	Map &map;
 
 	/** @brief	The selected rectangle as an unique pointer */
-	std::unique_ptr<Rectangle> selectedRect;
+	//PhysicsObject* selectedRect;
+	Selection& selection;
 
 	/**
 	 * @property	Button moveDockLeftBtn, moveDockRightBtn
@@ -67,33 +69,33 @@ public:
 	 * @param [in,out]	_window	   	The window.
 	 */
 
-	Dock(Map &_map, sf::RenderTarget &_window) : map(_map), window(_window) {
+	Dock(Map &_map, sf::RenderTarget &_window, Selection& selection) : map(_map), window(_window), selection(selection) {
 		game.mouse.mouseLeftButtonDown.connect([this](const sf::Vector2i mousePos) {
 			selectRectangle(mousePos);
 		});
 
 		game.mouse.mouseLeftButtonUp.connect([this](const sf::Vector2i mousePos) {
-			if (isRectangleSelected) {
-				selectedRect->setPosition(window.mapPixelToCoords(static_cast<sf::Vector2i>(selectedRect->getPosition())));
-				map.addDrawable(std::move(selectedRect));
+			//if (selectedRect != nullptr) {
+			//	selectedRect->setPosition(game.window->mapPixelToCoords(mousePos));
 
-				selectedRect.reset();
-				isRectangleSelected = false;
-			}
+			//	//selectedRect.reset();
+			//	selectedRect = nullptr;
+			//	//isRectangleSelected = false;
+			//}
 		});
 
 		game.mouse.mouseMoved.connect([this](const sf::Vector2i mousePos) {
-			if (isRectangleSelected) {
-				selectedRect->setPosition(static_cast<sf::Vector2f>(mousePos));
-			}
+			//if (selectedRect != nullptr) {
+			//	selectedRect->setPosition(game.window->mapPixelToCoords(mousePos));
+			//}
 		});
 
-		game.mouse.mouseRightButtonDown.connect([this](const sf::Vector2i mousePos) {
-			if (isRectangleSelected) {
-				selectedRect.reset();
-				isRectangleSelected = false;
-			}
-		});
+		//game.mouse.mouseRightButtonDown.connect([this](const sf::Vector2i mousePos) {
+		//	if (isRectangleSelected) {
+		//		//selectedRect.reset();
+		//		isRectangleSelected = false;
+		//	}
+		//});
 
 		moveDockLeftBtn.setPosition({ dockStartX, dockStartY });
 		moveDockLeftBtn.setText("<");
@@ -148,16 +150,21 @@ public:
 	void selectRectangle(sf::Vector2i mousePos) {
 		for (auto &rectangle : rectanglesTemplates) {
 			if (rectangle->getBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
-				std::unique_ptr<Rectangle> temp = std::make_unique<Rectangle>();
+				Rectangle* temp = new Rectangle();
+				
+				std::cout << "new rectangle: " << temp << std::endl;
 
-				temp->setPosition(rectangle->getPosition());
+				map.addObject(temp);
+				map.addDrawable(temp);
+
+				temp->setPosition(game.window->mapPixelToCoords(mousePos));
 				temp->setTexture(*rectangle->getTexture());
 				temp->setTextureRect(rectangle->getTextureRect());
 				temp->setSize(rectangle->getSize());
 
-				selectedRect = std::move(temp);
+				std::cout << temp << std::endl;
 
-				isRectangleSelected = true;
+				selection.select(temp);
 
 				return;
 			}
@@ -191,16 +198,6 @@ public:
 			window.draw(*rectangle);
 			rectangle->setPosition(oldPos);
 
-		}
-
-		if (selectedRect && isRectangleSelected) {
-			sf::Vector2f oldPos = selectedRect->getPosition();
-			sf::Vector2f cameraPos = window.mapPixelToCoords(static_cast<sf::Vector2i>(selectedRect->getPosition()));
-
-			selectedRect->setPosition(cameraPos);
-
-			window.draw(*selectedRect);
-			selectedRect->setPosition(oldPos);
 		}
 
 		moveDockRightBtn.setPosition({ dockStartX, dockStartY });

@@ -55,6 +55,23 @@ public:
 	void select(PhysicsObject* s) {
 		selection = s;
 		startDrag();
+
+		sf::FloatRect bounds = selection->getBounds();
+
+		boundingBox.setSize({ bounds.width, bounds.height });
+		boundingBox.setPosition({ bounds.left, bounds.top });
+		boundingBox.setOutlineColor(sf::Color::Cyan);
+	}
+
+	void select(PhysicsObject& s) {
+		selection = &s;
+		startDrag();
+
+		sf::FloatRect bounds = selection->getBounds();
+
+		boundingBox.setSize({ bounds.width, bounds.height });
+		boundingBox.setPosition({ bounds.left, bounds.top });
+		boundingBox.setOutlineColor(sf::Color::Cyan);
 	}
 
 	void deselect() {
