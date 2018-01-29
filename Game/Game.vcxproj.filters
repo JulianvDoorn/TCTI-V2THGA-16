@@ -245,9 +245,6 @@
     <ClInclude Include="Editor.hpp">
       <Filter>Header Files\GameStates\States</Filter>
     </ClInclude>
-    <ClInclude Include="RectangleContainer.hpp">
-      <Filter>Header Files\MapEditor</Filter>
-    </ClInclude>
     <ClInclude Include="GamePauze.hpp">
       <Filter>Header Files\GameStates\States</Filter>
     </ClInclude>

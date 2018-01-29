@@ -2,7 +2,6 @@
 
 #include "Dock.hpp"
 #include "FreeCamera.hpp"
-#include "RectangleContainer.hpp"
 #include "Selection.hpp"
 #include "MapFileGenerator.hpp"
 

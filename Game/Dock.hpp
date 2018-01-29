@@ -6,7 +6,6 @@
 #include "EventSource.hpp"
 #include "EventConnection.hpp"
 #include "BaseFactory.hpp"
-#include "RectangleContainer.hpp"
 #include "Button.hpp"
 #include "Selection.hpp"
 
