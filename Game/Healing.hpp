@@ -13,7 +13,7 @@ class Healing : public Rectangle {
 private:
 
 public:
-	Healing::Healing() {
+	Healing() {
 		setSize({ 40, 40 });
 		setFillColor(sf::Color(0, 255, 0));
 		setPosition({ 400, 400 });

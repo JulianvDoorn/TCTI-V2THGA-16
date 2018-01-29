@@ -39,7 +39,7 @@ private:
 	int32_t walkDirection = 0;
 
 	float defaultWalkingSpeed = 100;
-    float walkspeed = 100;
+    float walkspeed = defaultWalkingSpeed;
 	float jumpForce = 500;
     bool spammingRunKey = false;
     float runningSpammingFactor = 1;
@@ -47,18 +47,15 @@ private:
 	bool roll = false;
     sf::Time lastKeyPressTime;
     bool runKeyPressed = false;
-	int deathcase = 0;
 
     sf::Clock runClock;
 	sf::Clock rollClock;
-
 
 	/** @brief	The key pressed connection */
 	EventConnection keyPressedConn;
 
 	/** @brief	The key released connection */
 	EventConnection keyReleasedConn;
-
 
  /** @brief These variable are used to set a bodypart to display **/
     bool torsoDisplay = true;
@@ -67,7 +64,7 @@ private:
     bool headDisplay = true;
     bool leftArmDisplay = true;
     bool rightArmDisplay = true;
-
+    bool rollRectangleDisplay = false;
     Rectangle torso;
     Rectangle leftLeg;
     Rectangle rightLeg;
@@ -76,6 +73,8 @@ private:
     Rectangle rightArm;
     Rectangle rollRectangle;
 
+    sf::Vector2f playersize = {20,40};
+
     int defaultAnimationTimeInMiliseconds = 50;
     int animationTimeInMiliseconds = defaultAnimationTimeInMiliseconds;
 	int animationCyle = 0;
@@ -83,7 +82,9 @@ private:
 
     Label keyschemeText;
     sf::Clock keySchemeShowClock;
-    int keySchemeShowTimeInMilliseconds = 5000;
+    int keySchemeShowTimeInMilliseconds = 3000;
+
+
 public:
 	/**
 	 * @fn	Player::Player()
@@ -94,7 +95,6 @@ public:
 	 * @date	25-1-2018
 	 */
 	Player(sf::RenderWindow &window) : window(window){
-		sf::Vector2f playersize = {20,40};
         setSize(playersize);
 
         setFillColor(sf::Color::Transparent);
@@ -115,23 +115,7 @@ public:
 				rollClock.restart();
 			}
 			else if (key == activeKeyScheme.run){
-				runKeyPressed = true;
-				if (runClock.getElapsedTime().asMilliseconds() - lastKeyPressTime.asMilliseconds() <200){
-					spammingRunKey = true;
-					runningSpammingFactor *= 1.5;
-				}
-				else if (spammingRunKey){
-					spammingRunKey = false;
-					runningSpammingFactor =1;
-					walkspeed = defaultWalkingSpeed;
-				}
-				walkspeed *= 2 * runningSpammingFactor;
-                animationTimeInMiliseconds /= 2;
-                animationTimeInMiliseconds /= int(runningSpammingFactor);
-				if (walkspeed > 299){ //max running speed without glitching
-					walkspeed = 299;
-				}
-				lastKeyPressTime = runClock.getElapsedTime();
+					doRun();
 			}
 			else if (key == activeKeyScheme.moveLeft) {
 				setWalkDirection(walkDirection - 1);
@@ -146,22 +130,15 @@ public:
 				setWalkDirection(walkDirection + 1);
 			}
 			else if (key ==activeKeyScheme.run){
-				runKeyPressed = false;
-				if (spammingRunKey){
-					if (runClock.restart().asMilliseconds() > 200){
-						walkspeed = defaultWalkingSpeed;
-						runningSpammingFactor = 1;
-						animationTimeInMiliseconds = defaultAnimationTimeInMiliseconds;
-					}
-				}
-				else{
-					walkspeed = 100;
-                    animationTimeInMiliseconds = defaultAnimationTimeInMiliseconds;
-				}
+				checkStillRunning();
 			}
 			else if (key == activeKeyScheme.moveRight) {
 				setWalkDirection(walkDirection - 1);
 			}
+            else if (key == activeKeyScheme.roll){
+                roll = false;
+				unRoll();
+            }
 		});
 	}
 
@@ -354,6 +331,7 @@ public:
 	}
 
     void doWalk(){
+
         if (walkDirection == 0){
             if (!roll) {
                 if (torsoDisplay) {
@@ -451,10 +429,10 @@ public:
         }
     }
 	void doRoll(){
+        rollRectangleDisplay = true;
 		if (walkDirection > 0) {
 			rollRectangle.setPosition(getPosition());
 			rollRectangle.setTexture(AssetManager::instance()->getTexture("fimmyRollRight"));
-
 			setVelocity({ 299, jumpForce });
 		}
 		else if (walkDirection < 0) {
@@ -465,20 +443,60 @@ public:
 		else {
 			setVelocity({ 0, jumpForce });
 		}
-		setSize({ 20, 20 });
-		roll = true;
-		if (((rollClock.getElapsedTime().asSeconds()) > 1) || getVelocity().x == 0) {
-			setSize({ 20, 40 });
+        setSize({ 20, 20 });
+        roll = true;
+        if (((rollClock.getElapsedTime().asSeconds()) > 1) || getVelocity().x == 0) {
+            setSize({ 20, 40 });
 			roll = false;
-            rollRectangle.setFillColor(sf::Color::Transparent);
+            rollRectangleDisplay = false;
 		}
+	}
+
+	void doRun(){
+		runKeyPressed = true;
+		if (runClock.getElapsedTime().asMilliseconds() - lastKeyPressTime.asMilliseconds() <200){
+			spammingRunKey = true;
+			runningSpammingFactor *= 1.5;
+		}
+		else if (spammingRunKey){
+			spammingRunKey = false;
+			runningSpammingFactor =1;
+			walkspeed = defaultWalkingSpeed;
+		}
+		walkspeed *= 2 * runningSpammingFactor;
+		animationTimeInMiliseconds /= 2;
+		animationTimeInMiliseconds /= int(runningSpammingFactor);
+		if (walkspeed > 299){ //max running speed without glitching
+			walkspeed = 299;
+		}
+		lastKeyPressTime = runClock.getElapsedTime();
+	}
+
+	void checkStillRunning(){
+		runKeyPressed = false;
+		if (spammingRunKey){
+			if (runClock.restart().asMilliseconds() > 200){
+				walkspeed = defaultWalkingSpeed;
+				runningSpammingFactor = 1;
+				animationTimeInMiliseconds = defaultAnimationTimeInMiliseconds;
+			}
+		}
+		else{
+			walkspeed = 100;
+			animationTimeInMiliseconds = defaultAnimationTimeInMiliseconds;
+		}
+	}
+	void unRoll(){
+        roll = false;
+//		rollRectangle.setFillColor(sf::Color::Green);
+        rollRectangleDisplay = false;
+        setSize(playersize);
+        setPosition({getPosition().x + 20, getPosition().y});
 	}
     void showKeySchemeUsed(){
         keyschemeText.setFont(AssetManager::instance()->getFont("arial"));
         keyschemeText.setCharSize(16);
         keyschemeText.setColor(sf::Color::White);
-//        sf::Vector2f position = window.mapPixelToCoords(static_cast<sf::Vector2i>(window.getView().getSize()), window.getView());
-//        keyschemeText.setPosition(position);
         std::string moveLeft = "Left: " + keyToString(activeKeyScheme.moveLeft);
         std::string moveRight = "Right: " + keyToString(activeKeyScheme.moveRight);
         std::string jump = "Jump: " + keyToString(activeKeyScheme.jump);
@@ -487,11 +505,11 @@ public:
         keyschemeText.setText(moveLeft+ " "+ moveRight +" "+jump + " "+ run + " " + roll );
         keySchemeShowClock.restart();
     }
+
     void updateKeySchemeDisplay(){
         sf::Vector2f position = window.mapPixelToCoords(static_cast<sf::Vector2i>(window.getView().getSize()), window.getView());
         sf::Vector2f offset = {100,-100};
         keyschemeText.setPosition(position - offset);
-        std::cout << position.x << std::endl;
         if(keySchemeShowClock.getElapsedTime().asMilliseconds() > keySchemeShowTimeInMilliseconds){
             keyschemeText.setColor(sf::Color::Transparent);
         }
@@ -504,7 +522,9 @@ public:
         rightLeg.draw(window);
         leftArm.draw(window);
         rightArm.draw(window);
-        rollRectangle.draw(window);
+        if (rollRectangleDisplay){
+            rollRectangle.draw(window);
+        }
         keyschemeText.draw(window);
     }
 	using Rectangle::getCollision;
