@@ -1,55 +1,48 @@
 #pragma once
 
-#include <SFML/Audio.hpp>
-#include <array>
-#include <fstream>
+#include <SFML/Graphics.hpp>
+#include <map>
 
 #include "State.hpp"
 #include "Statemachine.hpp"
-#include "Characters.hpp"
-#include "ViewFocus.hpp"
-#include "Label.hpp"
+#include "PhysicsObject.hpp"
 #include "MapLoader.hpp"
-#include "Dock.hpp"
-#include "AssetFileGenerator.hpp"
-#include "ShapeFileGenerator.hpp"
+#include "MapEditor.hpp"
 
 class Editor : public State {
 	Statemachine& statemachine;
 
-	ViewFocus focus;
-
-	Map map;
-
-	float cameraSpeed = 100;
-	sf::Vector2i cameraMovement = { 0, 0 };
-	
-	Rectangle cameraFocus;
+	FreeCamera camera;
 	Dock dock;
 
 	RectangleContainer rectContainer;
-
-	EventConnection keyPressedConnection;
-	EventConnection keyReleasedConnection;
 
 	AssetFileGenerator assetFileGenerator;
 	ShapeFileGenerator shapeFileGenerator;
 	
 	std::ofstream fileOut;
 
+
+	Map map;
+
+	EventConnection keyPressedConnection;
+	EventConnection keyReleasedConnection;
+	EventConnection mouseLeftButtonUp;
+	EventConnection mouseMovedConn;
+	EventConnectionVector physicsObjectConnVector;
+
+	Selection selection;
+
 public:
 
 	Editor(Statemachine& statemachine) :
 		statemachine(statemachine),
-		focus(statemachine.window),
 		rectContainer(statemachine.window),
 		dock(rectContainer, statemachine.window),
 		assetFileGenerator(fileOut),
-		shapeFileGenerator(fileOut)
+		shapeFileGenerator(fileOut),
+		camera(statemachine.window, 100)
 	{
-		focus.setFocus(cameraFocus);
-		cameraFocus.setGravity({ 0, 0 });
-
 		using Type = MapFactory::Type;
 		using Value = MapFactory::Value;
 
@@ -58,9 +51,8 @@ public:
 
 		mapFactory.registerCreateMethod("player", [&](Map& map, const MapItemProperties& properties) {
 			properties.read({
-				{ "Position", Type::Vector, [&](Value value) { cameraFocus.setPosition(*value.vectorValue); } }
+				{ "Position", Type::Vector, [&](Value value) { camera.setPosition(*value.vectorValue); } }
 			});
-			// do nothing
 		});
 
 		mapFactory.registerCreateMethod("death", [&](Map& map, const MapItemProperties& properties) {
@@ -68,7 +60,7 @@ public:
 		});
 
 		map = mapFactory.buildMap();
-
+		
 		std::map<std::string, sf::Texture>& textures = AssetManager::instance()->getTextures();
 
 		for (std::map<std::string, sf::Texture>::iterator it = textures.begin(); it != textures.end(); it++) {
@@ -86,54 +78,10 @@ public:
 	}
 
 	void entry() override {
-		focus.setFocus(cameraFocus);
-		focus.setLeftBorder(500);
-		focus.setRightBorder(500);
-		focus.setTopBorder(320);
-		focus.setBottomBorder(50);
-		focus.update();
-		focus.setDynamicCameraEnabled(false);
-
-		keyPressedConnection = game.keyboard.keyPressed.connect([this](sf::Keyboard::Key key) {
-			if (key == sf::Keyboard::Key::W) {
-				cameraMovement += { 0, -1 };
-				cameraFocus.setVelocity({ cameraFocus.getVelocity().x, cameraMovement.y * cameraSpeed });
-			}
-			else if (key == sf::Keyboard::Key::A) {
-				cameraMovement += { -1, 0 };
-				cameraFocus.setVelocity({ cameraMovement.x * cameraSpeed, cameraFocus.getVelocity().y });
-			}
-			else if (key == sf::Keyboard::Key::S) {
-				cameraMovement += { 0, 1 };
-				cameraFocus.setVelocity({ cameraFocus.getVelocity().x, cameraMovement.y * cameraSpeed });
-
-			}
-			else if (key == sf::Keyboard::Key::D) {
-				cameraMovement += { 1, 0 };
-				cameraFocus.setVelocity({ cameraMovement.x * cameraSpeed, cameraFocus.getVelocity().y });
-			}
-		});
+		camera.connect();
 
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
-			if (key == sf::Keyboard::Key::W) {
-				cameraMovement -= { 0, -1 };
-				cameraFocus.setVelocity({ cameraFocus.getVelocity().x, cameraMovement.y * cameraSpeed });
-			}
-			else if (key == sf::Keyboard::Key::A) {
-				cameraMovement -= { -1, 0 };
-				cameraFocus.setVelocity({ cameraMovement.x * cameraSpeed, cameraFocus.getVelocity().y });
-
-			}
-			else if (key == sf::Keyboard::Key::S) {
-				cameraMovement -= { 0, 1 };
-				cameraFocus.setVelocity({ cameraFocus.getVelocity().x, cameraMovement.y * cameraSpeed });
-
-			}
-			else if (key == sf::Keyboard::Key::D) {
-				cameraMovement -= { 1, 0 };
-				cameraFocus.setVelocity({ cameraMovement.x * cameraSpeed, cameraFocus.getVelocity().y });
-			}
-			else if (key == sf::Keyboard::Key::Escape) {
+			if (key == sf::Keyboard::Key::Escape) {
 				statemachine.doTransition("main-menu");
 			}
 			else if (key == sf::Keyboard::Key::LControl) {
@@ -143,24 +91,54 @@ public:
 				shapeFileGenerator.generate("map_generated.txt", rectContainer);
 			}
 		});
+
+		selection.deselect();
+		selection.connect();
+
+		for (PhysicsObject* physicsObject : map) {
+			physicsObject->bindMouseEvents();
+
+			physicsObjectConnVector.connect(physicsObject->mouseLeftButtonDown, [physicsObject, this]() {
+				selection.select(physicsObject);
+			});
+
+			physicsObjectConnVector.connect(physicsObject->mouseLeftButtonUp, [&physicsObject, this]() {
+				selection.stopDrag();
+			});
+		}
 	}
 
 	void exit() override {
-		focus.unsetFocus();
-		focus.update();
-		focus.setDynamicCameraEnabled(true);
+		camera.disconnect();
+		camera.reset();
 
-		keyPressedConnection.disconnect();
+		selection.disconnect();
+
+		physicsObjectConnVector.disconnect();
+
+		for (PhysicsObject* physicsObject : map) {
+			physicsObject->unbindMouseEvents();
+		}
+
 		keyReleasedConnection.disconnect();
 	}
 
 	void update(const float elapsedTime) override {
+		camera.update(elapsedTime);
+
 		map.resolveCollisions();
 		map.draw(statemachine.window);
 		dock.draw();
 		rectContainer.draw();
 
-		cameraFocus.update(elapsedTime);
-		focus.update();
+		selection.update(elapsedTime);
+		selection.draw(statemachine.window);
+
+
+
+		sf::RectangleShape rectShape;
+		rectShape.setSize({ 10, 10 });
+		rectShape.setPosition(game.window->mapPixelToCoords(sf::Mouse::getPosition(*game.window)));
+		statemachine.window.draw(rectShape);
 	}
 };

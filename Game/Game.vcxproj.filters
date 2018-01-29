@@ -269,6 +269,15 @@
     <ClInclude Include="ShapeFileGenerator.hpp">
       <Filter>Header Files\MapEditor</Filter>
     </ClInclude>
+    <ClInclude Include="Selection.hpp">
+      <Filter>Header Files\MapEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeCamera.hpp">
+      <Filter>Header Files\MapEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEditor.hpp">
+      <Filter>Header Files\MapEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="map.txt">
