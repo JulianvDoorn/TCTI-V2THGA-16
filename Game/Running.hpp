@@ -9,6 +9,7 @@
 #include "ViewFocus.hpp"
 #include "Label.hpp"
 #include "MapLoader.hpp"
+#include "Healing.hpp"
 
 /**
  * @class	Running
@@ -41,7 +42,6 @@ class Running : public State {
 
 	/** @brief	The player */
     Player player;
-
 	/** @brief	The death */
 	Antagonist death;
 	Antagonist deathSikkel;
@@ -80,6 +80,7 @@ public:
 		std::ifstream file("map.txt");
 		MapFactory mapFactory(file);
 
+
 		mapFactory.registerCreateMethod("player", [&](Map& map, const MapItemProperties& properties) {
             properties.read({
 				{ "Position", Type::Vector, [&](Value value) { player.setPosition(*value.vectorValue); } },
@@ -102,6 +103,27 @@ public:
 			map.addCollidable(death);
 		});
 
+		mapFactory.registerCreateMethod("power-up", [&](Map& map, const MapItemProperties& properties) {
+			Healing* healing = new Healing();
+
+			bool canCollide = true;
+
+			properties.read({
+				{ "Color", Type::Color, [&](Value value) { healing->setFillColor(*value.colorValue); } },
+				{ "Size", Type::Vector, [&](Value value) { healing->setSize(*value.vectorValue); } },
+				{ "Position", Type::Vector, [&](Value value) { healing->setPosition(*value.vectorValue); } },
+				{ "TextureId", Type::String, [&](Value value) { healing->setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } },
+				{ "TextureRect", Type::Rect, [&](Value value) { healing->setTextureRect(static_cast<sf::IntRect>(*value.rectValue)); } },
+				{ "CanCollide", Type::Bool, [&](Value value) { canCollide = value.b; } }
+			});
+
+			map.addDrawable(healing);
+			map.addObject(healing);
+
+			if (canCollide) {
+				map.addCollidable(healing);
+			}
+		});
 		map = mapFactory.buildMap();
 	}
 
@@ -129,6 +151,8 @@ public:
 		player.collided.connect([this](Collidable& other) {
 			if (other == death) {
 				game.died.fire();
+			} else {
+
 			}
 		});
 

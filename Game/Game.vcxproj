@@ -163,6 +163,7 @@
     <ClInclude Include="CurlyBracketList.hpp" />
     <ClInclude Include="Cutscene.hpp" />
     <ClInclude Include="Dock.hpp" />
+    <ClInclude Include="Healing.hpp" />
     <ClInclude Include="RectangleContainer.hpp" />
     <ClInclude Include="DrawableGroup.hpp" />
     <ClInclude Include="Editor.hpp" />

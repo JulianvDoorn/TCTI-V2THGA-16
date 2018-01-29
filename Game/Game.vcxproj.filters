@@ -269,6 +269,9 @@
     <ClInclude Include="ShapeFileGenerator.hpp">
       <Filter>Header Files\MapEditor</Filter>
     </ClInclude>
+    <ClInclude Include="Healing.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="map.txt">
