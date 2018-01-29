@@ -2,7 +2,7 @@
 #pragma once
 
 #include <fstream>
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include "AssetManager.hpp"
 #include "Rectangle.hpp"
 #include "RectangleContainer.hpp"

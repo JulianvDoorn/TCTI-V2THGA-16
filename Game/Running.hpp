@@ -178,7 +178,11 @@ public:
 	 */
 
 	void update(const float elapsedTime) override {
+		map.resolveCollisions();
+
 		if (!gameOver) {
+			//player.update(elapsedTime);
+			//player.draw(statemachine.window);
 			player.update(elapsedTime);
 			death.update(elapsedTime);
 		}
