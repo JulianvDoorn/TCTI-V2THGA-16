@@ -3,6 +3,11 @@ asset {
 	Location = "GameOver.wav"
 }
 
+asset {
+	Id = "jump"
+	Location = "jump.wav"
+}
+
 texture {
 	Id = "death"
 	Location = "death.png"

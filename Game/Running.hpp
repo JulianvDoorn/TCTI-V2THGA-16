@@ -112,6 +112,7 @@ public:
 	void entry() override {
 		backgroundMusic.openFromFile("sound.wav");
 		backgroundMusic.setLoop(true);
+		backgroundMusic.setVolume(15);
 		backgroundMusic.play();
 		focus.setFocus(player);
         focus.setLeftBorder(500);

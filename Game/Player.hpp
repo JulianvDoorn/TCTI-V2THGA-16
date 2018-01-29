@@ -243,6 +243,7 @@ public:
 	void doJump() {
 		sf::Vector2f velocity = getVelocity();
 		if (velocity.y == 0) {
+			AssetManager::instance()->getSound("jump").play();
 			jump = true;
 		}
 	}
