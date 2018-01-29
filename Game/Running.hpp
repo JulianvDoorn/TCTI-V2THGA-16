@@ -54,6 +54,7 @@ class Running : public State {
 	/** @brief	The game over counter */
 	float gameOverCounter = 3.0f;
 
+	CollisionGroup powerUp;
 public:
 
 	/**
@@ -125,6 +126,7 @@ public:
 			}
 		});
 		map = mapFactory.buildMap();
+		map.addCollisionGroup(powerUp);
 	}
 
 	/**
@@ -151,8 +153,6 @@ public:
 		player.collided.connect([this](Collidable& other) {
 			if (other == death) {
 				game.died.fire();
-			} else {
-
 			}
 		});
 
