@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
 #include "DrawableGroup.hpp"
 #include "CollisionGroup.hpp"
@@ -15,7 +16,7 @@
  * @date	2018-01-25
  */
 
-class Map : public std::vector<PhysicsObject*> {
+class Map : public std::vector<std::unique_ptr<PhysicsObject>> {
 	/** @brief	Vector of drawables */
 	DrawableGroup drawableGroup;
 
@@ -164,10 +165,14 @@ public:
 	}
 
 	void addObject(PhysicsObject& physicsObject) {
-		push_back(&physicsObject);
+		emplace_back(&physicsObject);
 	}
 
 	void addObject(PhysicsObject* physicsObject) {
+		emplace_back(physicsObject);
+	}
+
+	void addObject(std::unique_ptr<PhysicsObject> physicsObject) {
 		push_back(physicsObject);
 	}
 };
