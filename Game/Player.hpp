@@ -9,7 +9,8 @@
 #include "EventSource.hpp"
 #include "Keyboard.hpp"
 #include "KeyScheme.hpp"
-
+#include "Label.hpp"
+#include "KeyToString.hpp"
 /** @brief	An (fixed-size) array holding key schemes. Maximum of 100 key schemes. */
 using KeySchemes = std::array<KeyScheme, 100>;
 
@@ -34,7 +35,6 @@ private:
 		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift ,KeyScheme::Difficulty::MODERATE),
 		KeyScheme(sf::Keyboard::Key::J, sf::Keyboard::Key::L, sf::Keyboard::Key::I, sf::Keyboard::Key::J, sf::Keyboard::Key::LShift, KeyScheme::Difficulty::MODERATE)
 	};
-
 
 	int32_t walkDirection = 0;
 
@@ -81,8 +81,10 @@ private:
 	int animationCyle = 0;
     sf::Clock animationClock;
 
+    Label keyschemeText;
+    sf::Clock keySchemeShowClock;
+    int keySchemeShowTimeInMilliseconds = 5000;
 public:
-
 	/**
 	 * @fn	Player::Player()
 	 *
@@ -163,15 +165,6 @@ public:
 		});
 	}
 
-	/**
-	 * @fn	Player::~Player()
-	 *
-	 * @brief	Destructor
-	 *
-	 * @author	Wiebe
-	 * @date	25-1-2018
-	 */
-
 	~Player() {
 		keyPressedConn.disconnect();
 		keyReleasedConn.disconnect();
@@ -188,8 +181,7 @@ public:
 	 * @param	elapsedTime	The elapsed time.
 	 */
 	void update(const float elapsedTime) override {
-
-		doWalk();
+        doWalk();
 		if (jump) {
 			applyForce({ 0, -jumpForce });
 			jump = false;
@@ -211,6 +203,7 @@ public:
         rightArm.setPosition(getPosition());
         head.setPosition(getPosition());
 
+        updateKeySchemeDisplay();
 	}
 
 	/**
@@ -225,13 +218,14 @@ public:
 	 */
 
 	void setWalkDirection(int32_t direction) {
+        showKeySchemeUsed();
 		walkDirection = direction;
 	}
 
 	/**
 	 * @fn	void Player::doJump()
 	 *
-	 * @brief	Executes an jump action
+	 * @brief	Executes an jump action and play the jump sound.
 	 *
 	 * @author	Wiebe
 	 * @date	25-1-2018
@@ -479,7 +473,29 @@ public:
             rollRectangle.setFillColor(sf::Color::Transparent);
 		}
 	}
-
+    void showKeySchemeUsed(){
+        keyschemeText.setFont(AssetManager::instance()->getFont("arial"));
+        keyschemeText.setCharSize(16);
+        keyschemeText.setColor(sf::Color::White);
+//        sf::Vector2f position = window.mapPixelToCoords(static_cast<sf::Vector2i>(window.getView().getSize()), window.getView());
+//        keyschemeText.setPosition(position);
+        std::string moveLeft = "Left: " + keyToString(activeKeyScheme.moveLeft);
+        std::string moveRight = "Right: " + keyToString(activeKeyScheme.moveRight);
+        std::string jump = "Jump: " + keyToString(activeKeyScheme.jump);
+        std::string run = "Run: " + keyToString(activeKeyScheme.run);
+        std::string roll = "Roll: " + keyToString(activeKeyScheme.roll);
+        keyschemeText.setText(moveLeft+ " "+ moveRight +" "+jump + " "+ run + " " + roll );
+        keySchemeShowClock.restart();
+    }
+    void updateKeySchemeDisplay(){
+        sf::Vector2f position = window.mapPixelToCoords(static_cast<sf::Vector2i>(window.getView().getSize()), window.getView());
+        sf::Vector2f offset = {100,-100};
+        keyschemeText.setPosition(position - offset);
+        std::cout << position.x << std::endl;
+        if(keySchemeShowClock.getElapsedTime().asMilliseconds() > keySchemeShowTimeInMilliseconds){
+            keyschemeText.setColor(sf::Color::Transparent);
+        }
+    }
     void draw(sf::RenderTarget &window){
         Drawable::draw(window);
         head.draw(window);
@@ -489,6 +505,7 @@ public:
         leftArm.draw(window);
         rightArm.draw(window);
         rollRectangle.draw(window);
+        keyschemeText.draw(window);
     }
 	using Rectangle::getCollision;
 	using Rectangle::setPosition;
