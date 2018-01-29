@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <fstream>
 
 #include "Drawable.hpp"
 #include "CollisionDetection.hpp"
@@ -41,6 +42,8 @@ public:
 	EventSource<> mouseLeftButtonUp;
 	EventSource<> mouseRightButtonDown;
 	EventSource<> mouseRightButtonUp;
+
+	virtual std::ofstream& writeToFile(std::ofstream &of) = 0;
 	
 	void bindMouseEvents() {
 		masterMouseLeftButtonDown = game.mouse.mouseLeftButtonDown.connect([this](sf::Vector2i pos) {

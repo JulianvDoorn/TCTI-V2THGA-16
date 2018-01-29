@@ -198,7 +198,7 @@
     <ClInclude Include="QuotedString.hpp" />
     <ClInclude Include="Selection.hpp" />
     <ClInclude Include="SettingsMenu.hpp" />
-    <ClInclude Include="ShapeFileGenerator.hpp" />
+    <ClInclude Include="MapFileGenerator.hpp" />
     <ClInclude Include="SpecialCharacter.hpp" />
     <ClInclude Include="State.hpp" />
     <ClInclude Include="GamePauze.hpp" />
