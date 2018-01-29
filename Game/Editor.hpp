@@ -45,6 +45,9 @@ class Editor : public State {
 	Selection selection;
 
 	Rectangle player, death;
+
+	bool lControlPressed = false;
+
 	void bindEditorEvents(PhysicsObject& object) {
 		object.bindMouseEvents();
 
@@ -132,13 +135,24 @@ public:
 			unbindEditorEvents(physicsObject);
 		});
 
+		keyPressedConnection = game.keyboard.keyPressed.connect([this](sf::Keyboard::Key key) {
+			if (key == sf::Keyboard::Key::LControl) {
+				lControlPressed = true;
+			}
+		});
+
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
 				statemachine.doTransition("main-menu");
 			}
-			else if (key == sf::Keyboard::Key::LControl) {
+			else if (key == sf::Keyboard::Key::S && lControlPressed) {
 				std::cout << "Writing map to file...\n";
 				mapFileGenerator.generate("map_generated.txt", map, player, death);
+
+				lControlPressed = false;
+			}
+			else if (key == sf::Keyboard::Key::LControl) {
+				lControlPressed = false;
 			}
 		});
 

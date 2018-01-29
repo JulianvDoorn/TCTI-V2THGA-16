@@ -263,9 +263,6 @@
     <ClInclude Include="EventDisconnectable.hpp">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
-    <ClInclude Include="AssetFileGenerator.hpp">
-      <Filter>Header Files\MapEditor</Filter>
-    </ClInclude>
     <ClInclude Include="Selection.hpp">
       <Filter>Header Files\MapEditor</Filter>
     </ClInclude>

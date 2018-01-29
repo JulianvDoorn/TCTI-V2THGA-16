@@ -1,6 +1,5 @@
 #pragma once
 
-#include "AssetFileGenerator.hpp"
 #include "Dock.hpp"
 #include "FreeCamera.hpp"
 #include "RectangleContainer.hpp"

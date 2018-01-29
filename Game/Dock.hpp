@@ -24,35 +24,23 @@ private:
 	/** @brief	The rectangles templates used for displaying texture dummy's */
 	std::vector<std::shared_ptr<Rectangle>> rectanglesTemplates;
 	
-	/** @brief	True if an rectangle is selected, false if not */
-	//bool isRectangleSelected = false;
-	
-	/** @brief	The drag-and-dropped rectangles */
-	//RectangleContainer &rectangles;
+	/** @brief	The map displayed on the screen */
 	Map &map;
 
-	/** @brief	The selected rectangle as an unique pointer */
-	//PhysicsObject* selectedRect;
+	/** @brief	The selected item */
 	Selection& selection;
-
-	/**
-	 * @property	Button moveDockLeftBtn, moveDockRightBtn
-	 *
-	 * @brief	Moves the dock to the left and the right.
-	 *
-	 * @return	The move dock right button.
-	 */
-
-	Button moveDockLeftBtn, moveDockRightBtn;
 
 	/** @brief	The display window */
 	sf::RenderTarget &window;
 
 	/** @brief	The dock start x and y coordinates */
-	float dockStartX = 25.0f, dockStartY = 685.0f;
+	float dockStartX = 25.0f, dockStartY = 630.0f; // 685
 
 	/** @brief	The dock item offset */
 	const float dockItemOffset = 55.0f;
+
+	/** @brief	Amount of items on the x axis */
+	int xAxisItems = 0;
 
 
 public:
@@ -73,44 +61,6 @@ public:
 		game.mouse.mouseLeftButtonDown.connect([this](const sf::Vector2i mousePos) {
 			selectRectangle(mousePos);
 		});
-
-		game.mouse.mouseLeftButtonUp.connect([this](const sf::Vector2i mousePos) {
-			//if (selectedRect != nullptr) {
-			//	selectedRect->setPosition(game.window->mapPixelToCoords(mousePos));
-
-			//	//selectedRect.reset();
-			//	selectedRect = nullptr;
-			//	//isRectangleSelected = false;
-			//}
-		});
-
-		game.mouse.mouseMoved.connect([this](const sf::Vector2i mousePos) {
-			//if (selectedRect != nullptr) {
-			//	selectedRect->setPosition(game.window->mapPixelToCoords(mousePos));
-			//}
-		});
-
-		//game.mouse.mouseRightButtonDown.connect([this](const sf::Vector2i mousePos) {
-		//	if (isRectangleSelected) {
-		//		//selectedRect.reset();
-		//		isRectangleSelected = false;
-		//	}
-		//});
-
-		moveDockLeftBtn.setPosition({ dockStartX, dockStartY });
-		moveDockLeftBtn.setText("<");
-		moveDockLeftBtn.setSize({ 40, 40 });
-		moveDockLeftBtn.setBackgroundColor(sf::Color::Black);
-		moveDockLeftBtn.setCharSize(18);
-
-		dockStartX += 50;
-
-		moveDockRightBtn.setText(">");
-		moveDockRightBtn.setSize({ 40, 40 });
-		moveDockRightBtn.setBackgroundColor(sf::Color::Black);
-		moveDockRightBtn.setCharSize(18);
-
-		
 	}
 
 	/**
@@ -125,8 +75,10 @@ public:
 	 */
 
 	void addRectangle(std::shared_ptr<Rectangle> r) {
-		if (rectanglesTemplates.size() > 50) {
-			throw "Unable to add more rectangles to the dock!";
+		if (xAxisItems > 22) {
+			dockStartY += 55;
+			dockStartX = 25;
+			xAxisItems = 0;
 		}
 
 		r->setPosition({ dockStartX, dockStartY });
@@ -134,6 +86,7 @@ public:
 		dockStartX += dockItemOffset;
 
 		rectanglesTemplates.push_back(r);
+		xAxisItems++;
 	}
 
 	/**
@@ -177,13 +130,6 @@ public:
 	 */
 
 	void draw() {
-		sf::Vector2f oldPos = moveDockLeftBtn.getPosition();
-		moveDockLeftBtn.setPosition(window.mapPixelToCoords(static_cast<sf::Vector2i>(moveDockLeftBtn.getPosition())));
-
-		moveDockLeftBtn.draw(window);
-		moveDockLeftBtn.setPosition(oldPos);
-
-	
 		// Set the position of the selected rectangle to the position of the mouse.
 		for (auto rectangle : rectanglesTemplates) {
 			sf::Vector2f oldPos = rectangle->getPosition();
@@ -193,15 +139,6 @@ public:
 
 			window.draw(*rectangle);
 			rectangle->setPosition(oldPos);
-
 		}
-
-		moveDockRightBtn.setPosition({ dockStartX, dockStartY });
-		oldPos = moveDockRightBtn.getPosition();
-		moveDockRightBtn.setPosition(window.mapPixelToCoords(static_cast<sf::Vector2i>(moveDockRightBtn.getPosition())));
-
-		moveDockRightBtn.draw(window);
-		moveDockRightBtn.setPosition(oldPos);
-
 	}
 };

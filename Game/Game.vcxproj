@@ -155,7 +155,6 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AssetFileGenerator.hpp" />
     <ClInclude Include="AssetManager.hpp" />
     <ClInclude Include="Ball.hpp" />
     <ClInclude Include="BaseFactory.hpp" />
