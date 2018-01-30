@@ -46,20 +46,20 @@
     <Filter Include="Header Files\MapLoader">
       <UniqueIdentifier>{6dc2e34b-cac6-4a68-82fd-03f9298f53ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\MapLoader\Factories">
-      <UniqueIdentifier>{de92877c-d4dc-4b55-8273-e9c839acf4d6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\MapLoader\StreamUtils">
       <UniqueIdentifier>{c575223a-631e-4822-bde7-bee75c33f9fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\MapLoader\Factories\Utils">
-      <UniqueIdentifier>{36446231-c35e-4b3f-9395-66d925d7d2eb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\MapEditor">
       <UniqueIdentifier>{528889dd-c355-45b1-ba8d-cf0f8ce4c696}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\GameStates\Statemachine\Exceptions">
       <UniqueIdentifier>{df6b4c03-cc92-4fdc-9823-eca30f7c5438}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MapLoader\Factories">
+      <UniqueIdentifier>{de92877c-d4dc-4b55-8273-e9c839acf4d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MapLoader\Factories\Utils">
+      <UniqueIdentifier>{36446231-c35e-4b3f-9395-66d925d7d2eb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

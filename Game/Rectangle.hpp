@@ -151,8 +151,8 @@ public:
 	 * @param	texture	The texture.
 	 */
 
-	void setTexture(const sf::Texture& texture) {
-		sf::RectangleShape::setTexture(&texture);
+	void setTexture(const sf::Texture& texture, bool resetRect = false) {
+		sf::RectangleShape::setTexture(&texture, resetRect);
 	}
 
 	/**

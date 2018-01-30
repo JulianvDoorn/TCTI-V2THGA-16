@@ -1,5 +1,6 @@
 1
 00:00:00 --> 00:00:05
+#~dikkebmw.jpg
 Sinds het begin der tijden hebben kinderen 
 knuffels om mee te slapen.
 
@@ -10,6 +11,7 @@ is verloren gegaan over de eeuwen heen.
 
 3
 00:00:10 --> 00:00:15
+#~NONE
 De knuffels bescheremen namenlijk zieke
 kinderen tegen de dood tijdens het slapen.
 
@@ -19,6 +21,7 @@ Ook de ernstig zieke Stefanie heeft een bescherm knuffel.
 
 5
 00:00:18 --> 00:00:20
+#~bmw.jpg
 Een knuffel konijn genaamt Fimmy.
 
 6
