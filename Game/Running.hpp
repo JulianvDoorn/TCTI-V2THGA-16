@@ -10,6 +10,7 @@
 #include "Label.hpp"
 #include "MapLoader.hpp"
 #include "Healing.hpp"
+#include "IntersectionGroup.hpp"
 
 /**
  * @class	Running
@@ -107,27 +108,30 @@ public:
 		mapFactory.registerCreateMethod("power-up", [&](Map& map, const MapItemProperties& properties) {
 			Healing* healing = new Healing();
 
-			bool canCollide = true;
-
 			properties.read({
 				{ "Color", Type::Color, [&](Value value) { healing->setFillColor(*value.colorValue); } },
 				{ "Size", Type::Vector, [&](Value value) { healing->setSize(*value.vectorValue); } },
 				{ "Position", Type::Vector, [&](Value value) { healing->setPosition(*value.vectorValue); } },
 				{ "TextureId", Type::String, [&](Value value) { healing->setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } },
-				{ "TextureRect", Type::Rect, [&](Value value) { healing->setTextureRect(static_cast<sf::IntRect>(*value.rectValue)); } },
-				{ "CanCollide", Type::Bool, [&](Value value) { canCollide = value.b; } }
+				{ "TextureRect", Type::Rect, [&](Value value) { healing->setTextureRect(static_cast<sf::IntRect>(*value.rectValue)); } }
 			});
 
 			map.addDrawable(healing);
 			map.addObject(healing);
 
-			if (canCollide) {
-				map.addCollidable(healing);
-			}
+			healing->collided.connect([this](Collidable& other) {
+				std::cout << "collided with power-up" << std::endl;
+			});
+
+			IntersectionGroup* powerUpIntersectionGroup = new IntersectionGroup();
+
+			powerUpIntersectionGroup->setPrimary(*healing);
+			powerUpIntersectionGroup->add(player);
+
+			map.addObjectGroup(*powerUpIntersectionGroup);
 		});
 		map = mapFactory.buildMap();
-		map.addCollisionGroup(powerUp);
-	}
+			}
 
 	/**
 	 * @fn	void Running::entry() override
@@ -208,7 +212,7 @@ public:
 	 */
 
 	void update(const float elapsedTime) override {
-		map.resolveCollisions();
+		map.resolve();
 
 		if (!gameOver) {
 			//player.update(elapsedTime);
@@ -228,7 +232,7 @@ public:
 		death.update(elapsedTime);
 		deathSikkel.update(elapsedTime);
 
-		map.resolveCollisions();
+		map.resolve();
 		map.draw(statemachine.window);
 
 		score.draw(statemachine.window);

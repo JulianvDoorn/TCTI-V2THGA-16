@@ -23,6 +23,8 @@ protected:
 
 	virtual void onCollide(Collidable& other) { }
 
+	friend class IntersectionGroup;
+	
 public:
 
 	/**

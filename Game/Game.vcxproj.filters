@@ -272,6 +272,12 @@
     <ClInclude Include="Healing.hpp">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="IntersectionGroup.hpp">
+      <Filter>Header Files\Graphics\CollisionDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractionGroup.hpp">
+      <Filter>Header Files\Graphics\CollisionDetection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="map.txt">

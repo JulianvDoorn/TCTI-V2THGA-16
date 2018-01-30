@@ -403,7 +403,7 @@ public:
 	void update(const float elapsedTime) override {
 		camera.update(elapsedTime);
 
-		map.resolveCollisions();
+		map.resolve();
 		map.draw(statemachine.window);
 		dock.draw();
 		rectContainer.draw();
