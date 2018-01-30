@@ -9,7 +9,7 @@ class Heal : public PowerUp {
 public:
 	Heal(IntersectionGroup* powerUpIntersectionGroup) : PowerUp(powerUpIntersectionGroup) {
 		setGravity({ 0, 0 });
-		setSize({ 10, 10 });
+		setSize({ 30, 30 });
 	}
 
 	void setHealValue(float value) {
@@ -18,6 +18,5 @@ public:
 
 	void apply(Player& player) const override {
 		std::cout << "healing" << std::endl;
-		// heal player
 	}
 };

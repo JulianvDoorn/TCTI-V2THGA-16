@@ -248,7 +248,11 @@ rectangle {
     Size = Vector2(20,40)
     TextureId = "fimmyStandingBody"
 }
-
+texture {
+	Id = "Heal"
+	Location = "Heal.png"
+}
 heal-power-up {
-	Position = Vector2(400, 450)	
+	Position = Vector2(400, 450)
+	TextureId = "Heal"
 }
