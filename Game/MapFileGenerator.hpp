@@ -3,7 +3,7 @@
 #include <fstream>
 #include <SFML\Graphics.hpp>
 #include "AssetManager.hpp"
-#include "Rectangle.hpp"
+#include "Body.hpp"
 
 /**
  * @class	MapFileGenerator
@@ -67,7 +67,7 @@ private:
 	}
 
 	/**
-	 * @fn	void MapFileGenerator::generateGeneric(const Rectangle& rect, const std::string &id)
+	 * @fn	void MapFileGenerator::generateGeneric(const Body& rect, const std::string &id)
 	 *
 	 * @brief	Generates a generic listing in the map file
 	 *
@@ -78,7 +78,7 @@ private:
 	 * @param	id  	The identifier.
 	 */
 
-	void generateGeneric(const Rectangle& rect, const std::string &id) {
+	void generateGeneric(const Body& rect, const std::string &id) {
 		outputFileStream << id << " {\n";
 		outputFileStream << " Position = Vector2(" << rect.getPosition().x << ", " << rect.getPosition().y << ")\n";
 		outputFileStream << "}\n";
@@ -102,7 +102,7 @@ public:
 	{};
 
 	/**
-	 * @fn	void MapFileGenerator::generate(std::string filename, Map &map, Rectangle &player, Rectangle &death)
+	 * @fn	void MapFileGenerator::generate(std::string filename, Map &map, Body &player, Body &death)
 	 *
 	 * @brief	Generates an map file
 	 *
@@ -115,7 +115,7 @@ public:
 	 * @param [in,out]	death   	The death.
 	 */
 
-	void generate(std::string filename, Map &map, Rectangle &player, Rectangle &death) {
+	void generate(std::string filename, Map &map, Body &player, Body &death) {
 		outputFileStream.open(filename);
 
 		for (auto &asset : AssetManager::instance()->getSounds()) {
@@ -133,7 +133,7 @@ public:
 		generateGeneric(player, "player");
 		generateGeneric(death, "death");
 
-		for (const std::unique_ptr<PhysicsObject>& object : map) {
+		for (const std::unique_ptr<Body>& object : map) {
 			try {
 				object->writeToFile(outputFileStream);
 			}

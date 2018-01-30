@@ -2,9 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Drawable.hpp"
-#include "PhysicsObject.hpp"
 #include "Map.hpp"
+#include "GameObject.hpp"
 
 /**
  * @class	ObjectSelector
@@ -15,8 +14,8 @@
  * @date	2018-01-30
  */
 
-class ObjectSelector : public Drawable {
-	PhysicsObject* selection;
+class ObjectSelector : public sf::Drawable, public GameObject {
+	Body* selection;
 
 	sf::Vector2f resizeOrigin;
 
@@ -55,7 +54,6 @@ public:
 	 */
 
 	ObjectSelector(Map& map) :
-		Drawable(boundingBox),
 		selection(nullptr),
 		map(map)
 	{
@@ -81,21 +79,21 @@ public:
 	}
 
 	/**
-	 * @fn	void ObjectSelector::select(PhysicsObject* s)
+	 * @fn	void ObjectSelector::select(Body* s)
 	 *
-	 * @brief	Selects the given PhysicsObject*
+	 * @brief	Selects the given Body*
 	 *
 	 * @author	Julian
 	 * @date	2018-01-30
 	 *
-	 * @param [in,out]	s	If non-null, a PhysicsObject to select.
+	 * @param [in,out]	s	If non-null, a Body to select.
 	 */
 
-	void select(PhysicsObject* s) {
+	void select(Body* s) {
 		selection = s;
 		startDrag();
 
-		sf::FloatRect bounds = selection->getBounds();
+		sf::FloatRect bounds = selection->getGlobalBounds();
 
 		boundingBox.setSize({ bounds.width, bounds.height });
 		boundingBox.setPosition({ bounds.left, bounds.top });
@@ -103,21 +101,21 @@ public:
 	}
 
 	/**
-	 * @fn	void ObjectSelector::select(PhysicsObject& s)
+	 * @fn	void ObjectSelector::select(Body& s)
 	 *
-	 * @brief	Selects the given PhysicsObject&
+	 * @brief	Selects the given Body&
 	 *
 	 * @author	Julian
 	 * @date	2018-01-30
 	 *
-	 * @param [in,out]	s	A PhysicsObject to select.
+	 * @param [in,out]	s	A Body to select.
 	 */
 
-	void select(PhysicsObject& s) {
+	void select(Body& s) {
 		selection = &s;
 		startDrag();
 
-		sf::FloatRect bounds = selection->getBounds();
+		sf::FloatRect bounds = selection->getGlobalBounds();
 
 		boundingBox.setSize({ bounds.width, bounds.height });
 		boundingBox.setPosition({ bounds.left, bounds.top });
@@ -304,7 +302,7 @@ public:
 
 	void update(const float elapsedTime) override {
 		if (selection != nullptr) {
-			sf::FloatRect bounds = selection->getBounds();
+			sf::FloatRect bounds = selection->getGlobalBounds();
 
 			boundingBox.setSize({ bounds.width, bounds.height });
 			boundingBox.setPosition({ bounds.left, bounds.top });
@@ -337,9 +335,8 @@ public:
 		}
 	};
 
-	void draw(sf::RenderTarget& renderTarget) override {
-		Drawable::draw(renderTarget);
-
+	void draw(sf::RenderTarget& renderTarget, sf::RenderStates renderStates) const override {
+		renderTarget.draw(boundingBox);
 		renderTarget.draw(topResizeHandle);
 		renderTarget.draw(bottomResizeHandle);
 		renderTarget.draw(leftResizeHandle);

@@ -1,11 +1,10 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "Drawable.hpp"
 #include <vector>
 #include <algorithm>
 
-class DrawableGroup : public std::vector<Drawable*> {
+class DrawableGroup : public std::vector<sf::Drawable*> {
 public:
 	/**
 	* @fn	void CollisionGroup::add(Collidable& collidable)
@@ -18,21 +17,21 @@ public:
 	* @param [in,out]	collidable	The collidable to add.
 	*/
 
-	void add(Drawable& drawable) {
+	void add(sf::Drawable& drawable) {
 		push_back(&drawable);
 	}
 
-	void erase(Drawable& drawable) {
-		auto it = std::find(std::vector<Drawable*>::begin(), std::vector<Drawable*>::end(), &drawable);
+	void erase(sf::Drawable& drawable) {
+		auto it = std::find(std::vector<sf::Drawable*>::begin(), std::vector<sf::Drawable*>::end(), &drawable);
 
 		if (it != end()) {
-			std::vector<Drawable*>::erase(it);
+			std::vector<sf::Drawable*>::erase(it);
 		}
 	}
 
 	void draw(sf::RenderTarget& window) {
-		for (Drawable* drawable : *this) {
-			drawable->draw(window);
+		for (sf::Drawable* drawable : *this) {
+			window.draw(*drawable);
 		}
 	}
 };

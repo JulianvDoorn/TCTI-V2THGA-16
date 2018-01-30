@@ -160,8 +160,8 @@ public:
      */
 
     void update(const float elapsedTime) override {
-        menuLabel.draw(statemachine.window);
-        exitButton.draw(statemachine.window);
-		volumeLabel.draw(statemachine.window);
+		statemachine.window.draw(menuLabel);
+		statemachine.window.draw(exitButton);
+		statemachine.window.draw(volumeLabel);
     }
 };

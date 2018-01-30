@@ -195,9 +195,9 @@ public:
 	 */
 
 	void update(const float elapsedTime) override {
-		menuLabel.draw(statemachine.window);
-        mainMenuButton.draw(statemachine.window);
-        restartGameButton.draw(statemachine.window);
-        exitButton.draw(statemachine.window);
+		statemachine.window.draw(menuLabel);
+		statemachine.window.draw(mainMenuButton);
+		statemachine.window.draw(restartGameButton);
+		statemachine.window.draw(exitButton);
 	}
 };

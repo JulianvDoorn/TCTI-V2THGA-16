@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "PhysicsObject.hpp"
 #include "EventSource.hpp"
 #include "EventConnection.hpp"
 #include "BaseFactory.hpp"
@@ -21,7 +20,7 @@
 class Dock {
 private:
 	/** @brief	The rectangles templates used for displaying texture dummy's */
-	std::vector<std::shared_ptr<Rectangle>> rectanglesTemplates;
+	std::vector<std::shared_ptr<Body>> rectanglesTemplates;
 	
 	/** @brief	The map displayed on the screen */
 	Map &map;
@@ -63,17 +62,17 @@ public:
 	}
 
 	/**
-	 * @fn	void Dock::addRectangle(std::shared_ptr<Rectangle> r)
+	 * @fn	void Dock::addRectangle(std::shared_ptr<Body> r)
 	 *
 	 * @brief	Adds a rectangle
 	 *
 	 * @author	Wiebe
 	 * @date	26-1-2018
 	 *
-	 * @param	r	A std::shared_ptr&lt;Rectangle&gt; to process.
+	 * @param	r	A std::shared_ptr&lt;Body&gt; to process.
 	 */
 
-	void addRectangle(std::shared_ptr<Rectangle> r) {
+	void addRectangle(std::shared_ptr<Body> r) {
 		if (xAxisItems > 22) {
 			dockStartY += 55;
 			dockStartX = 25;
@@ -101,14 +100,14 @@ public:
 
 	void selectRectangle(sf::Vector2i mousePos) {
 		for (auto &rectangle : rectanglesTemplates) {
-			if (rectangle->getBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
-				Rectangle* temp = new Rectangle();
+			if (rectangle->getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+				Body* temp = new Body();
 
 				map.addObject(temp);
 				map.addDrawable(temp);
 
 				temp->setPosition(game.window->mapPixelToCoords(mousePos));
-				temp->setTexture(*rectangle->getTexture());
+				temp->setTexture(rectangle->getTexture());
 				temp->setTextureRect(rectangle->getTextureRect());
 				temp->setSize(rectangle->getSize());
 

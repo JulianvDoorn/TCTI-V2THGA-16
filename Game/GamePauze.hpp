@@ -200,8 +200,8 @@ public:
 	 */
 
 	void update(const float elapsedTime) override {
-		gameResumeButton.draw(statemachine.window);
-		gameRestartButton.draw(statemachine.window);
-		gameExitButton.draw(statemachine.window);
+		statemachine.window.draw(gameResumeButton);
+		statemachine.window.draw(gameRestartButton);
+		statemachine.window.draw(gameExitButton);
 	}
 };
