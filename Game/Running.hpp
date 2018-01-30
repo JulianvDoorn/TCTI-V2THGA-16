@@ -56,6 +56,8 @@ class Running : public State {
 	float gameOverCounter = 3.0f;
 
 	std::vector<PowerUp*> powerUps;
+
+	sf::Sprite background;
 public:
 
 	/**
@@ -78,8 +80,8 @@ public:
 		using Type = MapFactory::Type;
 		using Value = MapFactory::Value;
 
-		//std::ifstream file("map.txt");
-		std::ifstream file("map_generated.txt");
+		std::ifstream file("map.txt");
+		//std::ifstream file("map_generated.txt");
 		MapFactory mapFactory(file);
 
 
@@ -128,6 +130,12 @@ public:
 		});
 
 		map = mapFactory.buildMap();
+
+		
+		
+		background.setPosition({ 0, 0 });
+		background.setTexture(AssetManager::instance()->getTexture("background"));
+		background.setTextureRect({ 0, 0, 640, 360 });
 	}
 
 	/**
@@ -217,6 +225,8 @@ public:
 	 */
 
 	void update(const float elapsedTime) override {
+		background.setPosition(statemachine.window.mapPixelToCoords({ 0, 0 }));
+		statemachine.window.draw(background);
 		map.resolve();
 
 		if (!gameOver) {

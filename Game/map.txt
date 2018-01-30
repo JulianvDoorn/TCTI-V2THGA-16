@@ -7,6 +7,10 @@ asset {
 	Id = "jump"
 	Location = "jump.wav"
 }
+texture {
+	Id = "background"
+	Location = "background.png"
+}
 
 texture {
 	Id = "death"
