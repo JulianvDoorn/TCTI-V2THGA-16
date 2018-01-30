@@ -29,6 +29,8 @@ private:
 
 	std::string timeStart, timeEnd;
 
+	std::string image;
+
 public:
 
 	/**
@@ -45,9 +47,10 @@ public:
 	 * @param	timeEnd		  	The subtitle time end.
 	 */
 
-	SubtitleItem(int subtitleNumber, std::string text, std::string timeStart, std::string timeEnd) :
+	SubtitleItem(int subtitleNumber, std::string text, std::string image, std::string timeStart, std::string timeEnd) :
 		subtitleNumber(subtitleNumber),
 		text(text),
+		image(image),
 		timeStart(timeStart),
 		timeEnd(timeEnd)
 	{};
@@ -110,5 +113,9 @@ public:
 
 	std::string getTimeEnd() const {
 		return timeEnd;
+	}
+
+	std::string getImagePath() const {
+		return image;
 	}
 };

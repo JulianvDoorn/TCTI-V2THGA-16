@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iomanip>
+#include <memory>
 #include "State.hpp"
 #include "Statemachine.hpp"
 #include "SubtitleParser.hpp"
@@ -20,7 +21,6 @@ class Cutscene : public State {
 	/** @brief	The statemachine */
 	Statemachine& statemachine;
 
-
 	/** @brief	Vector containing subtitles for the cutscene. */
 	SubtitleVector subtitles;
 
@@ -30,9 +30,6 @@ class Cutscene : public State {
 	/** @brief	The subtitle text displayed on the window. */
 	Label subtitleText;
 
-	/** @brief	The image background */
-	Rectangle imageBackground;
-
 	/** @brief	The clock used for timing the subtitle display events. */
 	sf::Clock clock;
 
@@ -41,6 +38,15 @@ class Cutscene : public State {
 
 	/** @brief	The key released connection */
 	EventConnection keyReleasedConnection;
+
+	/** @brief	The background */
+	Rectangle background;
+
+	/** @brief	The texture */
+	sf::Texture texture;
+
+	/** @brief	True if displaying an subtitle */
+	bool displaying = false;
 public:
 
 	/**
@@ -74,9 +80,8 @@ public:
 		subtitleText.setPosition({50.0f, statemachine.window.getSize().y - 80.0f});
 		subtitleText.setText("");
 
-		imageBackground.setPosition({640, 360});
-		imageBackground.setSize({ 1280, 720 });
-		imageBackground.setFillColor(sf::Color{ 0, 0, 0 });
+		background.setPosition({ 640, 360 });
+		background.setSize({ 1280, 720 });
 
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
@@ -146,14 +151,30 @@ public:
 				ssStart >> std::get_time(&subTimeStart, "%H:%M:%S");
 				ssStop >> std::get_time(&subTimeEnd, "%H:%M:%S");
 
-				if (clock.getElapsedTime().asSeconds() >= (subTimeStart.tm_min * 60) + subTimeStart.tm_sec) {
-					subtitleText.setText(item->getText());
+				if (!displaying && clock.getElapsedTime().asSeconds() >= (subTimeStart.tm_min * 60) + subTimeStart.tm_sec) {
+					subtitleText.setText(item->getText());	
+
+					if (item->getImagePath().length() > 0) {
+						if (item->getImagePath().compare("NONE") == 0) {
+							background.setSize({ 0, 0 });
+						}
+						else {
+							background.setSize({ 1280, 720 });
+							
+							if (texture.loadFromFile(item->getImagePath())) {
+								background.setTexture(texture, true);
+							}
+						}
+					}
+
+					displaying = true;
 				}
 
 				if (clock.getElapsedTime().asSeconds() >= (subTimeEnd.tm_min * 60) + subTimeEnd.tm_sec) {
 					subtitleText.setText("");
 					
 					subtitles.pop_back();
+					displaying = false;
 				}
 			}
 			else if (subtitleText.getText() == "") {
@@ -163,7 +184,8 @@ public:
 
 		}
 
-		imageBackground.draw(statemachine.window);
+		statemachine.window.draw(background);
+		//imageBackground.draw(statemachine.window);
 		subtitleText.draw(statemachine.window);
 	}
 };

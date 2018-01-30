@@ -1,0 +1,472 @@
+asset {
+ Id = "game-over"
+ Location = "GameOver.wav"
+}
+asset {
+ Id = "arial"
+ Location = "arial.ttf"
+}
+texture {
+ Id = "brick"
+ Location = "brickWall.png"
+ Repeated = true
+}
+texture {
+ Id = "bush"
+ Location = "bush.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyLeft"
+ Location = "Fimmy/FimmyWalkLeft.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyLeftArm"
+ Location = "Fimmy/walkingleft/FimmyWalkLeftArm.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyLeftBody"
+ Location = "Fimmy/walkingleft/FimmyWalkLeftBody.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyLeftHead"
+ Location = "Fimmy/walkingleft/FimmyWalkLeftHead.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyLeftLeg"
+ Location = "Fimmy/walkingleft/FimmyWalkLeftLeg.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyRight"
+ Location = "Fimmy/FimmyWalkRight.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyRightArm"
+ Location = "Fimmy/walkingRight/FimmyWalkRightArm.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyRightBody"
+ Location = "Fimmy/walkingRight/FimmyWalkRightBody.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyRightHead"
+ Location = "Fimmy/walkingRight/FimmyWalkRightHead.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyRightLeg"
+ Location = "Fimmy/walkingRight/FimmyWalkRightLeg.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyStanding"
+ Location = "Fimmy/fimmy.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyStandingBody"
+ Location = "Fimmy/bodyparts/fimmyBody.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyStandingHead"
+ Location = "Fimmy/bodyparts/fimmyHead.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyStandingLeftArm"
+ Location = "Fimmy/bodyparts/fimmyLeftArm.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyStandingLeftLeg"
+ Location = "Fimmy/bodyparts/fimmyLeftLeg.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyStandingRightArm"
+ Location = "Fimmy/bodyparts/fimmyRightArm.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyStandingRightLeg"
+ Location = "Fimmy/bodyparts/fimmyRightLeg.png"
+ Repeated = false
+}
+texture {
+ Id = "grassFloor"
+ Location = "ground3.png"
+ Repeated = true
+}
+texture {
+ Id = "ground"
+ Location = "ground.png"
+ Repeated = true
+}
+texture {
+ Id = "rockFloor"
+ Location = "ground2.png"
+ Repeated = true
+}
+player {
+ Position = Vector2(150, 450)
+}
+death {
+ Position = Vector2(-200, 200)
+}
+rectangle {
+ Size = Vector2(6400, 200)
+ Position = Vector2(1964, 586)
+ TextureId = "rockFloor"
+ TextureRect = Rect(0, 0, 6400, 200)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(6400, 20)
+ Position = Vector2(0, 500)
+ TextureId = "grassFloor"
+ TextureRect = Rect(0, 0, 6400, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(60, 10)
+ Position = Vector2(0, 500)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(250, 157)
+ Position = Vector2(-196.352, 407.825)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(30, 30)
+ Position = Vector2(0, 450)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 15, 15)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(14, 14)
+ Position = Vector2(150, 486)
+ TextureId = "bush"
+ TextureRect = Rect(0, 0, 7, 7)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(14, 14)
+ Position = Vector2(120, 486)
+ TextureId = "bush"
+ TextureRect = Rect(0, 0, 7, 7)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-101, 267)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-211, 266)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-175, 221)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-140, 270)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-139, -66)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-569.675, 667.984)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-586.675, 666.984)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-565.675, 664.984)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-570.675, 663.984)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-579.675, 671.984)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(42, 40)
+ Position = Vector2(-97, 310)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-242, 309)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-138, 171)
+ TextureId = "grassFloor"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(215, 157)
+ TextureId = "fimmyLeft"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-414.352, 311.325)
+ TextureId = "bush"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(169, 115)
+ TextureId = "fimmyRight"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-178, 132)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(290, 307)
+ Position = Vector2(233.1, 333.609)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-178, 176)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-181, 310)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(368, 162)
+ TextureId = "fimmyLeft"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(105, 161)
+ TextureId = "fimmyStanding"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(160, 157)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(311, 156)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(238, 140)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(302, 306)
+ Position = Vector2(534.1, 333.609)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(17.7333, 594.901)
+ TextureId = "fimmyRight"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(43, 37)
+ Position = Vector2(-17.7675, 268.123)
+ TextureId = "fimmyRight"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-399, 348)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-357, 276)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-400, 566)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-332, 564)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-152, 702.672)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-1.52588E-05, 702.672)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-467, 409)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-421, 503)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-475, 727)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}

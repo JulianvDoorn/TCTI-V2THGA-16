@@ -1,341 +1,199 @@
 #pragma once
 
-#include <SFML/Audio.hpp>
-#include <array>
-#include <fstream>
+#include <SFML/Graphics.hpp>
+#include <map>
 
 #include "State.hpp"
 #include "Statemachine.hpp"
-#include "Characters.hpp"
-#include "ViewFocus.hpp"
-#include "Label.hpp"
+#include "PhysicsObject.hpp"
 #include "MapLoader.hpp"
-#include "Dock.hpp"
-#include "AssetFileGenerator.hpp"
-#include "ShapeFileGenerator.hpp"
-#include "VectorMath.hpp"
+#include "MapEditor.hpp"
 
-#include "VectorStreamOperators.hpp"
-
-class Selection : public Drawable {
-	PhysicsObject* selection;
-
-	sf::Vector2f resizeOrigin;
-
-	sf::Vector2i offset;
-	bool dragging;
-
-	sf::RectangleShape boundingBox;
-
-	sf::CircleShape topResizeHandle;
-	sf::CircleShape bottomResizeHandle;
-	sf::CircleShape leftResizeHandle;
-	sf::CircleShape rightResizeHandle;
-
-	EventConnection mouseMovedConn;
-	EventConnection mouseLeftButtonDown;
-	EventConnection mouseLeftButtonUp;
-
-	ResizeFace resizeDirection;
-
-public:
-	Selection() :
-		Drawable(boundingBox),
-		selection(nullptr)
-	{
-		boundingBox.setFillColor(sf::Color::Transparent);
-		boundingBox.setOutlineColor(sf::Color::Cyan);
-		boundingBox.setOutlineThickness(2.0f);
-
-		topResizeHandle.setFillColor(sf::Color::Cyan);
-		topResizeHandle.setRadius(6.0f);
-		topResizeHandle.setOrigin({ 6.0f, 6.0f + 10.0f });
-
-		bottomResizeHandle.setFillColor(sf::Color::Cyan);
-		bottomResizeHandle.setRadius(6.0f);
-		bottomResizeHandle.setOrigin({ 6.0f, 6.0f - 10.0f });
-
-		leftResizeHandle.setFillColor(sf::Color::Cyan);
-		leftResizeHandle.setRadius(6.0f);
-		leftResizeHandle.setOrigin({ 6.0f + 10.0f, 6.0f });
-
-		rightResizeHandle.setFillColor(sf::Color::Cyan);
-		rightResizeHandle.setRadius(6.0f);
-		rightResizeHandle.setOrigin({ 6.0f - 10.0f, 6.0f });
-	}
-
-	void select(PhysicsObject* s) {
-		selection = s;
-		startDrag();
-	}
-
-	void deselect() {
-		selection = nullptr;
-	}
-
-	void startDrag() {
-		dragging = true;
-
-		if (selection != nullptr) {
-			offset = game.window->mapCoordsToPixel(selection->getPosition()) - sf::Mouse::getPosition(*game.window);
-		}
-	}
-
-	void stopDrag() {
-		dragging = false;
-	}
-
-	void startResize(ResizeFace dir, sf::Vector2f origin) {
-		resizeDirection = dir;
-		resizeOrigin = origin;
-	}
-
-	void stopResize() {
-		resizeDirection = ResizeFace::None;
-	}
-
-	void connect() {
-		mouseLeftButtonDown = game.mouse.mouseLeftButtonDown.connect([this](sf::Vector2i pos) {
-			sf::Vector2f posCoords = game.window->mapPixelToCoords(pos);
-
-			if (boundingBox.getGlobalBounds().contains(posCoords)) {
-				startDrag();
-			}
-			else if (topResizeHandle.getGlobalBounds().contains(posCoords)) {
-				startResize(ResizeFace::Top, posCoords);
-			}
-			else if (bottomResizeHandle.getGlobalBounds().contains(posCoords)) {
-				startResize(ResizeFace::Bottom, posCoords);
-			}
-			else if (leftResizeHandle.getGlobalBounds().contains(posCoords)) {
-				startResize(ResizeFace::Left, posCoords);
-			}
-			else if (rightResizeHandle.getGlobalBounds().contains(posCoords)) {
-				startResize(ResizeFace::Right, posCoords);
-			}
-			else {
-				deselect();
-			}
-		});
-
-		mouseLeftButtonUp = game.mouse.mouseLeftButtonUp.connect([this](sf::Vector2i pos) {
-			stopDrag();
-			stopResize();
-		});
-
-		mouseMovedConn = game.mouse.mouseMoved.connect([this](sf::Vector2i pos) {
-			if (selection != nullptr) {
-				if (dragging == true) {
-					selection->setPosition(game.window->mapPixelToCoords(sf::Mouse::getPosition(*game.window)) + static_cast<sf::Vector2f>(offset));
-				}
-				else if (resizeDirection != ResizeFace::None) {
-					sf::Vector2f mousePos = game.window->mapPixelToCoords(sf::Mouse::getPosition(*game.window));
-
-					if (resizeDirection == ResizeFace::Top) {
-						selection->resize(resizeOrigin.y - mousePos.y, ResizeFace::Top);
-					}
-					else if (resizeDirection == ResizeFace::Bottom) {
-						selection->resize(mousePos.y - resizeOrigin.y, ResizeFace::Bottom);
-					}
-					else if (resizeDirection == ResizeFace::Left) {
-						selection->resize(resizeOrigin.x - mousePos.x, ResizeFace::Left);
-					}
-					else if (resizeDirection == ResizeFace::Right) {
-						selection->resize(mousePos.x - resizeOrigin.x, ResizeFace::Right);
-					}
-					
-					resizeOrigin = mousePos;
-				}
-			}
-		});
-	}
-
-	void disconnect() {
-		mouseMovedConn.disconnect();
-	}
-
-	void update(const float elapsedTime) override {
-		if (selection != nullptr) {
-			sf::FloatRect bounds = selection->getBounds();
-
-			boundingBox.setSize({ bounds.width, bounds.height });
-			boundingBox.setPosition({ bounds.left, bounds.top });
-			boundingBox.setOutlineColor(sf::Color::Cyan);
-
-			topResizeHandle.setFillColor(sf::Color::Cyan);
-			bottomResizeHandle.setFillColor(sf::Color::Cyan);
-			leftResizeHandle.setFillColor(sf::Color::Cyan);
-			rightResizeHandle.setFillColor(sf::Color::Cyan);
-
-			topResizeHandle.setPosition({ bounds.left + bounds.width / 2, bounds.top });
-			bottomResizeHandle.setPosition({ bounds.left + bounds.width / 2, bounds.top + bounds.height });
-			leftResizeHandle.setPosition({ bounds.left, bounds.top + bounds.height / 2 });
-			rightResizeHandle.setPosition({ bounds.left + bounds.width, bounds.top + bounds.height / 2});
-		}
-		else {
-			boundingBox.setOutlineColor(sf::Color::Transparent);
-			topResizeHandle.setFillColor(sf::Color::Transparent);
-			bottomResizeHandle.setFillColor(sf::Color::Transparent);
-			leftResizeHandle.setFillColor(sf::Color::Transparent);
-			rightResizeHandle.setFillColor(sf::Color::Transparent);
-		}
-	};
-
-	void draw(sf::RenderTarget& renderTarget) override {
-		Drawable::draw(renderTarget);
-
-		renderTarget.draw(topResizeHandle);
-		renderTarget.draw(bottomResizeHandle);
-		renderTarget.draw(leftResizeHandle);
-		renderTarget.draw(rightResizeHandle);
-	}
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class FreeCamera {
-	sf::View view;
-	sf::RenderWindow& window;
-
-	float speed;
-	sf::Vector2i movement = { 0, 0 };
-	sf::Vector2f position = { 0, 0 };
-
-	EventConnection keyPressedConnection;
-	EventConnection keyReleasedConnection;
-
-public:
-	FreeCamera(sf::RenderWindow& window) : view(sf::Vector2f(), static_cast<sf::Vector2f>(window.getSize())), window(window) { }
-
-	FreeCamera(sf::RenderWindow& window, float cameraSpeed) : view(sf::Vector2f(), static_cast<sf::Vector2f>(window.getSize())), window(window), speed(cameraSpeed) { }
-
-	void connect() {
-		keyPressedConnection = game.keyboard.keyPressed.connect([this](sf::Keyboard::Key key) {
-			if (key == sf::Keyboard::Key::W) {
-				movement += { 0, -1 };
-			}
-			else if (key == sf::Keyboard::Key::A) {
-				movement += { -1, 0 };
-			}
-			else if (key == sf::Keyboard::Key::S) {
-				movement += { 0, 1 };
-
-			}
-			else if (key == sf::Keyboard::Key::D) {
-				movement += { 1, 0 };
-			}
-		});
-
-		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
-			if (key == sf::Keyboard::Key::W) {
-				movement -= { 0, -1 };
-			}
-			else if (key == sf::Keyboard::Key::A) {
-				movement -= { -1, 0 };
-
-			}
-			else if (key == sf::Keyboard::Key::S) {
-				movement -= { 0, 1 };
-
-			}
-			else if (key == sf::Keyboard::Key::D) {
-				movement -= { 1, 0 };
-			}
-		});
-	}
-
-	void disconnect() {
-		keyPressedConnection.disconnect();
-		keyReleasedConnection.disconnect();
-	}
-
-	void setCameraSpeed(float cameraSpeed) {
-		speed = cameraSpeed;
-	}
-
-	void setPosition(sf::Vector2f pos) {
-		position = pos;
-	}
-
-	void update(const float elapsedTime) {
-		position += static_cast<sf::Vector2f>(movement) * speed * elapsedTime;
-
-		view.setCenter(position);
-		window.setView(view);
-	}
-
-	void reset() {
-		view.setCenter(window.getDefaultView().getCenter());
-		window.setView(view);
-	}
-};
+/**
+ * @class	Editor
+ *
+ * @brief	An editor for game maps.
+ *
+ * @author	Wiebe
+ * @date	29-1-2018
+ */
 
 class Editor : public State {
+
+	/** @brief	The statemachine */
 	Statemachine& statemachine;
 
+	/** @brief	The view camera */
 	FreeCamera camera;
+
+	/** @brief	The dock displaying available shapes */
 	Dock dock;
 
-	RectangleContainer rectContainer;
-
-	AssetFileGenerator assetFileGenerator;
-	ShapeFileGenerator shapeFileGenerator;
+	/** @brief	The map file generator */
+	MapFileGenerator mapFileGenerator;
 	
+	/** @brief	The file out stream */
 	std::ofstream fileOut;
 
-
+	/** @brief	The game map */
 	Map map;
 
 	EventConnection keyPressedConnection;
 	EventConnection keyReleasedConnection;
 	EventConnection mouseLeftButtonUp;
 	EventConnection mouseMovedConn;
-	EventConnectionVector physicsObjectConnVector;
+	EventConnection objectAddedConn;
+	EventConnection objectRemovedConn;
 
-	Selection selection;
+	/**
+	 * @struct	EditorEventBinding
+	 *
+	 * @brief	An editor event binding.
+	 *
+	 * @author	Wiebe
+	 * @date	29-1-2018
+	 */
+
+	struct EditorEventBinding {
+		/** @brief	The mouse left button down connection */
+		EventConnection mouseLeftButtonDown;
+
+		/** @brief	The mouse left button up connection */
+		EventConnection mouseLeftButtonUp;
+
+		/**
+		 * @fn	EditorEventBinding(EventConnection mouseLeftButtonDown, EventConnection mouseLeftButtonUp)
+		 *
+		 * @brief	Constructor
+		 *
+		 * @author	Wiebe
+		 * @date	29-1-2018
+		 *
+		 * @param	mouseLeftButtonDown	The mouse left button down.
+		 * @param	mouseLeftButtonUp  	The mouse left button up.
+		 */
+
+		EditorEventBinding(EventConnection mouseLeftButtonDown, EventConnection mouseLeftButtonUp) :
+			mouseLeftButtonDown(mouseLeftButtonDown),
+			mouseLeftButtonUp(mouseLeftButtonUp)
+		{ }
+	};
+
+
+	/** @brief	The editor event connection map */
+	std::map<PhysicsObject*, EditorEventBinding> editorEventConnMap;
+
+
+	/** @brief	Used for object selection */
+	ObjectSelector selection;
+
+	/**
+	 * @property	Rectangle player, death
+	 *
+	 * @brief	Represents the player and the death
+	 */
+
+	Rectangle player, death;
+
+	/** @brief	True if left control pressed */
+	bool lControlPressed = false;
+
+	/**
+	 * @fn	void Editor::bindEditorEvents(PhysicsObject& object)
+	 *
+	 * @brief	Bind editor events
+	 *
+	 * @author	Wiebe
+	 * @date	29-1-2018
+	 *
+	 * @param [in,out]	object	The physic object subject.
+	 */
+
+	void bindEditorEvents(PhysicsObject& object) {
+		object.bindMouseEvents();
+
+		editorEventConnMap.insert(std::pair<PhysicsObject*, EditorEventBinding>(&object, EditorEventBinding {
+			object.mouseLeftButtonDown.connect([&object, this]() {
+				selection.select(object);
+			}),
+
+			object.mouseLeftButtonUp.connect([&object, this]() {
+				selection.stopDrag();
+			})
+		}));
+	}
+
+	/**
+	 * @fn	void Editor::unbindEditorEvents(PhysicsObject& object)
+	 *
+	 * @brief	Unbind editor events
+	 *
+	 * @author	Wiebe
+	 * @date	29-1-2018
+	 *
+	 * @param [in,out]	object	The physic object subject.
+	 */
+
+	void unbindEditorEvents(PhysicsObject& object) {
+		auto it = editorEventConnMap.find(&object);
+
+		if (it != editorEventConnMap.end()) {
+			it->first->unbindMouseEvents();
+			it->second.mouseLeftButtonDown.disconnect();
+			it->second.mouseLeftButtonUp.disconnect();
+
+			editorEventConnMap.erase(it);
+		}
+	}
 
 public:
 
+	/**
+	 * @fn	Editor::Editor(Statemachine& statemachine)
+	 *
+	 * @brief	Constructor
+	 *
+	 * @author	Wiebe
+	 * @date	29-1-2018
+	 *
+	 * @param [in,out]	statemachine	The statemachine.
+	 */
+
 	Editor(Statemachine& statemachine) :
 		statemachine(statemachine),
-		rectContainer(statemachine.window),
-		dock(rectContainer, statemachine.window),
-		assetFileGenerator(fileOut),
-		shapeFileGenerator(fileOut),
-		camera(statemachine.window, 100)
+		dock(map, statemachine.window, selection),
+		mapFileGenerator(fileOut),
+		camera(statemachine.window, 100),
+		selection(map)
 	{
 		using Type = MapFactory::Type;
 		using Value = MapFactory::Value;
 
-		std::ifstream file("map.txt");
+		// Create new file input stream which we'ill use to read out an map file.
+		std::ifstream file("map_generated.txt");
+
+		// Factory used for generating PhysicsObject instances.
 		MapFactory mapFactory(file);
 
 		mapFactory.registerCreateMethod("player", [&](Map& map, const MapItemProperties& properties) {
 			properties.read({
-				{ "Position", Type::Vector, [&](Value value) { camera.setPosition(*value.vectorValue); } }
+				{ "Position", Type::Vector, [&](Value value) { camera.setPosition(*value.vectorValue); player.setPosition(*value.vectorValue); } }
 			});
 		});
 
 		mapFactory.registerCreateMethod("death", [&](Map& map, const MapItemProperties& properties) {
-			// do nothing
+			properties.read({
+				{ "Position", Type::Vector, [&](Value value) { death.setPosition(*value.vectorValue); } }
+			});
 		});
 
+		// Build the map.
 		map = mapFactory.buildMap();
-		
+
+		// Load the textures.
 		std::map<std::string, sf::Texture>& textures = AssetManager::instance()->getTextures();
 
+		// Add those textures into dummy rectangles and place them into the dock.
 		for (std::map<std::string, sf::Texture>::iterator it = textures.begin(); it != textures.end(); it++) {
 			std::shared_ptr<Rectangle> rect = std::make_shared < Rectangle >();
 
@@ -350,51 +208,87 @@ public:
 		}
 	}
 
+	/**
+	 * @fn	void Editor::entry() override
+	 *
+	 * @brief	Entry for the Editor state
+	 *
+	 * @author	Wiebe
+	 * @date	29-1-2018
+	 */
+
 	void entry() override {
 		camera.connect();
 
+		// Bind events for each PhysicsObject instance.
+		for (const std::unique_ptr<PhysicsObject>& physicsObject : map) {
+			bindEditorEvents(*physicsObject);
+		}
+
+		objectAddedConn = map.objectAdded.connect([this](PhysicsObject& physicsObject) {
+			bindEditorEvents(physicsObject);
+		});
+
+		objectRemovedConn = map.objectRemoving.connect([this](PhysicsObject& physicsObject) {
+			unbindEditorEvents(physicsObject);
+		});
+
+		keyPressedConnection = game.keyboard.keyPressed.connect([this](sf::Keyboard::Key key) {
+			if (key == sf::Keyboard::Key::LControl) {
+				lControlPressed = true;
+			}
+		});
+
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
+				// Go to the main menu.
 				statemachine.doTransition("main-menu");
 			}
-			else if (key == sf::Keyboard::Key::LControl) {
-				std::cout << "Writing assets to file...\n";
-				assetFileGenerator.generate("assets_generated.txt");
+			else if (key == sf::Keyboard::Key::S && lControlPressed) {
+				// Save the map file.
 				std::cout << "Writing map to file...\n";
-				shapeFileGenerator.generate("map_generated.txt", rectContainer);
+				mapFileGenerator.generate("map_generated.txt", map, player, death);
+
+				lControlPressed = false;
+			}
+			else if (key == sf::Keyboard::Key::LControl) {
+				// Left control key released
+				lControlPressed = false;
 			}
 		});
 
 		selection.deselect();
 		selection.connect();
-
-		for (PhysicsObject* physicsObject : map) {
-			physicsObject->bindMouseEvents();
-
-			physicsObjectConnVector.connect(physicsObject->mouseLeftButtonDown, [physicsObject, this]() {
-				selection.select(physicsObject);
-			});
-
-			physicsObjectConnVector.connect(physicsObject->mouseLeftButtonUp, [&physicsObject, this]() {
-				selection.stopDrag();
-			});
-		}
 	}
 
 	void exit() override {
+		// Remove the camera from the window.
 		camera.disconnect();
 		camera.reset();
 
 		selection.disconnect();
 
-		physicsObjectConnVector.disconnect();
+		objectAddedConn.disconnect();
+		objectRemovedConn.disconnect();
 
-		for (PhysicsObject* physicsObject : map) {
-			physicsObject->unbindMouseEvents();
+		// Unbind all events for each PhysicsObject.
+		for (const std::unique_ptr<PhysicsObject>& physicsObject : map) {
+			unbindEditorEvents(*physicsObject);
 		}
 
 		keyReleasedConnection.disconnect();
 	}
+
+	/**
+	 * @fn	void Editor::update(const float elapsedTime) override
+	 *
+	 * @brief	Updates the editor window.
+	 *
+	 * @author	Wiebe
+	 * @date	29-1-2018
+	 *
+	 * @param	elapsedTime	The elapsed time.
+	 */
 
 	void update(const float elapsedTime) override {
 		camera.update(elapsedTime);
@@ -402,13 +296,11 @@ public:
 		map.resolveCollisions();
 		map.draw(statemachine.window);
 		dock.draw();
-		rectContainer.draw();
 
 		selection.update(elapsedTime);
 		selection.draw(statemachine.window);
 
-
-
+		// Draw mouse pointer.
 		sf::RectangleShape rectShape;
 		rectShape.setSize({ 10, 10 });
 		rectShape.setPosition(game.window->mapPixelToCoords(sf::Mouse::getPosition(*game.window)));

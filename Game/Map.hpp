@@ -1,9 +1,48 @@
 #pragma once
 
 #include <vector>
+#include <memory>
+#include <algorithm>
 
 #include "DrawableGroup.hpp"
 #include "CollisionGroup.hpp"
+#include "Events.hpp"
+
+/**
+ * @fn	bool operator== (const std::unique_ptr<PhysicsObject>& lhs, PhysicsObject* rhs)
+ *
+ * @brief	Equality operator for PhysicsObjects
+ *
+ * @author	Wiebe
+ * @date	30-1-2018
+ *
+ * @param 		  	lhs	The first instance to compare.
+ * @param [in,out]	rhs	If non-null, the second instance to compare.
+ *
+ * @return	True if the parameters are considered equivalent.
+ */
+
+bool operator== (const std::unique_ptr<PhysicsObject>& lhs, PhysicsObject* rhs) {
+	return &(*lhs) == rhs;
+}
+
+/**
+ * @fn	bool operator== (PhysicsObject* lhs, const std::unique_ptr<PhysicsObject>& rhs)
+ *
+ * @brief	Equality operator for PhysicsObjects
+ *
+ * @author	Wiebe
+ * @date	30-1-2018
+ *
+ * @param [in,out]	lhs	If non-null, the first instance to compare.
+ * @param 		  	rhs	The second instance to compare.
+ *
+ * @return	True if the parameters are considered equivalent.
+ */
+
+bool operator== (PhysicsObject* lhs, const std::unique_ptr<PhysicsObject>& rhs) {
+	return lhs == &(*rhs);
+}
 
 /**
  * @class	Map
@@ -15,7 +54,7 @@
  * @date	2018-01-25
  */
 
-class Map : public std::vector<PhysicsObject*> {
+class Map : public std::vector<std::unique_ptr<PhysicsObject>> {
 	/** @brief	Vector of drawables */
 	DrawableGroup drawableGroup;
 
@@ -26,6 +65,9 @@ class Map : public std::vector<PhysicsObject*> {
 	std::vector<CollisionGroup*> collisionGroups;
 
 public:
+	EventSource<PhysicsObject&> objectAdded;
+	EventSource<PhysicsObject&> objectRemoving;
+
 	/**
 	 * @fn	void Map::addDrawable(Drawable* drawable)
 	 *
@@ -163,11 +205,73 @@ public:
 		collisionGroups.push_back(&collisionGroup);
 	}
 
+	/**
+	 * @fn	void Map::addObject(PhysicsObject& physicsObject)
+	 *
+	 * @brief	Adds an object
+	 *
+	 * @author	Wiebe
+	 * @date	30-1-2018
+	 *
+	 * @param [in,out]	physicsObject	The physics object.
+	 */
+
 	void addObject(PhysicsObject& physicsObject) {
-		push_back(&physicsObject);
+		addObject(&physicsObject);
 	}
 
+	/**
+	 * @fn	void Map::addObject(PhysicsObject* physicsObject)
+	 *
+	 * @brief	Adds an object
+	 *
+	 * @author	Wiebe
+	 * @date	30-1-2018
+	 *
+	 * @param [in,out]	physicsObject	If non-null, the physics object.
+	 */
+
 	void addObject(PhysicsObject* physicsObject) {
-		push_back(physicsObject);
+		emplace_back(physicsObject);
+		objectAdded.fire(*physicsObject);
+	}
+
+	/**
+	 * @fn	void Map::removeObject(PhysicsObject& physicsObject)
+	 *
+	 * @brief	Removes the object from the map
+	 *
+	 * @author	Wiebe
+	 * @date	30-1-2018
+	 *
+	 * @param [in,out]	physicsObject	The physics object.
+	 */
+
+	void removeObject(PhysicsObject& physicsObject) {
+		removeObject(&physicsObject);
+	}
+
+	/**
+	 * @fn	void Map::removeObject(PhysicsObject* physicsObject)
+	 *
+	 * @brief	Removes the object from the map
+	 *
+	 * @author	Wiebe
+	 * @date	30-1-2018
+	 *
+	 * @param [in,out]	physicsObject	If non-null, the physics object.
+	 */
+
+	void removeObject(PhysicsObject* physicsObject) {
+		objectRemoving.fire(*physicsObject);
+
+		auto it = std::find(begin(), end(), physicsObject);
+
+		if (it != end()) {
+			erase(it);
+		}
+		
+		drawableGroup.erase(*physicsObject);
+		primaryCollisionGroup.erase(*physicsObject);
 	}
 };

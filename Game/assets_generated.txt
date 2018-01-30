@@ -1,0 +1,118 @@
+asset {
+ Id = "game-over"
+ Location = "GameOver.wav"
+}
+asset {
+ Id = "arial"
+ Location = "arial.ttf"
+}
+texture {
+ Id = "brick"
+ Location = "brickWall.png"
+ Repeated = true
+}
+texture {
+ Id = "bush"
+ Location = "bush.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyLeft"
+ Location = "Fimmy/FimmyWalkLeft.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyLeftArm"
+ Location = "Fimmy/walkingleft/FimmyWalkLeftArm.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyLeftBody"
+ Location = "Fimmy/walkingleft/FimmyWalkLeftBody.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyLeftHead"
+ Location = "Fimmy/walkingleft/FimmyWalkLeftHead.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyLeftLeg"
+ Location = "Fimmy/walkingleft/FimmyWalkLeftLeg.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyRight"
+ Location = "Fimmy/FimmyWalkRight.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyRightArm"
+ Location = "Fimmy/walkingRight/FimmyWalkRightArm.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyRightBody"
+ Location = "Fimmy/walkingRight/FimmyWalkRightBody.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyRightHead"
+ Location = "Fimmy/walkingRight/FimmyWalkRightHead.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyRightLeg"
+ Location = "Fimmy/walkingRight/FimmyWalkRightLeg.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyStanding"
+ Location = "Fimmy/fimmy.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyStandingBody"
+ Location = "Fimmy/bodyparts/fimmyBody.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyStandingHead"
+ Location = "Fimmy/bodyparts/fimmyHead.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyStandingLeftArm"
+ Location = "Fimmy/bodyparts/fimmyLeftArm.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyStandingLeftLeg"
+ Location = "Fimmy/bodyparts/fimmyLeftLeg.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyStandingRightArm"
+ Location = "Fimmy/bodyparts/fimmyRightArm.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyStandingRightLeg"
+ Location = "Fimmy/bodyparts/fimmyRightLeg.png"
+ Repeated = false
+}
+texture {
+ Id = "grassFloor"
+ Location = "ground3.png"
+ Repeated = true
+}
+texture {
+ Id = "ground"
+ Location = "ground.png"
+ Repeated = true
+}
+texture {
+ Id = "rockFloor"
+ Location = "ground2.png"
+ Repeated = true
+}

@@ -155,7 +155,6 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AssetFileGenerator.hpp" />
     <ClInclude Include="AssetManager.hpp" />
     <ClInclude Include="Ball.hpp" />
     <ClInclude Include="BaseFactory.hpp" />
@@ -163,7 +162,8 @@
     <ClInclude Include="CurlyBracketList.hpp" />
     <ClInclude Include="Cutscene.hpp" />
     <ClInclude Include="Dock.hpp" />
-    <ClInclude Include="RectangleContainer.hpp" />
+    <ClInclude Include="FreeCamera.hpp" />
+    <ClInclude Include="MapEditor.hpp" />
     <ClInclude Include="DrawableGroup.hpp" />
     <ClInclude Include="Editor.hpp" />
     <ClInclude Include="EventConnectionVector.hpp" />
@@ -194,8 +194,9 @@
     <ClInclude Include="RectStreamOperators.hpp" />
     <ClInclude Include="SecureRead.hpp" />
     <ClInclude Include="QuotedString.hpp" />
+    <ClInclude Include="ObjectSelector.hpp" />
     <ClInclude Include="SettingsMenu.hpp" />
-    <ClInclude Include="ShapeFileGenerator.hpp" />
+    <ClInclude Include="MapFileGenerator.hpp" />
     <ClInclude Include="SpecialCharacter.hpp" />
     <ClInclude Include="State.hpp" />
     <ClInclude Include="GamePauze.hpp" />

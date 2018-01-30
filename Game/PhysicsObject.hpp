@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <fstream>
 
 #include "Drawable.hpp"
 #include "CollisionDetection.hpp"
@@ -41,6 +42,21 @@ public:
 	EventSource<> mouseLeftButtonUp;
 	EventSource<> mouseRightButtonDown;
 	EventSource<> mouseRightButtonUp;
+
+	/**
+	 * @fn	virtual std::ofstream& PhysicsObject::writeToFile(std::ofstream &of) = 0;
+	 *
+	 * @brief	Write an PhysicsObject to an output file stream
+	 *
+	 * @author	Wiebe
+	 * @date	29-1-2018
+	 *
+	 * @param [in,out]	of	The output file stream
+	 *
+	 * @return	A reference to a std::ofstream.
+	 */
+
+	virtual std::ofstream& writeToFile(std::ofstream &of) = 0;
 	
 	void bindMouseEvents() {
 		masterMouseLeftButtonDown = game.mouse.mouseLeftButtonDown.connect([this](sf::Vector2i pos) {
