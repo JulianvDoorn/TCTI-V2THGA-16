@@ -131,7 +131,7 @@ texture {
 
 texture {
 	Id = "ground"
-	Location = "ground.png"
+	Location = "ground01.png"
 	Repeated = true
 }
 
@@ -153,13 +153,13 @@ texture {
 }
 texture {
 	Id = "rockFloor"
-	Location = "ground2.png"
+	Location = "ground02.png"
 	Repeated = true
 }
 
 texture {
 	Id = "grassFloor"
-	Location = "ground3.png"
+	Location = "ground03.png"
 	Repeated = true
 }
 
@@ -186,14 +186,8 @@ death {
 rectangle {
 	Size = Vector2(6400, 200)
 	TextureRect = Rect(0, 0, 6400, 200) 
-	Position = Vector2(0, 600)
+	Position = Vector2(0, 590)
 	TextureId = "rockFloor"
-}
-rectangle {
-	Size = Vector2(6400, 20)
-	TextureRect = Rect(0, 0, 6400, 20)
-	Position = Vector2(0, 500)
-	TextureId = "grassFloor"
 }
 
 rectangle {
