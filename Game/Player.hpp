@@ -11,9 +11,9 @@
 #include "KeyScheme.hpp"
 #include "Label.hpp"
 #include "KeyToString.hpp"
+#include "Bodypart.hpp"
 /** @brief	An (fixed-size) array holding key schemes. Maximum of 100 key schemes. */
 using KeySchemes = std::array<KeyScheme, 100>;
-
 /**
  * @class	Player
  *
@@ -57,36 +57,22 @@ private:
 	/** @brief	The key released connection */
 	EventConnection keyReleasedConn;
 
- /** @brief These variable are used to set a bodypart to display **/
-    bool torsoDisplay = true;
-    bool leftLegDisplay = true;
-    bool rightLegDisplay = true;
-    bool headDisplay = true;
-    bool leftArmDisplay = true;
-    bool rightArmDisplay = true;
-    bool leftArmDraw = true;
-    bool rightArmDraw = true;
-    bool rollRectangleDisplay = false;
-    Rectangle torso;
-    Rectangle leftLeg;
-    Rectangle rightLeg;
-    Rectangle head;
-    Rectangle leftArm;
-    Rectangle rightArm;
-    Rectangle rollRectangle;
+    Bodypart torso;
+    Bodypart leftLeg;
+    Bodypart rightLeg;
+    Bodypart head;
+    Bodypart leftArm;
+    Bodypart rightArm;
+    Bodypart rollRectangle;
+    std::array<Bodypart * ,7> bodyparts;
 
     sf::Vector2f playersize = {20,40};
 
-    int defaultAnimationTimeInMiliseconds = 50;
-    int animationTimeInMiliseconds = defaultAnimationTimeInMiliseconds;
-	int animationCyle = 0;
     sf::Clock animationClock;
 
     Label keyschemeText;
     sf::Clock keySchemeShowClock;
     int keySchemeShowTimeInMilliseconds = 3000;
-
-
 public:
 	/**
 	 * @fn	Player::Player()
@@ -98,15 +84,22 @@ public:
 	 */
 	Player(sf::RenderWindow &window) : window(window){
         setSize(playersize);
-
         setFillColor(sf::Color::Transparent);
-        torso.setSize(playersize);
-        head.setSize(playersize);
-        leftLeg.setSize(playersize);
-        rightLeg.setSize(playersize);
-        leftArm.setSize(playersize);
-        rightArm.setSize(playersize);
+
+        bodyparts[0] = &torso;
+        bodyparts[1] = &head;
+        bodyparts[2] = &leftLeg;
+        bodyparts[3] = &rightLeg;
+        bodyparts[4] = &leftArm;
+        bodyparts[5] = &rightArm;
+        bodyparts[6] = &rollRectangle;
+
+        for(auto &object : bodyparts){
+            object->setSize(playersize);
+        }
+
         rollRectangle.setSize({20,20});
+        rollRectangle.setRollable();
 
 		keyPressedConn = game.keyboard.keyPressed.connect([this](const sf::Keyboard::Key key) {
 			if (key == activeKeyScheme.jump) {
@@ -149,6 +142,42 @@ public:
 		keyReleasedConn.disconnect();
 	}
 
+    void setTextures(){
+        // set all texutres for the standing position
+        torso.setStandingTexture(AssetManager::instance()->getTexture("fimmyStandingBody"));
+        head.setStandingTexture(AssetManager::instance()->getTexture("fimmyStandingHead"));
+        leftArm.setStandingTexture(AssetManager::instance()->getTexture("fimmyStandingLeftArm"));
+        rightArm.setStandingTexture(AssetManager::instance()->getTexture("fimmyStandingRightArm"));
+        leftLeg.setStandingTexture(AssetManager::instance()->getTexture("fimmyStandingLeftLeg"));
+        rightLeg.setStandingTexture(AssetManager::instance()->getTexture("fimmyStandingRightLeg"));
+
+        // set all textures for the run right postion
+        torso.setRunRightTexture(AssetManager::instance()->getTexture("fimmyRightBody"));
+        head.setRunRightTexture(AssetManager::instance()->getTexture("fimmyRightHead"));
+        rightArm.setRunRightTexture(AssetManager::instance()->getTexture("fimmyRightArm"));
+        // set the texture to empty to display nothing.
+        leftArm.setRunRightTexture();
+        rightLeg.setRunRightTexture(AssetManager::instance()->getTexture("fimmyRightLeg"));
+        leftLeg.setRunRightTexture();
+
+        torso.setRunLeftTexture(AssetManager::instance()->getTexture("fimmyLeftBody"));
+        head.setRunLeftTexture(AssetManager::instance()->getTexture("fimmyLeftHead"));
+        leftArm.setRunLeftTexture(AssetManager::instance()->getTexture("fimmyLeftArm"));
+        rightArm.setRunLeftTexture();
+        leftLeg.setRunLeftTexture(AssetManager::instance()->getTexture("fimmyLeftLeg"));
+        rightLeg.setRunLeftTexture();
+
+        rollRectangle.setRollLeftTexture(AssetManager::instance()->getTexture("fimmyRollLeft"));
+        rollRectangle.setRollRightTexture(AssetManager::instance()->getTexture("fimmyRollRight"));
+
+        std::array<sf::Texture,3> runLeftAnnimation = {AssetManager::instance()->getTexture("fimmyLeftLeg"),AssetManager::instance()->getTexture("fimmyLeftLeg2"),AssetManager::instance()->getTexture("fimmyLeftLeg3")};
+        leftLeg.setRunAnnimationTextures(runLeftAnnimation);
+        leftLeg.setVisibleDirections(-1);
+
+        std::array<sf::Texture,3> runRightAnnimation = {AssetManager::instance()->getTexture("fimmyRightLeg"),AssetManager::instance()->getTexture("fimmyRightLeg2"),AssetManager::instance()->getTexture("fimmyRightLeg3")};
+        rightLeg.setRunAnnimationTextures(runRightAnnimation);
+        rightLeg.setVisibleDirections(1);
+    }
 	/**
 	 * @fn	void Player::update(const float elapsedTime) override
 	 *
@@ -160,6 +189,7 @@ public:
 	 * @param	elapsedTime	The elapsed time.
 	 */
 	void update(const float elapsedTime) override {
+        setTextures();
         doWalk();
 		if (jump) {
 			applyForce({ 0, -jumpForce });
@@ -175,13 +205,9 @@ public:
 		}
 
 		PhysicsObject::update(elapsedTime);
-        torso.setPosition(getPosition());
-        leftLeg.setPosition(getPosition());
-        rightLeg.setPosition(getPosition());
-        leftArm.setPosition(getPosition());
-        rightArm.setPosition(getPosition());
-        head.setPosition(getPosition());
-
+        for (auto &object: bodyparts){
+            object->setPosition(getPosition());
+        }
         updateKeySchemeDisplay();
 	}
 
@@ -249,7 +275,6 @@ public:
 	sf::FloatRect getBounds() override {
 		return getGlobalBounds();
 	}
-
 	/**
 	 * @fn	KeyScheme Player::findKeyScheme(const KeyScheme::Difficulty difficulty)
 	 *
@@ -314,118 +339,54 @@ public:
 		return activeKeyScheme;
 	}
 
-
     void doWalk(){
-
         if (walkDirection == 0){
             if (!roll) {
-                if (torsoDisplay) {
-                    torso.setTexture(AssetManager::instance()->getTexture("fimmyStandingBody"));
-                }
-                if (headDisplay) {
-                    head.setTexture(AssetManager::instance()->getTexture("fimmyStandingHead"));
-                }
-                if (leftLegDisplay) {
-                    leftLeg.setTexture(AssetManager::instance()->getTexture("fimmyStandingLeftLeg"));
-                }
-                if (rightLegDisplay) {
-                    rightLeg.setTexture(AssetManager::instance()->getTexture("fimmyStandingRightLeg"));
-                }
-                if (leftArmDisplay) {
-                    leftArm.setTexture(AssetManager::instance()->getTexture("fimmyStandingLeftArm"));
-                    leftArmDraw =true;
-                }
-                if (rightArmDisplay) {
-                    rightArm.setTexture(AssetManager::instance()->getTexture("fimmyStandingRightArm"));
-                    rightArmDraw = true;
+                for(auto &object: bodyparts){
+                    object->useStandingTexture();
                 }
             }
         }
         if (walkDirection != 0) {
             if (walkDirection > 0) {
                 if (!roll) {
-                    if (torsoDisplay) {
-                        torso.setTexture(AssetManager::instance()->getTexture("fimmyRightBody"));
+                    for(auto &object: bodyparts){
+                        object->useRunRightTexture();
+						object->updateAnimation(animationClock,walkDirection);
                     }
-                    if (headDisplay) {
-                        head.setTexture(AssetManager::instance()->getTexture("fimmyRightHead"));
-                    }
-                    if (rightLegDisplay) {
-                        if (animationClock.getElapsedTime().asMilliseconds() > animationTimeInMiliseconds) {
-                            switch (animationCyle) {
-                                case 1:
-                                    rightLeg.setTexture(AssetManager::instance()->getTexture("fimmyRightLeg"));
-                                    break;
-                                case 2:
-                                    rightLeg.setTexture(AssetManager::instance()->getTexture("fimmyRightLeg2"));
-                                    break;
-                                case 3:
-                                    rightLeg.setTexture(AssetManager::instance()->getTexture("fimmyRightLeg3"));
-                                    animationCyle = 0;
-                                    break;
-                            }
-                            animationClock.restart();
-                            animationCyle++;
-                        }
-                    }
-                    if (rightArmDisplay) {
-                        rightArm.setTexture(AssetManager::instance()->getTexture("fimmyRightArm"));
-                    }
-                    leftArmDraw = false;
                 }
             }
             if (walkDirection < 0) {
                 if (!roll) {
-                    if (torsoDisplay) {
-                        torso.setTexture(AssetManager::instance()->getTexture("fimmyLeftBody"));
+                    for(auto &object: bodyparts){
+                        object->useRunLeftTexture();
+						object->updateAnimation(animationClock,walkDirection);
                     }
-                    if (headDisplay) {
-                        head.setTexture(AssetManager::instance()->getTexture("fimmyLeftHead"));
-                    }
-                    if (leftLegDisplay) {
-                        if (animationClock.getElapsedTime().asMilliseconds() > animationTimeInMiliseconds) {
-                            switch (animationCyle) {
-                                case 1:
-                                    leftLeg.setTexture(AssetManager::instance()->getTexture("fimmyLeftLeg"));
-                                    break;
-                                case 2:
-                                    leftLeg.setTexture(AssetManager::instance()->getTexture("fimmyLeftLeg2"));
-                                    break;
-                                case 3:
-                                    leftLeg.setTexture(AssetManager::instance()->getTexture("fimmyLeftLeg3"));
-                                    animationCyle = 0;
-                                    break;
-                            }
-                            animationClock.restart();
-                            animationCyle++;
-                        }
-                    }
-                    if (leftArmDisplay) {
-                        leftArm.setTexture(AssetManager::instance()->getTexture("fimmyLeftArm"));
-                    }
-                    rightArmDraw = false;
                 }
             }
             if (!roll) {
                 setVelocity({ walkDirection * walkspeed, getVelocity().y });
             }
-        } else {
+        }
+        else {
             if (!roll) {
                 setVelocity({ 0, getVelocity().y });
             }
         }
     }
 	void doRoll(){
-        rollRectangleDisplay = true;
+        rollRectangle.enableDraw();
 		if (walkDirection > 0) {
-			rollRectangle.setPosition(getPosition());
-			rollRectangle.setTexture(AssetManager::instance()->getTexture("fimmyRollRight"));
+            for (auto &object : bodyparts){
+                object->roll(walkDirection);
+            }
 			setVelocity({ 299, jumpForce });
 		}
 		else if (walkDirection < 0) {
+            for (auto &object : bodyparts){
+                object->roll(walkDirection);
+            }
 			setVelocity({ -299, jumpForce });
-			rollRectangle.setPosition(getPosition());
-			rollRectangle.setTexture(AssetManager::instance()->getTexture("fimmyRollLeft"));
 		}
 		else {
 			setVelocity({ 0, jumpForce });
@@ -435,7 +396,7 @@ public:
         if (((rollClock.getElapsedTime().asSeconds()) > 1) || getVelocity().x == 0) {
             setSize({ 20, 40 });
 			roll = false;
-            rollRectangleDisplay = false;
+            rollRectangle.disalbeDraw();
 		}
 	}
 
@@ -451,8 +412,6 @@ public:
 			walkspeed = defaultWalkingSpeed;
 		}
 		walkspeed *= 2 * runningSpammingFactor;
-		animationTimeInMiliseconds /= 2;
-		animationTimeInMiliseconds /= int(runningSpammingFactor);
 		if (walkspeed > 299){ //max running speed without glitching
 			walkspeed = 299;
 		}
@@ -465,17 +424,18 @@ public:
 			if (runClock.restart().asMilliseconds() > 200){
 				walkspeed = defaultWalkingSpeed;
 				runningSpammingFactor = 1;
-				animationTimeInMiliseconds = defaultAnimationTimeInMiliseconds;
 			}
 		}
 		else{
 			walkspeed = 100;
-			animationTimeInMiliseconds = defaultAnimationTimeInMiliseconds;
 		}
 	}
 	void unRoll(){
         roll = false;
-        rollRectangleDisplay = false;
+        rollRectangle.disalbeDraw();
+        for (auto &object : bodyparts){
+            object->unRoll();
+        }
         setSize(playersize);
         setPosition({getPosition().x + 20, getPosition().y});
 	}
@@ -502,55 +462,42 @@ public:
     }
     void draw(sf::RenderTarget &window){
         Drawable::draw(window);
-        if (!roll){
-            head.draw(window);
-            torso.draw(window);
-            leftLeg.draw(window);
-            rightLeg.draw(window);
-            if (leftArmDraw) {
-                leftArm.draw(window);
+            for (auto &object : bodyparts){
+                object->draw(window);
             }
-            if (rightArmDraw) {
-                rightArm.draw(window);
-            }
-        }
-
-        if (rollRectangleDisplay){
-            rollRectangle.draw(window);
-        }
         keyschemeText.draw(window);
     }
 
 	void loseLeftLeg(){
-		leftLegDisplay = false;
+		leftLeg.remove();
 	}
 	void loseRightLeg(){
-		rightLegDisplay = false;
+		rightLeg.remove();
 	}
 	void loseLeftArm(){
-		leftArmDisplay = false;
+		leftArm.remove();
 	}
 	void loseRightArm(){
-		rightArmDisplay = false;
+		rightArm.remove();
 	}
 	void loseHead(){
-		headDisplay = false;
+		head.remove();
 	}
 
 	void gainLeftLeft(){
-		leftLegDisplay =true;
+		leftLeg.show();
 	}
 	void gainRightLeg(){
-		rightLegDisplay =true;
+		rightLeg.show();
 	}
 	void gainLeftArm(){
-		leftArmDisplay = true;
+		leftArm.show();
 	}
 	void gainRightArm(){
-		rightArmDisplay = true;
+		rightArm.show();
 	}
 	void gainHead(){
-		headDisplay = true;
+		head.show();
 	}
 
 	using Rectangle::getCollision;
