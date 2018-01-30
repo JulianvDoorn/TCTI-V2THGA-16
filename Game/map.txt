@@ -213,20 +213,20 @@ rectangle {
 }
 
 rectangle {
-	Size = Vector2(120, 30)
-	TextureRect = Rect(0, 0, 40, 10)
+	Size = Vector2(120, 20)
+	TextureRect = Rect(0, 0, 120, 20)
 	Position = Vector2(50, 450)
 	TextureId = "block01"
 }
 rectangle {
-	Size = Vector2(120, 30)
-	TextureRect = Rect(0, 0, 40, 10)
+	Size = Vector2(120, 20)
+	TextureRect = Rect(0, 0, 120, 20)
 	Position = Vector2(50, 400)
 	TextureId = "block02"
 }
 rectangle {
-	Size = Vector2(120, 30)
-	TextureRect = Rect(0, 0, 40, 10)
+	Size = Vector2(120, 20)
+	TextureRect = Rect(0, 0, 120, 20)
 	Position = Vector2(50, 350)
 	TextureId = "block03"
 }
