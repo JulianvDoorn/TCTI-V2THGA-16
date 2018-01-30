@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Collidable.hpp"
+#include "InteractionGroup.hpp"
 
-class CollisionGroup : public std::vector<Collidable*> {
+class CollisionGroup : public std::vector<Collidable*>, public InteractionGroup {
 	/** @brief	The primary collidable to compare with all otherCollidables */
 	Collidable* primaryCollidable;
 
@@ -13,7 +14,7 @@ public:
 	 *
 	 * @brief	Default constructor.
 	 * 			Constructs a CollisionGroup without a primaryCollidable.
-	 * 			Undefined behavior when CollisionGroup::resolveCollisions() is invoked when primaryCollidable == nullptr.
+	 * 			Undefined behavior when CollisionGroup::resolve() is invoked when primaryCollidable == nullptr.
 	 *
 	 * @author	Julian
 	 * @date	2018-01-19
@@ -35,7 +36,7 @@ public:
 
 	CollisionGroup(Collidable& collidable) : primaryCollidable(&collidable) { }
 
-	void setPrimaryCollidable(Collidable& collidable) {
+	void setPrimary(Collidable& collidable) {
 		primaryCollidable = &collidable;
 	}
 
@@ -55,7 +56,7 @@ public:
 	}
 
 	/**
-	 * @fn	void CollisionGroup::resolveCollisions()
+	 * @fn	void CollisionGroup::resolve()
 	 *
 	 * @brief	Resolve collisions between primaryCollidable and all otherCollidables.
 	 *
@@ -63,7 +64,7 @@ public:
 	 * @date	2018-01-19
 	 */
 
-	void resolveCollisions() {
+	void resolve() override {
 		if (primaryCollidable != nullptr) {
 			for (Collidable* collidable : *this) {
 				Collision collision = primaryCollidable->getCollision(*collidable);
