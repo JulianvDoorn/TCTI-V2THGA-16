@@ -194,7 +194,7 @@
     <ClInclude Include="RectStreamOperators.hpp" />
     <ClInclude Include="SecureRead.hpp" />
     <ClInclude Include="QuotedString.hpp" />
-    <ClInclude Include="Selection.hpp" />
+    <ClInclude Include="ObjectSelector.hpp" />
     <ClInclude Include="SettingsMenu.hpp" />
     <ClInclude Include="MapFileGenerator.hpp" />
     <ClInclude Include="SpecialCharacter.hpp" />

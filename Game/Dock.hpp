@@ -7,7 +7,7 @@
 #include "EventConnection.hpp"
 #include "BaseFactory.hpp"
 #include "Button.hpp"
-#include "Selection.hpp"
+#include "ObjectSelector.hpp"
 
 /**
  * @class	Dock
@@ -27,7 +27,7 @@ private:
 	Map &map;
 
 	/** @brief	The selected item */
-	Selection& selection;
+	ObjectSelector& selection;
 
 	/** @brief	The display window */
 	sf::RenderTarget &window;
@@ -56,7 +56,7 @@ public:
 	 * @param [in,out]	_window	   	The window.
 	 */
 
-	Dock(Map &_map, sf::RenderTarget &_window, Selection& selection) : map(_map), window(_window), selection(selection) {
+	Dock(Map &_map, sf::RenderTarget &_window, ObjectSelector& selection) : map(_map), window(_window), selection(selection) {
 		game.mouse.mouseLeftButtonDown.connect([this](const sf::Vector2i mousePos) {
 			selectRectangle(mousePos);
 		});
