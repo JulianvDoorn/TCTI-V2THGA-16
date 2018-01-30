@@ -1,45 +1,51 @@
 1
 00:00:00 --> 00:00:05
-#~dikkebmw.jpg
+#~cutscene/1.png
 Sinds het begin der tijden hebben kinderen 
 knuffels om mee te slapen.
 
 2
 00:00:05 --> 00:00:10
-De oorspronkelijke reden waarom 
-is verloren gegaan over de eeuwen heen.
+#~cutscene/2.jpg
+De oorspronkelijke reden waarom is
+verloren gegaan over de eeuwen heen.
 
 3
 00:00:10 --> 00:00:15
-#~NONE
-De knuffels bescheremen namenlijk zieke
+#~cutscene/3.png
+De knuffels beschermen namenlijk zieke
 kinderen tegen de dood tijdens het slapen.
 
 4
-00:00:15 --> 00:00:18
+00:00:15 --> 00:00:20
+#~cutscene/4.jpg
 Ook de ernstig zieke Stefanie heeft een bescherm knuffel.
 
 5
-00:00:18 --> 00:00:20
-#~bmw.jpg
+00:00:20 --> 00:00:25
+#~cutscene/5.jpg
 Een knuffel konijn genaamt Fimmy.
 
 6
-00:00:20 --> 00:00:25
+00:00:25 --> 00:00:30
+#~cutscene/6.jpg
 Fimmy is elke nacht bezig met het 
 weg rennen voor de dood zodat Stefanie in leven zal blijven.
 
 7
-00:00:25 --> 00:00:30
+#~cutscene/7.jpg
+00:00:30 --> 00:00:35
 Omdat Fimmy al heel veel nachten op de vlucht is 
 geweest van de dood is ze in een slechte staat.
 
 8
-00:00:30 --> 00:00:35
+#~cutscene/8.jpg
+00:00:35 --> 00:00:40
 Fimmy valt naarmaten ze door rent steeds 
 meer uitelkaar 
 
 9
-00:00:35 --> 00:00:40
+00:00:40 --> 00:00:50
+#~cutscene/9.jpg
 en Fimmy vindt het steeds moeilijker om te blijven vluchten 
 voor de dood zodat Stefanie in leven blijft...
