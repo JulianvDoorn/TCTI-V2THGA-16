@@ -1,7 +1,7 @@
 #pragma  once
 
 #include <SFML/Graphics.hpp>
-#include "Rectangle.hpp"
+#include "Body.hpp"
 #include "Label.hpp"
 #include "EventSource.hpp"
 #include "EventConnection.hpp"
@@ -16,11 +16,11 @@
  * @date	25-1-2018
  */
 
-class Button {
+class Button : public sf::Drawable {
 private:
 
     /** @brief	The button background */
-    Rectangle background;
+    Body background;
 
     /** @brief	Size of the background */
     sf::Vector2f backgroundSize;
@@ -52,21 +52,21 @@ private:
 
 	void bindEvents() {
 		mouseLeftButtonDownConn = game.mouse.mouseLeftButtonDown.connect([this](const sf::Vector2i mousePos) {
-			if (background.contains(static_cast<sf::Vector2f>(mousePos))) {
+			if (background.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
 				buttonPressed.fire();
 				isPressed = true;
 			}
 		});
 
 		mouseLeftButtonUpConn = game.mouse.mouseLeftButtonUp.connect([this](const sf::Vector2i mousePos) {
-			if (background.contains(static_cast<sf::Vector2f>(mousePos)) && isPressed) {
+			if (background.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)) && isPressed) {
 				buttonReleased.fire();
 				isPressed = false;
 			}
 		});
 
 		mouseMovedConn = game.mouse.mouseMoved.connect([this](const sf::Vector2i mousePos) {
-			if (background.contains(static_cast<sf::Vector2f>(mousePos))) {
+			if (background.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
 				if (mouseInside == false) {
 					mouseInside = true;
 					mouseEnter.fire();
@@ -206,9 +206,9 @@ public:
 	 * @brief Draw the button on a display.
 	 * @param window The display the button will be displayed on.
 	 */
-    void draw(sf::RenderTarget& window) {
-        background.draw(window);
-        textLabel.draw(window);
+    void draw(sf::RenderTarget& window, sf::RenderStates renderStates) const {
+		window.draw(background);
+		window.draw(textLabel);
     }
 };
 

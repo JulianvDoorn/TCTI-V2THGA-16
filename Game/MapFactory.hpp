@@ -6,7 +6,7 @@
 #include "KeyValuePair.hpp"
 #include "Map.hpp"
 #include "AssetManager.hpp"
-#include "Rectangle.hpp"
+#include "Body.hpp"
 #include "MapItemProperties.hpp"
 #include "StreamManipulators.hpp"
 
@@ -113,7 +113,7 @@ public:
 
 		/** @brief	Register rectangle loader */
 		registerCreateMethod("rectangle", [&](Map& map, const MapItemProperties& properties) {
-			Rectangle* rectangle = new Rectangle();
+			Body* rectangle = new Body();
 
 			bool canCollide = true;
 
@@ -121,7 +121,7 @@ public:
 				{ "Color", Type::Color, [&](Value value) { rectangle->setFillColor(*value.colorValue); } },
 				{ "Size", Type::Vector, [&](Value value) { rectangle->setSize(*value.vectorValue); } },
 				{ "Position", Type::Vector, [&](Value value) { rectangle->setPosition(*value.vectorValue); } },
-				{ "TextureId", Type::String, [&](Value value) { rectangle->setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } },
+				{ "TextureId", Type::String, [&](Value value) { rectangle->setTexture(&AssetManager::instance()->getTexture(*value.stringValue)); } },
 				{ "TextureRect", Type::Rect, [&](Value value) { rectangle->setTextureRect(static_cast<sf::IntRect>(*value.rectValue)); } },
 				{ "CanCollide", Type::Bool, [&](Value value) { canCollide = value.b; } }
 			});

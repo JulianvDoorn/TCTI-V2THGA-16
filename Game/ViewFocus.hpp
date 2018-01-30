@@ -1,11 +1,12 @@
 #pragma once
 
-#include "PhysicsObject.hpp"
+#include "Body.hpp"
 #include "Player.hpp"
+
 class ViewFocus {
 	sf::View view;
 	sf::RenderWindow& window;
-	PhysicsObject* focus;
+	Body* focus;
 	int leftBorder;
 	int rightBorder;
     int topBorder;
@@ -14,7 +15,7 @@ class ViewFocus {
 public:
 
 	/**
-	 * @fn	ViewFocus::ViewFocus(sf::RenderWindow& window, PhysicsObject& physicsObject) : view(sf::Vector2f(150, 10), sf::Vector2f(1280, 720)), window(window), focus(&physicsObject)
+	 * @fn	ViewFocus::ViewFocus(sf::RenderWindow& window, Body& physicsObject) : view(sf::Vector2f(150, 10), sf::Vector2f(1280, 720)), window(window), focus(&physicsObject)
 	 *
 	 * @brief	Constructs a view for window with a focus on physicsObject
 	 *
@@ -25,7 +26,7 @@ public:
 	 * @param [in,out]	physicsObject	The physics object.
 	 */
 
-	ViewFocus(sf::RenderWindow& window, PhysicsObject& physicsObject) :
+	ViewFocus(sf::RenderWindow& window, Body& physicsObject) :
 		view(sf::Vector2f(), sf::Vector2f(1280, 720)),
 		window(window),
 		focus(&physicsObject)
@@ -64,7 +65,7 @@ public:
 	}
 
 	/**
-	 * @fn	void ViewFocus::setFocus(PhysicsObject& focus)
+	 * @fn	void ViewFocus::setFocus(Body& focus)
 	 *
 	 * @brief	Sets the focus of ViewFocus on focus
 	 *
@@ -74,7 +75,7 @@ public:
 	 * @param [in,out]	focus	The focus to apply on ViewFocus.
 	 */
 
-	void setFocus(PhysicsObject& focus) {
+	void setFocus(Body& focus) {
 		this->focus = &focus;
         view.setCenter(focus.getPosition());
 	}

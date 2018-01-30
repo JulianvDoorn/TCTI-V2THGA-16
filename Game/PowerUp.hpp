@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Player.hpp"
-#include "Rectangle.hpp"
+#include "Body.hpp"
 #include "Map.hpp"
 
-class PowerUp : public Rectangle {
+class PowerUp : public Body {
 	EventConnection collidedConn;
 	IntersectionGroup* powerUpIntersectionGroup;
 

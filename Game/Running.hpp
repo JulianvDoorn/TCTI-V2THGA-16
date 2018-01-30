@@ -88,7 +88,7 @@ public:
 		mapFactory.registerCreateMethod("player", [&](Map& map, const MapItemProperties& properties) {
             properties.read({
 				{ "Position", Type::Vector, [&](Value value) { player.setPosition(*value.vectorValue); } },
-				{ "TextureId", Type::String, [&](Value value) { player.setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } }
+				{ "TextureId", Type::String, [&](Value value) { player.setTexture(&AssetManager::instance()->getTexture(*value.stringValue)); } }
 			});
 			map.addDrawable(player);
 			map.setPrimaryCollidable(player);
@@ -97,11 +97,11 @@ public:
 		mapFactory.registerCreateMethod("death", [&](Map& map, const MapItemProperties& properties) {
 			properties.read({
 				{ "Position", Type::Vector, [&](Value value) { death.setPosition(*value.vectorValue); } },
-				{ "TextureId", Type::String, [&](Value value) { death.setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } }
+				{ "TextureId", Type::String, [&](Value value) { death.setTexture(&AssetManager::instance()->getTexture(*value.stringValue)); } }
 			});
-			death.setTexture(AssetManager::instance()->getTexture("death"));
+			death.setTexture(&AssetManager::instance()->getTexture("death"));
 			deathSikkel.setPosition({ -50, 285});
-			deathSikkel.setTexture(AssetManager::instance()->getTexture("deathsikkel"));
+			deathSikkel.setTexture(&AssetManager::instance()->getTexture("deathsikkel"));
 			deathSikkel.setSize({ 100,400 });
 			map.addDrawable(death);
 			map.addDrawable(deathSikkel);
@@ -119,7 +119,7 @@ public:
 				{ "Color", Type::Color, [&](Value value) { heal->setFillColor(*value.colorValue); } },
 				{ "Position", Type::Vector, [&](Value value) { heal->setPosition(*value.vectorValue); } },
 				{ "Value", Type::Float, [&](Value value) { heal->setHealValue(value.floatValue); } },
-				{ "TextureId", Type::String, [&](Value value) { heal->setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } }
+				{ "TextureId", Type::String, [&](Value value) { heal->setTexture(&AssetManager::instance()->getTexture(*value.stringValue)); } }
 			});
 
 			powerUpIntersectionGroup->setPrimary(heal);
@@ -160,7 +160,7 @@ public:
 		focus.update();
 
 		player.collided.connect([this](Collidable& other) {
-			if (other == death) {
+			if (&other == &death) {
 				game.died.fire();
 			}
 		});
@@ -250,7 +250,7 @@ public:
 		map.resolve();
 		map.draw(statemachine.window);
 
-		score.draw(statemachine.window);
+		statemachine.window.draw(score);
 
 		focus.update();
 	}

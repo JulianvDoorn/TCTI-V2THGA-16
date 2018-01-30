@@ -192,10 +192,10 @@ public:
 
 	void update(const float elapsedTime) override {
 		startButton.setPosition({ 640, 360 });
-        menuLabel.draw(statemachine.window);
-		startButton.draw(statemachine.window);
-        settingsButton.draw(statemachine.window);
-		exitButton.draw(statemachine.window);
-		mapEditorButton.draw(statemachine.window);
+		statemachine.window.draw(menuLabel);
+		statemachine.window.draw(startButton);
+		statemachine.window.draw(settingsButton);
+		statemachine.window.draw(exitButton);
+		statemachine.window.draw(mapEditorButton);
 	}
 };

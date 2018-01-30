@@ -11,7 +11,7 @@
  * @date	25-1-2018
  */
 
-class Label {
+class Label : public sf::Drawable {
 private:
 
     /** @brief	The font used */
@@ -138,13 +138,13 @@ public:
      * @brief Draw the text on a window.
      * @param window Reference to window the text will be displayed on.
      */
-    void draw(sf::RenderTarget &window){
+    void draw(sf::RenderTarget &window, sf::RenderStates states) const {
         window.draw(displayText);
     }
 
     /**
      * @brief Get the outer bounds of all the text.
-     * @return Rectangle of the outer bounds of the text.
+     * @return Body of the outer bounds of the text.
      */
     sf::FloatRect getBounds(){
         return displayText.getLocalBounds();

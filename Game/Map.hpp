@@ -60,7 +60,7 @@ bool operator== (T* lhs, const std::unique_ptr<T>& rhs) {
  * @date	2018-01-25
  */
 
-class Map : public std::vector<std::unique_ptr<PhysicsObject>> {
+class Map : public std::vector<std::unique_ptr<Body>> {
 	/** @brief	Vector of drawables */
 	DrawableGroup drawableGroup;
 
@@ -71,8 +71,8 @@ class Map : public std::vector<std::unique_ptr<PhysicsObject>> {
 	std::vector<std::unique_ptr<InteractionGroup>> interactionGroups;
 
 public:
-	EventSource<PhysicsObject&> objectAdded;
-	EventSource<PhysicsObject&> objectRemoving;
+	EventSource<Body&> objectAdded;
+	EventSource<Body&> objectRemoving;
 
 	/**
 	 * @fn	void Map::addDrawable(Drawable* drawable)
@@ -85,7 +85,7 @@ public:
 	 * @param [in,out]	drawable	If non-null, the drawable.
 	 */
 
-	void addDrawable(Drawable* drawable) {
+	void addDrawable(sf::Drawable* drawable) {
 		drawableGroup.add(*drawable);
 	}
 
@@ -100,11 +100,11 @@ public:
 	 * @param [in,out]	drawable	The drawable.
 	 */
 
-	void addDrawable(Drawable& drawable) {
+	void addDrawable(sf::Drawable& drawable) {
 		drawableGroup.add(drawable);
 	}
 
-	void eraseDrawable(Drawable& drawable) {
+	void eraseDrawable(sf::Drawable& drawable) {
 		drawableGroup.erase(drawable);
 	}
 
@@ -233,7 +233,7 @@ public:
 	}
 
 	/**
-	 * @fn	void Map::addObject(PhysicsObject& physicsObject)
+	 * @fn	void Map::addObject(Body& physicsObject)
 	 *
 	 * @brief	Adds an object
 	 *
@@ -243,12 +243,12 @@ public:
 	 * @param [in,out]	physicsObject	The physics object.
 	 */
 
-	void addObject(PhysicsObject& physicsObject) {
+	void addObject(Body& physicsObject) {
 		addObject(&physicsObject);
 	}
 
 	/**
-	 * @fn	void Map::addObject(PhysicsObject* physicsObject)
+	 * @fn	void Map::addObject(Body* physicsObject)
 	 *
 	 * @brief	Adds an object
 	 *
@@ -258,13 +258,13 @@ public:
 	 * @param [in,out]	physicsObject	If non-null, the physics object.
 	 */
 
-	void addObject(PhysicsObject* physicsObject) {
+	void addObject(Body* physicsObject) {
 		emplace_back(physicsObject);
 		objectAdded.fire(*physicsObject);
 	}
 
 	/**
-	 * @fn	void Map::removeObject(PhysicsObject& physicsObject)
+	 * @fn	void Map::removeObject(Body& physicsObject)
 	 *
 	 * @brief	Removes the object from the map
 	 *
@@ -274,12 +274,12 @@ public:
 	 * @param [in,out]	physicsObject	The physics object.
 	 */
 
-	void removeObject(PhysicsObject& physicsObject) {
+	void removeObject(Body& physicsObject) {
 		removeObject(&physicsObject);
 	}
 
 	/**
-	 * @fn	void Map::removeObject(PhysicsObject* physicsObject)
+	 * @fn	void Map::removeObject(Body* physicsObject)
 	 *
 	 * @brief	Removes the object from the map
 	 *
@@ -289,7 +289,7 @@ public:
 	 * @param [in,out]	physicsObject	If non-null, the physics object.
 	 */
 
-	void removeObject(PhysicsObject* physicsObject) {
+	void removeObject(Body* physicsObject) {
 		objectRemoving.fire(*physicsObject);
 
 		auto it = std::find(begin(), end(), physicsObject);

@@ -5,7 +5,6 @@
 
 #include "State.hpp"
 #include "Statemachine.hpp"
-#include "PhysicsObject.hpp"
 #include "MapLoader.hpp"
 #include "MapEditor.hpp"
 
@@ -81,25 +80,25 @@ class Editor : public State {
 
 
 	/** @brief	The editor event connection map */
-	std::map<PhysicsObject*, EditorEventBinding> editorEventConnMap;
+	std::map<Body*, EditorEventBinding> editorEventConnMap;
 
 
 	/** @brief	Used for object selection */
 	ObjectSelector selection;
 
 	/**
-	 * @property	Rectangle player, death
+	 * @property	Body player, death
 	 *
 	 * @brief	Represents the player and the death
 	 */
 
-	Rectangle player, death;
+	Body player, death;
 
 	/** @brief	True if left control pressed */
 	bool lControlPressed = false;
 
 	/**
-	 * @fn	void Editor::bindEditorEvents(PhysicsObject& object)
+	 * @fn	void Editor::bindEditorEvents(Body& object)
 	 *
 	 * @brief	Bind editor events
 	 *
@@ -109,10 +108,10 @@ class Editor : public State {
 	 * @param [in,out]	object	The physic object subject.
 	 */
 
-	void bindEditorEvents(PhysicsObject& object) {
+	void bindEditorEvents(Body& object) {
 		object.bindMouseEvents();
 
-		editorEventConnMap.insert(std::pair<PhysicsObject*, EditorEventBinding>(&object, EditorEventBinding {
+		editorEventConnMap.insert(std::pair<Body*, EditorEventBinding>(&object, EditorEventBinding {
 			object.mouseLeftButtonDown.connect([&object, this]() {
 				selection.select(object);
 			}),
@@ -124,7 +123,7 @@ class Editor : public State {
 	}
 
 	/**
-	 * @fn	void Editor::unbindEditorEvents(PhysicsObject& object)
+	 * @fn	void Editor::unbindEditorEvents(Body& object)
 	 *
 	 * @brief	Unbind editor events
 	 *
@@ -134,7 +133,7 @@ class Editor : public State {
 	 * @param [in,out]	object	The physic object subject.
 	 */
 
-	void unbindEditorEvents(PhysicsObject& object) {
+	void unbindEditorEvents(Body& object) {
 		auto it = editorEventConnMap.find(&object);
 
 		if (it != editorEventConnMap.end()) {
@@ -172,7 +171,7 @@ public:
 		// Create new file input stream which we'ill use to read out an map file.
 		std::ifstream file("map_generated.txt");
 
-		// Factory used for generating PhysicsObject instances.
+		// Factory used for generating Body instances.
 		MapFactory mapFactory(file);
 
 		mapFactory.registerCreateMethod("player", [&](Map& map, const MapItemProperties& properties) {
@@ -199,13 +198,13 @@ public:
 
 		// Add those textures into dummy rectangles and place them into the dock.
 		for (std::map<std::string, sf::Texture>::iterator it = textures.begin(); it != textures.end(); it++) {
-			std::shared_ptr<Rectangle> rect = std::make_shared < Rectangle >();
+			std::shared_ptr<Body> rect = std::make_shared < Body >();
 
 			rect->setSize({ 40.0f, 40.0f });
 			
 			rect->setOutlineColor(sf::Color::White);
 			rect->setOutlineThickness(1.0f);
-			rect->setTexture(it->second);
+			rect->setTexture(&it->second);
 			rect->setTextureRect({ 0, 0, 20, 20 });
 
 			dock.addRectangle(rect);
@@ -224,16 +223,16 @@ public:
 	void entry() override {
 		camera.connect();
 
-		// Bind events for each PhysicsObject instance.
-		for (const std::unique_ptr<PhysicsObject>& physicsObject : map) {
+		// Bind events for each Body instance.
+		for (const std::unique_ptr<Body>& physicsObject : map) {
 			bindEditorEvents(*physicsObject);
 		}
 
-		objectAddedConn = map.objectAdded.connect([this](PhysicsObject& physicsObject) {
+		objectAddedConn = map.objectAdded.connect([this](Body& physicsObject) {
 			bindEditorEvents(physicsObject);
 		});
 
-		objectRemovedConn = map.objectRemoving.connect([this](PhysicsObject& physicsObject) {
+		objectRemovedConn = map.objectRemoving.connect([this](Body& physicsObject) {
 			unbindEditorEvents(physicsObject);
 		});
 
@@ -275,8 +274,8 @@ public:
 		objectAddedConn.disconnect();
 		objectRemovedConn.disconnect();
 
-		// Unbind all events for each PhysicsObject.
-		for (const std::unique_ptr<PhysicsObject>& physicsObject : map) {
+		// Unbind all events for each Body.
+		for (const std::unique_ptr<Body>& physicsObject : map) {
 			unbindEditorEvents(*physicsObject);
 		}
 
@@ -305,7 +304,7 @@ public:
 		dock.draw();
 
 		selection.update(elapsedTime);
-		selection.draw(statemachine.window);
+		statemachine.window.draw(selection);
 
 		// Draw mouse pointer.
 		sf::RectangleShape rectShape;

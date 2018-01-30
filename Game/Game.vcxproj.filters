@@ -71,18 +71,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Drawable.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsObject.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Ball.hpp">
-      <Filter>Header Files\Graphics\Shapes</Filter>
-    </ClInclude>
-    <ClInclude Include="Rectangle.hpp">
-      <Filter>Header Files\Graphics\Shapes</Filter>
-    </ClInclude>
     <ClInclude Include="Shapes.hpp">
       <Filter>Header Files\Graphics\Shapes</Filter>
     </ClInclude>
@@ -292,6 +280,21 @@
     </ClInclude>
     <ClInclude Include="FimmyIcon.hpp">
       <Filter>Header Files\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.hpp">
+      <Filter>Header Files\Graphics\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingObject.hpp">
+      <Filter>Header Files\Graphics\CollisionDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="Serializable.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="ClickableRectangle.hpp">
+      <Filter>Header Files\Graphics\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Body.hpp">
+      <Filter>Header Files\Graphics\Shapes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

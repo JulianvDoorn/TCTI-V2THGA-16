@@ -40,7 +40,7 @@ class Cutscene : public State {
 	EventConnection keyReleasedConnection;
 
 	/** @brief	The background */
-	Rectangle background;
+	Body background;
 
 	/** @brief	The texture */
 	sf::Texture texture;
@@ -162,7 +162,7 @@ public:
 							background.setSize({ 1280, 720 });
 							
 							if (texture.loadFromFile(item->getImagePath())) {
-								background.setTexture(texture, true);
+								background.setTexture(&texture, true);
 							}
 						}
 					}
@@ -185,7 +185,7 @@ public:
 		}
 
 		statemachine.window.draw(background);
-		//imageBackground.draw(statemachine.window);
-		subtitleText.draw(statemachine.window);
+		//statemachine.window.draw(imageBackground);
+		statemachine.window.draw(subtitleText);
 	}
 };

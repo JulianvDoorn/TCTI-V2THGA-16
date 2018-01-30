@@ -156,8 +156,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.hpp" />
-    <ClInclude Include="Ball.hpp" />
     <ClInclude Include="BaseFactory.hpp" />
+    <ClInclude Include="ClickableRectangle.hpp" />
     <ClInclude Include="ConsumeString.hpp" />
     <ClInclude Include="CurlyBracketList.hpp" />
     <ClInclude Include="Cutscene.hpp" />
@@ -168,6 +168,7 @@
     <ClInclude Include="MapEditor.hpp" />
     <ClInclude Include="IntersectionGroup.hpp" />
     <ClInclude Include="InteractionGroup.hpp" />
+    <ClInclude Include="MovingObject.hpp" />
     <ClInclude Include="PowerUp.hpp" />
     <ClInclude Include="PowerUps.hpp" />
     <ClInclude Include="RectangleContainer.hpp" />
@@ -186,7 +187,6 @@
     <ClInclude Include="Collision.hpp" />
     <ClInclude Include="CollisionDetection.hpp" />
     <ClInclude Include="ColorFactory.hpp" />
-    <ClInclude Include="Drawable.hpp" />
     <ClInclude Include="Events.hpp" />
     <ClInclude Include="EventConnection.hpp" />
     <ClInclude Include="EventSource.hpp" />
@@ -201,9 +201,11 @@
     <ClInclude Include="SecureRead.hpp" />
     <ClInclude Include="QuotedString.hpp" />
     <ClInclude Include="ObjectSelector.hpp" />
+    <ClInclude Include="Serializable.hpp" />
     <ClInclude Include="SettingsMenu.hpp" />
     <ClInclude Include="MapFileGenerator.hpp" />
     <ClInclude Include="SpecialCharacter.hpp" />
+    <ClInclude Include="Sprite.hpp" />
     <ClInclude Include="State.hpp" />
     <ClInclude Include="GamePauze.hpp" />
     <ClInclude Include="GameStates.hpp" />
@@ -213,9 +215,8 @@
     <ClInclude Include="MainMenu.hpp" />
     <ClInclude Include="Mouse.hpp" />
     <ClInclude Include="Antagonist.hpp" />
-    <ClInclude Include="PhysicsObject.hpp" />
     <ClInclude Include="Player.hpp" />
-    <ClInclude Include="Rectangle.hpp" />
+    <ClInclude Include="Body.hpp" />
     <ClInclude Include="Running.hpp" />
     <ClInclude Include="Shapes.hpp" />
     <ClInclude Include="SFMLEventDecoder.hpp" />
