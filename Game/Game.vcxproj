@@ -162,6 +162,7 @@
     <ClInclude Include="CurlyBracketList.hpp" />
     <ClInclude Include="Cutscene.hpp" />
     <ClInclude Include="Dock.hpp" />
+    <ClInclude Include="FimmyIcon.hpp" />
     <ClInclude Include="FreeCamera.hpp" />
     <ClInclude Include="Heal.hpp" />
     <ClInclude Include="MapEditor.hpp" />
@@ -174,7 +175,6 @@
     <ClInclude Include="Editor.hpp" />
     <ClInclude Include="EventConnectionVector.hpp" />
     <ClInclude Include="EventDisconnectable.hpp" />
-    <ClInclude Include="fimmyIcon.hpp" />
     <ClInclude Include="InvalidStateException.hpp" />
     <ClInclude Include="KeyValuePair.hpp" />
     <ClInclude Include="Map.hpp" />

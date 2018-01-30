@@ -5,7 +5,7 @@
 #include "GameStates.hpp"
 #include "Events.hpp"
 #include "AssetManager.hpp"
-#include "fimmyIcon.hpp"
+#include "FimmyIcon.hpp"
 
 //#define ENABLE_DEBUG_MODE
 

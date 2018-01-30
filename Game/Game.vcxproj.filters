@@ -239,9 +239,6 @@
     <ClInclude Include="VectorStreamOperators.hpp">
       <Filter>Header Files\MapLoader\StreamUtils</Filter>
     </ClInclude>
-    <ClInclude Include="fimmyIcon.hpp">
-      <Filter>Header Files\Assets</Filter>
-    </ClInclude>
     <ClInclude Include="Dock.hpp">
       <Filter>Header Files\MapEditor</Filter>
     </ClInclude>
@@ -292,6 +289,9 @@
     </ClInclude>
     <ClInclude Include="PowerUp.hpp">
       <Filter>Header Files\PowerUps</Filter>
+    </ClInclude>
+    <ClInclude Include="FimmyIcon.hpp">
+      <Filter>Header Files\Assets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
