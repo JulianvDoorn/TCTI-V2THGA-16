@@ -61,6 +61,9 @@
     <Filter Include="Header Files\MapLoader\Factories\Utils">
       <UniqueIdentifier>{36446231-c35e-4b3f-9395-66d925d7d2eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\PowerUps">
+      <UniqueIdentifier>{6fde79ef-8cff-460c-aea9-9f1ebc3e64c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -272,14 +275,23 @@
     <ClInclude Include="ObjectSelector.hpp">
       <Filter>Header Files\MapEditor</Filter>
     </ClInclude>
-    <ClInclude Include="Healing.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="IntersectionGroup.hpp">
       <Filter>Header Files\Graphics\CollisionDetection</Filter>
     </ClInclude>
     <ClInclude Include="InteractionGroup.hpp">
       <Filter>Header Files\Graphics\CollisionDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="RectangleContainer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerUps.hpp">
+      <Filter>Header Files\PowerUps</Filter>
+    </ClInclude>
+    <ClInclude Include="Heal.hpp">
+      <Filter>Header Files\PowerUps</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerUp.hpp">
+      <Filter>Header Files\PowerUps</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

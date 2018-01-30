@@ -23,7 +23,7 @@ public:
 	}
 
 	void erase(Drawable& drawable) {
-		auto it = std::find(begin(), end(), &drawable);
+		auto it = std::find(std::vector<Drawable*>::begin(), std::vector<Drawable*>::end(), &drawable);
 
 		if (it != end()) {
 			std::vector<Drawable*>::erase(it);

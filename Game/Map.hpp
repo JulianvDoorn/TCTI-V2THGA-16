@@ -7,41 +7,46 @@
 #include "DrawableGroup.hpp"
 #include "CollisionGroup.hpp"
 #include "InteractionGroup.hpp"
+#include "IntersectionGroup.hpp"
 #include "Events.hpp"
 
 /**
- * @fn	bool operator== (const std::unique_ptr<PhysicsObject>& lhs, PhysicsObject* rhs)
+ * @fn	template <class T> bool operator== (const std::unique_ptr<T>& lhs, T* rhs)
  *
  * @brief	Equality operator for PhysicsObjects
  *
  * @author	Wiebe
  * @date	30-1-2018
  *
+ * @tparam	T	Generic type parameter.
  * @param 		  	lhs	The first instance to compare.
  * @param [in,out]	rhs	If non-null, the second instance to compare.
  *
  * @return	True if the parameters are considered equivalent.
  */
 
-bool operator== (const std::unique_ptr<PhysicsObject>& lhs, PhysicsObject* rhs) {
+template <class T>
+bool operator== (const std::unique_ptr<T>& lhs, T* rhs) {
 	return &(*lhs) == rhs;
 }
 
 /**
- * @fn	bool operator== (PhysicsObject* lhs, const std::unique_ptr<PhysicsObject>& rhs)
+ * @fn	template <class T> bool operator== (T* lhs, const std::unique_ptr<T>& rhs)
  *
  * @brief	Equality operator for PhysicsObjects
  *
  * @author	Wiebe
  * @date	30-1-2018
  *
+ * @tparam	T	Generic type parameter.
  * @param [in,out]	lhs	If non-null, the first instance to compare.
  * @param 		  	rhs	The second instance to compare.
  *
  * @return	True if the parameters are considered equivalent.
  */
 
-bool operator== (PhysicsObject* lhs, const std::unique_ptr<PhysicsObject>& rhs) {
+template <class T>
+bool operator== (T* lhs, const std::unique_ptr<T>& rhs) {
 	return lhs == &(*rhs);
 }
 
@@ -62,8 +67,8 @@ class Map : public std::vector<std::unique_ptr<PhysicsObject>> {
 	/** @brief	Vector of collidables directly managed by Map */
 	CollisionGroup primaryCollisionGroup;
 
-	/** @brief	Collision group references that Map::resolve() should resolve as well. Nude pointers are used since the references CollisionGroups belong to other objects. */
-	std::vector<InteractionGroup*> collisionGroups;
+	/** @brief	Interaction group references that Map::resolve() should resolve as well. unique_ptrs are used since the InteractionGroups belong to this map only. */
+	std::vector<std::unique_ptr<InteractionGroup>> interactionGroups;
 
 public:
 	EventSource<PhysicsObject&> objectAdded;
@@ -97,6 +102,10 @@ public:
 
 	void addDrawable(Drawable& drawable) {
 		drawableGroup.add(drawable);
+	}
+
+	void eraseDrawable(Drawable& drawable) {
+		drawableGroup.erase(drawable);
 	}
 
 	/**
@@ -186,7 +195,7 @@ public:
 	void resolve() {
 		primaryCollisionGroup.resolve();
 
-		for (InteractionGroup* collisionGroup : collisionGroups) {
+		for (const std::unique_ptr<InteractionGroup>& collisionGroup : interactionGroups) {
 			collisionGroup->resolve();
 		}
 	}
@@ -203,7 +212,24 @@ public:
 	 */
 
 	void addObjectGroup(InteractionGroup& collisionGroup) {
-		collisionGroups.push_back(&collisionGroup);
+		addObjectGroup(&collisionGroup);
+	}
+
+	void addObjectGroup(InteractionGroup* collisionGroup) {
+		interactionGroups.emplace_back(collisionGroup);
+	}
+
+	void removeObjectGroup(InteractionGroup& collisionGroup) {
+		removeObjectGroup(&collisionGroup);
+	}
+
+	void removeObjectGroup(InteractionGroup* collisionGroup) {
+		auto it = std::find(interactionGroups.begin(), interactionGroups.end(), collisionGroup);
+
+		if (it != interactionGroups.end()) {
+			it->release();
+			interactionGroups.erase(it);
+		}
 	}
 
 	/**
