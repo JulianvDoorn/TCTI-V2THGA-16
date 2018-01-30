@@ -164,6 +164,10 @@
     <ClInclude Include="Dock.hpp" />
     <ClInclude Include="FreeCamera.hpp" />
     <ClInclude Include="MapEditor.hpp" />
+    <ClInclude Include="Healing.hpp" />
+    <ClInclude Include="IntersectionGroup.hpp" />
+    <ClInclude Include="InteractionGroup.hpp" />
+    <ClInclude Include="RectangleContainer.hpp" />
     <ClInclude Include="DrawableGroup.hpp" />
     <ClInclude Include="Editor.hpp" />
     <ClInclude Include="EventConnectionVector.hpp" />

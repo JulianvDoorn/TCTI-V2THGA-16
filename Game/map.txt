@@ -3,10 +3,20 @@ asset {
 	Location = "GameOver.wav"
 }
 
+asset {
+	Id = "jump"
+	Location = "jump.wav"
+}
+
 texture {
 	Id = "death"
 	Location = "death.png"
 }
+texture {
+	Id = "deathsikkel"
+	Location = "sikkel.png"
+}
+
 texture {
 	Id = "fimmyStanding"
 	Location = "Fimmy/Fimmy.png"
@@ -237,4 +247,9 @@ rectangle {
 rectangle {
     Size = Vector2(20,40)
     TextureId = "fimmyStandingBody"
+}
+
+power-up {
+	Size = Vector2(40,40)
+	Position = Vector2(400, 450)	
 }

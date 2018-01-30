@@ -6,6 +6,7 @@
 
 #include "DrawableGroup.hpp"
 #include "CollisionGroup.hpp"
+#include "InteractionGroup.hpp"
 #include "Events.hpp"
 
 /**
@@ -61,8 +62,8 @@ class Map : public std::vector<std::unique_ptr<PhysicsObject>> {
 	/** @brief	Vector of collidables directly managed by Map */
 	CollisionGroup primaryCollisionGroup;
 
-	/** @brief	Collision group references that Map::resolveCollisions() should resolve as well. Nude pointers are used since the references CollisionGroups belong to other objects. */
-	std::vector<CollisionGroup*> collisionGroups;
+	/** @brief	Collision group references that Map::resolve() should resolve as well. Nude pointers are used since the references CollisionGroups belong to other objects. */
+	std::vector<InteractionGroup*> collisionGroups;
 
 public:
 	EventSource<PhysicsObject&> objectAdded;
@@ -140,7 +141,7 @@ public:
 	 */
 
 	void setPrimaryCollidable(Collidable* collidable) {
-		primaryCollisionGroup.setPrimaryCollidable(*collidable);
+		primaryCollisionGroup.setPrimary(*collidable);
 	}
 
 	/**
@@ -155,7 +156,7 @@ public:
 	 */
 
 	void setPrimaryCollidable(Collidable& collidable) {
-		primaryCollisionGroup.setPrimaryCollidable(collidable);
+		primaryCollisionGroup.setPrimary(collidable);
 	}
 
 	/**
@@ -174,7 +175,7 @@ public:
 	}
 
 	/**
-	 * @fn	void Map::resolveCollisions()
+	 * @fn	void Map::resolve()
 	 *
 	 * @brief	Resolve collisions of primaryCollisionGroup and all attached collision groups
 	 *
@@ -182,16 +183,16 @@ public:
 	 * @date	2018-01-25
 	 */
 
-	void resolveCollisions() {
-		primaryCollisionGroup.resolveCollisions();
+	void resolve() {
+		primaryCollisionGroup.resolve();
 
-		for (CollisionGroup* collisionGroup : collisionGroups) {
-			collisionGroup->resolveCollisions();
+		for (InteractionGroup* collisionGroup : collisionGroups) {
+			collisionGroup->resolve();
 		}
 	}
 
 	/**
-	 * @fn	void Map::addCollisionGroup(CollisionGroup& collisionGroup)
+	 * @fn	void Map::addObjectGroup(InteractionGroup& collisionGroup)
 	 *
 	 * @brief	Adds a collision group reference to the collisionsGroups vector
 	 *
@@ -201,7 +202,7 @@ public:
 	 * @param [in,out]	collisionGroup	Group the collision belongs to.
 	 */
 
-	void addCollisionGroup(CollisionGroup& collisionGroup) {
+	void addObjectGroup(InteractionGroup& collisionGroup) {
 		collisionGroups.push_back(&collisionGroup);
 	}
 

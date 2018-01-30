@@ -187,6 +187,10 @@ public:
 			});
 		});
 
+		mapFactory.registerCreateMethod("power-up", [&](Map& map, const MapItemProperties& properties) {
+			// do nothing
+		});
+
 		// Build the map.
 		map = mapFactory.buildMap();
 
@@ -293,7 +297,7 @@ public:
 	void update(const float elapsedTime) override {
 		camera.update(elapsedTime);
 
-		map.resolveCollisions();
+		map.resolve();
 		map.draw(statemachine.window);
 		dock.draw();
 

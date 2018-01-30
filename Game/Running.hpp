@@ -9,6 +9,8 @@
 #include "ViewFocus.hpp"
 #include "Label.hpp"
 #include "MapLoader.hpp"
+#include "Healing.hpp"
+#include "IntersectionGroup.hpp"
 
 /**
  * @class	Running
@@ -41,9 +43,9 @@ class Running : public State {
 
 	/** @brief	The player */
     Player player;
-
 	/** @brief	The death */
 	Antagonist death;
+	Antagonist deathSikkel;
 
 	/** @brief	The score label */
 	Label score;
@@ -53,6 +55,7 @@ class Running : public State {
 	/** @brief	The game over counter */
 	float gameOverCounter = 3.0f;
 
+	CollisionGroup powerUp;
 public:
 
 	/**
@@ -79,6 +82,7 @@ public:
 		std::ifstream file("map.txt");
 		MapFactory mapFactory(file);
 
+
 		mapFactory.registerCreateMethod("player", [&](Map& map, const MapItemProperties& properties) {
             properties.read({
 				{ "Position", Type::Vector, [&](Value value) { player.setPosition(*value.vectorValue); } },
@@ -93,12 +97,41 @@ public:
 				{ "Position", Type::Vector, [&](Value value) { death.setPosition(*value.vectorValue); } },
 				{ "TextureId", Type::String, [&](Value value) { death.setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } }
 			});
+			deathSikkel.setPosition({ -50, 285});
+			deathSikkel.setTexture(AssetManager::instance()->getTexture("deathsikkel"));
+			deathSikkel.setSize({ 100,400 });
 			map.addDrawable(death);
+			map.addDrawable(deathSikkel);
 			map.addCollidable(death);
 		});
 
+		mapFactory.registerCreateMethod("power-up", [&](Map& map, const MapItemProperties& properties) {
+			Healing* healing = new Healing();
+
+			properties.read({
+				{ "Color", Type::Color, [&](Value value) { healing->setFillColor(*value.colorValue); } },
+				{ "Size", Type::Vector, [&](Value value) { healing->setSize(*value.vectorValue); } },
+				{ "Position", Type::Vector, [&](Value value) { healing->setPosition(*value.vectorValue); } },
+				{ "TextureId", Type::String, [&](Value value) { healing->setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } },
+				{ "TextureRect", Type::Rect, [&](Value value) { healing->setTextureRect(static_cast<sf::IntRect>(*value.rectValue)); } }
+			});
+
+			map.addDrawable(healing);
+			map.addObject(healing);
+
+			healing->collided.connect([this](Collidable& other) {
+				std::cout << "collided with power-up" << std::endl;
+			});
+
+			IntersectionGroup* powerUpIntersectionGroup = new IntersectionGroup();
+
+			powerUpIntersectionGroup->setPrimary(*healing);
+			powerUpIntersectionGroup->add(player);
+
+			map.addObjectGroup(*powerUpIntersectionGroup);
+		});
 		map = mapFactory.buildMap();
-	}
+			}
 
 	/**
 	 * @fn	void Running::entry() override
@@ -112,6 +145,7 @@ public:
 	void entry() override {
 		backgroundMusic.openFromFile("sound.wav");
 		backgroundMusic.setLoop(true);
+		backgroundMusic.setVolume(15);
 		backgroundMusic.play();
 		focus.setFocus(player);
         focus.setLeftBorder(500);
@@ -178,9 +212,14 @@ public:
 	 */
 
 	void update(const float elapsedTime) override {
+		map.resolve();
+
 		if (!gameOver) {
+			//player.update(elapsedTime);
+			//player.draw(statemachine.window);
 			player.update(elapsedTime);
 			death.update(elapsedTime);
+			deathSikkel.update(elapsedTime);
 		}
 		else if (gameOverCounter > 0) {
 			gameOverCounter -= elapsedTime;
@@ -191,8 +230,9 @@ public:
 		}
 
 		death.update(elapsedTime);
+		deathSikkel.update(elapsedTime);
 
-		map.resolveCollisions();
+		map.resolve();
 		map.draw(statemachine.window);
 
 		score.draw(statemachine.window);
