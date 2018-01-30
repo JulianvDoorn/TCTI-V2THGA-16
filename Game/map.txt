@@ -9,7 +9,7 @@ asset {
 }
 texture {
 	Id = "background"
-	Location = "background.png"
+	Location = "background2.png"
 }
 
 texture {

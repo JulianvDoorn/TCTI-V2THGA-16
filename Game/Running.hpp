@@ -80,8 +80,8 @@ public:
 		using Type = MapFactory::Type;
 		using Value = MapFactory::Value;
 
-		std::ifstream file("map.txt");
-		//std::ifstream file("map_generated.txt");
+		//std::ifstream file("map.txt");
+		std::ifstream file("map_generated.txt");
 		MapFactory mapFactory(file);
 
 
@@ -99,6 +99,7 @@ public:
 				{ "Position", Type::Vector, [&](Value value) { death.setPosition(*value.vectorValue); } },
 				{ "TextureId", Type::String, [&](Value value) { death.setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } }
 			});
+			death.setTexture(AssetManager::instance()->getTexture("death"));
 			deathSikkel.setPosition({ -50, 285});
 			deathSikkel.setTexture(AssetManager::instance()->getTexture("deathsikkel"));
 			deathSikkel.setSize({ 100,400 });
