@@ -1,205 +1,184 @@
 asset {
- Id = "game-over"
- Location = "GameOver.wav"
+	Id = "game-over"
+	Location = "GameOver.wav"
 }
+
 asset {
- Id = "jump"
- Location = "jump.wav"
+	Id = "jump"
+	Location = "jump.wav"
 }
-asset {
- Id = "arial"
- Location = "arial.ttf"
+
+texture {
+	Id = "death"
+	Location = "death.png"
 }
 texture {
- Id = "block01"
- Location = "block01.png"
- Repeated = true
+	Id = "deathsikkel"
+	Location = "sikkel.png"
+}
+
+texture {
+	Id = "fimmyStanding"
+	Location = "Fimmy/Fimmy.png"
 }
 texture {
- Id = "block02"
- Location = "block02.png"
- Repeated = true
+	Id = "fimmyStandingBody"
+	Location = "Fimmy/bodyparts/FimmyBody.png"
 }
 texture {
- Id = "block03"
- Location = "block03.png"
- Repeated = true
+	Id = "fimmyStandingHead"
+	Location = "Fimmy/bodyparts/FimmyHead.png"
 }
 texture {
- Id = "brick"
- Location = "brickWall.png"
- Repeated = true
+	Id = "fimmyStandingLeftArm"
+	Location = "Fimmy/bodyparts/FimmyLeftArm.png"
 }
 texture {
- Id = "bush"
- Location = "bush.png"
- Repeated = false
+	Id = "fimmyStandingRightArm"
+	Location = "Fimmy/bodyparts/FimmyRightArm.png"
 }
 texture {
- Id = "death"
- Location = "death.png"
- Repeated = false
+	Id = "fimmyStandingLeftLeg"
+	Location = "Fimmy/bodyparts/FimmyLeftLeg.png"
 }
 texture {
- Id = "deathsikkel"
- Location = "sikkel.png"
- Repeated = false
+	Id = "fimmyStandingRightLeg"
+	Location = "Fimmy/bodyparts/FimmyRightLeg.png"
+}
+
+texture {
+	Id = "fimmyLeft"
+	Location = "Fimmy/FimmyWalkLeft.png"
 }
 texture {
- Id = "fimmyLeft"
- Location = "Fimmy/FimmyWalkLeft.png"
- Repeated = false
+	Id = "fimmyLeftArm"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftArm.png"
 }
 texture {
- Id = "fimmyLeftArm"
- Location = "Fimmy/walkingleft/FimmyWalkLeftArm.png"
- Repeated = false
+	Id = "fimmyLeftArm2"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftArm2.png"
 }
 texture {
- Id = "fimmyLeftArm2"
- Location = "Fimmy/walkingleft/FimmyWalkLeftArm2.png"
- Repeated = false
+	Id = "fimmyLeftArm3"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftArm3.png"
 }
 texture {
- Id = "fimmyLeftArm3"
- Location = "Fimmy/walkingleft/FimmyWalkLeftArm3.png"
- Repeated = false
+	Id = "fimmyLeftBody"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftBody.png"
 }
 texture {
- Id = "fimmyLeftBody"
- Location = "Fimmy/walkingleft/FimmyWalkLeftBody.png"
- Repeated = false
+	Id = "fimmyLeftHead"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftHead.png"
 }
 texture {
- Id = "fimmyLeftHead"
- Location = "Fimmy/walkingleft/FimmyWalkLeftHead.png"
- Repeated = false
+	Id = "fimmyLeftLeg"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftLeg.png"
 }
 texture {
- Id = "fimmyLeftLeg"
- Location = "Fimmy/walkingleft/FimmyWalkLeftLeg.png"
- Repeated = false
+	Id = "fimmyLeftLeg2"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftLeg2.png"
 }
 texture {
- Id = "fimmyLeftLeg2"
- Location = "Fimmy/walkingleft/FimmyWalkLeftLeg2.png"
- Repeated = false
+	Id = "fimmyLeftLeg3"
+	Location = "Fimmy/walkingleft/FimmyWalkLeftLeg3.png"
+}
+
+texture {
+	Id = "fimmyRight"
+	Location = "Fimmy/FimmyWalkRight.png"
 }
 texture {
- Id = "fimmyLeftLeg3"
- Location = "Fimmy/walkingleft/FimmyWalkLeftLeg3.png"
- Repeated = false
+	Id = "fimmyRightArm"
+	Location = "Fimmy/walkingright/FimmyWalkRightArm.png"
 }
 texture {
- Id = "fimmyRight"
- Location = "Fimmy/FimmyWalkRight.png"
- Repeated = false
+	Id = "fimmyRightArm2"
+	Location = "Fimmy/walkingright/FimmyWalkRightArm2.png"
 }
 texture {
- Id = "fimmyRightArm"
- Location = "Fimmy/walkingright/FimmyWalkRightArm.png"
- Repeated = false
+	Id = "fimmyRightArm3"
+	Location = "Fimmy/walkingright/FimmyWalkRightArm3.png"
 }
 texture {
- Id = "fimmyRightArm2"
- Location = "Fimmy/walkingright/FimmyWalkRightArm2.png"
- Repeated = false
+	Id = "fimmyRightBody"
+	Location = "Fimmy/walkingright/FimmyWalkRightBody.png"
 }
 texture {
- Id = "fimmyRightArm3"
- Location = "Fimmy/walkingright/FimmyWalkRightArm3.png"
- Repeated = false
+	Id = "fimmyRightHead"
+	Location = "Fimmy/walkingright/FimmyWalkRightHead.png"
 }
 texture {
- Id = "fimmyRightBody"
- Location = "Fimmy/walkingright/FimmyWalkRightBody.png"
- Repeated = false
+	Id = "fimmyRightLeg"
+	Location = "Fimmy/walkingright/FimmyWalkRightLeg.png"
 }
 texture {
- Id = "fimmyRightHead"
- Location = "Fimmy/walkingright/FimmyWalkRightHead.png"
- Repeated = false
+	Id = "fimmyRightLeg2"
+	Location = "Fimmy/walkingright/FimmyWalkRightLeg2.png"
 }
 texture {
- Id = "fimmyRightLeg"
- Location = "Fimmy/walkingright/FimmyWalkRightLeg.png"
- Repeated = false
+	Id = "fimmyRightLeg3"
+	Location = "Fimmy/walkingright/FimmyWalkRightLeg3.png"
+}
+
+texture {
+    Id = "fimmyRollLeft"
+    Location = "Fimmy/FimmyRollLeft.png"
 }
 texture {
- Id = "fimmyRightLeg2"
- Location = "Fimmy/walkingright/FimmyWalkRightLeg2.png"
- Repeated = false
+    Id = "fimmyRollRight"
+    Location = "Fimmy/FimmyRollRight.png"
+}
+
+texture {
+	Id = "ground"
+	Location = "ground01.png"
+	Repeated = true
+}
+
+texture {
+	Id = "block01"
+	Location = "block01.png"
+	Repeated = true
+}
+
+texture {
+	Id = "block02"
+	Location = "block02.png"
+	Repeated = true
 }
 texture {
- Id = "fimmyRightLeg3"
- Location = "Fimmy/walkingright/FimmyWalkRightLeg3.png"
- Repeated = false
+	Id = "block03"
+	Location = "block03.png"
+	Repeated = true
 }
 texture {
- Id = "fimmyRollLeft"
- Location = "Fimmy/FimmyRollLeft.png"
- Repeated = false
+	Id = "rockFloor"
+	Location = "ground02.png"
+	Repeated = true
 }
+
 texture {
- Id = "fimmyRollRight"
- Location = "Fimmy/FimmyRollRight.png"
- Repeated = false
+	Id = "grassFloor"
+	Location = "ground03.png"
+	Repeated = true
 }
+
 texture {
- Id = "fimmyStanding"
- Location = "Fimmy/Fimmy.png"
- Repeated = false
+	Id = "bush"
+	Location = "bush.png"
 }
+
 texture {
- Id = "fimmyStandingBody"
- Location = "Fimmy/bodyparts/FimmyBody.png"
- Repeated = false
-}
-texture {
- Id = "fimmyStandingHead"
- Location = "Fimmy/bodyparts/FimmyHead.png"
- Repeated = false
-}
-texture {
- Id = "fimmyStandingLeftArm"
- Location = "Fimmy/bodyparts/FimmyLeftArm.png"
- Repeated = false
-}
-texture {
- Id = "fimmyStandingLeftLeg"
- Location = "Fimmy/bodyparts/FimmyLeftLeg.png"
- Repeated = false
-}
-texture {
- Id = "fimmyStandingRightArm"
- Location = "Fimmy/bodyparts/FimmyRightArm.png"
- Repeated = false
-}
-texture {
- Id = "fimmyStandingRightLeg"
- Location = "Fimmy/bodyparts/FimmyRightLeg.png"
- Repeated = false
-}
-texture {
- Id = "grassFloor"
- Location = "ground3.png"
- Repeated = true
-}
-texture {
- Id = "ground"
- Location = "ground.png"
- Repeated = true
-}
-texture {
- Id = "rockFloor"
- Location = "ground2.png"
- Repeated = true
+	Id = "brick"
+	Location = "brickWall.png"
+	Repeated = true
 }
 player {
  Position = Vector2(150, 450)
 }
 death {
  Position = Vector2(-200, 285)
+ TextureId = "death"
 }
 rectangle {
  Size = Vector2(4344.29, 200)

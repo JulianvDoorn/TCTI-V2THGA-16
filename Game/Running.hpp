@@ -79,7 +79,7 @@ public:
 		using Value = MapFactory::Value;
 
 		//std::ifstream file("map.txt");
-		std::ifstream file("map.txt");
+		std::ifstream file("map_generated.txt");
 		MapFactory mapFactory(file);
 
 
