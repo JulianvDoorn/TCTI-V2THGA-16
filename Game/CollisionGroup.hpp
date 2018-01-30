@@ -36,6 +36,10 @@ public:
 
 	CollisionGroup(Collidable& collidable) : primaryCollidable(&collidable) { }
 
+	Collidable& getPrimary() {
+		return *primaryCollidable;
+	}
+
 	void setPrimary(Collidable& collidable) {
 		primaryCollidable = &collidable;
 	}
@@ -74,13 +78,13 @@ public:
 
 	void resolve() override {
 		if (primaryCollidable != nullptr) {
-			for (Collidable* collidable : *this) {
+			std::for_each(begin(), end(), [this](Collidable* collidable) {
 				Collision collision = primaryCollidable->getCollision(*collidable);
 
 				if (collision.intersects()) {
 					primaryCollidable->resolveCollision(*collidable, collision);
 				}
-			}
+			});
 		}
 	}
 };

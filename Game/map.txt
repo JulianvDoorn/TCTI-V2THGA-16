@@ -243,7 +243,6 @@ rectangle {
     TextureId = "fimmyStandingBody"
 }
 
-power-up {
-	Size = Vector2(40,40)
+heal-power-up {
 	Position = Vector2(400, 450)	
 }

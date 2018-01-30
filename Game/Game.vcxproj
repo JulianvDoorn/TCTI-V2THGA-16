@@ -163,10 +163,12 @@
     <ClInclude Include="Cutscene.hpp" />
     <ClInclude Include="Dock.hpp" />
     <ClInclude Include="FreeCamera.hpp" />
+    <ClInclude Include="Heal.hpp" />
     <ClInclude Include="MapEditor.hpp" />
-    <ClInclude Include="Healing.hpp" />
     <ClInclude Include="IntersectionGroup.hpp" />
     <ClInclude Include="InteractionGroup.hpp" />
+    <ClInclude Include="PowerUp.hpp" />
+    <ClInclude Include="PowerUps.hpp" />
     <ClInclude Include="RectangleContainer.hpp" />
     <ClInclude Include="DrawableGroup.hpp" />
     <ClInclude Include="Editor.hpp" />

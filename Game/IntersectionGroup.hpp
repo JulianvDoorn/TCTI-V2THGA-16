@@ -11,18 +11,38 @@ public:
 	IntersectionGroup() : primaryCollidable(nullptr) { }
 	
 	void add(Collidable& collidable) {
-		push_back(&collidable);
+		add(&collidable);
+	}
+
+	void add(Collidable* collidable) {
+		push_back(collidable);
+	}
+
+	void erase(Collidable& collidable) {
+		erase(&collidable);
+	}
+
+	void erase(Collidable* collidable) {
+		auto it = std::find(begin(), end(), collidable);
+
+		if (it != end()) {
+			std::vector<Collidable*>::erase(it);
+		}
 	}
 
 	void setPrimary(Collidable& collidable) {
-		primaryCollidable = &collidable;
+		setPrimary(&collidable);
+	}
+
+	void setPrimary(Collidable* collidable) {
+		primaryCollidable = collidable;
 	}
 
 	void resolve() override {
-		for (Collidable* collidable : *this) {
+		std::for_each(begin(), end(), [this](Collidable* collidable) {
 			if (primaryCollidable->getCollision(*collidable).intersects()) {
 				primaryCollidable->onCollide(*collidable);
 			}
-		}
+		});
 	}
 };

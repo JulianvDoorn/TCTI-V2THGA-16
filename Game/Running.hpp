@@ -9,7 +9,7 @@
 #include "ViewFocus.hpp"
 #include "Label.hpp"
 #include "MapLoader.hpp"
-#include "Healing.hpp"
+#include "PowerUps.hpp"
 #include "IntersectionGroup.hpp"
 
 /**
@@ -55,7 +55,7 @@ class Running : public State {
 	/** @brief	The game over counter */
 	float gameOverCounter = 3.0f;
 
-	CollisionGroup powerUp;
+	std::vector<PowerUp*> powerUps;
 public:
 
 	/**
@@ -105,33 +105,30 @@ public:
 			map.addCollidable(death);
 		});
 
-		mapFactory.registerCreateMethod("power-up", [&](Map& map, const MapItemProperties& properties) {
-			Healing* healing = new Healing();
+		mapFactory.registerCreateMethod("heal-power-up", [&](Map& map, const MapItemProperties& properties) {
+			IntersectionGroup* powerUpIntersectionGroup = new IntersectionGroup();
+			Heal* heal = new Heal(powerUpIntersectionGroup);
+
+			map.addDrawable(heal);
+			map.addObject(heal);
 
 			properties.read({
-				{ "Color", Type::Color, [&](Value value) { healing->setFillColor(*value.colorValue); } },
-				{ "Size", Type::Vector, [&](Value value) { healing->setSize(*value.vectorValue); } },
-				{ "Position", Type::Vector, [&](Value value) { healing->setPosition(*value.vectorValue); } },
-				{ "TextureId", Type::String, [&](Value value) { healing->setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } },
-				{ "TextureRect", Type::Rect, [&](Value value) { healing->setTextureRect(static_cast<sf::IntRect>(*value.rectValue)); } }
+				{ "Color", Type::Color, [&](Value value) { heal->setFillColor(*value.colorValue); } },
+				{ "Position", Type::Vector, [&](Value value) { heal->setPosition(*value.vectorValue); } },
+				{ "Value", Type::Float, [&](Value value) { heal->setHealValue(value.floatValue); } },
+				{ "TextureId", Type::String, [&](Value value) { heal->setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } }
 			});
 
-			map.addDrawable(healing);
-			map.addObject(healing);
-
-			healing->collided.connect([this](Collidable& other) {
-				std::cout << "collided with power-up" << std::endl;
-			});
-
-			IntersectionGroup* powerUpIntersectionGroup = new IntersectionGroup();
-
-			powerUpIntersectionGroup->setPrimary(*healing);
+			powerUpIntersectionGroup->setPrimary(heal);
 			powerUpIntersectionGroup->add(player);
 
 			map.addObjectGroup(*powerUpIntersectionGroup);
+
+			powerUps.emplace_back(heal);
 		});
+
 		map = mapFactory.buildMap();
-			}
+	}
 
 	/**
 	 * @fn	void Running::entry() override
@@ -159,6 +156,10 @@ public:
 				game.died.fire();
 			}
 		});
+
+		for (PowerUp* powerUp : powerUps) {
+			powerUp->connect(player, map);
+		}
 
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
@@ -190,6 +191,10 @@ public:
 		focus.unsetFocus();
 		focus.update();
 		backgroundMusic.stop();
+
+		for (PowerUp* powerUp : powerUps) {
+			powerUp->disconnect();
+		}
 
 		keyReleasedConnection.disconnect();
 
