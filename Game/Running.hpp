@@ -133,9 +133,8 @@ public:
 
 		
 		
-		background.setPosition({ 0, 0 });
 		background.setTexture(AssetManager::instance()->getTexture("background"));
-		background.setTextureRect({ 0, 0, 640, 360 });
+		background.setTextureRect({ 0, 0, 1280, 720 });
 	}
 
 	/**
@@ -155,8 +154,8 @@ public:
 		focus.setFocus(player);
         focus.setLeftBorder(500);
         focus.setRightBorder(500);
-        focus.setTopBorder(320);
-        focus.setBottomBorder(50);
+        focus.setTopBorder(270); // 320
+        focus.setBottomBorder(0); // 50
 		focus.update();
 
 		player.collided.connect([this](Collidable& other) {
