@@ -177,7 +177,7 @@ public:
 			of << " TextureId = \"" << AssetManager::instance()->resolveTextureID(*getTexture()) << "\"\n";
 
 			if (getTexture()->isRepeated()) {
-				of << " TextureRect = Rect(" << getTextureRect().left << ", " << getTextureRect().top << ", " << getSize().x / 2 << ", " << getSize().y / 2 << ")\n";
+				of << " TextureRect = Rect(" << getTextureRect().left << ", " << getTextureRect().top << ", " << getSize().x << ", " << getSize().y << ")\n";
 			}
 			else {
 				of << " TextureRect = Rect(" << getTextureRect().left << ", " << getTextureRect().top << ", " << getTextureRect().width << ", " << getTextureRect().height << ")\n";
