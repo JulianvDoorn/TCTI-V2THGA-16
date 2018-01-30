@@ -281,6 +281,9 @@ public:
 		}
 
 		keyReleasedConnection.disconnect();
+
+		std::cout << "Writing map to file...\n";
+		mapFileGenerator.generate("map_generated.txt", map, player, death);
 	}
 
 	/**
