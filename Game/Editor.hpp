@@ -163,7 +163,7 @@ public:
 		statemachine(statemachine),
 		dock(map, statemachine.window, selection),
 		mapFileGenerator(fileOut),
-		camera(statemachine.window, 100),
+		camera(statemachine.window, 275),
 		selection(map)
 	{
 		using Type = MapFactory::Type;
