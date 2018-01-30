@@ -416,7 +416,7 @@ rectangle {
 }
 rectangle {
  Size = Vector2(40, 40)
- Position = Vector2(-463, 710)
+ Position = Vector2(-400, 566)
  TextureId = "brick"
  TextureRect = Rect(0, 0, 20, 20)
  Color = #FFFFFFFF
@@ -424,7 +424,7 @@ rectangle {
 }
 rectangle {
  Size = Vector2(40, 40)
- Position = Vector2(-357, 692.672)
+ Position = Vector2(-332, 564)
  TextureId = "brick"
  TextureRect = Rect(0, 0, 20, 20)
  Color = #FFFFFFFF
@@ -441,6 +441,30 @@ rectangle {
 rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-1.52588E-05, 702.672)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-467, 409)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-421, 503)
+ TextureId = "brick"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-475, 727)
  TextureId = "brick"
  TextureRect = Rect(0, 0, 20, 20)
  Color = #FFFFFFFF
