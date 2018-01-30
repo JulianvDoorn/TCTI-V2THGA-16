@@ -72,6 +72,27 @@ public:
 };
 
 /**
+ * @class	AssetTextureUnavailable
+ *
+ * @brief	Thrown if the texture id of an asset is unavailable.
+ *
+ * @author	Wiebe
+ * @date	30-1-2018
+ */
+
+class AssetTextureUnavailable : public std::exception {
+private:
+	std::string msg;
+
+public:
+	AssetTextureUnavailable() : msg("Could not resolve the texture id for the given texture!") {};
+
+	const char* what() const noexcept {
+		return msg.c_str();
+	}
+};
+
+/**
  * @class	AssetManager
  *
  * @brief	Manager for assets.
@@ -364,17 +385,63 @@ public:
 		}
 	}
 
+	/**
+	 * @fn	std::map<std::string, sf::Texture>& AssetManager::getTextures()
+	 *
+	 * @brief	Gets all textures, returning a map reference
+	 *
+	 * @author	Wiebe
+	 * @date	30-1-2018
+	 *
+	 * @return	The textures as a map
+	 */
+
 	std::map<std::string, sf::Texture>& getTextures() {
 		return textures;
 	}
+
+	/**
+	 * @fn	std::map<std::string, sf::Sound>& AssetManager::getSounds()
+	 *
+	 * @brief	Gets all sounds, returning a map reference
+	 *
+	 * @author	Wiebe
+	 * @date	30-1-2018
+	 *
+	 * @return	The sounds as a map
+	 */
 
 	std::map<std::string, sf::Sound>& getSounds() {
 		return sounds;
 	}
 
+	/**
+	 * @fn	std::map<std::string, sf::Font>& AssetManager::getFonts()
+	 *
+	 * @brief	Gets the fonts
+	 *
+	 * @author	Wiebe
+	 * @date	30-1-2018
+	 *
+	 * @return	The fonts as a map
+	 */
+
 	std::map<std::string, sf::Font>& getFonts() {
 		return fonts;
 	}
+
+	/**
+	 * @fn	std::string AssetManager::resolveTextureID(const sf::Texture &t) const
+	 *
+	 * @brief	Resolve texture identifier from a given texture
+	 *
+	 * @author	Wiebe
+	 * @date	30-1-2018
+	 *
+	 * @param	t	A sf::Texture to process.
+	 *
+	 * @return	A std::string.
+	 */
 
 	std::string resolveTextureID(const sf::Texture &t) const {
 		for (const auto &mapT : textures) {
@@ -383,7 +450,7 @@ public:
 			}
 		}
 
-		throw "Unable to resolve texture ID!";
+		throw AssetTextureUnavailable();
 	}
 
 	std::string getFilename(std::string id) {
@@ -391,7 +458,7 @@ public:
 			return fileLocations.at(id);
 		}
 		catch (std::out_of_range) {
-			throw "Unable to resolve filename for id '" + id + "'";
+			throw AssetNotLoadedException(id);
 		}
 	}
 
