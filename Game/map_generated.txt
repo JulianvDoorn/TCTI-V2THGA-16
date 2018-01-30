@@ -3,8 +3,27 @@ asset {
  Location = "GameOver.wav"
 }
 asset {
+ Id = "jump"
+ Location = "jump.wav"
+}
+asset {
  Id = "arial"
  Location = "arial.ttf"
+}
+texture {
+ Id = "block01"
+ Location = "block01.png"
+ Repeated = true
+}
+texture {
+ Id = "block02"
+ Location = "block02.png"
+ Repeated = true
+}
+texture {
+ Id = "block03"
+ Location = "block03.png"
+ Repeated = true
 }
 texture {
  Id = "brick"
@@ -17,6 +36,16 @@ texture {
  Repeated = false
 }
 texture {
+ Id = "death"
+ Location = "death.png"
+ Repeated = false
+}
+texture {
+ Id = "deathsikkel"
+ Location = "sikkel.png"
+ Repeated = false
+}
+texture {
  Id = "fimmyLeft"
  Location = "Fimmy/FimmyWalkLeft.png"
  Repeated = false
@@ -24,6 +53,16 @@ texture {
 texture {
  Id = "fimmyLeftArm"
  Location = "Fimmy/walkingleft/FimmyWalkLeftArm.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyLeftArm2"
+ Location = "Fimmy/walkingleft/FimmyWalkLeftArm2.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyLeftArm3"
+ Location = "Fimmy/walkingleft/FimmyWalkLeftArm3.png"
  Repeated = false
 }
 texture {
@@ -42,63 +81,103 @@ texture {
  Repeated = false
 }
 texture {
+ Id = "fimmyLeftLeg2"
+ Location = "Fimmy/walkingleft/FimmyWalkLeftLeg2.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyLeftLeg3"
+ Location = "Fimmy/walkingleft/FimmyWalkLeftLeg3.png"
+ Repeated = false
+}
+texture {
  Id = "fimmyRight"
  Location = "Fimmy/FimmyWalkRight.png"
  Repeated = false
 }
 texture {
  Id = "fimmyRightArm"
- Location = "Fimmy/walkingRight/FimmyWalkRightArm.png"
+ Location = "Fimmy/walkingright/FimmyWalkRightArm.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyRightArm2"
+ Location = "Fimmy/walkingright/FimmyWalkRightArm2.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyRightArm3"
+ Location = "Fimmy/walkingright/FimmyWalkRightArm3.png"
  Repeated = false
 }
 texture {
  Id = "fimmyRightBody"
- Location = "Fimmy/walkingRight/FimmyWalkRightBody.png"
+ Location = "Fimmy/walkingright/FimmyWalkRightBody.png"
  Repeated = false
 }
 texture {
  Id = "fimmyRightHead"
- Location = "Fimmy/walkingRight/FimmyWalkRightHead.png"
+ Location = "Fimmy/walkingright/FimmyWalkRightHead.png"
  Repeated = false
 }
 texture {
  Id = "fimmyRightLeg"
- Location = "Fimmy/walkingRight/FimmyWalkRightLeg.png"
+ Location = "Fimmy/walkingright/FimmyWalkRightLeg.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyRightLeg2"
+ Location = "Fimmy/walkingright/FimmyWalkRightLeg2.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyRightLeg3"
+ Location = "Fimmy/walkingright/FimmyWalkRightLeg3.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyRollLeft"
+ Location = "Fimmy/FimmyRollLeft.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyRollRight"
+ Location = "Fimmy/FimmyRollRight.png"
  Repeated = false
 }
 texture {
  Id = "fimmyStanding"
- Location = "Fimmy/fimmy.png"
+ Location = "Fimmy/Fimmy.png"
  Repeated = false
 }
 texture {
  Id = "fimmyStandingBody"
- Location = "Fimmy/bodyparts/fimmyBody.png"
+ Location = "Fimmy/bodyparts/FimmyBody.png"
  Repeated = false
 }
 texture {
  Id = "fimmyStandingHead"
- Location = "Fimmy/bodyparts/fimmyHead.png"
+ Location = "Fimmy/bodyparts/FimmyHead.png"
  Repeated = false
 }
 texture {
  Id = "fimmyStandingLeftArm"
- Location = "Fimmy/bodyparts/fimmyLeftArm.png"
+ Location = "Fimmy/bodyparts/FimmyLeftArm.png"
  Repeated = false
 }
 texture {
  Id = "fimmyStandingLeftLeg"
- Location = "Fimmy/bodyparts/fimmyLeftLeg.png"
+ Location = "Fimmy/bodyparts/FimmyLeftLeg.png"
  Repeated = false
 }
 texture {
  Id = "fimmyStandingRightArm"
- Location = "Fimmy/bodyparts/fimmyRightArm.png"
+ Location = "Fimmy/bodyparts/FimmyRightArm.png"
  Repeated = false
 }
 texture {
  Id = "fimmyStandingRightLeg"
- Location = "Fimmy/bodyparts/fimmyRightLeg.png"
+ Location = "Fimmy/bodyparts/FimmyRightLeg.png"
  Repeated = false
 }
 texture {
@@ -154,7 +233,7 @@ rectangle {
  Size = Vector2(30, 30)
  Position = Vector2(0, 450)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 15, 15)
+ TextureRect = Rect(0, 0, 30, 30)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -178,7 +257,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-101, 267)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -186,7 +265,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-211, 266)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -194,7 +273,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-175, 221)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -202,7 +281,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-140, 270)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -210,7 +289,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-139, -66)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -218,7 +297,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-569.675, 667.984)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -226,7 +305,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-586.675, 666.984)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -234,7 +313,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-565.675, 664.984)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -242,7 +321,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-570.675, 663.984)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -250,7 +329,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-579.675, 671.984)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -258,7 +337,7 @@ rectangle {
  Size = Vector2(42, 40)
  Position = Vector2(-97, 310)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 42, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -266,7 +345,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-242, 309)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -274,7 +353,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-138, 171)
  TextureId = "grassFloor"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -306,7 +385,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-178, 132)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -314,7 +393,7 @@ rectangle {
  Size = Vector2(290, 307)
  Position = Vector2(233.1, 333.609)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 290, 307)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -322,7 +401,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-178, 176)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -330,7 +409,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-181, 310)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -354,7 +433,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(160, 157)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -362,7 +441,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(311, 156)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -370,7 +449,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(238, 140)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -378,7 +457,7 @@ rectangle {
  Size = Vector2(302, 306)
  Position = Vector2(534.1, 333.609)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 302, 306)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -402,7 +481,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-399, 348)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -410,7 +489,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-357, 276)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -418,7 +497,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-400, 566)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -426,7 +505,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-332, 564)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -434,7 +513,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-152, 702.672)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -442,7 +521,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-1.52588E-05, 702.672)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -450,7 +529,7 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-467, 409)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -458,15 +537,39 @@ rectangle {
  Size = Vector2(40, 40)
  Position = Vector2(-421, 503)
  TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
 rectangle {
  Size = Vector2(40, 40)
- Position = Vector2(-475, 727)
- TextureId = "brick"
- TextureRect = Rect(0, 0, 20, 20)
+ Position = Vector2(-460, 725)
+ TextureId = "block01"
+ TextureRect = Rect(0, 0, 40, 40)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(282, 40)
+ Position = Vector2(537, 148)
+ TextureId = "block01"
+ TextureRect = Rect(0, 0, 282, 40)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-474, 712)
+ TextureId = "block01"
+ TextureRect = Rect(0, 0, 40, 40)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(-474, 712)
+ TextureId = "block01"
+ TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
