@@ -6,7 +6,16 @@
 #include "PhysicsObject.hpp"
 #include "Map.hpp"
 
-class Selection : public Drawable {
+/**
+ * @class	ObjectSelector
+ *
+ * @brief	Class responsible for selecting and manipulating objects.
+ *
+ * @author	Julian
+ * @date	2018-01-30
+ */
+
+class ObjectSelector : public Drawable {
 	PhysicsObject* selection;
 
 	sf::Vector2f resizeOrigin;
@@ -31,7 +40,21 @@ class Selection : public Drawable {
 	Map& map;
 
 public:
-	Selection(Map& map) :
+
+	/**
+	 * @fn	ObjectSelector::ObjectSelector(Map& map)
+	 *
+	 * @brief	Constructor
+	 * 
+	 * Constructs an ObjectSelector for the given map.
+	 *
+	 * @author	Julian
+	 * @date	2018-01-30
+	 *
+	 * @param [in,out]	map	The map.
+	 */
+
+	ObjectSelector(Map& map) :
 		Drawable(boundingBox),
 		selection(nullptr),
 		map(map)
@@ -57,6 +80,17 @@ public:
 		rightResizeHandle.setOrigin({ 6.0f - 10.0f, 6.0f });
 	}
 
+	/**
+	 * @fn	void ObjectSelector::select(PhysicsObject* s)
+	 *
+	 * @brief	Selects the given PhysicsObject*
+	 *
+	 * @author	Julian
+	 * @date	2018-01-30
+	 *
+	 * @param [in,out]	s	If non-null, a PhysicsObject to select.
+	 */
+
 	void select(PhysicsObject* s) {
 		selection = s;
 		startDrag();
@@ -67,6 +101,17 @@ public:
 		boundingBox.setPosition({ bounds.left, bounds.top });
 		boundingBox.setOutlineColor(sf::Color::Cyan);
 	}
+
+	/**
+	 * @fn	void ObjectSelector::select(PhysicsObject& s)
+	 *
+	 * @brief	Selects the given PhysicsObject&
+	 *
+	 * @author	Julian
+	 * @date	2018-01-30
+	 *
+	 * @param [in,out]	s	A PhysicsObject to select.
+	 */
 
 	void select(PhysicsObject& s) {
 		selection = &s;
@@ -79,9 +124,27 @@ public:
 		boundingBox.setOutlineColor(sf::Color::Cyan);
 	}
 
+	/**
+	 * @fn	void ObjectSelector::deselect()
+	 *
+	 * @brief	Deselects the current selection
+	 *
+	 * @author	Julian
+	 * @date	2018-01-30
+	 */
+
 	void deselect() {
 		selection = nullptr;
 	}
+
+	/**
+	 * @fn	void ObjectSelector::startDrag()
+	 *
+	 * @brief	Starts dragging the current selection.
+	 *
+	 * @author	Julian
+	 * @date	2018-01-30
+	 */
 
 	void startDrag() {
 		dragging = true;
@@ -91,18 +154,60 @@ public:
 		}
 	}
 
+	/**
+	 * @fn	void ObjectSelector::stopDrag()
+	 *
+	 * @brief	Stops dragging the current selection.
+	 *
+	 * @author	Julian
+	 * @date	2018-01-30
+	 */
+
 	void stopDrag() {
 		dragging = false;
 	}
+
+	/**
+	 * @fn	void ObjectSelector::startResize(ResizeFace dir, sf::Vector2f origin)
+	 *
+	 * @brief	Starts resizing the current selection.
+	 *
+	 * @author	Julian
+	 * @date	2018-01-30
+	 *
+	 * @param	dir   	The dir.
+	 * @param	origin	The origin.
+	 */
 
 	void startResize(ResizeFace dir, sf::Vector2f origin) {
 		resizeDirection = dir;
 		resizeOrigin = origin;
 	}
 
+	/**
+	 * @fn	void ObjectSelector::stopResize()
+	 *
+	 * @brief	Stops resizing the current selection.
+	 *
+	 * @author	Julian
+	 * @date	2018-01-30
+	 */
+
 	void stopResize() {
 		resizeDirection = ResizeFace::None;
 	}
+
+	/**
+	 * @fn	void ObjectSelector::connect()
+	 *
+	 * @brief	Connects all the mouse and keyboard events of this object.
+	 * 
+	 * Connects game.keyboard.keyPressed. When Delete is pressed, delete the current selection.
+	 * Mouse click and move events for selecting and dragging objects.
+	 *
+	 * @author	Julian
+	 * @date	2018-01-30
+	 */
 
 	void connect() {
 		keyReleasedConn = game.keyboard.keyPressed.connect([this](sf::Keyboard::Key key) {
@@ -169,9 +274,33 @@ public:
 		});
 	}
 
+	/**
+	 * @fn	void ObjectSelector::disconnect()
+	 *
+	 * @brief	Disconnects all the connected EventSources.
+	 *
+	 * @author	Julian
+	 * @date	2018-01-30
+	 */
+
 	void disconnect() {
+		mouseLeftButtonDown.disconnect();
+		mouseLeftButtonUp.disconnect();
 		mouseMovedConn.disconnect();
 	}
+
+	/**
+	* @fn	void ObjectSelector::update(const float elapsedTime)
+	*
+	* @brief	Updates the object selecter with a given elapsedTime.
+	*
+	* Sets the colors and positions of all composite objects of ObjectSelector.
+	*
+	* @author	Julian
+	* @date	2018-01-30
+	*
+	* @param	elapsedTime	The elapsed run-time.
+	*/
 
 	void update(const float elapsedTime) override {
 		if (selection != nullptr) {

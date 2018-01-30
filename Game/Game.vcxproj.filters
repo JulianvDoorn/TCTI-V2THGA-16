@@ -260,9 +260,6 @@
     <ClInclude Include="EventDisconnectable.hpp">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
-    <ClInclude Include="Selection.hpp">
-      <Filter>Header Files\MapEditor</Filter>
-    </ClInclude>
     <ClInclude Include="FreeCamera.hpp">
       <Filter>Header Files\MapEditor</Filter>
     </ClInclude>
@@ -270,6 +267,9 @@
       <Filter>Header Files\MapEditor</Filter>
     </ClInclude>
     <ClInclude Include="MapFileGenerator.hpp">
+      <Filter>Header Files\MapEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectSelector.hpp">
       <Filter>Header Files\MapEditor</Filter>
     </ClInclude>
   </ItemGroup>

@@ -85,7 +85,7 @@ class Editor : public State {
 
 
 	/** @brief	Used for object selection */
-	Selection selection;
+	ObjectSelector selection;
 
 	/**
 	 * @property	Rectangle player, death
