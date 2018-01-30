@@ -175,7 +175,14 @@ public:
 
 		if (getTexture() != nullptr) {
 			of << " TextureId = \"" << AssetManager::instance()->resolveTextureID(*getTexture()) << "\"\n";
-			of << " TextureRect = Rect(" << getTextureRect().left << ", " << getTextureRect().top << ", " << getTextureRect().width << ", " << getTextureRect().height << ")\n";
+
+			if (getTexture()->isRepeated()) {
+				of << " TextureRect = Rect(" << getTextureRect().left << ", " << getTextureRect().top << ", " << getSize().x << ", " << getSize().y << ")\n";
+			}
+			else {
+				of << " TextureRect = Rect(" << getTextureRect().left << ", " << getTextureRect().top << ", " << getTextureRect().width << ", " << getTextureRect().height << ")\n";
+			}
+
 		}
 
 		of << " Color = #" << std::uppercase << std::hex << getFillColor().toInteger() << "\n";
