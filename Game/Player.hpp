@@ -64,6 +64,8 @@ private:
     bool headDisplay = true;
     bool leftArmDisplay = true;
     bool rightArmDisplay = true;
+    bool leftArmDraw = true;
+    bool rightArmDraw = true;
     bool rollRectangleDisplay = false;
     Rectangle torso;
     Rectangle leftLeg;
@@ -312,23 +314,6 @@ public:
 		return activeKeyScheme;
 	}
 
-	void loseLeftLeg(){
-		leftLegDisplay = false;
-	}
-
-	void loseRightLeg(){
-		rightLegDisplay = false;
-	}
-
-	void loseLeftArm(){
-		leftArmDisplay = false;
-	}
-	void loseRightArm(){
-		rightArmDisplay = false;
-	}
-	void loseHead(){
-		headDisplay = false;
-	}
 
     void doWalk(){
 
@@ -348,9 +333,11 @@ public:
                 }
                 if (leftArmDisplay) {
                     leftArm.setTexture(AssetManager::instance()->getTexture("fimmyStandingLeftArm"));
+                    leftArmDraw =true;
                 }
                 if (rightArmDisplay) {
                     rightArm.setTexture(AssetManager::instance()->getTexture("fimmyStandingRightArm"));
+                    rightArmDraw = true;
                 }
             }
         }
@@ -380,11 +367,11 @@ public:
                             animationClock.restart();
                             animationCyle++;
                         }
-                        leftArm.setFillColor(sf::Color::Transparent);
                     }
                     if (rightArmDisplay) {
                         rightArm.setTexture(AssetManager::instance()->getTexture("fimmyRightArm"));
                     }
+                    leftArmDraw = false;
                 }
             }
             if (walkDirection < 0) {
@@ -412,11 +399,11 @@ public:
                             animationClock.restart();
                             animationCyle++;
                         }
-                        rightArm.setFillColor(sf::Color::Transparent);
                     }
                     if (leftArmDisplay) {
                         leftArm.setTexture(AssetManager::instance()->getTexture("fimmyLeftArm"));
                     }
+                    rightArmDraw = false;
                 }
             }
             if (!roll) {
@@ -488,7 +475,6 @@ public:
 	}
 	void unRoll(){
         roll = false;
-//		rollRectangle.setFillColor(sf::Color::Green);
         rollRectangleDisplay = false;
         setSize(playersize);
         setPosition({getPosition().x + 20, getPosition().y});
@@ -516,17 +502,57 @@ public:
     }
     void draw(sf::RenderTarget &window){
         Drawable::draw(window);
-        head.draw(window);
-        torso.draw(window);
-        leftLeg.draw(window);
-        rightLeg.draw(window);
-        leftArm.draw(window);
-        rightArm.draw(window);
+        if (!roll){
+            head.draw(window);
+            torso.draw(window);
+            leftLeg.draw(window);
+            rightLeg.draw(window);
+            if (leftArmDraw) {
+                leftArm.draw(window);
+            }
+            if (rightArmDraw) {
+                rightArm.draw(window);
+            }
+        }
+
         if (rollRectangleDisplay){
             rollRectangle.draw(window);
         }
         keyschemeText.draw(window);
     }
+
+	void loseLeftLeg(){
+		leftLegDisplay = false;
+	}
+	void loseRightLeg(){
+		rightLegDisplay = false;
+	}
+	void loseLeftArm(){
+		leftArmDisplay = false;
+	}
+	void loseRightArm(){
+		rightArmDisplay = false;
+	}
+	void loseHead(){
+		headDisplay = false;
+	}
+
+	void gainLeftLeft(){
+		leftLegDisplay =true;
+	}
+	void gainRightLeg(){
+		rightLegDisplay =true;
+	}
+	void gainLeftArm(){
+		leftArmDisplay = true;
+	}
+	void gainRightArm(){
+		rightArmDisplay = true;
+	}
+	void gainHead(){
+		headDisplay = true;
+	}
+
 	using Rectangle::getCollision;
 	using Rectangle::setPosition;
 	using Rectangle::getPosition;
