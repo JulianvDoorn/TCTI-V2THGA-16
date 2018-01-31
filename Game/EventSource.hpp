@@ -192,7 +192,7 @@ protected:
 		}
 
 		if (!disconnected) {
-			throw DisconnectedEventConnectionException();
+			//throw DisconnectedEventConnectionException();
 		}
 	}
 

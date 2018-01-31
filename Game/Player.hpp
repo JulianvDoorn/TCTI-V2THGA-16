@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <array>
 #include <exception>
 #include <memory>
 #include <SFML/Graphics.hpp>
@@ -11,9 +11,6 @@
 #include "Label.hpp"
 #include "KeyToString.hpp"
 #include "VectorStreamOperators.hpp"
-
-/** @brief	An (fixed-size) array holding key schemes. Maximum of 100 key schemes. */
-using KeySchemes = std::array<KeyScheme, 100>;
 
 /**
  * @class	Player
@@ -30,19 +27,29 @@ private:
     /** @brief	The window */
     sf::RenderWindow &window;
 
-	/** @brief	The current active key scheme */
-	KeyScheme activeKeyScheme = KeyScheme(sf::Keyboard::Key::A, sf::Keyboard::Key::D, sf::Keyboard::Key::W, sf::Keyboard::Key::S,sf::Keyboard::LShift);
+	EventSource<sf::Keyboard::Key> keyPressed;
+	EventSource<sf::Keyboard::Key> keyReleased;
+
 
 	/** @brief	The predefined player key schemes */
-	KeySchemes keySchemes = {
-		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift ,KeyScheme::Difficulty::MODERATE),
-		KeyScheme(sf::Keyboard::Key::J, sf::Keyboard::Key::L, sf::Keyboard::Key::I, sf::Keyboard::Key::J, sf::Keyboard::Key::LShift, KeyScheme::Difficulty::MODERATE)
+	std::vector<KeyScheme> keySchemes = {
+		KeyScheme(sf::Keyboard::Key::A, sf::Keyboard::Key::D, sf::Keyboard::Key::W, sf::Keyboard::Key::S, sf::Keyboard::Key::LShift, KeyScheme::Difficulty::EASY),
+		KeyScheme(sf::Keyboard::Key::J, sf::Keyboard::Key::L, sf::Keyboard::Key::I, sf::Keyboard::Key::K, sf::Keyboard::Key::LShift, KeyScheme::Difficulty::MODERATE),
+		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift, KeyScheme::Difficulty::MODERATE),
+		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift, KeyScheme::Difficulty::MODERATE),
+		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift, KeyScheme::Difficulty::MODERATE)
 	};
+
+
+	/** @brief	The current active key scheme */
+	KeyScheme& activeKeyScheme = keySchemes[0];
 
 	/** @brief	The walk direction */
 	int32_t walkDirection = 0;
 
-	/** @brief	The default walking speed */
+	unsigned int keySchemeIndex = 0;
+	bool keySchemeUpdateReady = false;
+
 	float defaultWalkingSpeed = 100;
     /** @brief	The walkspeed */
     float walkspeed = defaultWalkingSpeed;
@@ -60,6 +67,10 @@ private:
     sf::Time lastKeyPressTime;
     /** @brief	True if run key pressed */
     bool runKeyPressed = false;
+	
+	float runningSpeed = 200;
+	int runningAnimationTimeInMiliseconds = 25;
+
 
     /** @brief	The run clock */
     sf::Clock runClock;
@@ -72,7 +83,7 @@ private:
 	/** @brief	The key released connection */
 	EventConnection keyReleasedConn;
 
-    /** @brief	These variable are used to set a bodypart to display * */
+	/** @brief These variable are used to set a bodypart to display **/
     bool torsoDisplay = true;
     bool leftLegDisplay = true;
     bool rightLegDisplay = true;
@@ -97,7 +108,8 @@ private:
     /** @brief	The roll rectangle */
     Body rollRectangle;
 
-    /** @brief	The playersize */
+	int bodyPartsLeft = 5;
+	/** @brief	The playersize */
     sf::Vector2f playersize = {20,40};
 
     /** @brief	The default animation time in miliseconds */
@@ -115,9 +127,8 @@ private:
     sf::Clock keySchemeShowClock;
     /** @brief	The key scheme show time in milliseconds */
     int keySchemeShowTimeInMilliseconds = 3000;
-
-
 public:
+
 	/**
 	 * @fn	Player::Player()
 	 *
@@ -137,46 +148,48 @@ public:
         leftArm.setSize(playersize);
         rightArm.setSize(playersize);
         rollRectangle.setSize({20,20});
-
-		keyPressedConn = game.keyboard.keyPressed.connect([this](const sf::Keyboard::Key key) {
-			if (key == activeKeyScheme.jump) {
-				doJump();
-			}
-			else if (key == activeKeyScheme.roll) {
-                roll = true;
-				rollClock.restart();
-			}
-			else if (key == activeKeyScheme.run){
-					doRun();
-			}
-			else if (key == activeKeyScheme.moveLeft) {
-				setWalkDirection(walkDirection - 1);
-			}
-			else if (key == activeKeyScheme.moveRight) {
-				setWalkDirection(walkDirection + 1);
-			}
-		});
-
-		keyReleasedConn = game.keyboard.keyReleased.connect([this](const sf::Keyboard::Key key) {
-			if (key == activeKeyScheme.moveLeft) {
-				setWalkDirection(walkDirection + 1);
-			}
-			else if (key ==activeKeyScheme.run){
-				checkStillRunning();
-			}
-			else if (key == activeKeyScheme.moveRight) {
-				setWalkDirection(walkDirection - 1);
-			}
-            else if (key == activeKeyScheme.roll){
-                roll = false;
-				unRoll();
-            }
-		});
 	}
 
-	~Player() {
-		keyPressedConn.disconnect();
-		keyReleasedConn.disconnect();
+	void connect() {
+		for (KeyScheme& keyScheme : keySchemes) {
+			keyScheme.connect();
+		}
+	}
+
+	void disconnect() {
+		for (KeyScheme& keyScheme : keySchemes) {
+			keyScheme.disconnect();
+		}
+	}
+
+	void readInput() {
+		walkDirection = 0;
+
+		if (activeKeyScheme.jumpPressed) {
+			doJump();
+		}
+
+		if (activeKeyScheme.moveRightPressed) {
+			walkDirection++;
+		}
+
+		if (activeKeyScheme.moveLeftPressed) {
+			walkDirection--;
+		}
+
+		if (activeKeyScheme.rollPressed && !roll) {
+			roll = true;
+			rollClock.restart();
+		}
+
+		if (activeKeyScheme.runPressed) {
+			animationTimeInMiliseconds = runningAnimationTimeInMiliseconds;
+			walkspeed = runningSpeed;
+		}
+		else {
+			animationTimeInMiliseconds = defaultAnimationTimeInMiliseconds;
+			walkspeed = defaultWalkingSpeed;
+		}
 	}
 
 	/**
@@ -190,6 +203,8 @@ public:
 	 * @param	elapsedTime	The elapsed time.
 	 */
 	void update(const float elapsedTime) override {
+		readInput();
+
         doWalk();
 		if (jump) {
 			applyForce({ 0, -jumpForce });
@@ -199,10 +214,6 @@ public:
 			doRoll();
 		}
 		checkDeath();
-		if (runClock.getElapsedTime().asMilliseconds() - lastKeyPressTime.asMilliseconds() > 250 && !runKeyPressed) {
-			spammingRunKey = false;
-			walkspeed = defaultWalkingSpeed;
-		}
 
 		Body::update(elapsedTime);
         torso.setPosition(getPosition());
@@ -265,6 +276,29 @@ public:
 		}
 	}
 
+	void removeBodyPart(int bodyRemoveIndex) {
+		if (bodyPartsLeft == 0) {
+			// Only the torso is left, stop removing body parts otherwise the player won't be visible.
+			return;
+		}
+
+		if (bodyRemoveIndex == 0) {
+			loseLeftArm();
+		}
+		else if (bodyRemoveIndex == 1) {
+			loseRightArm();
+		}
+		else if (bodyRemoveIndex == 2) {
+			loseLeftLeg();
+		}
+		else if (bodyRemoveIndex == 3) {
+			loseRightLeg();
+		}
+		else if (bodyRemoveIndex == 4) {
+			loseHead();
+		}
+	}
+
 	/**
 	 * @fn	KeyScheme Player::findKeyScheme(const KeyScheme::Difficulty difficulty)
 	 *
@@ -281,7 +315,7 @@ public:
 	 * @return	The found key scheme.
 	 */
 
-	KeyScheme findKeyScheme(const KeyScheme::Difficulty difficulty) {
+	KeyScheme findRandomKeyScheme(const KeyScheme::Difficulty difficulty) {
 		std::vector<KeyScheme*> schemes;
 
 		for (unsigned int i = 0; i < keySchemes.size(); i++) {
@@ -299,6 +333,19 @@ public:
 		return *schemes.at(0);
 	}
 
+	void setNextKeyScheme() {
+		if (keySchemes.size() > keySchemeIndex) {
+			
+			//setWalkDirection(0);
+			//checkStillRunning();
+			//unRoll();
+			setActiveKeyScheme(keySchemes.at(keySchemeIndex));
+			showKeySchemeUsed();
+		
+			keySchemeIndex++;
+		}
+	}
+
 	/**
 	 * @fn	void Player::setActiveKeyScheme(KeyScheme s)
 	 *
@@ -310,7 +357,7 @@ public:
 	 * @param	s	A KeyScheme to process.
 	 */
 
-	void setActiveKeyScheme(KeyScheme s) {
+	void setActiveKeyScheme(KeyScheme& s) {
 		activeKeyScheme = s;
 	}
 
@@ -339,7 +386,6 @@ public:
      */
 
     void doWalk(){
-
         if (walkDirection == 0){
             if (!roll) {
                 if (torsoDisplay) {
@@ -394,14 +440,14 @@ public:
                     if (rightArmDisplay) {
                         rightArm.setTexture(&AssetManager::instance()->getTexture("fimmyRightArm"));
                     }
-                    leftArmDraw = false;
+					leftArmDraw = false;
                 }
             }
             if (walkDirection < 0) {
                 if (!roll) {
                     if (torsoDisplay) {
                         torso.setTexture(&AssetManager::instance()->getTexture("fimmyLeftBody"));
-                    }
+					}
                     if (headDisplay) {
                         head.setTexture(&AssetManager::instance()->getTexture("fimmyLeftHead"));
                     }
@@ -452,13 +498,23 @@ public:
         rollRectangleDisplay = true;
 		if (walkDirection > 0) {
 			rollRectangle.setPosition(getPosition());
-			rollRectangle.setTexture(&AssetManager::instance()->getTexture("fimmyRollRight"));
+			if (headDisplay) {
+				rollRectangle.setTexture(&AssetManager::instance()->getTexture("fimmyRollRight"));
+			}
+			else {
+				rollRectangle.setTexture(&AssetManager::instance()->getTexture("fimmyRollRightHeadless"));
+			}
 			setVelocity({ 299, jumpForce });
 		}
 		else if (walkDirection < 0) {
 			setVelocity({ -299, jumpForce });
 			rollRectangle.setPosition(getPosition());
-			rollRectangle.setTexture(&AssetManager::instance()->getTexture("fimmyRollLeft"));
+			if (headDisplay) {
+				rollRectangle.setTexture(&AssetManager::instance()->getTexture("fimmyRollLeft"));
+			}
+			else {
+				rollRectangle.setTexture(&AssetManager::instance()->getTexture("fimmyRollRightHeadless"));
+			}
 		}
 		else {
 			setVelocity({ 0, jumpForce });
@@ -471,68 +527,6 @@ public:
             rollRectangleDisplay = false;
 		}
 	}
-
-	/**
-	 * @fn	void Player::doRun()
-	 *
-	 * @brief	Executes the run operation
-	 *
-	 * @author	Jeffrey de Waal
-	 * @date	1/31/2018
-	 */
-
-	void doRun(){
-		runKeyPressed = true;
-		if (runClock.getElapsedTime().asMilliseconds() - lastKeyPressTime.asMilliseconds() <200){
-			spammingRunKey = true;
-			runningSpammingFactor *= 1.5;
-		}
-		else if (spammingRunKey){
-			spammingRunKey = false;
-			runningSpammingFactor =1;
-			walkspeed = defaultWalkingSpeed;
-		}
-		walkspeed *= 2 * runningSpammingFactor;
-		animationTimeInMiliseconds /= 2;
-		animationTimeInMiliseconds /= int(runningSpammingFactor);
-		if (walkspeed > 299){ //max running speed without glitching
-			walkspeed = 299;
-		}
-		lastKeyPressTime = runClock.getElapsedTime();
-	}
-
-	/**
-	 * @fn	void Player::checkStillRunning()
-	 *
-	 * @brief	Check still running
-	 *
-	 * @author	Jeffrey de Waal
-	 * @date	1/31/2018
-	 */
-
-	void checkStillRunning(){
-		runKeyPressed = false;
-		if (spammingRunKey){
-			if (runClock.restart().asMilliseconds() > 200){
-				walkspeed = defaultWalkingSpeed;
-				runningSpammingFactor = 1;
-				animationTimeInMiliseconds = defaultAnimationTimeInMiliseconds;
-			}
-		}
-		else{
-			walkspeed = 100;
-			animationTimeInMiliseconds = defaultAnimationTimeInMiliseconds;
-		}
-	}
-
-	/**
-	 * @fn	void Player::unRoll()
-	 *
-	 * @brief	Un roll
-	 *
-	 * @author	Jeffrey
-	 * @date	1/31/2018
-	 */
 
 	void unRoll(){
         roll = false;
@@ -574,7 +568,8 @@ public:
 
     void updateKeySchemeDisplay(){
         sf::Vector2f position = window.mapPixelToCoords(static_cast<sf::Vector2i>(window.getView().getSize()), window.getView());
-        sf::Vector2f offset = {100,-100};
+        sf::Vector2f offset = {400, 700};
+
         keyschemeText.setPosition(position - offset);
         if(keySchemeShowClock.getElapsedTime().asMilliseconds() > keySchemeShowTimeInMilliseconds){
             keyschemeText.setColor(sf::Color::Transparent);
@@ -594,12 +589,23 @@ public:
      */
 
     void draw(sf::RenderTarget &window, sf::RenderStates renderStates) const override {
-		if (!roll){
-			window.draw(head);
-			window.draw(torso);
-			window.draw(leftLeg);
-			window.draw(rightLeg);
+		if (!roll) {
+			if (headDisplay) {
+				window.draw(head);
+			}
 
+			if (torsoDisplay) {
+				window.draw(torso);
+			}
+
+			if (leftLegDisplay) {
+				window.draw(leftLeg);
+			}
+
+			if (rightLegDisplay) {
+				window.draw(rightLeg);
+			}
+			
             if (leftArmDraw) {
 				window.draw(leftArm);
             }
@@ -607,11 +613,12 @@ public:
             if (rightArmDraw) {
 				window.draw(rightArm);
             }
-        }
-
-        if (rollRectangleDisplay){
-			window.draw(rollRectangle);
-        }
+		}
+		else {
+			if (rollRectangleDisplay) {
+				window.draw(rollRectangle);
+			}
+		}
 
 		window.draw(keyschemeText);
     }
@@ -626,7 +633,10 @@ public:
 	 */
 
 	void loseLeftLeg(){
-		leftLegDisplay = false;
+		if (leftLegDisplay) {
+			leftLegDisplay = false;
+			bodyPartsLeft--;
+		}
 	}
 
 	/**
@@ -639,7 +649,10 @@ public:
 	 */
 
 	void loseRightLeg(){
-		rightLegDisplay = false;
+		if (rightLegDisplay) {
+			rightLegDisplay = false;
+			bodyPartsLeft--;
+		}
 	}
 
 	/**
@@ -652,7 +665,10 @@ public:
 	 */
 
 	void loseLeftArm(){
-		leftArmDisplay = false;
+		if (leftArmDisplay) {
+			leftArmDisplay = false;
+			bodyPartsLeft--;
+		}
 	}
 
 	/**
@@ -665,7 +681,10 @@ public:
 	 */
 
 	void loseRightArm(){
-		rightArmDisplay = false;
+		if (rightArmDisplay) {
+			rightArmDisplay = false;
+			bodyPartsLeft--;
+		}
 	}
 
 	/**
@@ -678,7 +697,10 @@ public:
 	 */
 
 	void loseHead(){
-		headDisplay = false;
+		if (headDisplay) {
+			headDisplay = false;
+			bodyPartsLeft--;
+		}
 	}
 
 	/**
@@ -691,7 +713,10 @@ public:
 	 */
 
 	void gainLeftLeft(){
-		leftLegDisplay =true;
+		if (!leftLegDisplay) {
+			leftLegDisplay = true;
+			bodyPartsLeft++;
+		}
 	}
 
 	/**
@@ -704,7 +729,10 @@ public:
 	 */
 
 	void gainRightLeg(){
-		rightLegDisplay =true;
+		if (!rightLegDisplay) {
+			rightLegDisplay = true;
+			bodyPartsLeft++;
+		}
 	}
 
 	/**
@@ -717,7 +745,10 @@ public:
 	 */
 
 	void gainLeftArm(){
-		leftArmDisplay = true;
+		if (!leftArmDisplay) {
+			leftArmDisplay = true;
+			bodyPartsLeft++;
+		}
 	}
 
 	/**
@@ -730,7 +761,10 @@ public:
 	 */
 
 	void gainRightArm(){
-		rightArmDisplay = true;
+		if (!rightArmDisplay) {
+			rightArmDisplay = true;
+			bodyPartsLeft++;
+		}
 	}
 
 	/**
@@ -743,7 +777,14 @@ public:
 	 */
 
 	void gainHead(){
-		headDisplay = true;
+		if (!headDisplay) {
+			headDisplay = true;
+			bodyPartsLeft++;
+		}
+	}
+
+	int getBodyPartsLeft() {
+		return bodyPartsLeft;
 	}
 
 	void healBodyParts() {

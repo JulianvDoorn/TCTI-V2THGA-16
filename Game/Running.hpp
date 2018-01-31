@@ -58,6 +58,9 @@ class Running : public State {
 	/** @brief	The power ups */
 	std::vector<PowerUp*> powerUps;
 
+	std::array<int, 5> bodyRemoveToggles = {500, 600, 700, 800, 900}; // 2000, 5000, 8000, 11000, 18000
+	int bodyRemoveToggleIndex = 0;
+
 	/** @brief	The background */
 	sf::Sprite background;
 public:
@@ -82,7 +85,6 @@ public:
 		using Type = MapFactory::Type;
 		using Value = MapFactory::Value;
 
-		//std::ifstream file("map.txt");
 		std::ifstream file("map_generated.txt");
 		MapFactory mapFactory(file);
 
@@ -133,8 +135,6 @@ public:
 		});
 
 		map = mapFactory.buildMap();
-
-		
 		
 		background.setTexture(AssetManager::instance()->getTexture("background"));
 		background.setTextureRect({ 0, 0, 1280, 720 });
@@ -157,9 +157,11 @@ public:
 		focus.setFocus(player);
         focus.setLeftBorder(500);
         focus.setRightBorder(500);
-        focus.setTopBorder(270); // 320
-        focus.setBottomBorder(0); // 50
+        focus.setTopBorder(270);
+        focus.setBottomBorder(0);
 		focus.update();
+
+		player.connect();
 
 		player.collided.connect([this](Collidable& other) {
 			if (&other == &death) {
@@ -202,6 +204,8 @@ public:
 		focus.update();
 		backgroundMusic.stop();
 
+		player.disconnect();
+
 		for (PowerUp* powerUp : powerUps) {
 			powerUp->disconnect();
 		}
@@ -232,11 +236,9 @@ public:
 		map.resolve();
 
 		if (!gameOver) {
-			//player.update(elapsedTime);
-			//player.draw(statemachine.window);
 			player.update(elapsedTime);
-			death.update(elapsedTime);
-			deathSikkel.update(elapsedTime);
+			//death.update(elapsedTime);
+			//deathSikkel.update(elapsedTime);
 		}
 		else if (gameOverCounter > 0) {
 			gameOverCounter -= elapsedTime;
@@ -246,8 +248,20 @@ public:
 			return;
 		}
 
-		death.update(elapsedTime);
-		deathSikkel.update(elapsedTime);
+		if (bodyRemoveToggleIndex != -1 && player.getPosition().x >= bodyRemoveToggles.at(bodyRemoveToggleIndex) ) {
+			player.removeBodyPart(bodyRemoveToggleIndex);
+			player.setNextKeyScheme();
+
+			if (bodyRemoveToggleIndex < 4) {
+				bodyRemoveToggleIndex++;
+			}
+			else {
+				bodyRemoveToggleIndex = -1;
+			}
+		}
+
+		//death.update(elapsedTime);
+		//deathSikkel.update(elapsedTime);
 
 		map.resolve();
 		map.draw(statemachine.window);
