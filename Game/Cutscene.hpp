@@ -78,6 +78,7 @@ public:
 		// Prepare the cutscene.
 		subtitleText.setFont(AssetManager::instance()->getFont("arial"));
 		subtitleText.setPosition({50.0f, statemachine.window.getSize().y - 80.0f});
+		subtitleText.setColor(sf::Color::White);
 		subtitleText.setText("");
 
 		background.setPosition({ 640, 360 });
@@ -152,7 +153,8 @@ public:
 				ssStop >> std::get_time(&subTimeEnd, "%H:%M:%S");
 
 				if (!displaying && clock.getElapsedTime().asSeconds() >= (subTimeStart.tm_min * 60) + subTimeStart.tm_sec) {
-					subtitleText.setText(item->getText());	
+					subtitleText.setText(item->getText());
+                    subtitleText.setOutlineThicknes(2.0f);
 
 					if (item->getImagePath().length() > 0) {
 						if (item->getImagePath().compare("NONE") == 0) {

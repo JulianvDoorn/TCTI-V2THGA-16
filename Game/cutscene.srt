@@ -22,30 +22,42 @@ kinderen tegen de dood tijdens het slapen.
 Ook de ernstig zieke Stefanie heeft een bescherm knuffel.
 
 5
-00:00:20 --> 00:00:25
+00:00:20 --> 00:00:23
 #~cutscene/5.jpg
 Een knuffel konijn genaamt Fimmy.
 
 6
-00:00:25 --> 00:00:30
+00:00:23 --> 00:00:27
 #~cutscene/6.jpg
-Fimmy is elke nacht bezig met het 
-weg rennen voor de dood zodat Stefanie in leven zal blijven.
+Fimmy is elke nacht bezig met het
+weg rennen voor de dood ....
 
 7
-#~cutscene/7.jpg
-00:00:30 --> 00:00:35
-Omdat Fimmy al heel veel nachten op de vlucht is 
-geweest van de dood is ze in een slechte staat.
+00:00:27 --> 00:00:31
+.... zodat Stefanie in leven zal blijven.
 
 8
-#~cutscene/8.jpg
-00:00:35 --> 00:00:40
-Fimmy valt naarmaten ze door rent steeds 
-meer uitelkaar 
+00:00:31 --> 00:00:36
+#~cutscene/7.jpg
+Omdat Fimmy al heel veel nachten op de vlucht is
+geweest van de dood ...
 
 9
-00:00:40 --> 00:00:50
+00:00:36 --> 00:00:39
+ ... is ze in een slechte staat.
+
+10
+00:00:39 --> 00:00:44
+#~cutscene/8.jpg
+Fimmy valt naarmaten ze door rent steeds
+meer uitelkaar ...
+
+11
+00:00:44 --> 00:00:48
 #~cutscene/9.jpg
-en Fimmy vindt het steeds moeilijker om te blijven vluchten 
-voor de dood zodat Stefanie in leven blijft...
+... en Fimmy vindt het steeds moeilijker om te blijven vluchten voor de dood ...
+
+12
+00:00:48 --> 00:00:55
+... zodat Stefanie in leven blijft.
+

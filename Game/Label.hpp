@@ -157,5 +157,11 @@ public:
     void setStyle(sf::Text::Style style){
         displayText.setStyle(style);
     }
+    void  setOutlineColor(const sf::Color & color){
+        displayText.setOutlineColor(color);
+    }
+    void setOutlineThicknes(float size){
+        displayText.setOutlineThickness(size);
+    }
 };
 

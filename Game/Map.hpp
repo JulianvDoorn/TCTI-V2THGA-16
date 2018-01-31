@@ -71,6 +71,10 @@ class Map : public std::vector<std::unique_ptr<Body>> {
 	std::vector<std::unique_ptr<InteractionGroup>> interactionGroups;
 
 public:
+	//~Map() {
+	//	std::cout << "destruting map " << this << std::endl;
+	//}
+
 	EventSource<Body&> objectAdded;
 	EventSource<Body&> objectRemoving;
 
