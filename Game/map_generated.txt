@@ -201,7 +201,7 @@ texture {
  Repeated = true
 }
 player {
- Position = Vector2(9000, 250)
+ Position = Vector2(250, 250)
 }
 death {
  Position = Vector2(-200, 285)
