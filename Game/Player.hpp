@@ -745,4 +745,12 @@ public:
 	void gainHead(){
 		headDisplay = true;
 	}
+
+	void healBodyParts() {
+		if (!headDisplay) { headDisplay = true; }
+		else if (!rightArmDisplay) { rightArmDisplay = true; }
+		else if (!leftArmDisplay) { leftArmDisplay = true; }
+		else if (!rightLegDisplay) { rightArmDisplay = true; }
+		else if (!leftLegDisplay) { leftArmDisplay = true; }
+	}
 };
