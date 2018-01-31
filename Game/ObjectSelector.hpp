@@ -72,6 +72,8 @@ public:
 		selection(nullptr),
 		map(map)
 	{
+		std::cout << "constructed selector with map " << &map << std::endl;
+
 		boundingBox.setFillColor(sf::Color::Transparent);
 		boundingBox.setOutlineColor(sf::Color::Cyan);
 		boundingBox.setOutlineThickness(2.0f);
@@ -226,6 +228,7 @@ public:
 		keyReleasedConn = game.keyboard.keyPressed.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Delete) {
 				if (selection != nullptr) {
+					std::cout << "removing from map " << &map << std::endl;
 					map.removeObject(selection);
 					delete selection;
 					selection = nullptr;

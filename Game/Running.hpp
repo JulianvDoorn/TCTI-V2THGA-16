@@ -58,7 +58,7 @@ class Running : public State {
 	/** @brief	The power ups */
 	std::vector<PowerUp*> powerUps;
 
-	std::array<int, 5> bodyRemoveToggles = {500, 600, 700, 800, 900}; // 2000, 5000, 8000, 11000, 18000
+	std::array<int, 5> bodyRemoveToggles = {1500, 3000, 4500, 6000, 7200}; // 2000, 5000, 8000, 11000, 18000
 	int bodyRemoveToggleIndex = 0;
 
 	/** @brief	The background */
