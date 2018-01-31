@@ -58,7 +58,7 @@ private:
 	/** @brief	The key released connection */
 	EventConnection keyReleasedConn;
 
- /** @brief These variable are used to set a bodypart to display **/
+	/** @brief These variable are used to set a bodypart to display **/
     bool torsoDisplay = true;
     bool leftLegDisplay = true;
     bool rightLegDisplay = true;
@@ -75,6 +75,8 @@ private:
     Body leftArm;
     Body rightArm;
     Body rollRectangle;
+
+	int bodyPartsLeft = 5;
 
     sf::Vector2f playersize = {20,40};
 
@@ -233,6 +235,34 @@ public:
 	void checkDeath() {
 		if (getPosition().y > 2000) {
 			game.fellOffMap.fire();
+		}
+	}
+
+	void removeBodyPart(int bodyRemoveIndex) {
+		if (bodyPartsLeft == 0) {
+			// Only the torso is left, stop removing body parts otherwise the player won't be visible.
+			return;
+		}
+
+		if (bodyRemoveIndex == 0) {
+			std::cout << "Losing left arm...\n";
+			loseLeftArm();
+		}
+		else if (bodyRemoveIndex == 1) {
+			std::cout << "Losing right arm...\n";
+			loseRightArm();
+		}
+		else if (bodyRemoveIndex == 2) {
+			std::cout << "Losing left leg...\n";
+			loseLeftLeg();
+		}
+		else if (bodyRemoveIndex == 3) {
+			std::cout << "Losing right leg...\n";
+			loseRightLeg();
+		}
+		else if (bodyRemoveIndex == 4) {
+			std::cout << "Losing head...\n";
+			loseHead();
 		}
 	}
 
@@ -510,34 +540,68 @@ public:
     }
 
 	void loseLeftLeg(){
-		leftLegDisplay = false;
+		if (leftLegDisplay) {
+			leftLegDisplay = false;
+			bodyPartsLeft--;
+		}
 	}
 	void loseRightLeg(){
-		rightLegDisplay = false;
+		if (rightLegDisplay) {
+			rightLegDisplay = false;
+			bodyPartsLeft--;
+		}
 	}
 	void loseLeftArm(){
-		leftArmDisplay = false;
+		if (leftArmDisplay) {
+			leftArmDisplay = false;
+			bodyPartsLeft--;
+		}
 	}
 	void loseRightArm(){
-		rightArmDisplay = false;
+		if (rightArmDisplay) {
+			rightArmDisplay = false;
+			bodyPartsLeft--;
+		}
 	}
 	void loseHead(){
-		headDisplay = false;
+		if (headDisplay) {
+			headDisplay = false;
+			bodyPartsLeft--;
+		}
 	}
 
 	void gainLeftLeft(){
-		leftLegDisplay =true;
+		if (!leftLegDisplay) {
+			leftLegDisplay = true;
+			bodyPartsLeft++;
+		}
 	}
 	void gainRightLeg(){
-		rightLegDisplay =true;
+		if (!rightLegDisplay) {
+			rightLegDisplay = true;
+			bodyPartsLeft++;
+		}
 	}
 	void gainLeftArm(){
-		leftArmDisplay = true;
+		if (!leftArmDisplay) {
+			leftArmDisplay = true;
+			bodyPartsLeft++;
+		}
 	}
 	void gainRightArm(){
-		rightArmDisplay = true;
+		if (!rightArmDisplay) {
+			rightArmDisplay = true;
+			bodyPartsLeft++;
+		}
 	}
 	void gainHead(){
-		headDisplay = true;
+		if (!headDisplay) {
+			headDisplay = true;
+			bodyPartsLeft++;
+		}
+	}
+
+	int getBodyPartsLeft() {
+		return bodyPartsLeft;
 	}
 };
