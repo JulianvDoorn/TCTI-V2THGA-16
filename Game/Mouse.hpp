@@ -15,6 +15,7 @@
  */
 
 class Mouse : public SFMLEventDecoder {
+	/** @brief	The window */
 	sf::Window* window;
 
 public:

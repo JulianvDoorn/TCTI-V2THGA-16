@@ -21,6 +21,17 @@ public:
 		push_back(&drawable);
 	}
 
+	/**
+	 * @fn	void DrawableGroup::erase(sf::Drawable& drawable)
+	 *
+	 * @brief	Erases the given drawable
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @param [in,out]	drawable	The drawable.
+	 */
+
 	void erase(sf::Drawable& drawable) {
 		auto it = std::find(std::vector<sf::Drawable*>::begin(), std::vector<sf::Drawable*>::end(), &drawable);
 
@@ -28,6 +39,17 @@ public:
 			std::vector<sf::Drawable*>::erase(it);
 		}
 	}
+
+	/**
+	 * @fn	void DrawableGroup::draw(sf::RenderTarget& window)
+	 *
+	 * @brief	Draws the given window
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @param [in,out]	window	The window.
+	 */
 
 	void draw(sf::RenderTarget& window) {
 		for (sf::Drawable* drawable : *this) {

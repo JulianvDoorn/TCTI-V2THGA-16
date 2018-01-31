@@ -3,14 +3,31 @@
 #include "Body.hpp"
 #include "Player.hpp"
 
+/**
+ * @class	ViewFocus
+ *
+ * @brief	A view focus.
+ *
+ * @author	Jeffrey
+ * @date	1/31/2018
+ */
+
 class ViewFocus {
+	/** @brief	The view */
 	sf::View view;
+	/** @brief	The window */
 	sf::RenderWindow& window;
+	/** @brief	The focus */
 	Body* focus;
+	/** @brief	The left border */
 	int leftBorder;
+	/** @brief	The right border */
 	int rightBorder;
+    /** @brief	The top border */
     int topBorder;
+    /** @brief	The bottom border */
     int bottomBorder;
+	/** @brief	True to dynamic camera */
 	bool dynamicCamera = true;
 public:
 

@@ -37,8 +37,11 @@ private:
 	/** @brief	True if the button is pressed, false if not */
 	bool isPressed = false;
 
+	/** @brief	The mouse left button down connection */
 	EventConnection mouseLeftButtonDownConn;
+	/** @brief	The mouse left button up connection */
 	EventConnection mouseLeftButtonUpConn;
+	/** @brief	The mouse moved connection */
 	EventConnection mouseMovedConn;
 
 	/**
@@ -123,6 +126,15 @@ public:
 
 		bindEvents();
     };
+
+	/**
+	 * @fn	virtual Button::~Button()
+	 *
+	 * @brief	Destructor
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 */
 
 	virtual ~Button() {
 		mouseLeftButtonDownConn.disconnect();

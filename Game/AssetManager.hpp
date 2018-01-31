@@ -19,10 +19,34 @@
 
 class AssetTypeNotResolvedException : public std::exception {
 private:
+	/** @brief	The message */
 	std::string msg;
 
 public:
+
+	/**
+	 * @fn	AssetTypeNotResolvedException::AssetTypeNotResolvedException(const std::string &filename)
+	 *
+	 * @brief	Constructor
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 *
+	 * @param	filename	Filename of the file.
+	 */
+
 	AssetTypeNotResolvedException(const std::string &filename) : msg("Cannot determine asset type with filename '" + filename + "'!") {};
+
+	/**
+	 * @fn	const char* AssetTypeNotResolvedException::what() const noexcept
+	 *
+	 * @brief	Gets the what
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 *
+	 * @return	Null if it fails, else a pointer to a const char.
+	 */
 
 	const char* what() const noexcept {
 		return msg.c_str();
@@ -40,10 +64,35 @@ public:
 
 class AssetNotFoundByPathException : public std::exception {
 private:
+	/** @brief	The message */
 	std::string msg;
 
 public:
+
+	/**
+	 * @fn	AssetNotFoundByPathException::AssetNotFoundByPathException(const std::string &filename, const std::string &type)
+	 *
+	 * @brief	Constructor
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 *
+	 * @param	filename	Filename of the file.
+	 * @param	type		The type.
+	 */
+
 	AssetNotFoundByPathException(const std::string &filename, const std::string &type) : msg("Asset type with filename '" + filename + "' and type '" + type + "' cannot been found!") {};
+
+	/**
+	 * @fn	const char* AssetNotFoundByPathException::what() const noexcept
+	 *
+	 * @brief	Gets the what
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 *
+	 * @return	Null if it fails, else a pointer to a const char.
+	 */
 
 	const char* what() const noexcept {
 		return msg.c_str();
@@ -61,10 +110,34 @@ public:
 
 class AssetNotLoadedException : public std::exception {
 private:
+	/** @brief	The message */
 	std::string msg;
 	
 public:
+
+	/**
+	 * @fn	AssetNotLoadedException::AssetNotLoadedException(const std::string& id)
+	 *
+	 * @brief	Constructor
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 *
+	 * @param	id	The identifier.
+	 */
+
 	AssetNotLoadedException(const std::string& id) : msg("Asset with id '" + id +  "' is not loaded! Please load it first.") {};
+
+	/**
+	 * @fn	const char* AssetNotLoadedException::what() const noexcept
+	 *
+	 * @brief	Gets the what
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 *
+	 * @return	Null if it fails, else a pointer to a const char.
+	 */
 
 	const char* what() const noexcept {
 		return msg.c_str();
@@ -82,10 +155,32 @@ public:
 
 class AssetTextureUnavailable : public std::exception {
 private:
+	/** @brief	The message */
 	std::string msg;
 
 public:
+
+	/**
+	 * @fn	AssetTextureUnavailable::AssetTextureUnavailable()
+	 *
+	 * @brief	Default constructor
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 */
+
 	AssetTextureUnavailable() : msg("Could not resolve the texture id for the given texture!") {};
+
+	/**
+	 * @fn	const char* AssetTextureUnavailable::what() const noexcept
+	 *
+	 * @brief	Gets the what
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @return	Null if it fails, else a pointer to a const char.
+	 */
 
 	const char* what() const noexcept {
 		return msg.c_str();

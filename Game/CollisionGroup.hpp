@@ -36,9 +36,31 @@ public:
 
 	CollisionGroup(Collidable& collidable) : primaryCollidable(&collidable) { }
 
+	/**
+	 * @fn	Collidable& CollisionGroup::getPrimary()
+	 *
+	 * @brief	Gets the primary
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @return	The primary.
+	 */
+
 	Collidable& getPrimary() {
 		return *primaryCollidable;
 	}
+
+	/**
+	 * @fn	void CollisionGroup::setPrimary(Collidable& collidable)
+	 *
+	 * @brief	Sets a primarycollidable
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @param [in,out]	collidable	The collidable.
+	 */
 
 	void setPrimary(Collidable& collidable) {
 		primaryCollidable = &collidable;
@@ -58,6 +80,17 @@ public:
 	void add(Collidable& collidable) {
 		push_back(&collidable);
 	}
+
+	/**
+	 * @fn	void CollisionGroup::erase(Collidable& collidable)
+	 *
+	 * @brief	Erases the given collidable
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @param [in,out]	collidable	The collidable.
+	 */
 
 	void erase(Collidable& collidable) {
 		auto it = std::find(begin(), end(), &collidable);

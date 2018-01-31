@@ -124,9 +124,35 @@ public:
 		return lhs.id == rhs.id;
 	}
 
+	/**
+	 * @fn	friend bool EventConnection::operator== (const EventConnection& lhs, const uint32_t rhs)
+	 *
+	 * @brief	Equality operator
+	 * 			Returns lhs.id == rhs
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @param	lhs	The first instance to compare.
+	 * @param	rhs	The second instance to compare.
+	 *
+	 * @return	True if the parameters are considered equivalent.
+	 */
+
 	friend bool operator== (const EventConnection& lhs, const uint32_t rhs) {
 		return lhs.id == rhs;
 	}
+
+	/**
+	 * @class	EventSource
+	 *
+	 * @brief	An event source.
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @tparam	Args	Type of the arguments.
+	 */
 
 	template <class... Args> friend class EventSource;
 };

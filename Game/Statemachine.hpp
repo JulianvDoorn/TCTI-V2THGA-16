@@ -47,6 +47,18 @@ public:
 	 */
 
 	template<class T>
+
+	/**
+	 * @fn	void Statemachine::registerState(const std::string& name)
+	 *
+	 * @brief	Registers the state described by name
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @param	name	The name.
+	 */
+
 	void registerState(const std::string& name) {
 		stateFactory.registerCreateMethod(name, [this]() {
 			return new T(*this);

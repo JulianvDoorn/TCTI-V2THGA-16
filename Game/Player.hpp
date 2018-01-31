@@ -26,6 +26,8 @@ using KeySchemes = std::array<KeyScheme, 100>;
 
 class Player : public Body {
 private:
+
+    /** @brief	The window */
     sf::RenderWindow &window;
 
 	/** @brief	The current active key scheme */
@@ -37,19 +39,31 @@ private:
 		KeyScheme(sf::Keyboard::Key::J, sf::Keyboard::Key::L, sf::Keyboard::Key::I, sf::Keyboard::Key::J, sf::Keyboard::Key::LShift, KeyScheme::Difficulty::MODERATE)
 	};
 
+	/** @brief	The walk direction */
 	int32_t walkDirection = 0;
 
+	/** @brief	The default walking speed */
 	float defaultWalkingSpeed = 100;
+    /** @brief	The walkspeed */
     float walkspeed = defaultWalkingSpeed;
+	/** @brief	The jump force */
 	float jumpForce = 500;
+    /** @brief	True to spamming run key */
     bool spammingRunKey = false;
+    /** @brief	The running spamming factor */
     float runningSpammingFactor = 1;
+	/** @brief	True to jump */
 	bool jump = false;
+	/** @brief	True to roll */
 	bool roll = false;
+    /** @brief	The last key press time */
     sf::Time lastKeyPressTime;
+    /** @brief	True if run key pressed */
     bool runKeyPressed = false;
 
+    /** @brief	The run clock */
     sf::Clock runClock;
+	/** @brief	The roll clock */
 	sf::Clock rollClock;
 
 	/** @brief	The key pressed connection */
@@ -58,7 +72,7 @@ private:
 	/** @brief	The key released connection */
 	EventConnection keyReleasedConn;
 
- /** @brief These variable are used to set a bodypart to display **/
+    /** @brief	These variable are used to set a bodypart to display * */
     bool torsoDisplay = true;
     bool leftLegDisplay = true;
     bool rightLegDisplay = true;
@@ -68,23 +82,38 @@ private:
     bool leftArmDraw = true;
     bool rightArmDraw = true;
     bool rollRectangleDisplay = false;
+    /** @brief	The torso */
     Body torso;
+    /** @brief	The left leg */
     Body leftLeg;
+    /** @brief	The right leg */
     Body rightLeg;
+    /** @brief	The head */
     Body head;
+    /** @brief	The left arm */
     Body leftArm;
+    /** @brief	The right arm */
     Body rightArm;
+    /** @brief	The roll rectangle */
     Body rollRectangle;
 
+    /** @brief	The playersize */
     sf::Vector2f playersize = {20,40};
 
+    /** @brief	The default animation time in miliseconds */
     int defaultAnimationTimeInMiliseconds = 50;
+    /** @brief	The animation time in miliseconds */
     int animationTimeInMiliseconds = defaultAnimationTimeInMiliseconds;
+	/** @brief	The animation cyle */
 	int animationCyle = 0;
+    /** @brief	The animation clock */
     sf::Clock animationClock;
 
+    /** @brief	The keyscheme text */
     Label keyschemeText;
+    /** @brief	The key scheme show clock */
     sf::Clock keySchemeShowClock;
+    /** @brief	The key scheme show time in milliseconds */
     int keySchemeShowTimeInMilliseconds = 3000;
 
 
@@ -300,6 +329,14 @@ public:
 		return activeKeyScheme;
 	}
 
+    /**
+     * @fn	void Player::doWalk()
+     *
+     * @brief	Executes the walk operation
+     *
+     * @author	Jeffrey
+     * @date	1/31/2018
+     */
 
     void doWalk(){
 
@@ -401,6 +438,16 @@ public:
             }
         }
     }
+
+	/**
+	 * @fn	void Player::doRoll()
+	 *
+	 * @brief	Executes the roll operation
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 */
+
 	void doRoll(){
         rollRectangleDisplay = true;
 		if (walkDirection > 0) {
@@ -425,6 +472,15 @@ public:
 		}
 	}
 
+	/**
+	 * @fn	void Player::doRun()
+	 *
+	 * @brief	Executes the run operation
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 */
+
 	void doRun(){
 		runKeyPressed = true;
 		if (runClock.getElapsedTime().asMilliseconds() - lastKeyPressTime.asMilliseconds() <200){
@@ -445,6 +501,15 @@ public:
 		lastKeyPressTime = runClock.getElapsedTime();
 	}
 
+	/**
+	 * @fn	void Player::checkStillRunning()
+	 *
+	 * @brief	Check still running
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 */
+
 	void checkStillRunning(){
 		runKeyPressed = false;
 		if (spammingRunKey){
@@ -459,12 +524,32 @@ public:
 			animationTimeInMiliseconds = defaultAnimationTimeInMiliseconds;
 		}
 	}
+
+	/**
+	 * @fn	void Player::unRoll()
+	 *
+	 * @brief	Un roll
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 */
+
 	void unRoll(){
         roll = false;
         rollRectangleDisplay = false;
         setSize(playersize);
         setPosition({getPosition().x + 20, getPosition().y});
 	}
+
+    /**
+     * @fn	void Player::showKeySchemeUsed()
+     *
+     * @brief	Shows the key scheme used
+     *
+     * @author	Jeffrey de Waal
+     * @date	1/31/2018
+     */
+
     void showKeySchemeUsed(){
         keyschemeText.setFont(AssetManager::instance()->getFont("arial"));
         keyschemeText.setCharSize(16);
@@ -478,6 +563,15 @@ public:
         keySchemeShowClock.restart();
     }
 
+    /**
+     * @fn	void Player::updateKeySchemeDisplay()
+     *
+     * @brief	Updates the key scheme display
+     *
+     * @author	Jeffrey de Waal
+     * @date	1/31/2018
+     */
+
     void updateKeySchemeDisplay(){
         sf::Vector2f position = window.mapPixelToCoords(static_cast<sf::Vector2i>(window.getView().getSize()), window.getView());
         sf::Vector2f offset = {100,-100};
@@ -486,6 +580,19 @@ public:
             keyschemeText.setColor(sf::Color::Transparent);
         }
     }
+
+    /**
+     * @fn	void Player::draw(sf::RenderTarget &window, sf::RenderStates renderStates) const override
+     *
+     * @brief	Draws
+     *
+     * @author	Jeffrey de Waal
+     * @date	1/31/2018
+     *
+     * @param [in,out]	window			The window.
+     * @param 		  	renderStates	List of states.
+     */
+
     void draw(sf::RenderTarget &window, sf::RenderStates renderStates) const override {
 		if (!roll){
 			window.draw(head);
@@ -509,34 +616,132 @@ public:
 		window.draw(keyschemeText);
     }
 
+	/**
+	 * @fn	void Player::loseLeftLeg()
+	 *
+	 * @brief	Lose left leg
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 */
+
 	void loseLeftLeg(){
 		leftLegDisplay = false;
 	}
+
+	/**
+	 * @fn	void Player::loseRightLeg()
+	 *
+	 * @brief	Lose right leg
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 */
+
 	void loseRightLeg(){
 		rightLegDisplay = false;
 	}
+
+	/**
+	 * @fn	void Player::loseLeftArm()
+	 *
+	 * @brief	Lose left arm
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 */
+
 	void loseLeftArm(){
 		leftArmDisplay = false;
 	}
+
+	/**
+	 * @fn	void Player::loseRightArm()
+	 *
+	 * @brief	Lose right arm
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 */
+
 	void loseRightArm(){
 		rightArmDisplay = false;
 	}
+
+	/**
+	 * @fn	void Player::loseHead()
+	 *
+	 * @brief	Lose head
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 */
+
 	void loseHead(){
 		headDisplay = false;
 	}
 
+	/**
+	 * @fn	void Player::gainLeftLeft()
+	 *
+	 * @brief	Gain left
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 */
+
 	void gainLeftLeft(){
 		leftLegDisplay =true;
 	}
+
+	/**
+	 * @fn	void Player::gainRightLeg()
+	 *
+	 * @brief	Gain right leg
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 */
+
 	void gainRightLeg(){
 		rightLegDisplay =true;
 	}
+
+	/**
+	 * @fn	void Player::gainLeftArm()
+	 *
+	 * @brief	Gain left arm
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 */
+
 	void gainLeftArm(){
 		leftArmDisplay = true;
 	}
+
+	/**
+	 * @fn	void Player::gainRightArm()
+	 *
+	 * @brief	Gain right arm
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 */
+
 	void gainRightArm(){
 		rightArmDisplay = true;
 	}
+
+	/**
+	 * @fn	void Player::gainHead()
+	 *
+	 * @brief	Gain head
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 */
+
 	void gainHead(){
 		headDisplay = true;
 	}

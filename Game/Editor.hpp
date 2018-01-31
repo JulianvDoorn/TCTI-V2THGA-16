@@ -37,11 +37,17 @@ class Editor : public State {
 	/** @brief	The game map */
 	Map map;
 
+	/** @brief	The key pressed connection */
 	EventConnection keyPressedConnection;
+	/** @brief	The key released connection */
 	EventConnection keyReleasedConnection;
+	/** @brief	The mouse left button up */
 	EventConnection mouseLeftButtonUp;
+	/** @brief	The mouse moved connection */
 	EventConnection mouseMovedConn;
+	/** @brief	The object added connection */
 	EventConnection objectAddedConn;
+	/** @brief	The object removed connection */
 	EventConnection objectRemovedConn;
 
 	/**

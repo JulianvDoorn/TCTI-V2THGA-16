@@ -21,6 +21,18 @@ protected:
 
 public:
 	friend std::ofstream& operator<< (std::ofstream& lhs, const Serializable& rhs) {
+
+		/**
+		 * @fn	Serializable::rhs.writeToFile(lhs);
+		 *
+		 * @brief	Constructor
+		 *
+		 * @author	Jeffrey
+		 * @date	1/31/2018
+		 *
+		 * @param	parameter1	The first parameter.
+		 */
+
 		rhs.writeToFile(lhs);
 		return lhs;
 	}

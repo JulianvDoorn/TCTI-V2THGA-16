@@ -21,10 +21,32 @@
 
 class Game : public SFMLEventDecoder {
 public:
+
+	/**
+	 * @fn	Game::Game()
+	 *
+	 * @brief	Default constructor
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 */
+
 	Game() { }
+
+	/**
+	 * @fn	Game::Game(sf::RenderWindow& window)
+	 *
+	 * @brief	Constructor
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @param [in,out]	window	The window.
+	 */
 
 	Game(sf::RenderWindow& window) : window(&window), keyboard(window), mouse(window){ }
 
+	/** @brief	The window */
 	sf::RenderWindow* window;
 
 	/** @brief	Died event, meant to be fired when the player dies. */

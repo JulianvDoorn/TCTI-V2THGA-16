@@ -17,14 +17,28 @@
  */
 
 class Body : public virtual Collidable, public Sprite {
+	/** @brief	The gravity */
 	sf::Vector2f gravity = { 0, 981.0f };
 
 protected:
+
+	/**
+	 * @fn	void Body::onCollide(Collidable& other) override
+	 *
+	 * @brief	Executes the collide action
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @param [in,out]	other	The other.
+	 */
+
 	void onCollide(Collidable& other) override {
 		collided.fire(other);
 	}
 
 public:
+	/** @brief	The collided */
 	EventSource<Collidable&> collided;
 
 	/**
@@ -38,18 +52,62 @@ public:
 
 	Body() { }
 
+	/**
+	 * @fn	void Body::setGravity(const sf::Vector2f& gravity)
+	 *
+	 * @brief	Sets a gravity
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @param	gravity	The gravity.
+	 */
+
 	void setGravity(const sf::Vector2f& gravity) {
 		this->gravity = gravity;
 	}
-	
+
+	/**
+	 * @fn	sf::Vector2f Body::getGravity() const
+	 *
+	 * @brief	Gets the gravity
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @return	The gravity.
+	 */
+
 	sf::Vector2f getGravity() const {
 		return gravity;
 	}
+
+	/**
+	 * @fn	virtual void Body::update(const float elapsedType)
+	 *
+	 * @brief	Updates using the elapsedtime
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @param	elapsedType	Type of the elapsed.
+	 */
 
 	virtual void update(const float elapsedType) {
 		applyForce(gravity * elapsedType);
 		setPosition(getPosition() + velocity * elapsedType);
 	}
+
+	/**
+	 * @fn	void Body::applyForce(const sf::Vector2f& force)
+	 *
+	 * @brief	Applies the force described by force
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @param	force	The force.
+	 */
 
 	void applyForce(const sf::Vector2f& force) {
 		velocity += force;

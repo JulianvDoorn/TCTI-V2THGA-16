@@ -29,6 +29,7 @@ private:
 
 	std::string timeStart, timeEnd;
 
+	/** @brief	The image */
 	std::string image;
 
 public:
@@ -114,6 +115,17 @@ public:
 	std::string getTimeEnd() const {
 		return timeEnd;
 	}
+
+	/**
+	 * @fn	std::string SubtitleItem::getImagePath() const
+	 *
+	 * @brief	Gets image path
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @return	The image path.
+	 */
 
 	std::string getImagePath() const {
 		return image;

@@ -30,14 +30,21 @@
  */
 
 class FreeCamera {
+	/** @brief	The view */
 	sf::View view;
+	/** @brief	The window */
 	sf::RenderWindow& window;
 
+	/** @brief	The speed */
 	float speed;
+	/** @brief	The movement */
 	sf::Vector2i movement = { 0, 0 };
+	/** @brief	The position */
 	sf::Vector2f position = { 0, 0 };
 
+	/** @brief	The key pressed connection */
 	EventConnection keyPressedConnection;
+	/** @brief	The key released connection */
 	EventConnection keyReleasedConnection;
 
 public:

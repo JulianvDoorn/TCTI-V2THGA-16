@@ -7,7 +7,17 @@
 #include "Collision.hpp"
 #include "ClickableRectangle.hpp"
 
+/**
+ * @class	Collidable
+ *
+ * @brief	A collidable.
+ *
+ * @author	Jeffrey
+ * @date	1/31/2018
+ */
+
 class Collidable : public GameObject, public MovingObject, public virtual sf::RectangleShape {
+	/** @brief	True to side collision */
 	bool sideCollision = false;
 
 protected:
@@ -24,8 +34,27 @@ protected:
 	 */
 
 	virtual void onCollide(Collidable& other) { }
-	
+
+	/**
+	 * @class	IntersectionGroup
+	 *
+	 * @brief	An intersection group.
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 */
+
 	friend class IntersectionGroup;
+
+	/**
+	 * @class	CollisionGroup
+	 *
+	 * @brief	A collision group.
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 */
+
 	friend class CollisionGroup;
 
 public:

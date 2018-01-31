@@ -55,8 +55,10 @@ class Running : public State {
 	/** @brief	The game over counter */
 	float gameOverCounter = 3.0f;
 
+	/** @brief	The power ups */
 	std::vector<PowerUp*> powerUps;
 
+	/** @brief	The background */
 	sf::Sprite background;
 public:
 

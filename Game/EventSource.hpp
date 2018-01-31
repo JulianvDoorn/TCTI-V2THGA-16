@@ -22,6 +22,15 @@ class DisconnectedEventConnectionException : public std::exception {
 	}
 };
 
+/**
+ * @class	LockGuard
+ *
+ * @brief	A lock guard.
+ *
+ * @author	Jeffrey
+ * @date	1/31/2018
+ */
+
 class LockGuard {
 	std::function<void()> releaseLambda;
 
@@ -54,21 +63,73 @@ public:
 	using EventFunction = std::function<void(Args...)>;
 
 private:
+	/** @brief	True to lock, false to unlock */
 	bool locked = false;
+	/** @brief	The identifier counter */
 	uint32_t idCounter = 0;
 
+	/**
+	 * @struct	EventBinding
+	 *
+	 * @brief	An event binding.
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 */
+
 	struct EventBinding {
+		/** @brief	The identifier */
 		uint32_t id;
+		/** @brief	The function */
 		EventFunction func;
 
+		/**
+		 * @fn	EventBinding(EventFunction func, uint32_t id) : id(id), func(std::move(func))
+		 *
+		 * @brief	Constructor
+		 *
+		 * @author	Jeffrey
+		 * @date	1/31/2018
+		 *
+		 * @param	func	The function.
+		 * @param	id  	The identifier.
+		 */
+
 		EventBinding(EventFunction func, uint32_t id) : id(id), func(std::move(func)) { }
-		
+
+		/**
+		 * @fn	EventBinding& operator= (const EventBinding& rhs)
+		 *
+		 * @brief	Assignment operator
+		 *
+		 * @author	Jeffrey
+		 * @date	1/31/2018
+		 *
+		 * @param	rhs	The right hand side.
+		 *
+		 * @return	A shallow copy of this object.
+		 */
+
 		EventBinding& operator= (const EventBinding& rhs) {
 			id = rhs.id;
 			func = std::move(rhs.func);
 
 			return *this;
 		}
+
+		/**
+		 * @fn	bool operator== (const EventConnection& rhs) const
+		 *
+		 * @brief	Equality operator
+		 * 			returnes rhs == id
+		 *
+		 * @author	Jeffrey
+		 * @date	1/31/2018
+		 *
+		 * @param	rhs	The right hand side.
+		 *
+		 * @return	True if the parameters are considered equivalent.
+		 */
 
 		bool operator== (const EventConnection& rhs) const {
 			return rhs == id;
@@ -93,7 +154,23 @@ private:
 	 */
 
 protected:
+
+	/**
+	 * @fn	void EventSource::disconnect(EventConnection& conn) override
+	 *
+	 * @brief	Disconnects the given conn
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @exception	DisconnectedEventConnectionException	Thrown when a Disconnected Event
+	 * 														Connection error condition occurs.
+	 *
+	 * @param [in,out]	conn	The Connection to disconnect.
+	 */
+
 	void disconnect(EventConnection& conn) override {
+		/** @brief	True if disconnected */
 		bool disconnected = false;
 
 		{

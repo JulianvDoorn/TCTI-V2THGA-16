@@ -28,6 +28,7 @@
  */
 
 class MapFactory : public BaseFactory<void, std::string, Map&, const MapItemProperties&> {
+	/** @brief	The input */
 	std::istream& input;
 
 public:

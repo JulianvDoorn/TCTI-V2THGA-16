@@ -4,17 +4,43 @@
 
 #include "Events.hpp"
 
+/**
+ * @class	ClickableRectangle
+ *
+ * @brief	A clickable rectangle.
+ *
+ * @author	Jeffrey
+ * @date	1/31/2018
+ */
+
 class ClickableRectangle : public virtual sf::RectangleShape {
+	/** @brief	The master mouse left button down */
 	EventConnection masterMouseLeftButtonDown;
+	/** @brief	The master mouse left button up */
 	EventConnection masterMouseLeftButtonUp;
+	/** @brief	The master mouse right button down */
 	EventConnection masterMouseRightButtonDown;
+	/** @brief	The master mouse right button up */
 	EventConnection masterMouseRightButtonUp;
 
 public:
+	/** @brief	The mouse left button down */
 	EventSource<> mouseLeftButtonDown;
+	/** @brief	The mouse left button up */
 	EventSource<> mouseLeftButtonUp;
+	/** @brief	The mouse right button down */
 	EventSource<> mouseRightButtonDown;
+	/** @brief	The mouse right button up */
 	EventSource<> mouseRightButtonUp;
+
+	/**
+	 * @fn	void ClickableRectangle::bindMouseEvents()
+	 *
+	 * @brief	Bind mouse events
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 */
 
 	void bindMouseEvents() {
 		masterMouseLeftButtonDown = game.mouse.mouseLeftButtonDown.connect([this](sf::Vector2i pos) {
@@ -41,6 +67,15 @@ public:
 			}
 		});
 	}
+
+	/**
+	 * @fn	void ClickableRectangle::unbindMouseEvents()
+	 *
+	 * @brief	Unbind mouse events
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 */
 
 	void unbindMouseEvents() {
 		masterMouseLeftButtonDown.disconnect();

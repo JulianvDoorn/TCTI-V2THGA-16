@@ -15,27 +15,42 @@
  */
 
 class ObjectSelector : public sf::Drawable, public GameObject {
+	/** @brief	The selection */
 	Body* selection;
 
+	/** @brief	The resize origin */
 	sf::Vector2f resizeOrigin;
 
+	/** @brief	The offset */
 	sf::Vector2i offset;
+	/** @brief	True to dragging */
 	bool dragging;
 
+	/** @brief	The bounding box */
 	sf::RectangleShape boundingBox;
 
+	/** @brief	Handle of the top resize */
 	sf::CircleShape topResizeHandle;
+	/** @brief	Handle of the bottom resize */
 	sf::CircleShape bottomResizeHandle;
+	/** @brief	Handle of the left resize */
 	sf::CircleShape leftResizeHandle;
+	/** @brief	Handle of the right resize */
 	sf::CircleShape rightResizeHandle;
 
+	/** @brief	The key released connection */
 	EventConnection keyReleasedConn;
+	/** @brief	The mouse moved connection */
 	EventConnection mouseMovedConn;
+	/** @brief	The mouse left button down */
 	EventConnection mouseLeftButtonDown;
+	/** @brief	The mouse left button up */
 	EventConnection mouseLeftButtonUp;
 
+	/** @brief	The resize direction */
 	ResizeFace resizeDirection;
 
+	/** @brief	The map */
 	Map& map;
 
 public:
