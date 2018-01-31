@@ -5,7 +5,7 @@
 #include "GameStates.hpp"
 #include "Events.hpp"
 #include "AssetManager.hpp"
-#include "FimmyIcon.hpp"
+#include "fimmyIcon.hpp"
 
 //#define ENABLE_DEBUG_MODE
 
@@ -13,7 +13,7 @@ int main() {
 	// Game constants.
 	const float FPS = 60.0f;
 	const bool  ENABLE_CUTSCENE = false;
-	const bool  ENABLE_EDITOR = true;
+	const bool  ENABLE_EDITOR = false;
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720, 32), "Fimmy the Game");
 
