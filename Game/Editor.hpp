@@ -198,14 +198,14 @@ public:
 
 		// Add those textures into dummy rectangles and place them into the dock.
 		for (std::map<std::string, sf::Texture>::iterator it = textures.begin(); it != textures.end(); it++) {
-			std::shared_ptr<Body> rect = std::make_shared < Body >();
+			Body rect;
 
-			rect->setSize({ 40.0f, 40.0f });
+			rect.setSize({ 40.0f, 40.0f });
 			
-			rect->setOutlineColor(sf::Color::White);
-			rect->setOutlineThickness(1.0f);
-			rect->setTexture(&it->second);
-			rect->setTextureRect({ 0, 0, 20, 20 });
+			rect.setOutlineColor(sf::Color::White);
+			rect.setOutlineThickness(1.0f);
+			rect.setTexture(&it->second);
+			rect.setTextureRect({ 0, 0, 20, 20 });
 
 			dock.addRectangle(rect);
 		}

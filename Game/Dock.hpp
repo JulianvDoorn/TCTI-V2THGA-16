@@ -20,7 +20,7 @@
 class Dock {
 private:
 	/** @brief	The rectangles templates used for displaying texture dummy's */
-	std::vector<std::shared_ptr<Body>> rectanglesTemplates;
+	std::vector<Body> rectanglesTemplates;
 	
 	/** @brief	The map displayed on the screen */
 	Map &map;
@@ -72,18 +72,17 @@ public:
 	 * @param	r	A std::shared_ptr&lt;Body&gt; to process.
 	 */
 
-	void addRectangle(std::shared_ptr<Body> r) {
+	void addRectangle(Body& r) {
 		if (xAxisItems > 22) {
 			dockStartY += 55;
 			dockStartX = 25;
 			xAxisItems = 0;
 		}
 
-		r->setPosition({ dockStartX, dockStartY });
+		rectanglesTemplates.emplace_back(r);
+		rectanglesTemplates.back().setPosition({ dockStartX, dockStartY });
 
 		dockStartX += dockItemOffset;
-
-		rectanglesTemplates.push_back(r);
 		xAxisItems++;
 	}
 
@@ -99,17 +98,17 @@ public:
 	 */
 
 	void selectRectangle(sf::Vector2i mousePos) {
-		for (auto &rectangle : rectanglesTemplates) {
-			if (rectangle->getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+		for (Body& rectangle : rectanglesTemplates) {
+			if (rectangle.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
 				Body* temp = new Body();
 
 				map.addObject(temp);
 				map.addDrawable(temp);
 
 				temp->setPosition(game.window->mapPixelToCoords(mousePos));
-				temp->setTexture(rectangle->getTexture());
-				temp->setTextureRect(rectangle->getTextureRect());
-				temp->setSize(rectangle->getSize());
+				temp->setTexture(rectangle.getTexture());
+				temp->setTextureRect(rectangle.getTextureRect());
+				temp->setSize(rectangle.getSize());
 
 				selection.select(temp);
 
@@ -129,14 +128,14 @@ public:
 
 	void draw() {
 		// Set the position of the selected rectangle to the position of the mouse.
-		for (auto rectangle : rectanglesTemplates) {
-			sf::Vector2f oldPos = rectangle->getPosition();
-			sf::Vector2f cameraPos = window.mapPixelToCoords(static_cast<sf::Vector2i>(rectangle->getPosition()));
+		for (Body& rectangle : rectanglesTemplates) {
+			sf::Vector2f oldPos = rectangle.getPosition();
+			sf::Vector2f cameraPos = window.mapPixelToCoords(static_cast<sf::Vector2i>(rectangle.getPosition()));
 			
-			rectangle->setPosition(cameraPos);
+			rectangle.setPosition(cameraPos);
 
-			window.draw(*rectangle);
-			rectangle->setPosition(oldPos);
+			window.draw(rectangle);
+			rectangle.setPosition(oldPos);
 		}
 	}
 };
