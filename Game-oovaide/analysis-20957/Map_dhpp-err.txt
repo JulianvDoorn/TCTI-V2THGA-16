@@ -1,3 +1,0 @@
-C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/Map.hpp:1:9: warning: #pragma once in main file [-Wpragma-once-outside-header]
-C:\TDM-GCC-4.9.2\lib\gcc\x86_64-w64-mingw32\5.1.0\include\c++\x86_64-w64-mingw32\bits/opt_random.h:33:10: fatal error: 'x86intrin.h' file not found
-Arguments: C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/Map.hpp C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/ C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game-oovaide/analysis-20957/ -c -x c++ -std=c++11 -IC:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/ 

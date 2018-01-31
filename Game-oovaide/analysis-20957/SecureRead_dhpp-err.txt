@@ -1,5 +1,0 @@
-C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/SecureRead.hpp:1:9: warning: #pragma once in main file [-Wpragma-once-outside-header]
-C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/StreamManipulators.hpp:20:17: error: no member named 'numeric_limits' in namespace 'std'
-C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/StreamManipulators.hpp:20:35: error: expected '(' for function-style cast or type construction
-C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/StreamManipulators.hpp:20:38: error: no member named 'max' in the global namespace
-Arguments: C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/SecureRead.hpp C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/ C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game-oovaide/analysis-20957/ -c -x c++ -std=c++11 -IC:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/ 

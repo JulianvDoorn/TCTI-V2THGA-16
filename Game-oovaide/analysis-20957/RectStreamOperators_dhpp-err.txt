@@ -1,3 +1,0 @@
-C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/RectStreamOperators.hpp:1:9: warning: #pragma once in main file [-Wpragma-once-outside-header]
-C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/RectStreamOperators.hpp:3:10: fatal error: 'SFML/Graphics.hpp' file not found
-Arguments: C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/RectStreamOperators.hpp C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/ C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game-oovaide/analysis-20957/ -c -x c++ -std=c++11 -IC:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/ 
