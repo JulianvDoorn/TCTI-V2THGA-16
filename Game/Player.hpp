@@ -245,23 +245,18 @@ public:
 		}
 
 		if (bodyRemoveIndex == 0) {
-			std::cout << "Losing left arm...\n";
 			loseLeftArm();
 		}
 		else if (bodyRemoveIndex == 1) {
-			std::cout << "Losing right arm...\n";
 			loseRightArm();
 		}
 		else if (bodyRemoveIndex == 2) {
-			std::cout << "Losing left leg...\n";
 			loseLeftLeg();
 		}
 		else if (bodyRemoveIndex == 3) {
-			std::cout << "Losing right leg...\n";
 			loseRightLeg();
 		}
 		else if (bodyRemoveIndex == 4) {
-			std::cout << "Losing head...\n";
 			loseHead();
 		}
 	}

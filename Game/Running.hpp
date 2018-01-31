@@ -243,7 +243,6 @@ public:
 		}
 
 		if (bodyRemoveToggleIndex != -1 && player.getPosition().x >= bodyRemoveToggles.at(bodyRemoveToggleIndex) ) {
-			std::cout << "Removing body part: " << bodyRemoveToggleIndex << std::endl;
 			player.removeBodyPart(bodyRemoveToggleIndex);
 
 			if (bodyRemoveToggleIndex < 4) {
