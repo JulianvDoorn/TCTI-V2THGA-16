@@ -146,8 +146,18 @@ texture {
  Repeated = false
 }
 texture {
+ Id = "fimmyRollLeftHeadless"
+ Location = "Fimmy/fimmyRollLeftHeadless.png"
+ Repeated = false
+}
+texture {
  Id = "fimmyRollRight"
  Location = "Fimmy/FimmyRollRight.png"
+ Repeated = false
+}
+texture {
+ Id = "fimmyRollRightHeadless"
+ Location = "Fimmy/fimmyRollRightHeadless.png"
  Repeated = false
 }
 texture {

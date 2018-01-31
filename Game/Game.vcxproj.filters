@@ -301,6 +301,7 @@
     <Text Include="map.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="map_generated.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cutscene.srt">

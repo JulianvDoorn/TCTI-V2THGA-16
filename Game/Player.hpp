@@ -387,14 +387,14 @@ public:
                     if (rightArmDisplay) {
                         rightArm.setTexture(&AssetManager::instance()->getTexture("fimmyRightArm"));
                     }
-                    leftArmDraw = false;
+					leftArmDraw = false;
                 }
             }
             if (walkDirection < 0) {
                 if (!roll) {
                     if (torsoDisplay) {
                         torso.setTexture(&AssetManager::instance()->getTexture("fimmyLeftBody"));
-                    }
+					}
                     if (headDisplay) {
                         head.setTexture(&AssetManager::instance()->getTexture("fimmyLeftHead"));
                     }
@@ -435,13 +435,23 @@ public:
         rollRectangleDisplay = true;
 		if (walkDirection > 0) {
 			rollRectangle.setPosition(getPosition());
-			rollRectangle.setTexture(&AssetManager::instance()->getTexture("fimmyRollRight"));
+			if (headDisplay) {
+				rollRectangle.setTexture(&AssetManager::instance()->getTexture("fimmyRollRight"));
+			}
+			else {
+				rollRectangle.setTexture(&AssetManager::instance()->getTexture("fimmyRollRightHeadless"));
+			}
 			setVelocity({ 299, jumpForce });
 		}
 		else if (walkDirection < 0) {
 			setVelocity({ -299, jumpForce });
 			rollRectangle.setPosition(getPosition());
-			rollRectangle.setTexture(&AssetManager::instance()->getTexture("fimmyRollLeft"));
+			if (headDisplay) {
+				rollRectangle.setTexture(&AssetManager::instance()->getTexture("fimmyRollLeft"));
+			}
+			else {
+				rollRectangle.setTexture(&AssetManager::instance()->getTexture("fimmyRollRightHeadless"));
+			}
 		}
 		else {
 			setVelocity({ 0, jumpForce });
@@ -495,6 +505,7 @@ public:
         setSize(playersize);
         setPosition({getPosition().x + 20, getPosition().y});
 	}
+
     void showKeySchemeUsed(){
         keyschemeText.setFont(AssetManager::instance()->getFont("arial"));
         keyschemeText.setCharSize(16);
@@ -510,19 +521,31 @@ public:
 
     void updateKeySchemeDisplay(){
         sf::Vector2f position = window.mapPixelToCoords(static_cast<sf::Vector2i>(window.getView().getSize()), window.getView());
-        sf::Vector2f offset = {100,-100};
+        sf::Vector2f offset = {100, -100};
+
         keyschemeText.setPosition(position - offset);
         if(keySchemeShowClock.getElapsedTime().asMilliseconds() > keySchemeShowTimeInMilliseconds){
             keyschemeText.setColor(sf::Color::Transparent);
         }
     }
     void draw(sf::RenderTarget &window, sf::RenderStates renderStates) const override {
-		if (!roll){
-			window.draw(head);
-			window.draw(torso);
-			window.draw(leftLeg);
-			window.draw(rightLeg);
+		if (!roll) {
+			if (headDisplay) {
+				window.draw(head);
+			}
 
+			if (torsoDisplay) {
+				window.draw(torso);
+			}
+
+			if (leftLegDisplay) {
+				window.draw(leftLeg);
+			}
+
+			if (rightLegDisplay) {
+				window.draw(rightLeg);
+			}
+			
             if (leftArmDraw) {
 				window.draw(leftArm);
             }
@@ -530,11 +553,12 @@ public:
             if (rightArmDraw) {
 				window.draw(rightArm);
             }
-        }
-
-        if (rollRectangleDisplay){
-			window.draw(rollRectangle);
-        }
+		}
+		else {
+			if (rollRectangleDisplay) {
+				window.draw(rollRectangle);
+			}
+		}
 
 		window.draw(keyschemeText);
     }
