@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "SubtitleTime.hpp"
+
 /**
  * @class	SubtitleItem
  *
@@ -27,25 +29,25 @@ private:
 	 * @brief	Subtitle start and end timers.
 	 */
 
-	std::string timeStart, timeEnd;
+	SubtitleTime timeStart, timeEnd;
 
 	std::string image;
 
 public:
 
 	/**
-	 * @fn	SubtitleItem::SubtitleItem(int subtitleNumber, std::string text, std::string timeStart, std::string timeEnd)
-	 *
-	 * @brief	Constructor
-	 *
-	 * @author	Wiebe
-	 * @date	24-1-2018
-	 *
-	 * @param	subtitleNumber	The subtitle number.
-	 * @param	text		  	The subtitle text.
-	 * @param	timeStart	  	The subtitle time start.
-	 * @param	timeEnd		  	The subtitle time end.
-	 */
+	* @fn	SubtitleItem::SubtitleItem(int subtitleNumber, std::string text, std::string timeStart, std::string timeEnd)
+	*
+	* @brief	Constructor
+	*
+	* @author	Wiebe
+	* @date	24-1-2018
+	*
+	* @param	subtitleNumber	The subtitle number.
+	* @param	text		  	The subtitle text.
+	* @param	timeStart	  	The subtitle time start.
+	* @param	timeEnd		  	The subtitle time end.
+	*/
 
 	SubtitleItem(int subtitleNumber, std::string text, std::string image, std::string timeStart, std::string timeEnd) :
 		subtitleNumber(subtitleNumber),
@@ -53,7 +55,25 @@ public:
 		image(image),
 		timeStart(timeStart),
 		timeEnd(timeEnd)
-	{};
+	{ };
+
+	/**
+	* @fn	SubtitleItem::SubtitleItem(int subtitleNumber, std::string text)
+	*
+	* @brief	Constructor
+	*
+	* @author	Wiebe
+	* @date	24-1-2018
+	*
+	* @param	subtitleNumber	The subtitle number.
+	* @param	text		  	The subtitle text.
+	*/
+
+	SubtitleItem(int subtitleNumber, std::string text, std::string image) :
+		subtitleNumber(subtitleNumber),
+		text(text),
+		image(image)
+	{ };
 
 	/**
 	 * @fn	int SubtitleItem::getSubtitleNumber() const
@@ -96,7 +116,7 @@ public:
 	 * @return	The subtitle time start.
 	 */
 
-	std::string getTimeStart() const {
+	SubtitleTime getTimeStart() const {
 		return timeStart;
 	}
 
@@ -111,7 +131,7 @@ public:
 	 * @return	The subtitle time end.
 	 */
 
-	std::string getTimeEnd() const {
+	SubtitleTime getTimeEnd() const {
 		return timeEnd;
 	}
 

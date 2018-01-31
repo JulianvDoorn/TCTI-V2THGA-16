@@ -296,6 +296,15 @@
     <ClInclude Include="Body.hpp">
       <Filter>Header Files\Graphics\Shapes</Filter>
     </ClInclude>
+    <ClInclude Include="SubtitleDialog.hpp">
+      <Filter>Header Files\Subtitles</Filter>
+    </ClInclude>
+    <ClInclude Include="TestState.hpp">
+      <Filter>Header Files\GameStates\States</Filter>
+    </ClInclude>
+    <ClInclude Include="SubtitleTime.hpp">
+      <Filter>Header Files\Subtitles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="map.txt">

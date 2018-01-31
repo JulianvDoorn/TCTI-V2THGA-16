@@ -140,28 +140,22 @@ public:
 	void update(const float elapsedTime) override {
 		if ((clock.getElapsedTime().asSeconds() - lastSubtitleUpdate.asSeconds()) > 0) {
 			if (subtitles.size() > 0) {
-				auto item = subtitles.back();
+				const SubtitleItem& item = *subtitles.back();
 
-				std::tm subTimeStart, subTimeEnd;
+				float subTimeStart = item.getTimeStart();
+				float subTimeEnd = item.getTimeEnd();
 
-				std::istringstream ssStart(item->getTimeStart());
-				std::istringstream ssStop(item->getTimeEnd());
+				if (!displaying && clock.getElapsedTime().asSeconds() >= subTimeStart) {
+					subtitleText.setText(item.getText());	
 
-				// Parse the start and end time into an std::td (time) object.
-				ssStart >> std::get_time(&subTimeStart, "%H:%M:%S");
-				ssStop >> std::get_time(&subTimeEnd, "%H:%M:%S");
-
-				if (!displaying && clock.getElapsedTime().asSeconds() >= (subTimeStart.tm_min * 60) + subTimeStart.tm_sec) {
-					subtitleText.setText(item->getText());	
-
-					if (item->getImagePath().length() > 0) {
-						if (item->getImagePath().compare("NONE") == 0) {
+					if (item.getImagePath().length() > 0) {
+						if (item.getImagePath().compare("NONE") == 0) {
 							background.setSize({ 0, 0 });
 						}
 						else {
 							background.setSize({ 1280, 720 });
 							
-							if (texture.loadFromFile(item->getImagePath())) {
+							if (texture.loadFromFile(item.getImagePath())) {
 								background.setTexture(&texture, true);
 							}
 						}
@@ -170,7 +164,7 @@ public:
 					displaying = true;
 				}
 
-				if (clock.getElapsedTime().asSeconds() >= (subTimeEnd.tm_min * 60) + subTimeEnd.tm_sec) {
+				if (clock.getElapsedTime().asSeconds() >= subTimeEnd) {
 					subtitleText.setText("");
 					
 					subtitles.pop_back();

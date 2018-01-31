@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-
 /**
  * @class	State
  *
@@ -12,8 +10,6 @@
  */
 
 class State {
-	/** @brief	Name of the State, used for doing transitions towards this state */
-	const std::string name;
 public:
 
 	/**
@@ -52,24 +48,6 @@ public:
 	 */
 
 	virtual void exit() { };
-
-	/**
-	 * @fn	friend bool State::operator==(std::unique_ptr<State>& state, const std::string& name)
-	 *
-	 * @brief	Equality operator.
-	 *
-	 * @author	Julian
-	 * @date	2018-01-19
-	 *
-	 * @param [in,out]	state	If non-null, the first instance to compare.
-	 * @param 		  	name 	The second instance to compare.
-	 *
-	 * @return	state->name == name
-	 */
-
-	friend bool operator==(std::unique_ptr<State>& state, const std::string& name) {
-		return state->name == name;
-	}
 
 	/**
 	 * @fn	virtual State::~State()

@@ -7,6 +7,8 @@
 #include "AssetManager.hpp"
 #include "FimmyIcon.hpp"
 
+#include "TestState.hpp"
+
 //#define ENABLE_DEBUG_MODE
 
 int main() {
@@ -42,17 +44,9 @@ int main() {
 	statemachine.registerState<SettingsMenu>("settings-menu");
 	statemachine.registerState<Cutscene>("cutscene");
 
-	if (ENABLE_EDITOR) {
-		statemachine.doTransition("map-editor");
-	}
-	else {
-		if (ENABLE_CUTSCENE) {
-			statemachine.doTransition("cutscene");
-		}
-		else {
-			statemachine.doTransition("main-menu");
-		}
-	}
+	statemachine.registerState<TestState>("test-state");
+
+	statemachine.doTransition("test-state");
 
 	// Clock used for frame timings.
 	sf::Clock clock;
