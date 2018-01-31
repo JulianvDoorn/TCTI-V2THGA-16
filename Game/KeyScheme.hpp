@@ -71,7 +71,7 @@ public:
 	 * @param	difficulty	(Optional) The difficulty for the KeySchemes. Default is Difficulty::UNDEFINED
 	 */
 
-	KeyScheme(sf::Keyboard::Key moveLeft, sf::Keyboard::Key moveRight, sf::Keyboard::Key jump, sf::Keyboard::Key roll, sf::Keyboard::Key run, Difficulty difficulty = Difficulty::UNDEFINED) :
+	KeyScheme(const sf::Keyboard::Key moveLeft, const sf::Keyboard::Key moveRight, const sf::Keyboard::Key jump, const sf::Keyboard::Key roll, const sf::Keyboard::Key run, Difficulty difficulty = Difficulty::UNDEFINED) :
 		moveLeft(moveLeft),
 		moveRight(moveRight),
 		jump(jump),

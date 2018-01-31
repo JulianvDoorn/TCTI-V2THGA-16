@@ -231,8 +231,8 @@ public:
 
 		if (!gameOver) {
 			player.update(elapsedTime);
-			death.update(elapsedTime);
-			deathSikkel.update(elapsedTime);
+			//death.update(elapsedTime);
+			//deathSikkel.update(elapsedTime);
 		}
 		else if (gameOverCounter > 0) {
 			gameOverCounter -= elapsedTime;
@@ -244,6 +244,7 @@ public:
 
 		if (bodyRemoveToggleIndex != -1 && player.getPosition().x >= bodyRemoveToggles.at(bodyRemoveToggleIndex) ) {
 			player.removeBodyPart(bodyRemoveToggleIndex);
+			player.setNextKeyScheme();
 
 			if (bodyRemoveToggleIndex < 4) {
 				bodyRemoveToggleIndex++;
@@ -253,8 +254,8 @@ public:
 			}
 		}
 
-		death.update(elapsedTime);
-		deathSikkel.update(elapsedTime);
+		//death.update(elapsedTime);
+		//deathSikkel.update(elapsedTime);
 
 		map.resolve();
 		map.draw(statemachine.window);

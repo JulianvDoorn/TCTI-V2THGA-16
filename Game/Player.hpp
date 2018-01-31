@@ -33,9 +33,15 @@ private:
 
 	/** @brief	The predefined player key schemes */
 	KeySchemes keySchemes = {
+		KeyScheme(sf::Keyboard::Key::J, sf::Keyboard::Key::L, sf::Keyboard::Key::I, sf::Keyboard::Key::K, sf::Keyboard::Key::LShift, KeyScheme::Difficulty::MODERATE),
 		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift ,KeyScheme::Difficulty::MODERATE),
-		KeyScheme(sf::Keyboard::Key::J, sf::Keyboard::Key::L, sf::Keyboard::Key::I, sf::Keyboard::Key::J, sf::Keyboard::Key::LShift, KeyScheme::Difficulty::MODERATE)
+		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift ,KeyScheme::Difficulty::MODERATE),
+		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift ,KeyScheme::Difficulty::MODERATE),
+		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift ,KeyScheme::Difficulty::MODERATE)
 	};
+
+	unsigned int keySchemeIndex = 0;
+	bool keySchemeUpdateReady = false;
 
 	int32_t walkDirection = 0;
 
@@ -120,7 +126,7 @@ public:
 				rollClock.restart();
 			}
 			else if (key == activeKeyScheme.run){
-					doRun();
+				doRun();
 			}
 			else if (key == activeKeyScheme.moveLeft) {
 				setWalkDirection(walkDirection - 1);
@@ -134,7 +140,7 @@ public:
 			if (key == activeKeyScheme.moveLeft) {
 				setWalkDirection(walkDirection + 1);
 			}
-			else if (key ==activeKeyScheme.run){
+			else if (key == activeKeyScheme.run){
 				checkStillRunning();
 			}
 			else if (key == activeKeyScheme.moveRight) {
@@ -277,7 +283,7 @@ public:
 	 * @return	The found key scheme.
 	 */
 
-	KeyScheme findKeyScheme(const KeyScheme::Difficulty difficulty) {
+	KeyScheme findRandomKeyScheme(const KeyScheme::Difficulty difficulty) {
 		std::vector<KeyScheme*> schemes;
 
 		for (unsigned int i = 0; i < keySchemes.size(); i++) {
@@ -295,6 +301,19 @@ public:
 		return *schemes.at(0);
 	}
 
+	void setNextKeyScheme() {
+		if (keySchemes.size() > keySchemeIndex) {
+			
+			//setWalkDirection(0);
+			//checkStillRunning();
+			//unRoll();
+			setActiveKeyScheme(keySchemes.at(keySchemeIndex));
+			showKeySchemeUsed();
+		
+			keySchemeIndex++;
+		}
+	}
+
 	/**
 	 * @fn	void Player::setActiveKeyScheme(KeyScheme s)
 	 *
@@ -306,7 +325,7 @@ public:
 	 * @param	s	A KeyScheme to process.
 	 */
 
-	void setActiveKeyScheme(KeyScheme s) {
+	void setActiveKeyScheme(KeyScheme& s) {
 		activeKeyScheme = s;
 	}
 
