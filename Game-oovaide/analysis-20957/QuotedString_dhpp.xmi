@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.2" xmlns:UML="http://schema.omg.org/spec/UML/1.3" >
+ <XMI.content>
+  <Module id="1" module="C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/QuotedString.hpp" codeLines="30" commentLines="48" moduleLines="99" >
+  </Module>
+  <Class id="2" name="" line="0">
+  <Oper name="operator>>" access="-" const="f" virt="f" line="74" ret="798" retconst="f" retref="t">
+   <Statements list="c=SpecialCharacterType@13#c=operator&gt;&gt;@2#c=is.peek@731#{*[ nextc != SpecialCharacter :: Quote &amp;&amp; nextc != &apos;\n&apos; ]#c=SpecialCharacter::operator char@13#c=operator&gt;&gt;@731#c=operator&gt;&gt;@731#c=operator&gt;&gt;@601#c=basic_string@617#c=EOFException+;77292d3a@7#c=qs.push_back@617#c=is.peek@731#}#{[ nextc == &apos;\n&apos; ]#c=is.tellg@731#c=is.operator long long@764#c=QuoteMissingException+;5133109a@11#}#c=operator&gt;&gt;@731#c=operator&gt;&gt;@731#c=SpecialCharacterType@13#c=operator&gt;&gt;@2"/>
+  </Oper>
+  </Class>
+  <Class id="7" name="EOFException" line="63">
+  </Class>
+  <Class id="11" name="QuoteMissingException" line="61">
+  </Class>
+  <Class id="12" name="QuotedString" module="1" line="19">
+  <Oper name="QuotedString" sym="5f374e10" access="+" const="f" virt="f" line="31" ret="888" retconst="f" retref="f">
+   <Statements list="c=basic_string@617"/>
+  </Oper>
+  <Oper name="QuotedString" sym="ec9821a3" access="+" const="f" virt="f" line="44" ret="888" retconst="f" retref="f">
+   <Parms list="str@825@f@f" />
+   <Statements list="c=move@601#c=basic_string@617"/>
+  </Oper>
+  </Class>
+  <Class id="13" name="SpecialCharacterType&lt;&apos;\&quot;&apos;,QuoteMissingException&gt;" line="0"/>
+  <Class id="601" name="std::" line="0"/>
+  <Class id="617" name="std::__cxx11::basic_string&lt;char&gt;" line="1577"/>
+  <Class id="731" name="std::basic_istream&lt;char&gt;" line="1040"/>
+  <Class id="764" name="std::fpos&lt;int&gt;" line="0"/>
+  <DataType id="798" name="std::istream" />
+  <Class id="825" name="std::string" line="0"/>
+  <DataType id="888" name="void" />
+  <Genrl id="100000" child="12" parent="825" access="+" />
+ </XMI.content>
+</XMI>

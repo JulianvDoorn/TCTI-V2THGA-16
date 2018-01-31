@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.2" xmlns:UML="http://schema.omg.org/spec/UML/1.3" >
+ <XMI.content>
+  <Module id="1" module="C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/SubtitleItem.hpp" codeLines="32" commentLines="71" moduleLines="133" >
+  </Module>
+  <Class id="5" name="SubtitleItem" module="1" line="14">
+  <Attr name="subtitleNumber" type="335" const="f" ref="f" access="-" />
+  <Attr name="text" type="649" const="f" ref="f" access="-" />
+  <Attr name="timeStart" type="649" const="f" ref="f" access="-" />
+  <Attr name="timeEnd" type="649" const="f" ref="f" access="-" />
+  <Attr name="image" type="649" const="f" ref="f" access="-" />
+  <Oper name="SubtitleItem" access="+" const="f" virt="f" line="51" ret="705" retconst="f" retref="f">
+   <Parms list="subtitleNumber@335@f@f#text@649@f@f#image@649@f@f#timeStart@649@f@f#timeEnd@649@f@f" />
+   <Statements list="v=subtitleNumber@5@335@f#v=text@5@649@f#c=basic_string@507#v=image@5@649@f#c=basic_string@507#v=timeStart@5@649@f#c=basic_string@507#v=timeEnd@5@649@f#c=basic_string@507"/>
+  </Oper>
+  <Oper name="getSubtitleNumber" access="+" const="t" virt="f" line="70" ret="335" retconst="f" retref="f">
+   <Statements list="v=subtitleNumber@5@335@f"/>
+  </Oper>
+  <Oper name="getText" access="+" const="t" virt="f" line="85" ret="649" retconst="f" retref="f">
+   <Statements list="v=text@5@649@f#c=basic_string@507"/>
+  </Oper>
+  <Oper name="getTimeStart" access="+" const="t" virt="f" line="100" ret="649" retconst="f" retref="f">
+   <Statements list="v=timeStart@5@649@f#c=basic_string@507"/>
+  </Oper>
+  <Oper name="getTimeEnd" access="+" const="t" virt="f" line="115" ret="649" retconst="f" retref="f">
+   <Statements list="v=timeEnd@5@649@f#c=basic_string@507"/>
+  </Oper>
+  <Oper name="getImagePath" access="+" const="t" virt="f" line="130" ret="649" retconst="f" retref="f">
+   <Statements list="v=image@5@649@f#c=basic_string@507"/>
+  </Oper>
+  </Class>
+  <DataType id="335" name="int" />
+  <Class id="507" name="std::__cxx11::basic_string&lt;char&gt;" line="1577"/>
+  <DataType id="649" name="std::string" />
+  <DataType id="705" name="void" />
+ </XMI.content>
+</XMI>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.2" xmlns:UML="http://schema.omg.org/spec/UML/1.3" >
+ <XMI.content>
+  <Module id="1" module="C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/EventConnectionVector.hpp" codeLines="17" commentLines="37" moduleLines="69" >
+  </Module>
+  <Class id="6" name="EventConnection" line="18">
+  </Class>
+  <Class id="7" name="EventConnectionVector" module="1" line="21">
+  <Oper name="disconnect" access="+" const="f" virt="f" line="62" ret="868" retconst="f" retref="f">
+   <Statements list="{*[ * this ]#c=conn.disconnect@6#}#c=std::vector&lt;EventConnection&gt;clear@803"/>
+  </Oper>
+  </Class>
+  <Class id="803" name="std::vector&lt;EventConnection,std::allocator&lt;EventConnection&gt; &gt;" line="0"/>
+  <Class id="804" name="std::vector&lt;EventConnection&gt;" line="0"/>
+  <DataType id="868" name="void" />
+  <Genrl id="100000" child="7" parent="804" access="+" />
+ </XMI.content>
+</XMI>

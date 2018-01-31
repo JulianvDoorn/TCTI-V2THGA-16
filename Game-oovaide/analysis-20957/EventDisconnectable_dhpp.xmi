@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.2" xmlns:UML="http://schema.omg.org/spec/UML/1.3" >
+ <XMI.content>
+  <Module id="1" module="C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/EventDisconnectable.hpp" codeLines="7" commentLines="30" moduleLines="49" >
+  </Module>
+  <Class id="2" name="EventConnection" module="1" line="12"/>
+  <Class id="3" name="EventDisconnectable" module="1" line="23">
+  <Oper name="disconnect" access="#" const="f" virt="t" line="37" ret="4" retconst="f" retref="f">
+   <Parms list="conn@2@f@t" />
+  </Oper>
+  </Class>
+  <DataType id="4" name="void" />
+ </XMI.content>
+</XMI>

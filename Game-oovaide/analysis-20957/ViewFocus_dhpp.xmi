@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.2" xmlns:UML="http://schema.omg.org/spec/UML/1.3" >
+ <XMI.content>
+  <Module id="1" module="C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/ViewFocus.hpp" codeLines="88" commentLines="89" moduleLines="212" >
+  </Module>
+  <Class id="12" name="Body" line="19">
+  </Class>
+  <Class id="48" name="ViewFocus" module="1" line="15">
+  <Attr name="view" type="457" const="f" ref="f" access="-" />
+  <Attr name="window" type="457" const="f" ref="t" access="-" />
+  <Attr name="focus" type="12" const="f" ref="t" access="-" />
+  <Attr name="leftBorder" type="457" const="f" ref="f" access="-" />
+  <Attr name="rightBorder" type="457" const="f" ref="f" access="-" />
+  <Attr name="topBorder" type="457" const="f" ref="f" access="-" />
+  <Attr name="bottomBorder" type="457" const="f" ref="f" access="-" />
+  <Attr name="dynamicCamera" type="399" const="f" ref="f" access="-" />
+  <Oper name="ViewFocus" sym="13794d54" access="+" const="f" virt="f" line="46" ret="863" retconst="f" retref="f">
+   <Parms list="window@457@f@t#physicsObject@12@f@t" />
+   <Statements list="v=focus@48@12@f"/>
+  </Oper>
+  <Oper name="ViewFocus" sym="89309346" access="+" const="f" virt="f" line="63" ret="863" retconst="f" retref="f">
+   <Parms list="window@457@f@t" />
+   <Statements list="v=focus@48@12@f"/>
+  </Oper>
+  <Oper name="setDynamicCameraEnabled" access="+" const="f" virt="f" line="80" ret="863" retconst="f" retref="f">
+   <Parms list="dynamicCamera@399@f@f" />
+   <Statements list="v=dynamicCamera@48@399@t"/>
+  </Oper>
+  <Oper name="setFocus" access="+" const="f" virt="f" line="95" ret="863" retconst="f" retref="f">
+   <Parms list="focus@12@f@t" />
+   <Statements list="v=focus@48@12@t"/>
+  </Oper>
+  <Oper name="unsetFocus" access="+" const="f" virt="f" line="108" ret="863" retconst="f" retref="f">
+   <Statements list="v=focus@48@12@t"/>
+  </Oper>
+  <Oper name="setLeftBorder" access="+" const="f" virt="f" line="116" ret="863" retconst="f" retref="f">
+   <Parms list="border@457@f@f" />
+   <Statements list="v=leftBorder@48@457@t"/>
+  </Oper>
+  <Oper name="setRightBorder" access="+" const="f" virt="f" line="123" ret="863" retconst="f" retref="f">
+   <Parms list="border@457@f@f" />
+   <Statements list="v=rightBorder@48@457@t"/>
+  </Oper>
+  <Oper name="setTopBorder" access="+" const="f" virt="f" line="131" ret="863" retconst="f" retref="f">
+   <Parms list="border@457@f@f" />
+   <Statements list="v=topBorder@48@457@t"/>
+  </Oper>
+  <Oper name="setBottomBorder" access="+" const="f" virt="f" line="139" ret="863" retconst="f" retref="f">
+   <Parms list="border@457@f@f" />
+   <Statements list="v=bottomBorder@48@457@t"/>
+  </Oper>
+  <Oper name="getLeftBorder" access="+" const="f" virt="f" line="147" ret="457" retconst="f" retref="f">
+   <Statements list="v=leftBorder@48@457@f"/>
+  </Oper>
+  <Oper name="getRightBorder" access="+" const="f" virt="f" line="154" ret="457" retconst="f" retref="f">
+   <Statements list="v=rightBorder@48@457@f"/>
+  </Oper>
+  <Oper name="getTopBorder" access="+" const="f" virt="f" line="161" ret="457" retconst="f" retref="f">
+   <Statements list="v=topBorder@48@457@f"/>
+  </Oper>
+  <Oper name="getBottomBorder" access="+" const="f" virt="f" line="168" ret="457" retconst="f" retref="f">
+   <Statements list="v=bottomBorder@48@457@f"/>
+  </Oper>
+  <Oper name="update" access="+" const="f" virt="f" line="176" ret="863" retconst="f" retref="f">
+   <Statements list="{[ focus != nullptr ]#v=focus@48@12@f#{[ dynamicCamera ]#v=dynamicCamera@48@399@f#{[ leftDiff &lt; 0 || rightDiff &gt; 0 || topDiff &lt; 0 || bottomDiff &gt; 0 ]#{[ leftDiff &lt; 0 ]#}#{[ rightDiff &gt; 0 ]#}#{[ topDiff &gt; 0 ]#}#{[ bottomDiff &lt; 0 ]#}#}#}#{[else]#}#}#{[else]#}"/>
+  </Oper>
+  </Class>
+  <DataType id="399" name="bool" />
+  <DataType id="457" name="int" />
+  <DataType id="863" name="void" />
+ </XMI.content>
+</XMI>

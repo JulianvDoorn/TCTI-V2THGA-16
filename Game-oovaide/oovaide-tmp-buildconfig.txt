@@ -1,0 +1,5 @@
+20957|;C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/ 
+2648|-c -x c++ -std=c++11 
+370|-c -x c++ -std=c++17 
+62251|C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/ 
+Analysis|20957;65535;62251;65535;370

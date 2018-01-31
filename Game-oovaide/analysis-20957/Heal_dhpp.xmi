@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.2" xmlns:UML="http://schema.omg.org/spec/UML/1.3" >
+ <XMI.content>
+  <Module id="1" module="C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/Heal.hpp" codeLines="17" commentLines="36" moduleLines="67" >
+  </Module>
+  <Class id="32" name="Heal" module="1" line="15">
+  <Attr name="value" type="568" const="f" ref="f" access="-" />
+  <Oper name="Heal" access="+" const="f" virt="f" line="33" ret="1144" retconst="f" retref="f">
+   <Parms list="powerUpIntersectionGroup@34@f@t" />
+   <Statements list="c=+:PowerUp@47"/>
+  </Oper>
+  <Oper name="setHealValue" access="+" const="f" virt="f" line="49" ret="1144" retconst="f" retref="f">
+   <Parms list="value@568@f@f" />
+   <Statements list="v=value@32@568@t"/>
+  </Oper>
+  <Oper name="apply" access="+" const="t" virt="f" line="64" ret="1144" retconst="f" retref="f">
+   <Parms list="player@46@f@t" />
+  </Oper>
+  </Class>
+  <Class id="34" name="IntersectionGroup" line="16">
+  </Class>
+  <Class id="46" name="Player" line="27">
+  </Class>
+  <Class id="47" name="PowerUp" line="16">
+  </Class>
+  <DataType id="568" name="float" />
+  <DataType id="1144" name="void" />
+  <Genrl id="100000" child="32" parent="47" access="+" />
+ </XMI.content>
+</XMI>

@@ -1,0 +1,8 @@
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/SubtitleReadException.hpp:1:9: warning: #pragma once in main file [-Wpragma-once-outside-header]
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/SubtitleReadException.hpp:12:38: error: use of undeclared identifier 'std'
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/SubtitleReadException.hpp:12:43: error: expected class name
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/SubtitleReadException.hpp:15:2: error: use of undeclared identifier 'std'
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/SubtitleReadException.hpp:30:30: error: use of undeclared identifier 'std'
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/SubtitleReadException.hpp:30:59: error: use of undeclared identifier 'std'
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/SubtitleReadException.hpp:30:69: error: use of undeclared identifier 'std'
+Arguments: C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/SubtitleReadException.hpp C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/ C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game-oovaide/analysis-20957/ -c -x c++ -std=c++11 -IC:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/ 

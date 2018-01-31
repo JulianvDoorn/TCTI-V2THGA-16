@@ -1,0 +1,4 @@
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/EventSource.hpp:1:9: warning: #pragma once in main file [-Wpragma-once-outside-header]
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/EventSource.hpp:177:19: error: no member named 'find' in namespace 'std'
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/EventSource.hpp:186:19: error: no member named 'find' in namespace 'std'
+Arguments: C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/EventSource.hpp C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/ C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game-oovaide/analysis-20957/ -c -x c++ -std=c++11 -IC:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/ 

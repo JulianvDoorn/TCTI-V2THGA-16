@@ -1,0 +1,14 @@
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/CurlyBracketList.hpp:1:9: warning: #pragma once in main file [-Wpragma-once-outside-header]
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/CurlyBracketList.hpp:21:38: error: unknown template name 'vector'
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/CurlyBracketList.hpp:68:9: error: use of undeclared identifier 'exceptions'
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/CurlyBracketList.hpp:68:23: error: use of undeclared identifier 'SpecialCharacter'
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/CurlyBracketList.hpp:70:15: error: unknown type name 'OpeningBracketMissingException'
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/CurlyBracketList.hpp:71:9: error: use of undeclared identifier 'exceptions'
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/CurlyBracketList.hpp:71:23: error: use of undeclared identifier 'SpecialCharacter'
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/CurlyBracketList.hpp:74:8: error: use of undeclared identifier 'exceptions'
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/CurlyBracketList.hpp:74:22: error: use of undeclared identifier 'ignoreLine'
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/CurlyBracketList.hpp:86:11: error: use of undeclared identifier 'exceptions'
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/CurlyBracketList.hpp:94:10: error: use of undeclared identifier 'ClosingBracketMissingException'
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/CurlyBracketList.hpp:98:12: error: use of undeclared identifier 'SpecialCharacter'
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/CurlyBracketList.hpp:101:11: error: use of undeclared identifier 'exceptions'
+Arguments: C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/CurlyBracketList.hpp C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/ C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game-oovaide/analysis-20957/ -c -x c++ -std=c++11 -IC:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/ 

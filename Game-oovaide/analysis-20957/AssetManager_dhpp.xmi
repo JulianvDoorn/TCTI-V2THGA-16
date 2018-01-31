@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.2" xmlns:UML="http://schema.omg.org/spec/UML/1.3" >
+ <XMI.content>
+  <Module id="1" module="C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/AssetManager.hpp" codeLines="187" commentLines="278" moduleLines="577" >
+  </Module>
+  <Class id="4" name="AssetManager" module="1" line="199">
+  <Attr name="textures" type="502" const="f" ref="f" access="-" />
+  <Attr name="fonts" type="502" const="f" ref="f" access="-" />
+  <Attr name="sounds" type="502" const="f" ref="f" access="-" />
+  <Attr name="fileLocations" type="502" const="f" ref="f" access="-" />
+  <Attr name="soundBuffers" type="502" const="f" ref="f" access="-" />
+  <Attr name="sInstance" type="4" const="f" ref="t" access="-" />
+  <Oper name="instance" access="+" const="f" virt="f" line="239" ret="4" retconst="f" retref="t">
+   <Statements list="{[ ! sInstance ]#c=AssetManager@4#}"/>
+  </Oper>
+  <Oper name="operator=" access="+" const="f" virt="f" line="259" ret="4" retconst="f" retref="t">
+   <Parms list="rhs@4@t@t" />
+  </Oper>
+  <Oper name="load" access="+" const="f" virt="f" line="288" ret="979" retconst="f" retref="f">
+   <Parms list="id@904@f@f#filename@904@f@f" />
+   <Statements list="{[ idx != std :: string :: npos ]#{[]#c=basic_string@726#c=basic_string@726#c=loadTexture@4#}#{[]#c=basic_string@726#c=basic_string@726#c=loadFont@4#}#{[]#c=basic_string@726#c=basic_string@726#c=loadSound@4#}#{[else]#c=AssetTypeNotResolvedException@8#}#}#{[else]#c=AssetTypeNotResolvedException@8#}"/>
+  </Oper>
+  <Oper name="loadTexture" access="+" const="f" virt="f" line="330" ret="979" retconst="f" retref="f">
+   <Parms list="id@904@f@f#filename@904@f@f" />
+   <Statements list="{[]#}#{[]#}#{[else]#}"/>
+  </Oper>
+  <Oper name="getTexture" access="+" const="f" virt="f" line="361" ret="502" retconst="f" retref="t">
+   <Statements list="c=out_of_range+;84fbb1e9@893#c=AssetNotLoadedException@6"/>
+  </Oper>
+  <Oper name="loadFont" access="+" const="f" virt="f" line="385" ret="979" retconst="f" retref="f">
+   <Parms list="id@904@f@f#filename@904@f@f" />
+   <Statements list="{[]#}#{[]#}#{[else]#}"/>
+  </Oper>
+  <Oper name="getFont" access="+" const="f" virt="f" line="416" ret="502" retconst="f" retref="t">
+   <Statements list="c=out_of_range+;84fbb1e9@893#c=AssetNotLoadedException@6"/>
+  </Oper>
+  <Oper name="loadSound" access="+" const="f" virt="f" line="439" ret="979" retconst="f" retref="f">
+   <Parms list="id@904@f@f#filename@904@f@f" />
+   <Statements list="{[]#}#{[]#}#{[else]#}"/>
+  </Oper>
+  <Oper name="getSound" access="+" const="f" virt="f" line="474" ret="502" retconst="f" retref="t">
+   <Statements list="c=out_of_range+;84fbb1e9@893#c=AssetNotLoadedException@6"/>
+  </Oper>
+  <Oper name="getTextures" access="+" const="f" virt="f" line="494" ret="502" retconst="f" retref="t">
+  </Oper>
+  <Oper name="getSounds" access="+" const="f" virt="f" line="509" ret="502" retconst="f" retref="t">
+  </Oper>
+  <Oper name="getFonts" access="+" const="f" virt="f" line="524" ret="502" retconst="f" retref="t">
+  </Oper>
+  <Oper name="resolveTextureID" access="+" const="t" virt="f" line="541" ret="904" retconst="f" retref="f">
+   <Parms list="t@502@t@t" />
+   <Statements list="c=AssetTextureUnavailable@7"/>
+  </Oper>
+  <Oper name="getFilename" access="+" const="f" virt="f" line="551" ret="904" retconst="f" retref="f">
+   <Parms list="id@904@f@f" />
+   <Statements list="c=out_of_range+;84fbb1e9@893#c=AssetNotLoadedException@6"/>
+  </Oper>
+  <Oper name="clear" access="+" const="f" virt="f" line="569" ret="979" retconst="f" retref="f">
+  </Oper>
+  </Class>
+  <Class id="5" name="AssetNotFoundByPathException" module="1" line="65">
+  <Attr name="msg" type="904" const="f" ref="f" access="-" />
+  <Oper name="AssetNotFoundByPathException" access="+" const="f" virt="f" line="84" ret="979" retconst="f" retref="f">
+   <Parms list="filename@904@t@t#type@904@t@t" />
+  </Oper>
+  <Oper name="what" access="+" const="t" virt="f" line="97" ret="442" retconst="t" retref="t">
+   <Statements list="v=msg@5@904@f#c=msg.c_str@726"/>
+  </Oper>
+  </Class>
+  <Class id="6" name="AssetNotLoadedException" module="1" line="111">
+  <Attr name="msg" type="904" const="f" ref="f" access="-" />
+  <Oper name="AssetNotLoadedException" access="+" const="f" virt="f" line="129" ret="979" retconst="f" retref="f">
+   <Parms list="id@904@t@t" />
+  </Oper>
+  <Oper name="what" access="+" const="t" virt="f" line="142" ret="442" retconst="t" retref="t">
+   <Statements list="v=msg@6@904@f#c=msg.c_str@726"/>
+  </Oper>
+  </Class>
+  <Class id="7" name="AssetTextureUnavailable" module="1" line="156">
+  <Attr name="msg" type="904" const="f" ref="f" access="-" />
+  <Oper name="AssetTextureUnavailable" access="+" const="f" virt="f" line="172" ret="979" retconst="f" retref="f">
+  </Oper>
+  <Oper name="what" access="+" const="t" virt="f" line="185" ret="442" retconst="t" retref="t">
+   <Statements list="v=msg@7@904@f#c=msg.c_str@726"/>
+  </Oper>
+  </Class>
+  <Class id="8" name="AssetTypeNotResolvedException" module="1" line="20">
+  <Attr name="msg" type="904" const="f" ref="f" access="-" />
+  <Oper name="AssetTypeNotResolvedException" access="+" const="f" virt="f" line="38" ret="979" retconst="f" retref="f">
+   <Parms list="filename@904@t@t" />
+  </Oper>
+  <Oper name="what" access="+" const="t" virt="f" line="51" ret="442" retconst="t" retref="t">
+   <Statements list="v=msg@8@904@f#c=msg.c_str@726"/>
+  </Oper>
+  </Class>
+  <DataType id="442" name="char" />
+  <DataType id="502" name="int" />
+  <Class id="726" name="std::__cxx11::basic_string&lt;char&gt;" line="1577"/>
+  <Class id="850" name="std::exception" line="60">
+  </Class>
+  <Class id="893" name="std::out_of_range" line="177">
+  </Class>
+  <DataType id="904" name="std::string" />
+  <DataType id="979" name="void" />
+  <Genrl id="100000" child="8" parent="850" access="+" />
+  <Genrl id="100001" child="5" parent="850" access="+" />
+  <Genrl id="100002" child="6" parent="850" access="+" />
+  <Genrl id="100003" child="7" parent="850" access="+" />
+ </XMI.content>
+</XMI>

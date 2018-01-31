@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.2" xmlns:UML="http://schema.omg.org/spec/UML/1.3" >
+ <XMI.content>
+  <Module id="1" module="C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/Body.hpp" codeLines="48" commentLines="72" moduleLines="153" >
+  </Module>
+  <Class id="12" name="Body" module="1" line="19">
+  <Attr name="gravity" type="443" const="f" ref="f" access="-" />
+  <Attr name="collided" type="23" const="f" ref="f" access="+" />
+  <Oper name="onCollide" access="#" const="f" virt="f" line="36" ret="847" retconst="f" retref="f">
+   <Parms list="other@14@f@t" />
+  </Oper>
+  <Oper name="Body" access="+" const="f" virt="f" line="53" ret="847" retconst="f" retref="f">
+  </Oper>
+  <Oper name="setGravity" access="+" const="f" virt="f" line="66" ret="847" retconst="f" retref="f">
+   <Parms list="gravity@443@t@t" />
+  </Oper>
+  <Oper name="getGravity" access="+" const="t" virt="f" line="81" ret="443" retconst="f" retref="f">
+  </Oper>
+  <Oper name="update" access="+" const="f" virt="t" line="96" ret="847" retconst="f" retref="f">
+   <Parms list="elapsedType@431@f@f" />
+  </Oper>
+  <Oper name="applyForce" access="+" const="f" virt="f" line="112" ret="847" retconst="f" retref="f">
+   <Parms list="force@443@t@t" />
+  </Oper>
+  <Oper name="writeToFile" access="+" const="t" virt="t" line="129" ret="443" retconst="f" retref="t">
+   <Statements list="{[]#{[]#}#{[else]#}#}"/>
+  </Oper>
+  </Class>
+  <Class id="14" name="Collidable" line="19">
+  </Class>
+  <Class id="23" name="EventSource&lt;Collidable&gt;" line="0"/>
+  <Class id="34" name="Sprite" line="31">
+  </Class>
+  <DataType id="431" name="float" />
+  <DataType id="443" name="int" />
+  <DataType id="847" name="void" />
+  <Genrl id="100000" child="12" parent="14" access="+" />
+  <Genrl id="100001" child="12" parent="34" access="+" />
+ </XMI.content>
+</XMI>

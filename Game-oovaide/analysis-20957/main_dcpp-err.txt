@@ -1,0 +1,2 @@
+C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/main.cpp:1:10: fatal error: 'SFML/Graphics.hpp' file not found
+Arguments: C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/main.cpp C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/ C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game-oovaide/analysis-20957/ -c -x c++ -std=c++11 -IC:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/ 

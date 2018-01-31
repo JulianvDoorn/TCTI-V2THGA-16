@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.2" xmlns:UML="http://schema.omg.org/spec/UML/1.3" >
+ <XMI.content>
+  <Module id="1" module="C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/SpecialCharacter.hpp" codeLines="73" commentLines="107" moduleLines="227" >
+  </Module>
+  <Class id="4" name="AssignmentMissingException" module="1" line="91">
+  <Oper name="AssignmentMissingException" sym="c4d9a170" access="+" const="f" virt="f" line="93" ret="886" retconst="f" retref="f">
+   <Parms list="position@412@f@f" />
+   <Statements list="c=basic_string@615#c=to_string@105#c=operator+@599#c=operator+@599#c=+:SyntaxException@14"/>
+  </Oper>
+  <Oper name="AssignmentMissingException" sym="55673f9a" access="+" const="f" virt="f" line="94" ret="886" retconst="f" retref="f">
+   <Parms list="position@412@f@f#unexpectedSymbol@823@t@t" />
+   <Statements list="c=basic_string@615#c=to_string@105#c=operator+@599#c=operator+@599#c=operator+@599#c=+:SyntaxException@14"/>
+  </Oper>
+  </Class>
+  <Class id="5" name="ClosingBracketMissingException" module="1" line="31">
+  <Oper name="ClosingBracketMissingException" sym="9143fa14" access="+" const="f" virt="f" line="33" ret="886" retconst="f" retref="f">
+   <Parms list="position@412@f@f" />
+   <Statements list="c=basic_string@615#c=to_string@105#c=operator+@599#c=operator+@599#c=+:SyntaxException@14"/>
+  </Oper>
+  <Oper name="ClosingBracketMissingException" sym="cac86b3e" access="+" const="f" virt="f" line="34" ret="886" retconst="f" retref="f">
+   <Parms list="position@412@f@f#unexpectedSymbol@823@t@t" />
+   <Statements list="c=basic_string@615#c=to_string@105#c=operator+@599#c=operator+@599#c=operator+@599#c=+:SyntaxException@14"/>
+  </Oper>
+  </Class>
+  <Class id="6" name="CommaMissingException" module="1" line="46">
+  <Oper name="CommaMissingException" sym="69f09b58" access="+" const="f" virt="f" line="48" ret="886" retconst="f" retref="f">
+   <Parms list="position@412@f@f" />
+   <Statements list="c=basic_string@615#c=to_string@105#c=operator+@599#c=operator+@599#c=+:SyntaxException@14"/>
+  </Oper>
+  <Oper name="CommaMissingException" sym="5bca1782" access="+" const="f" virt="f" line="49" ret="886" retconst="f" retref="f">
+   <Parms list="position@412@f@f#unexpectedSymbol@823@t@t" />
+   <Statements list="c=basic_string@615#c=to_string@105#c=operator+@599#c=operator+@599#c=operator+@599#c=+:SyntaxException@14"/>
+  </Oper>
+  </Class>
+  <Class id="7" name="EOFException" line="63">
+  </Class>
+  <Class id="8" name="HashtagMissingException" module="1" line="76">
+  <Oper name="HashtagMissingException" sym="6157b2fe" access="+" const="f" virt="f" line="78" ret="886" retconst="f" retref="f">
+   <Parms list="position@412@f@f" />
+   <Statements list="c=basic_string@615#c=to_string@105#c=operator+@599#c=operator+@599#c=+:SyntaxException@14"/>
+  </Oper>
+  <Oper name="HashtagMissingException" sym="9fa78fa8" access="+" const="f" virt="f" line="79" ret="886" retconst="f" retref="f">
+   <Parms list="position@412@f@f#unexpectedSymbol@823@t@t" />
+   <Statements list="c=basic_string@615#c=to_string@105#c=operator+@599#c=operator+@599#c=operator+@599#c=+:SyntaxException@14"/>
+  </Oper>
+  </Class>
+  <Class id="10" name="OpeningBracketMissingException" module="1" line="16">
+  <Oper name="OpeningBracketMissingException" sym="990b89f6" access="+" const="f" virt="f" line="18" ret="886" retconst="f" retref="f">
+   <Parms list="position@412@f@f" />
+   <Statements list="c=basic_string@615#c=to_string@105#c=operator+@599#c=operator+@599#c=+:SyntaxException@14"/>
+  </Oper>
+  <Oper name="OpeningBracketMissingException" sym="9acd70a0" access="+" const="f" virt="f" line="19" ret="886" retconst="f" retref="f">
+   <Parms list="position@412@f@f#unexpectedSymbol@823@t@t" />
+   <Statements list="c=basic_string@615#c=to_string@105#c=operator+@599#c=operator+@599#c=operator+@599#c=+:SyntaxException@14"/>
+  </Oper>
+  </Class>
+  <Class id="11" name="QuoteMissingException" module="1" line="61">
+  <Oper name="QuoteMissingException" sym="5133109a" access="+" const="f" virt="f" line="63" ret="886" retconst="f" retref="f">
+   <Parms list="position@412@f@f" />
+   <Statements list="c=basic_string@615#c=to_string@105#c=operator+@599#c=operator+@599#c=+:SyntaxException@14"/>
+  </Oper>
+  <Oper name="QuoteMissingException" sym="58a24a44" access="+" const="f" virt="f" line="64" ret="886" retconst="f" retref="f">
+   <Parms list="position@412@f@f#unexpectedSymbol@823@t@t" />
+   <Statements list="c=basic_string@615#c=to_string@105#c=operator+@599#c=operator+@599#c=operator+@599#c=+:SyntaxException@14"/>
+  </Oper>
+  </Class>
+  <Class id="12" name="SpecialCharacterType&lt;&gt;&lt;&lt;template&gt;&gt;" module="1" line="113">
+  <Oper name="SpecialCharacterType<C, E>" access="+" const="f" virt="f" line="125" ret="886" retconst="f" retref="f">
+  </Oper>
+  <Oper name="check" access="+" const="f" virt="f" line="141" ret="886" retconst="f" retref="f">
+   <Parms list="is@796@f@t" />
+   <Statements list="c=basic_string@615#c=EOFException+;77292d3a@7#{[ c != C ]#c=is.tellg@729#c=is.operator long long@762#c=is.seekg@729#c=basic_string@615#{[ is &gt;&gt; unexpectedSymbol ]#c=operator&gt;&gt;@599#c=is&gt;&gt;operator bool@724#}#}"/>
+  </Oper>
+  </Class>
+  <Class id="14" name="SyntaxException" line="89">
+  </Class>
+  <Class id="105" name="__cxx11::" line="0"/>
+  <DataType id="412" name="int64_t&lt;&lt;typedef&gt;&gt;" />
+  <Class id="599" name="std::" line="0"/>
+  <Class id="615" name="std::__cxx11::basic_string&lt;char&gt;" line="1577"/>
+  <Class id="724" name="std::basic_ios&lt;char&gt;" line="178"/>
+  <Class id="729" name="std::basic_istream&lt;char&gt;" line="1040"/>
+  <Class id="762" name="std::fpos&lt;int&gt;" line="0"/>
+  <DataType id="796" name="std::istream" />
+  <DataType id="823" name="std::string" />
+  <DataType id="886" name="void" />
+  <Genrl id="100000" child="10" parent="14" access="+" />
+  <Genrl id="100001" child="5" parent="14" access="+" />
+  <Genrl id="100002" child="6" parent="14" access="+" />
+  <Genrl id="100003" child="11" parent="14" access="+" />
+  <Genrl id="100004" child="8" parent="14" access="+" />
+  <Genrl id="100005" child="4" parent="14" access="+" />
+ </XMI.content>
+</XMI>

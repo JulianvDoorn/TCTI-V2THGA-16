@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.2" xmlns:UML="http://schema.omg.org/spec/UML/1.3" >
+ <XMI.content>
+  <Module id="1" module="C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/Mouse.hpp" codeLines="37" commentLines="54" moduleLines="117" >
+  </Module>
+  <Class id="12" name="Mouse" module="1" line="17">
+  <Attr name="window" type="420" const="f" ref="t" access="-" />
+  <Attr name="mouseLeftButtonUp" type="420" const="f" ref="f" access="+" />
+  <Attr name="mouseRightButtonUp" type="420" const="f" ref="f" access="+" />
+  <Attr name="mouseLeftButtonDown" type="420" const="f" ref="f" access="+" />
+  <Attr name="mouseRightButtonDown" type="420" const="f" ref="f" access="+" />
+  <Attr name="mouseMoved" type="420" const="f" ref="f" access="+" />
+  <Attr name="mouseLeftPressed" type="367" const="f" ref="f" access="+" />
+  <Attr name="mouseRightPressed" type="367" const="f" ref="f" access="+" />
+  <Oper name="Mouse" sym="d68ec8f0" access="+" const="f" virt="f" line="32" ret="827" retconst="f" retref="f">
+  </Oper>
+  <Oper name="Mouse" sym="61fe0e22" access="+" const="f" virt="f" line="45" ret="827" retconst="f" retref="f">
+   <Parms list="window@420@f@t" />
+  </Oper>
+  <Oper name="decodeSFMLEvent" access="+" const="f" virt="f" line="81" ret="827" retconst="f" retref="f">
+   <Parms list="ev@420@f@f" />
+   <Statements list="{[]#}#{[]#{[]#}#{[]#}#}#{[]#{[]#}#{[]#}#}"/>
+  </Oper>
+  <Oper name="operator=" access="+" const="f" virt="f" line="112" ret="12" retconst="f" retref="t">
+   <Parms list="rhs@12@t@t" />
+  </Oper>
+  </Class>
+  <Class id="13" name="SFMLEventDecoder" line="3">
+  </Class>
+  <DataType id="367" name="bool" />
+  <DataType id="420" name="int" />
+  <DataType id="827" name="void" />
+  <Genrl id="100000" child="12" parent="13" access="+" />
+ </XMI.content>
+</XMI>

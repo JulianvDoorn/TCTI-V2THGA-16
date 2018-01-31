@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.2" xmlns:UML="http://schema.omg.org/spec/UML/1.3" >
+ <XMI.content>
+  <Module id="1" module="C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/EventSource.hpp" codeLines="90" commentLines="132" moduleLines="272" >
+  </Module>
+  <DataType id="4" name="Args..." />
+  <Class id="5" name="DisconnectedEventConnectionException" module="1" line="19">
+  <Oper name="what" access="-" const="t" virt="f" line="20" ret="374" retconst="t" retref="t">
+  </Oper>
+  </Class>
+  <Class id="6" name="EventConnection" line="18">
+  </Class>
+  <Class id="7" name="EventDisconnectable" line="23">
+  </Class>
+  <DataType id="8" name="EventFunction&lt;&lt;typedef&gt;&gt;" />
+  <Class id="9" name="EventSource&lt;Args&gt;&lt;&lt;template&gt;&gt;" module="1" line="60">
+  <Attr name="locked" type="373" const="f" ref="f" access="-" />
+  <Attr name="idCounter" type="846" const="f" ref="f" access="-" />
+  <Attr name="boundFunctions" type="800" const="f" ref="f" access="-" />
+  <Attr name="queuedFunctions" type="744" const="f" ref="f" access="-" />
+  <Oper name="disconnect" access="#" const="f" virt="f" line="172" ret="864" retconst="f" retref="f">
+   <Parms list="conn@6@f@t" />
+   <Statements list="{[]#}#{[]#}#{[ ! disconnected ]#c=DisconnectedEventConnectionException@5#}"/>
+  </Oper>
+  <Oper name="connect" access="+" const="f" virt="f" line="227" ret="6" retconst="f" retref="f">
+   <Parms list="func@8@f@f" />
+   <Statements list="{[ ! locked ]#}#{[else]#}"/>
+  </Oper>
+  <Oper name="fire" access="+" const="f" virt="f" line="253" ret="864" retconst="f" retref="f">
+   <Parms list="args@4@f@f" />
+   <BodyVarDecl name="lockGuard" type="11" const="f" ref="f" />
+   <Statements list="{*[ queuedFunctions . size ( ) &gt; 0 ]#}#{*[ boundFunctions ]#}"/>
+  </Oper>
+  </Class>
+  <Class id="11" name="LockGuard" module="1" line="34">
+  <Attr name="releaseLambda" type="749" const="f" ref="f" access="-" />
+  <Oper name="~LockGuard" access="+" const="f" virt="f" line="43" ret="864" retconst="f" retref="f">
+   <Statements list="v=releaseLambda@11@749@f#c=operator()@749"/>
+  </Oper>
+  </Class>
+  <DataType id="373" name="bool" />
+  <DataType id="374" name="char" />
+  <DataType id="744" name="std::deque&lt;EventBinding&gt;" />
+  <Class id="746" name="std::exception" line="60">
+  </Class>
+  <Class id="749" name="std::function&lt;void()&gt;" line="0"/>
+  <DataType id="800" name="std::vector&lt;EventBinding&gt;" />
+  <DataType id="846" name="uint32_t&lt;&lt;typedef&gt;&gt;" />
+  <DataType id="864" name="void" />
+  <Genrl id="100000" child="5" parent="746" access="+" />
+  <Genrl id="100001" child="9" parent="7" access="+" />
+ </XMI.content>
+</XMI>

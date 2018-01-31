@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.2" xmlns:UML="http://schema.omg.org/spec/UML/1.3" >
+ <XMI.content>
+  <Module id="1" module="C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/fimmyIcon.hpp" codeLines="49" commentLines="2" moduleLines="51" >
+  </Module>
+  <Class id="2" name="(anonymous at C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/fimmyIcon.hpp:3:14)" module="1" line="3">
+  <Attr name="width" type="4" const="f" ref="f" access="-" />
+  <Attr name="height" type="4" const="f" ref="f" access="-" />
+  <Attr name="bytes_per_pixel" type="4" const="f" ref="f" access="-" />
+  <Attr name="pixel_data" type="3" const="f" ref="f" access="-" />
+  </Class>
+  <DataType id="3" name="unsigned char[801]" />
+  <DataType id="4" name="unsigned int" />
+ </XMI.content>
+</XMI>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.2" xmlns:UML="http://schema.omg.org/spec/UML/1.3" >
+ <XMI.content>
+  <Module id="1" module="C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/BaseStreamExceptions.hpp" codeLines="29" commentLines="52" moduleLines="106" >
+  </Module>
+  <Class id="4" name="EOFException" module="1" line="63">
+  <Oper name="EOFException" sym="234d9710" access="+" const="f" virt="f" line="75" ret="877" retconst="f" retref="f">
+   <Statements list="c=basic_string@608#c=+:StreamReadException@6"/>
+  </Oper>
+  <Oper name="EOFException" sym="77292d3a" access="+" const="f" virt="f" line="77" ret="877" retconst="f" retref="f">
+   <Parms list="s@814@t@t" />
+   <Statements list="c=operator+@592#c=+:StreamReadException@6"/>
+  </Oper>
+  </Class>
+  <Class id="6" name="StreamReadException" module="1" line="16">
+  <Attr name="err" type="814" const="f" ref="f" access="-" />
+  <Oper name="StreamReadException" access="+" const="f" virt="f" line="33" ret="877" retconst="f" retref="f">
+   <Parms list="s@814@f@f" />
+   <Statements list="v=err@6@814@f#c=move@592#c=basic_string@608"/>
+  </Oper>
+  <Oper name="what" access="+" const="t" virt="f" line="35" ret="345" retconst="t" retref="t">
+   <Statements list="v=err@6@814@f#c=err.c_str@608"/>
+  </Oper>
+  </Class>
+  <Class id="7" name="SyntaxException" module="1" line="89">
+  <Oper name="SyntaxException" access="+" const="f" virt="f" line="91" ret="877" retconst="f" retref="f">
+   <Parms list="s@814@t@t" />
+   <Statements list="c=basic_string@608#c=+:StreamReadException@6"/>
+  </Oper>
+  </Class>
+  <Class id="8" name="UnexpectedValueException" module="1" line="103">
+  <Oper name="UnexpectedValueException" access="+" const="f" virt="f" line="105" ret="877" retconst="f" retref="f">
+   <Parms list="position@405@f@f#unexpectedSymbol@814@t@t" />
+   <Statements list="c=basic_string@608#c=to_string@98#c=operator+@592#c=operator+@592#c=operator+@592#c=+:StreamReadException@6"/>
+  </Oper>
+  </Class>
+  <Class id="9" name="UnknownTypeException" module="1" line="49">
+  <Oper name="UnknownTypeException" access="+" const="f" virt="f" line="51" ret="877" retconst="f" retref="f">
+   <Parms list="type@814@t@t" />
+   <Statements list="c=basic_string@608#c=operator+@592#c=operator+@592#c=+:StreamReadException@6"/>
+  </Oper>
+  </Class>
+  <Class id="98" name="__cxx11::" line="0"/>
+  <DataType id="345" name="char" />
+  <DataType id="405" name="int64_t&lt;&lt;typedef&gt;&gt;" />
+  <Class id="592" name="std::" line="0"/>
+  <Class id="608" name="std::__cxx11::basic_string&lt;char&gt;" line="1577"/>
+  <Class id="753" name="std::exception" line="60">
+  </Class>
+  <DataType id="814" name="std::string" />
+  <DataType id="877" name="void" />
+  <Genrl id="100000" child="6" parent="753" access="+" />
+  <Genrl id="100001" child="9" parent="6" access="+" />
+  <Genrl id="100002" child="4" parent="6" access="+" />
+  <Genrl id="100003" child="7" parent="6" access="+" />
+  <Genrl id="100004" child="8" parent="6" access="+" />
+ </XMI.content>
+</XMI>

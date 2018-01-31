@@ -1,0 +1,13 @@
+CppArgs[]=|-c;
+CppArgs[cfg:Analysis]+|-x;c++;-std=c++17;
+CppArgs[cfg:Debug]+|-std=c++0x;-O0;-g3;
+CppArgs[cfg:Release]+|-std=c++0x;-O3;
+CppCompilerPath[]=|g++.exe
+CppLibPath[]=|ar.exe
+ExeDebuggerPath|gdb.exe
+JavaAnalyzerPath[cfg:Analysis]=|oovJavaParser
+JavaCompilerPath[]=|javac
+JavaCompilerPath[cfg:Analysis]=|java
+JavaJarPath[]=|jar
+ObjSymbolPath[]=|nm.exe
+SourceRootDir|C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/

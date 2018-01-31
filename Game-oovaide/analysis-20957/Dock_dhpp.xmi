@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.2" xmlns:UML="http://schema.omg.org/spec/UML/1.3" >
+ <XMI.content>
+  <Module id="1" module="C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/Dock.hpp" codeLines="59" commentLines="51" moduleLines="141" >
+  </Module>
+  <Class id="13" name="Body" line="19">
+  </Class>
+  <Class id="20" name="Dock" module="1" line="20">
+  <Attr name="rectanglesTemplates" type="630" const="f" ref="f" access="-" />
+  <Attr name="map" type="41" const="f" ref="t" access="-" />
+  <Attr name="selection" type="44" const="f" ref="t" access="-" />
+  <Attr name="window" type="630" const="f" ref="t" access="-" />
+  <Attr name="dockStartX" type="607" const="f" ref="f" access="-" />
+  <Attr name="dockStartY" type="607" const="f" ref="f" access="-" />
+  <Attr name="dockItemOffset" type="607" const="f" ref="f" access="-" />
+  <Attr name="xAxisItems" type="630" const="f" ref="f" access="-" />
+  <Oper name="Dock" access="+" const="f" virt="f" line="58" ret="1249" retconst="f" retref="f">
+   <Parms list="_map@41@f@t#_window@630@f@t#selection@44@f@t" />
+   <Statements list="v=map@20@41@f#v=selection@20@44@f"/>
+  </Oper>
+  <Oper name="addRectangle" access="+" const="f" virt="f" line="75" ret="1249" retconst="f" retref="f">
+   <Parms list="r@13@f@t" />
+   <Statements list="{[ xAxisItems &gt; 22 ]#v=xAxisItems@20@630@f#v=dockStartY@20@607@f#v=dockStartX@20@607@t#v=xAxisItems@20@630@t#}#v=dockStartX@20@607@f#v=dockItemOffset@20@607@f#v=xAxisItems@20@630@f"/>
+  </Oper>
+  <Oper name="selectRectangle" access="+" const="f" virt="f" line="100" ret="1249" retconst="f" retref="f">
+   <Parms list="mousePos@630@f@f" />
+  </Oper>
+  <Oper name="draw" access="+" const="f" virt="f" line="129" ret="1249" retconst="f" retref="f">
+  </Oper>
+  </Class>
+  <Class id="41" name="Map" line="63">
+  </Class>
+  <Class id="44" name="ObjectSelector" line="17">
+  </Class>
+  <DataType id="607" name="float" />
+  <DataType id="630" name="int" />
+  <DataType id="1249" name="void" />
+ </XMI.content>
+</XMI>

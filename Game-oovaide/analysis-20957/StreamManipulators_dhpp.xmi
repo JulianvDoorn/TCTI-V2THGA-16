@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.2" xmlns:UML="http://schema.omg.org/spec/UML/1.3" >
+ <XMI.content>
+  <Module id="1" module="C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/StreamManipulators.hpp" codeLines="10" commentLines="23" moduleLines="41" >
+  </Module>
+  <Class id="2" name="" line="0">
+  <Oper name="ignoreLine" access="-" const="f" virt="f" line="18" ret="745" retconst="f" retref="t">
+  </Oper>
+  <Oper name="exceptions" access="-" const="f" virt="f" line="37" ret="745" retconst="f" retref="t">
+   <Statements list="c=operator|@566#c=is.exceptions@682"/>
+  </Oper>
+  </Class>
+  <Class id="566" name="std::" line="0"/>
+  <Class id="682" name="std::basic_ios&lt;char&gt;" line="178"/>
+  <DataType id="745" name="std::istream" />
+ </XMI.content>
+</XMI>

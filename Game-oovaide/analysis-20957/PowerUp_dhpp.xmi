@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.2" xmlns:UML="http://schema.omg.org/spec/UML/1.3" >
+ <XMI.content>
+  <Module id="1" module="C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/PowerUp.hpp" codeLines="22" commentLines="43" moduleLines="84" >
+  </Module>
+  <Class id="12" name="Body" line="19">
+  </Class>
+  <Class id="22" name="EventConnection" line="18">
+  </Class>
+  <Class id="33" name="IntersectionGroup" line="16">
+  </Class>
+  <Class id="42" name="Map" line="63">
+  </Class>
+  <Class id="45" name="Player" line="27">
+  </Class>
+  <Class id="46" name="PowerUp" module="1" line="16">
+  <Attr name="collidedConn" type="22" const="f" ref="f" access="-" />
+  <Attr name="powerUpIntersectionGroup" type="33" const="f" ref="t" access="-" />
+  <Oper name="PowerUp" access="+" const="f" virt="f" line="34" ret="1143" retconst="f" retref="f">
+   <Parms list="powerUpIntersectionGroup@33@f@t" />
+   <Statements list="v=powerUpIntersectionGroup@46@33@f"/>
+  </Oper>
+  <Oper name="apply" access="+" const="t" virt="t" line="47" ret="1143" retconst="f" retref="f">
+   <Parms list="player@45@f@t" />
+  </Oper>
+  <Oper name="connect" access="+" const="f" virt="f" line="61" ret="1143" retconst="f" retref="f">
+   <Parms list="player@45@f@t#map@42@f@t" />
+  </Oper>
+  <Oper name="disconnect" access="+" const="f" virt="f" line="81" ret="1143" retconst="f" retref="f">
+   <Statements list="v=collidedConn@46@22@f#c=collidedConn.disconnect@22"/>
+  </Oper>
+  </Class>
+  <DataType id="1143" name="void" />
+  <Genrl id="100000" child="46" parent="12" access="+" />
+ </XMI.content>
+</XMI>

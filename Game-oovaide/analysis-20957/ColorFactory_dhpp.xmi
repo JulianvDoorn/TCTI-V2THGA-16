@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.2" xmlns:UML="http://schema.omg.org/spec/UML/1.3" >
+ <XMI.content>
+  <Module id="1" module="C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/ColorFactory.hpp" codeLines="163" commentLines="193" moduleLines="432" >
+  </Module>
+  <Class id="8" name="ColorFactory" module="1" line="231">
+  <Attr name="input" type="986" const="f" ref="t" access="-" />
+  <Attr name="colorNameConversionTable" type="543" const="f" ref="f" access="-" />
+  <Oper name="readHex" access="-" const="f" virt="f" line="256" ret="1113" retconst="f" retref="f">
+   <Parms list="begin@477@t@t#end@477@t@t" />
+   <Statements list="{*[ begin &lt;= end ]#{[ * begin &gt;= &apos;0&apos; &amp;&amp; * begin &lt;= &apos;9&apos; ]#}#{[ * begin &gt;= &apos;A&apos; &amp;&amp; * begin &lt;= &apos;F&apos; ]#}#{[else]#c=UnexpectedHexChar@25#}#}"/>
+  </Oper>
+  <Oper name="ColorFactory" access="+" const="f" virt="f" line="289" ret="1135" retconst="f" retref="f">
+   <Parms list="input@986@f@t" />
+   <Statements list="v=input@8@986@f"/>
+  </Oper>
+  <Oper name="getColor" access="+" const="f" virt="f" line="309" ret="543" retconst="f" retref="f">
+   <BodyVarDecl name="color" type="20" const="f" ref="f" />
+   <Statements list="{[ c == &apos;#&apos; ]#}#{[ c == &apos;\&quot;&apos; ]#c=QuotedString+;5f374e10@20#}#{[else]#c=MalformedColorStringException@17#}"/>
+  </Oper>
+  <Oper name="getColorFromString" access="+" const="f" virt="f" line="347" ret="543" retconst="f" retref="f">
+   <Statements list="{[]#}#{[else]#{[]#c=MalformedColorStringException@17#}#{[]#{[]#}#{[else]#}#}#{[else]#c=MalformedColorStringException@17#}#c=UnexpectedHexChar@25#c=UnexpectedHexCharException@26#}"/>
+  </Oper>
+  <Oper name="getStringFromColor" access="+" const="f" virt="f" line="397" ret="1043" retconst="f" retref="f">
+   <Parms list="color@543@t@t" />
+   <Statements list="{[]#}#{[else]#{[]#}#}"/>
+  </Oper>
+  </Class>
+  <DataType id="10" name="Conversion&lt;L&gt;" />
+  <DataType id="11" name="Conversion&lt;R&gt;" />
+  <Class id="12" name="ConversionTable&lt;L,R&gt;&lt;&lt;template&gt;&gt;" module="1" line="125">
+  <Oper name="ConversionTable<L, R>" access="+" const="f" virt="f" line="167" ret="1135" retconst="f" retref="f">
+   <Parms list="list@974@f@f" />
+  </Oper>
+  <Oper name="convert" sym="b8292fdb" access="+" const="t" virt="f" line="183" ret="11" retconst="t" retref="f">
+   <Parms list="lhs@15@t@t" />
+   <Statements list="{[]#}#{[else]#}"/>
+  </Oper>
+  <Oper name="convert" sym="b8292ffc" access="+" const="t" virt="f" line="207" ret="10" retconst="t" retref="f">
+   <Parms list="rhs@21@t@t" />
+  </Oper>
+  </Class>
+  <DataType id="15" name="L" />
+  <Class id="17" name="MalformedColorStringException" module="1" line="24">
+  <Oper name="MalformedColorStringException" access="+" const="f" virt="f" line="26" ret="1135" retconst="f" retref="f">
+   <Parms list="s@1043@t@t" />
+  </Oper>
+  </Class>
+  <Class id="20" name="QuotedString" line="19">
+  </Class>
+  <DataType id="21" name="R" />
+  <Class id="23" name="StreamReadException" line="16">
+  </Class>
+  <Class id="25" name="UnexpectedHexChar" module="1" line="39">
+  <Attr name="erroneousChar" type="477" const="f" ref="f" access="+" />
+  <Oper name="UnexpectedHexChar" access="+" const="f" virt="f" line="55" ret="1135" retconst="f" retref="f">
+   <Parms list="c@477@f@f" />
+   <Statements list="v=erroneousChar@25@477@f"/>
+  </Oper>
+  </Class>
+  <Class id="26" name="UnexpectedHexCharException" module="1" line="82">
+  <Oper name="UnexpectedHexCharException" access="+" const="f" virt="f" line="84" ret="1135" retconst="f" retref="f">
+   <Parms list="e@25@f@f#s@1043@t@t" />
+  </Oper>
+  </Class>
+  <DataType id="477" name="char" />
+  <DataType id="543" name="int" />
+  <DataType id="974" name="std::initializer_list&lt;std::pair&lt;L,R&gt; &gt;" />
+  <DataType id="986" name="std::istream" />
+  <DataType id="1043" name="std::string" />
+  <DataType id="1113" name="uint32_t" />
+  <DataType id="1135" name="void" />
+  <Genrl id="100000" child="17" parent="23" access="+" />
+  <Genrl id="100001" child="26" parent="23" access="+" />
+ </XMI.content>
+</XMI>

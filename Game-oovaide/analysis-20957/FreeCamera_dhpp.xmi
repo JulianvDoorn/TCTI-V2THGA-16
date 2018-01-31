@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.2" xmlns:UML="http://schema.omg.org/spec/UML/1.3" >
+ <XMI.content>
+  <Module id="1" module="C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/FreeCamera.hpp" codeLines="64" commentLines="106" moduleLines="207" >
+  </Module>
+  <Class id="11" name="EventConnection" line="18">
+  </Class>
+  <Class id="17" name="FreeCamera" module="1" line="32">
+  <Attr name="view" type="516" const="f" ref="f" access="-" />
+  <Attr name="window" type="516" const="f" ref="t" access="-" />
+  <Attr name="speed" type="500" const="f" ref="f" access="-" />
+  <Attr name="movement" type="516" const="f" ref="f" access="-" />
+  <Attr name="position" type="516" const="f" ref="f" access="-" />
+  <Attr name="keyPressedConnection" type="11" const="f" ref="f" access="-" />
+  <Attr name="keyReleasedConnection" type="11" const="f" ref="f" access="-" />
+  <Oper name="FreeCamera" sym="42e0b246" access="+" const="f" virt="f" line="65" ret="966" retconst="f" retref="f">
+   <Parms list="window@516@f@t" />
+  </Oper>
+  <Oper name="FreeCamera" sym="7dd6690f" access="+" const="f" virt="f" line="82" ret="966" retconst="f" retref="f">
+   <Parms list="window@516@f@t#cameraSpeed@500@f@f" />
+   <Statements list="v=speed@17@500@f"/>
+  </Oper>
+  <Oper name="connect" access="+" const="f" virt="f" line="95" ret="966" retconst="f" retref="f">
+  </Oper>
+  <Oper name="disconnect" access="+" const="f" virt="f" line="139" ret="966" retconst="f" retref="f">
+   <Statements list="v=keyPressedConnection@17@11@f#c=keyPressedConnection.disconnect@11#v=keyReleasedConnection@17@11@f#c=keyReleasedConnection.disconnect@11"/>
+  </Oper>
+  <Oper name="setCameraSpeed" access="+" const="f" virt="f" line="155" ret="966" retconst="f" retref="f">
+   <Parms list="cameraSpeed@500@f@f" />
+   <Statements list="v=speed@17@500@t"/>
+  </Oper>
+  <Oper name="setPosition" access="+" const="f" virt="f" line="170" ret="966" retconst="f" retref="f">
+   <Parms list="pos@516@f@f" />
+  </Oper>
+  <Oper name="update" access="+" const="f" virt="f" line="187" ret="966" retconst="f" retref="f">
+   <Parms list="elapsedTime@500@f@f" />
+  </Oper>
+  <Oper name="reset" access="+" const="f" virt="f" line="203" ret="966" retconst="f" retref="f">
+  </Oper>
+  </Class>
+  <DataType id="500" name="float" />
+  <DataType id="516" name="int" />
+  <DataType id="966" name="void" />
+ </XMI.content>
+</XMI>

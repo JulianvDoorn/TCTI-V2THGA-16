@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.2" xmlns:UML="http://schema.omg.org/spec/UML/1.3" >
+ <XMI.content>
+  <Module id="1" module="C:/Users/wiebe/Documents/TCTI-V2THGA-16/Game/Running.hpp" codeLines="150" commentLines="59" moduleLines="259" >
+  </Module>
+  <Class id="6" name="Antagonist" line="15">
+  </Class>
+  <Class id="33" name="EventConnection" line="18">
+  </Class>
+  <Class id="61" name="Label" line="14">
+  </Class>
+  <Class id="64" name="Map" line="63">
+  </Class>
+  <Class id="65" name="MapFactory" line="30">
+  </Class>
+  <Class id="70" name="Player" line="27">
+  </Class>
+  <Class id="77" name="Running" module="1" line="24">
+  <Attr name="statemachine" type="83" const="f" ref="t" access="-" />
+  <Attr name="focus" type="93" const="f" ref="f" access="-" />
+  <Attr name="map" type="64" const="f" ref="f" access="-" />
+  <Attr name="backgroundMusic" type="709" const="f" ref="f" access="-" />
+  <Attr name="keyReleasedConnection" type="33" const="f" ref="f" access="-" />
+  <Attr name="diedConnection" type="33" const="f" ref="f" access="-" />
+  <Attr name="fellOffMapConnection" type="33" const="f" ref="f" access="-" />
+  <Attr name="player" type="70" const="f" ref="f" access="-" />
+  <Attr name="death" type="6" const="f" ref="f" access="-" />
+  <Attr name="deathSikkel" type="6" const="f" ref="f" access="-" />
+  <Attr name="score" type="61" const="f" ref="f" access="-" />
+  <Attr name="gameOver" type="626" const="f" ref="f" access="-" />
+  <Attr name="gameOverCounter" type="688" const="f" ref="f" access="-" />
+  <Attr name="powerUps" type="709" const="f" ref="f" access="-" />
+  <Attr name="background" type="709" const="f" ref="f" access="-" />
+  <Oper name="Running" access="+" const="f" virt="f" line="76" ret="1337" retconst="f" retref="f">
+   <Parms list="statemachine@83@f@t" />
+   <BodyVarDecl name="mapFactory" type="65" const="f" ref="f" />
+   <Statements list="v=statemachine@77@83@f"/>
+  </Oper>
+  <Oper name="entry" access="+" const="f" virt="f" line="152" ret="1337" retconst="f" retref="f">
+  </Oper>
+  <Oper name="exit" access="+" const="f" virt="f" line="200" ret="1337" retconst="f" retref="f">
+   <Statements list="v=keyReleasedConnection@77@33@f#c=keyReleasedConnection.disconnect@33#{[ ! gameOver ]#v=gameOver@77@626@f#v=diedConnection@77@33@f#c=diedConnection.disconnect@33#v=fellOffMapConnection@77@33@f#c=fellOffMapConnection.disconnect@33#}"/>
+  </Oper>
+  <Oper name="update" access="+" const="f" virt="f" line="229" ret="1337" retconst="f" retref="f">
+   <Parms list="elapsedTime@688@f@f" />
+   <Statements list="{[ ! gameOver ]#v=gameOver@77@626@f#}#{[ gameOverCounter &gt; 0 ]#v=gameOverCounter@77@688@f#v=gameOverCounter@77@688@f#}#{[else]#}"/>
+  </Oper>
+  </Class>
+  <Class id="82" name="State" line="14">
+  </Class>
+  <Class id="83" name="Statemachine" line="25">
+  </Class>
+  <Class id="93" name="ViewFocus" line="15">
+  </Class>
+  <DataType id="626" name="bool" />
+  <DataType id="688" name="float" />
+  <DataType id="709" name="int" />
+  <DataType id="1337" name="void" />
+  <Genrl id="100000" child="77" parent="82" access="+" />
+ </XMI.content>
+</XMI>
