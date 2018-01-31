@@ -40,13 +40,30 @@ public:
  */
 
 class KeyScheme {
+	EventConnection keyPressedConn;
+	EventConnection keyReleasedConn;
+
 public:
+	/** @brief	The move left key */
+	sf::Keyboard::Key moveLeft;
+
+	/** @brief	The move right key */
+	sf::Keyboard::Key moveRight;
+
+	/** @brief	The jump key */
+	sf::Keyboard::Key jump;
+
+	/** @brief	The roll key */
+	sf::Keyboard::Key roll;
+
+	/** @brief	The run key */
+	sf::Keyboard::Key run;
 
 	/**
-	 * @enum	Difficulty
-	 *
-	 * @brief	Values that represent difficulties for various key schemes.
-	 */
+	* @enum	Difficulty
+	*
+	* @brief	Values that represent difficulties for various key schemes.
+	*/
 
 	enum class Difficulty {
 		EASY,
@@ -54,6 +71,15 @@ public:
 		HARD,
 		UNDEFINED
 	};
+
+	/** @brief	The difficulty */
+	Difficulty difficulty;
+
+	bool moveLeftPressed = false;
+	bool moveRightPressed = false;
+	bool jumpPressed = false;
+	bool rollPressed = false;
+	bool runPressed = false;
 
 	/**
 	 * @fn	KeyScheme::KeyScheme(sf::Keyboard::Key moveLeft, sf::Keyboard::Key moveRight, sf::Keyboard::Key jump, sf::Keyboard::Key roll, sf::Keyboard::Key run, Difficulty difficulty = Difficulty::UNDEFINED)
@@ -78,7 +104,51 @@ public:
 		roll(roll),
 		run(run),
 		difficulty(difficulty)
-	{};
+	{ };
+
+	void connect() {
+		keyPressedConn = game.keyboard.keyPressed.connect([=](const sf::Keyboard::Key key) {
+			if (key == jump) {
+				jumpPressed = true;
+				std::cout << jumpPressed << std::endl;
+			}
+			else if (key == roll) {
+				rollPressed = true;
+			}
+			else if (key == run) {
+				runPressed = true;
+			}
+			else if (key == moveLeft) {
+				moveLeftPressed = true;
+			}
+			else if (key == moveRight) {
+				moveRightPressed = true;
+			}
+		});
+
+		keyReleasedConn = game.keyboard.keyReleased.connect([=](const sf::Keyboard::Key key) {
+			if (key == jump) {
+				jumpPressed = false;
+			}
+			else if (key == roll) {
+				rollPressed = false;
+			}
+			else if (key == run) {
+				runPressed = false;
+			}
+			else if (key == moveLeft) {
+				moveLeftPressed = false;
+			}
+			else if (key == moveRight) {
+				moveRightPressed = false;
+			}
+		});
+	}
+
+	void disconnect() {
+		keyPressedConn.disconnect();
+		keyReleasedConn.disconnect();
+	}
 
 	/**
 	 * @fn	KeyScheme::KeyScheme()
@@ -89,28 +159,9 @@ public:
 	 * @date	25-1-2018
 	 */
 
-	KeyScheme() { difficulty = Difficulty::UNDEFINED; };
+	//KeyScheme() { difficulty = Difficulty::UNDEFINED; };
 
-
-	/** @brief	The difficulty */
-	Difficulty difficulty;
-
-	/** @brief	The move left key */
-	sf::Keyboard::Key moveLeft;
-
-	/** @brief	The move right key */
-	sf::Keyboard::Key moveRight;
-
-	/** @brief	The jump key */
-	sf::Keyboard::Key jump;
-
-	/** @brief	The roll key */
-	sf::Keyboard::Key roll;
-
-	/** @brief	The run key */
-	sf::Keyboard::Key run;
-
-	/**
+   /**
 	* @fn	friend operator<<(std::ostream &os, sf::Keyboard::Key key)
 	*
 	* @brief	Used the print sf::Keyboard::key instances as an character.

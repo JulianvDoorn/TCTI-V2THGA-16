@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <array>
 #include <exception>
 #include <memory>
 #include <SFML/Graphics.hpp>
@@ -11,9 +11,6 @@
 #include "Label.hpp"
 #include "KeyToString.hpp"
 #include "VectorStreamOperators.hpp"
-
-/** @brief	An (fixed-size) array holding key schemes. Maximum of 100 key schemes. */
-using KeySchemes = std::array<KeyScheme, 100>;
 
 /**
  * @class	Player
@@ -28,32 +25,47 @@ class Player : public Body {
 private:
     sf::RenderWindow &window;
 
-	/** @brief	The current active key scheme */
-	KeyScheme activeKeyScheme = KeyScheme(sf::Keyboard::Key::A, sf::Keyboard::Key::D, sf::Keyboard::Key::W, sf::Keyboard::Key::S,sf::Keyboard::LShift);
+	EventSource<sf::Keyboard::Key> keyPressed;
+	EventSource<sf::Keyboard::Key> keyReleased;
+
 
 	/** @brief	The predefined player key schemes */
-	KeySchemes keySchemes = {
+	std::vector<KeyScheme> keySchemes = {
+		KeyScheme(sf::Keyboard::Key::A, sf::Keyboard::Key::D, sf::Keyboard::Key::W, sf::Keyboard::Key::S, sf::Keyboard::Key::LShift, KeyScheme::Difficulty::EASY),
 		KeyScheme(sf::Keyboard::Key::J, sf::Keyboard::Key::L, sf::Keyboard::Key::I, sf::Keyboard::Key::K, sf::Keyboard::Key::LShift, KeyScheme::Difficulty::MODERATE),
-		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift ,KeyScheme::Difficulty::MODERATE),
-		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift ,KeyScheme::Difficulty::MODERATE),
-		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift ,KeyScheme::Difficulty::MODERATE),
-		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift ,KeyScheme::Difficulty::MODERATE)
+		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift, KeyScheme::Difficulty::MODERATE),
+		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift, KeyScheme::Difficulty::MODERATE),
+		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift, KeyScheme::Difficulty::MODERATE)
 	};
+
+	/** @brief	The current active key scheme */
+	KeyScheme& activeKeyScheme = keySchemes[0];
+
+	/** @brief	The walk direction */
+	int32_t walkDirection = 0;
+
+	/** @brief	Jump flag */
+	bool jump = false;
+
+	/** @brief	Roll flag */
+	bool roll = false;
+
+	/** @brief	True if run key pressed */
+	bool runKeyPressed = false;
 
 	unsigned int keySchemeIndex = 0;
 	bool keySchemeUpdateReady = false;
 
-	int32_t walkDirection = 0;
-
 	float defaultWalkingSpeed = 100;
     float walkspeed = defaultWalkingSpeed;
+	
+	float runningSpeed = 200;
+	int runningAnimationTimeInMiliseconds = 25;
+
+
+
+
 	float jumpForce = 500;
-    bool spammingRunKey = false;
-    float runningSpammingFactor = 1;
-	bool jump = false;
-	bool roll = false;
-    sf::Time lastKeyPressTime;
-    bool runKeyPressed = false;
 
     sf::Clock runClock;
 	sf::Clock rollClock;
@@ -94,9 +106,8 @@ private:
     Label keyschemeText;
     sf::Clock keySchemeShowClock;
     int keySchemeShowTimeInMilliseconds = 3000;
-
-
 public:
+
 	/**
 	 * @fn	Player::Player()
 	 *
@@ -116,46 +127,48 @@ public:
         leftArm.setSize(playersize);
         rightArm.setSize(playersize);
         rollRectangle.setSize({20,20});
-
-		keyPressedConn = game.keyboard.keyPressed.connect([this](const sf::Keyboard::Key key) {
-			if (key == activeKeyScheme.jump) {
-				doJump();
-			}
-			else if (key == activeKeyScheme.roll) {
-                roll = true;
-				rollClock.restart();
-			}
-			else if (key == activeKeyScheme.run){
-				doRun();
-			}
-			else if (key == activeKeyScheme.moveLeft) {
-				setWalkDirection(walkDirection - 1);
-			}
-			else if (key == activeKeyScheme.moveRight) {
-				setWalkDirection(walkDirection + 1);
-			}
-		});
-
-		keyReleasedConn = game.keyboard.keyReleased.connect([this](const sf::Keyboard::Key key) {
-			if (key == activeKeyScheme.moveLeft) {
-				setWalkDirection(walkDirection + 1);
-			}
-			else if (key == activeKeyScheme.run){
-				checkStillRunning();
-			}
-			else if (key == activeKeyScheme.moveRight) {
-				setWalkDirection(walkDirection - 1);
-			}
-            else if (key == activeKeyScheme.roll){
-                roll = false;
-				unRoll();
-            }
-		});
 	}
 
-	~Player() {
-		keyPressedConn.disconnect();
-		keyReleasedConn.disconnect();
+	void connect() {
+		for (KeyScheme& keyScheme : keySchemes) {
+			keyScheme.connect();
+		}
+	}
+
+	void disconnect() {
+		for (KeyScheme& keyScheme : keySchemes) {
+			keyScheme.disconnect();
+		}
+	}
+
+	void readInput() {
+		walkDirection = 0;
+
+		if (activeKeyScheme.jumpPressed) {
+			doJump();
+		}
+
+		if (activeKeyScheme.moveRightPressed) {
+			walkDirection++;
+		}
+
+		if (activeKeyScheme.moveLeftPressed) {
+			walkDirection--;
+		}
+
+		if (activeKeyScheme.rollPressed && !roll) {
+			roll = true;
+			rollClock.restart();
+		}
+
+		if (activeKeyScheme.runPressed) {
+			animationTimeInMiliseconds = runningAnimationTimeInMiliseconds;
+			walkspeed = runningSpeed;
+		}
+		else {
+			animationTimeInMiliseconds = defaultAnimationTimeInMiliseconds;
+			walkspeed = defaultWalkingSpeed;
+		}
 	}
 
 	/**
@@ -169,6 +182,8 @@ public:
 	 * @param	elapsedTime	The elapsed time.
 	 */
 	void update(const float elapsedTime) override {
+		readInput();
+
         doWalk();
 		if (jump) {
 			applyForce({ 0, -jumpForce });
@@ -178,10 +193,6 @@ public:
 			doRoll();
 		}
 		checkDeath();
-		if (runClock.getElapsedTime().asMilliseconds() - lastKeyPressTime.asMilliseconds() > 250 && !runKeyPressed) {
-			spammingRunKey = false;
-			walkspeed = defaultWalkingSpeed;
-		}
 
 		Body::update(elapsedTime);
         torso.setPosition(getPosition());
@@ -346,7 +357,6 @@ public:
 
 
     void doWalk(){
-
         if (walkDirection == 0){
             if (!roll) {
                 if (torsoDisplay) {
@@ -479,40 +489,6 @@ public:
 		}
 	}
 
-	void doRun(){
-		runKeyPressed = true;
-		if (runClock.getElapsedTime().asMilliseconds() - lastKeyPressTime.asMilliseconds() <200){
-			spammingRunKey = true;
-			runningSpammingFactor *= 1.5;
-		}
-		else if (spammingRunKey){
-			spammingRunKey = false;
-			runningSpammingFactor =1;
-			walkspeed = defaultWalkingSpeed;
-		}
-		walkspeed *= 2 * runningSpammingFactor;
-		animationTimeInMiliseconds /= 2;
-		animationTimeInMiliseconds /= int(runningSpammingFactor);
-		if (walkspeed > 299){ //max running speed without glitching
-			walkspeed = 299;
-		}
-		lastKeyPressTime = runClock.getElapsedTime();
-	}
-
-	void checkStillRunning(){
-		runKeyPressed = false;
-		if (spammingRunKey){
-			if (runClock.restart().asMilliseconds() > 200){
-				walkspeed = defaultWalkingSpeed;
-				runningSpammingFactor = 1;
-				animationTimeInMiliseconds = defaultAnimationTimeInMiliseconds;
-			}
-		}
-		else{
-			walkspeed = 100;
-			animationTimeInMiliseconds = defaultAnimationTimeInMiliseconds;
-		}
-	}
 	void unRoll(){
         roll = false;
         rollRectangleDisplay = false;

@@ -159,6 +159,8 @@ public:
         focus.setBottomBorder(0);
 		focus.update();
 
+		player.connect();
+
 		player.collided.connect([this](Collidable& other) {
 			if (&other == &death) {
 				game.died.fire();
@@ -199,6 +201,8 @@ public:
 		focus.unsetFocus();
 		focus.update();
 		backgroundMusic.stop();
+
+		player.disconnect();
 
 		for (PowerUp* powerUp : powerUps) {
 			powerUp->disconnect();
