@@ -52,21 +52,21 @@ private:
 
 	void bindEvents() {
 		mouseLeftButtonDownConn = game.mouse.mouseLeftButtonDown.connect([this](const sf::Vector2i mousePos) {
-			if (background.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+			if (background.getGlobalBounds().contains(game.window->mapPixelToCoords(mousePos))) {
 				buttonPressed.fire();
 				isPressed = true;
 			}
 		});
 
 		mouseLeftButtonUpConn = game.mouse.mouseLeftButtonUp.connect([this](const sf::Vector2i mousePos) {
-			if (background.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)) && isPressed) {
+			if (background.getGlobalBounds().contains(game.window->mapPixelToCoords(mousePos)) && isPressed) {
 				buttonReleased.fire();
 				isPressed = false;
 			}
 		});
 
 		mouseMovedConn = game.mouse.mouseMoved.connect([this](const sf::Vector2i mousePos) {
-			if (background.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+			if (background.getGlobalBounds().contains(game.window->mapPixelToCoords(mousePos))) {
 				if (mouseInside == false) {
 					mouseInside = true;
 					mouseEnter.fire();
