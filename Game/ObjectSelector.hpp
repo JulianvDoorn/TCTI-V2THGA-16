@@ -212,6 +212,7 @@ public:
 			if (key == sf::Keyboard::Key::Delete) {
 				if (selection != nullptr) {
 					map.removeObject(selection);
+					delete selection;
 					selection = nullptr;
 				}
 			}

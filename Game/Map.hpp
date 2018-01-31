@@ -295,6 +295,7 @@ public:
 		auto it = std::find(begin(), end(), physicsObject);
 
 		if (it != end()) {
+			it->release();
 			erase(it);
 		}
 		
