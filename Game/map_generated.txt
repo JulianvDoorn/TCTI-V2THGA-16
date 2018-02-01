@@ -617,14 +617,6 @@ rectangle {
  CanCollide = true
 }
 rectangle {
- Size = Vector2(40, 40)
- Position = Vector2(7599.61, -24.3259)
- TextureId = "fimmyLeftHead"
- TextureRect = Rect(0, 0, 20, 20)
- Color = #FFFFFFFF
- CanCollide = true
-}
-rectangle {
  Size = Vector2(251, 192)
  Position = Vector2(8177.09, 539.023)
  TextureId = "rockFloor"
@@ -893,14 +885,6 @@ rectangle {
  Position = Vector2(11022.2, 48.7163)
  TextureId = "block01"
  TextureRect = Rect(0, 0, 40, 40)
- Color = #FFFFFFFF
- CanCollide = true
-}
-rectangle {
- Size = Vector2(40, 40)
- Position = Vector2(11030.2, 10.7163)
- TextureId = "fimmyLeftHead"
- TextureRect = Rect(0, 0, 20, 20)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -1186,14 +1170,6 @@ rectangle {
 }
 rectangle {
  Size = Vector2(40, 40)
- Position = Vector2(4831.16, 4.15735)
- TextureId = "fimmyRightHead"
- TextureRect = Rect(0, 0, 20, 20)
- Color = #FFFFFFFF
- CanCollide = true
-}
-rectangle {
- Size = Vector2(40, 40)
  Position = Vector2(2441.98, 414.085)
  TextureId = "block01"
  TextureRect = Rect(0, 0, 40, 40)
@@ -1213,14 +1189,14 @@ texture {
 	Location = "Heal.png"
 }
 heal-power-up {
-	Position = Vector2(750, 450)
+	Position = Vector2(4831.16, 4.15735)
 	TextureId = "Heal"
 }
 heal-power-up {
-	Position = Vector2(700, 450)
+	Position = Vector2(7599.61, -24.3259)
 	TextureId = "Heal"
 }
 heal-power-up {
-	Position = Vector2(650, 450)
+	Position = Vector2(11030.2, 10.7163)
 	TextureId = "Heal"
 }
