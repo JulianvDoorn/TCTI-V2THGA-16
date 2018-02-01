@@ -27,7 +27,7 @@ Groepsleden:
 ## Game Design Document
 [Google Drive document](https://drive.google.com/open?id=120jh7rCEXO4Z9gqqJlwvgMK1_iSHA_k0Pnj_K_iPTnE)
 
-##Backlog
+## Backlog
 [Google Drive document](https://drive.google.com/open?id=1ZBP4IsyNwz57-e-kCwsJiRLyZHcSj7dFiEiu3OaduaI)
 
 ## Trello
