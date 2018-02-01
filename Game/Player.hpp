@@ -30,7 +30,6 @@ private:
 	EventSource<sf::Keyboard::Key> keyPressed;
 	EventSource<sf::Keyboard::Key> keyReleased;
 
-
 	/** @brief	The predefined player key schemes */
 	std::vector<KeyScheme> keySchemes = {
 		KeyScheme(sf::Keyboard::Key::A, sf::Keyboard::Key::D, sf::Keyboard::Key::W, sf::Keyboard::Key::S, sf::Keyboard::Key::LShift, KeyScheme::Difficulty::EASY),
@@ -40,14 +39,16 @@ private:
 		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift, KeyScheme::Difficulty::MODERATE)
 	};
 
-
 	/** @brief	The current active key scheme */
 	KeyScheme& activeKeyScheme = keySchemes[0];
 
 	/** @brief	The walk direction */
 	int32_t walkDirection = 0;
 
+	/** @brief	Zero-based index of the key scheme */
 	unsigned int keySchemeIndex = 0;
+
+	/** @brief	True if key scheme update ready */
 	bool keySchemeUpdateReady = false;
 
 	float defaultWalkingSpeed = 100;
@@ -68,16 +69,21 @@ private:
     /** @brief	True if run key pressed */
     bool runKeyPressed = false;
 	
+	/** @brief	The running speed */
 	float runningSpeed = 200;
-	int runningAnimationTimeInMiliseconds = 25;
 
+	/** @brief	The running animation time in miliseconds */
+	int runningAnimationTimeInMiliseconds = 25;
 
     /** @brief	The run clock */
     sf::Clock runClock;
 	/** @brief	The roll clock */
 	sf::Clock rollClock;
 
+	/** @brief	The jump clock */
 	sf::Clock jumpClock;
+
+	/** @brief	The jump debounce delay in milliseconds */
 	const int jumpDebounceDelayMs = 200;
 
 	/** @brief	The key pressed connection */
@@ -153,17 +159,44 @@ public:
         rollRectangle.setSize({20,20});
 	}
 
+	/**
+	 * @fn	void Player::connect()
+	 *
+	 * @brief	Connects a key scheme
+	 *
+	 * @author	Wiebe
+	 * @date	1-2-2018
+	 */
+
 	void connect() {
 		for (KeyScheme& keyScheme : keySchemes) {
 			keyScheme.connect();
 		}
 	}
 
+	/**
+	 * @fn	void Player::disconnect()
+	 *
+	 * @brief	Disconnects a key scheme
+	 *
+	 * @author	Wiebe
+	 * @date	1-2-2018
+	 */
+
 	void disconnect() {
 		for (KeyScheme& keyScheme : keySchemes) {
 			keyScheme.disconnect();
 		}
 	}
+
+	/**
+	 * @fn	void Player::readInput()
+	 *
+	 * @brief	Reads the keyboard input
+	 *
+	 * @author	Wiebe
+	 * @date	1-2-2018
+	 */
 
 	void readInput() {
 		walkDirection = 0;
@@ -337,12 +370,18 @@ public:
 		return *schemes.at(0);
 	}
 
+	/**
+	 * @fn	void Player::setNextKeyScheme()
+	 *
+	 * @brief	Sets next key scheme based on the key scheme index
+	 *
+	 * @author	Wiebe
+	 * @date	1-2-2018
+	 */
+
 	void setNextKeyScheme() {
 		if (keySchemes.size() > keySchemeIndex) {
 			
-			//setWalkDirection(0);
-			//checkStillRunning();
-			//unRoll();
 			setActiveKeyScheme(keySchemes.at(keySchemeIndex));
 			showKeySchemeUsed();
 		
