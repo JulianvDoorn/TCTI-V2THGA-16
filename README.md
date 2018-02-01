@@ -31,7 +31,7 @@ Groepsleden:
 [Google Drive document](https://drive.google.com/open?id=1ZBP4IsyNwz57-e-kCwsJiRLyZHcSj7dFiEiu3OaduaI)
 
 ## Trello
-[Trello Board](https://trello.com/b/FfQqoQld/game-project)
+[Trello Board](https://trello.com/b/FfQqoQld/game-project)  
 
 ##Sprint evaluaties
 [Sprint 1](https://drive.google.com/open?id=12DTo-PizEF4xqzgXq6qDkTxOWDJQ0XC3ZM62sGaqENM)    
