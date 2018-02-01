@@ -63,5 +63,6 @@ public:
 
 	void apply(Player& player) const override {
 		player.healBodyParts();
+		AssetManager::instance()->getSound("heal").play();
 	}
 };

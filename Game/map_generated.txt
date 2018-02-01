@@ -3,6 +3,14 @@ asset {
  Location = "GameOver.wav"
 }
 asset {
+ Id = "heal"
+ Location = "bloop_x.wav"
+}
+asset {
+ Id = "laugh"
+ Location = "laugh_x.wav"
+}
+asset {
  Id = "jump"
  Location = "jump.wav"
 }
