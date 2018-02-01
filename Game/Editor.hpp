@@ -192,7 +192,7 @@ public:
 			});
 		});
 
-		mapFactory.registerCreateMethod("power-up", [&](Map& map, const MapItemProperties& properties) {
+		mapFactory.registerCreateMethod("heal-power-up", [&](Map& map, const MapItemProperties& properties) {
 			// do nothing
 		});
 
