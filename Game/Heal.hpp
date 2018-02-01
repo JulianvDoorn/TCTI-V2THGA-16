@@ -62,7 +62,6 @@ public:
 	 */
 
 	void apply(Player& player) const override {
-		std::cout << "healing" << std::endl;
 		player.healBodyParts();
 	}
 };

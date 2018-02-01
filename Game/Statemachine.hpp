@@ -165,7 +165,6 @@ public:
 	*/
 	
 	void update(const float elapsedTime) {
-		//window.clear(sf::Color(63, 3, 3));
 		window.clear();
 		currentState->update(elapsedTime);
 		window.display();

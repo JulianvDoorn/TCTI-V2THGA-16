@@ -61,8 +61,6 @@ public:
 	/** @brief	Mouse event collection, events in this object get fired accordingly */
 	Mouse mouse;
 
-	//std::shared_ptr<AssetManager> assets = nullptr;
-
 	/**
 	 * @fn	void Game::decodeSFMLEvent(sf::Event ev) const override
 	 *
@@ -79,9 +77,6 @@ public:
 		mouse.decodeSFMLEvent(ev);
 	}
 
-	/**~Game() {
-		std::cout << "Destructing game...\n";
-	}**/
 };
 
 /** @brief	Global game instance, HAS TO BE ASSIGNED IN MAIN() USING @code Game game = Game(window); @endcode */

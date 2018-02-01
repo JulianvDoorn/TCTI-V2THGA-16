@@ -339,10 +339,6 @@ public:
 
 	void setNextKeyScheme() {
 		if (keySchemes.size() > keySchemeIndex) {
-			
-			//setWalkDirection(0);
-			//checkStillRunning();
-			//unRoll();
 			setActiveKeyScheme(keySchemes.at(keySchemeIndex));
 			showKeySchemeUsed();
 		
