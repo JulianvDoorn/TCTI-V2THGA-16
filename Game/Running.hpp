@@ -268,6 +268,8 @@ public:
 
 		statemachine.window.draw(score);
 
+		player.updateKeySchemeDisplay();
+
 		focus.update();
 	}
 };

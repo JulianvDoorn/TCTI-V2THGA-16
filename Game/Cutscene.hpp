@@ -187,7 +187,6 @@ public:
 		}
 
 		statemachine.window.draw(background);
-		//statemachine.window.draw(imageBackground);
 		statemachine.window.draw(subtitleText);
 	}
 };

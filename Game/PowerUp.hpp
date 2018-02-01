@@ -17,6 +17,14 @@ class PowerUp : public Body {
 	EventConnection collidedConn;
 	IntersectionGroup* powerUpIntersectionGroup;
 
+	bool used = false;
+
+	void _apply(Player& player) {
+		if (!used) {
+			used = true;
+			apply(player);
+		}
+	}
 public:
 
 	/**
@@ -60,12 +68,9 @@ public:
 
 	void connect(Player& player, Map& map) {
 		collidedConn = collided.connect([&](Collidable& other) {
-			apply(player);
+			_apply(player);
 
 			map.eraseDrawable(*this);
-			map.removeObjectGroup(powerUpIntersectionGroup);
-
-			delete powerUpIntersectionGroup;
 		});
 	}
 
