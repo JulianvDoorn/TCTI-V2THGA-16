@@ -58,7 +58,7 @@ class Running : public State {
 	/** @brief	The power ups */
 	std::vector<PowerUp*> powerUps;
 
-	std::array<int, 5> bodyRemoveToggles = {250, 3300, 6000, 8500, 9500}; // 2000, 5000, 8000, 11000, 18000
+	std::array<int, 5> bodyRemoveToggles = { 2000, 3300, 6000, 8500, 9500 }; // 250, 3300, 6000, 8500, 9500
 	int bodyRemoveToggleIndex = 0;
 
 	/** @brief	The background */
@@ -237,8 +237,8 @@ public:
 
 		if (!gameOver) {
 			player.update(elapsedTime);
-			//death.update(elapsedTime);
-			//deathSikkel.update(elapsedTime);
+			death.update(elapsedTime);
+			deathSikkel.update(elapsedTime);
 		}
 		else if (gameOverCounter > 0) {
 			gameOverCounter -= elapsedTime;
@@ -260,8 +260,8 @@ public:
 			}
 		}
 
-		//death.update(elapsedTime);
-		//deathSikkel.update(elapsedTime);
+		death.update(elapsedTime);
+		deathSikkel.update(elapsedTime);
 
 		map.resolve();
 		map.draw(statemachine.window);

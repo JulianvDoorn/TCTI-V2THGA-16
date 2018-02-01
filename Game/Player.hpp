@@ -39,9 +39,6 @@ private:
 		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift, KeyScheme::Difficulty::MODERATE)
 	};
 
-	/** @brief	The current active key scheme */
-	KeyScheme& activeKeyScheme = keySchemes[0];
-
 	/** @brief	The walk direction */
 	int32_t walkDirection = 0;
 
@@ -146,9 +143,9 @@ public:
 	 * @author	Wiebe
 	 * @date	25-1-2018
 	 */
-	Player(sf::RenderWindow &window) : window(window){
+	Player(sf::RenderWindow &window) : window(window) {
         setSize(playersize);
-
+		
         setFillColor(sf::Color::Transparent);
         torso.setSize(playersize);
         head.setSize(playersize);
@@ -201,24 +198,24 @@ public:
 	void readInput() {
 		walkDirection = 0;
 
-		if (activeKeyScheme.jumpPressed) {
+		if (keySchemes[keySchemeIndex].jumpPressed) {
 			doJump();
 		}
 
-		if (activeKeyScheme.moveRightPressed) {
+		if (keySchemes[keySchemeIndex].moveRightPressed) {
 			walkDirection++;
 		}
 
-		if (activeKeyScheme.moveLeftPressed) {
+		if (keySchemes[keySchemeIndex].moveLeftPressed) {
 			walkDirection--;
 		}
 
-		if (activeKeyScheme.rollPressed && !roll) {
+		if (keySchemes[keySchemeIndex].rollPressed && !roll) {
 			roll = true;
 			rollClock.restart();
 		}
 
-		if (activeKeyScheme.runPressed) {
+		if (keySchemes[keySchemeIndex].runPressed) {
 			animationTimeInMiliseconds = runningAnimationTimeInMiliseconds;
 			walkspeed = runningSpeed;
 		}
@@ -378,43 +375,19 @@ public:
 	 */
 
 	void setNextKeyScheme() {
-		if (keySchemes.size() > keySchemeIndex) {
-			setActiveKeyScheme(keySchemes.at(keySchemeIndex));
-			showKeySchemeUsed();
-		
+		if (keySchemes.size() >= keySchemeIndex + 1) {
 			keySchemeIndex++;
+			showKeySchemeUsed();
 		}
 	}
 
-	/**
-	 * @fn	void Player::setActiveKeyScheme(KeyScheme s)
-	 *
-	 * @brief	Sets active key scheme
-	 *
-	 * @author	Wiebe
-	 * @date	25-1-2018
-	 *
-	 * @param	s	A KeyScheme to process.
-	 */
-
-	void setActiveKeyScheme(KeyScheme& s) {
-		activeKeyScheme = s;
+	void setPrevKeyScheme() {
+		if (keySchemeIndex - 1 >= 0) {
+			keySchemeIndex--;
+			showKeySchemeUsed();
+		}
 	}
 
-	/**
-	 * @fn	KeyScheme& Player::getActiveKeyScheme()
-	 *
-	 * @brief	Gets active key scheme
-	 *
-	 * @author	Wiebe
-	 * @date	25-1-2018
-	 *
-	 * @return	The active key scheme.
-	 */
-
-	KeyScheme& getActiveKeyScheme() {
-		return activeKeyScheme;
-	}
 
     /**
      * @fn	void Player::doWalk()
@@ -588,11 +561,11 @@ public:
         keyschemeText.setFont(AssetManager::instance()->getFont("arial"));
         keyschemeText.setCharSize(16);
         keyschemeText.setColor(sf::Color::White);
-        std::string moveLeft = "Left: " + keyToString(activeKeyScheme.moveLeft);
-        std::string moveRight = "Right: " + keyToString(activeKeyScheme.moveRight);
-        std::string jump = "Jump: " + keyToString(activeKeyScheme.jump);
-        std::string run = "Run: " + keyToString(activeKeyScheme.run);
-        std::string roll = "Roll: " + keyToString(activeKeyScheme.roll);
+        std::string moveLeft = "Left: " + keyToString(keySchemes[keySchemeIndex].moveLeft);
+        std::string moveRight = "Right: " + keyToString(keySchemes[keySchemeIndex].moveRight);
+        std::string jump = "Jump: " + keyToString(keySchemes[keySchemeIndex].jump);
+        std::string run = "Run: " + keyToString(keySchemes[keySchemeIndex].run);
+        std::string roll = "Roll: " + keyToString(keySchemes[keySchemeIndex].roll);
         keyschemeText.setText(moveLeft+ " "+ moveRight +" "+jump + " "+ run + " " + roll );
         keySchemeShowClock.restart();
     }
@@ -834,12 +807,6 @@ public:
 		else if (!rightLegDisplay) { rightLegDisplay = true; bodyPartsLeft++; }
 		else if (!leftLegDisplay) { leftLegDisplay = true; bodyPartsLeft++; }
 		else { return; }
-
-		keySchemeIndex--;
-
-		if (keySchemes.size() > 0) {
-			setActiveKeyScheme(keySchemes.at(keySchemeIndex));
-			showKeySchemeUsed();
-		}
+		setPrevKeyScheme();
 	}
 };
