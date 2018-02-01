@@ -180,13 +180,18 @@ public:
 		});
 
 		diedConnection = game.died.connect([this]() {
-			std::cout << "/!\\ death got you /!\\" << std::endl;
-			gameOver = true;
+			if (gameOver == false) {
+				std::cout << "/!\\ death got you /!\\" << std::endl;
+				AssetManager::instance()->getSound("laugh").play();
+				gameOver = true;
+			}
 		});
 
 		fellOffMapConnection = game.fellOffMap.connect([this]() {
-			std::cout << "/!\\ fell out of the world /!\\" << std::endl;
-			gameOver = true;
+			if (gameOver == false) {
+				std::cout << "/!\\ fell out of the world /!\\" << std::endl;
+				gameOver = true;
+			}
 		});
 	}
 
