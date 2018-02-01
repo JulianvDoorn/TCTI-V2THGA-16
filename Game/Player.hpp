@@ -33,9 +33,9 @@ private:
 	/** @brief	The predefined player key schemes */
 	std::vector<KeyScheme> keySchemes = {
 		KeyScheme(sf::Keyboard::Key::A, sf::Keyboard::Key::D, sf::Keyboard::Key::W, sf::Keyboard::Key::S, sf::Keyboard::Key::LShift, KeyScheme::Difficulty::EASY),
-		KeyScheme(sf::Keyboard::Key::J, sf::Keyboard::Key::L, sf::Keyboard::Key::I, sf::Keyboard::Key::K, sf::Keyboard::Key::LShift, KeyScheme::Difficulty::MODERATE),
-		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift, KeyScheme::Difficulty::MODERATE),
-		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift, KeyScheme::Difficulty::MODERATE),
+		KeyScheme(sf::Keyboard::Key::J, sf::Keyboard::Key::L, sf::Keyboard::Key::I, sf::Keyboard::Key::K, sf::Keyboard::Key::RShift, KeyScheme::Difficulty::EASY),
+		KeyScheme(sf::Keyboard::Key::S, sf::Keyboard::Key::H, sf::Keyboard::Key::T, sf::Keyboard::Key::G, sf::Keyboard::Key::RShift, KeyScheme::Difficulty::MODERATE),
+		KeyScheme(sf::Keyboard::Key::A, sf::Keyboard::Key::J, sf::Keyboard::Key::W, sf::Keyboard::Key::H, sf::Keyboard::Key::LShift, KeyScheme::Difficulty::MODERATE),
 		KeyScheme(sf::Keyboard::Key::D, sf::Keyboard::Key::A, sf::Keyboard::Key::S, sf::Keyboard::Key::W, sf::Keyboard::Key::RShift, KeyScheme::Difficulty::MODERATE)
 	};
 

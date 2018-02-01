@@ -289,10 +289,10 @@ rectangle {
  CanCollide = true
 }
 rectangle {
- Size = Vector2(40, 361.844)
- Position = Vector2(2482.2, 304.552)
+ Size = Vector2(40, 315.844)
+ Position = Vector2(2482.98, 325.085)
  TextureId = "block02"
- TextureRect = Rect(0, 0, 40, 361.844)
+ TextureRect = Rect(0, 0, 40, 315.844)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -306,23 +306,7 @@ rectangle {
 }
 rectangle {
  Size = Vector2(40, 40)
- Position = Vector2(2446.4, 406.901)
- TextureId = "block01"
- TextureRect = Rect(0, 0, 40, 40)
- Color = #FFFFFFFF
- CanCollide = true
-}
-rectangle {
- Size = Vector2(40, 40)
- Position = Vector2(2442.31, 274.907)
- TextureId = "block01"
- TextureRect = Rect(0, 0, 40, 40)
- Color = #FFFFFFFF
- CanCollide = true
-}
-rectangle {
- Size = Vector2(40, 40)
- Position = Vector2(2442.52, 144)
+ Position = Vector2(2442.98, 187.085)
  TextureId = "block01"
  TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
@@ -425,10 +409,10 @@ rectangle {
  CanCollide = true
 }
 rectangle {
- Size = Vector2(626, 40)
- Position = Vector2(4628.93, 44.4721)
+ Size = Vector2(495, 40)
+ Position = Vector2(4563.43, 44.4721)
  TextureId = "block02"
- TextureRect = Rect(0, 0, 626, 40)
+ TextureRect = Rect(0, 0, 495, 40)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -498,7 +482,7 @@ rectangle {
 }
 rectangle {
  Size = Vector2(500, 182)
- Position = Vector2(5496.81, 555.722)
+ Position = Vector2(5464.59, 559.675)
  TextureId = "rockFloor"
  TextureRect = Rect(0, 0, 500, 182)
  Color = #FFFFFFFF
@@ -617,10 +601,10 @@ rectangle {
  CanCollide = true
 }
 rectangle {
- Size = Vector2(40, 366)
- Position = Vector2(7599.05, 112)
+ Size = Vector2(40, 185)
+ Position = Vector2(7599.05, 202.5)
  TextureId = "block02"
- TextureRect = Rect(0, 0, 40, 366)
+ TextureRect = Rect(0, 0, 40, 185)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -634,7 +618,7 @@ rectangle {
 }
 rectangle {
  Size = Vector2(40, 40)
- Position = Vector2(7755.18, 29.5876)
+ Position = Vector2(7599.61, -24.3259)
  TextureId = "fimmyLeftHead"
  TextureRect = Rect(0, 0, 20, 20)
  Color = #FFFFFFFF
@@ -778,7 +762,7 @@ rectangle {
 }
 rectangle {
  Size = Vector2(446, 40)
- Position = Vector2(10287, 138.346)
+ Position = Vector2(10287.1, 96.3667)
  TextureId = "block02"
  TextureRect = Rect(0, 0, 446, 40)
  Color = #FFFFFFFF
@@ -825,10 +809,10 @@ rectangle {
  CanCollide = true
 }
 rectangle {
- Size = Vector2(40, 298)
- Position = Vector2(10530, 267.346)
+ Size = Vector2(40, 342)
+ Position = Vector2(10530, 245.346)
  TextureId = "block02"
- TextureRect = Rect(0, 0, 40, 298)
+ TextureRect = Rect(0, 0, 40, 342)
  Color = #FFFFFFFF
  CanCollide = true
 }
@@ -906,7 +890,7 @@ rectangle {
 }
 rectangle {
  Size = Vector2(40, 40)
- Position = Vector2(11059.3, 52.4932)
+ Position = Vector2(11022.2, 48.7163)
  TextureId = "block01"
  TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
@@ -914,7 +898,7 @@ rectangle {
 }
 rectangle {
  Size = Vector2(40, 40)
- Position = Vector2(11057.3, 14.4932)
+ Position = Vector2(11030.2, 10.7163)
  TextureId = "fimmyLeftHead"
  TextureRect = Rect(0, 0, 20, 20)
  Color = #FFFFFFFF
@@ -946,7 +930,7 @@ rectangle {
 }
 rectangle {
  Size = Vector2(40, 40)
- Position = Vector2(7639.4, 157)
+ Position = Vector2(7640.44, 207.042)
  TextureId = "block01"
  TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
@@ -1186,7 +1170,7 @@ rectangle {
 }
 rectangle {
  Size = Vector2(40, 156)
- Position = Vector2(4921.13, -53.5013)
+ Position = Vector2(4790.95, -54.015)
  TextureId = "block02"
  TextureRect = Rect(0, 0, 40, 156)
  Color = #FFFFFFFF
@@ -1202,7 +1186,23 @@ rectangle {
 }
 rectangle {
  Size = Vector2(40, 40)
- Position = Vector2(7753.18, 67.5876)
+ Position = Vector2(4831.16, 4.15735)
+ TextureId = "fimmyRightHead"
+ TextureRect = Rect(0, 0, 20, 20)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(2441.98, 414.085)
+ TextureId = "block01"
+ TextureRect = Rect(0, 0, 40, 40)
+ Color = #FFFFFFFF
+ CanCollide = true
+}
+rectangle {
+ Size = Vector2(40, 40)
+ Position = Vector2(2441.98, 297.085)
  TextureId = "block01"
  TextureRect = Rect(0, 0, 40, 40)
  Color = #FFFFFFFF
