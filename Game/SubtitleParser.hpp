@@ -26,8 +26,6 @@ typedef std::vector<std::shared_ptr<SubtitleItem>> SubtitleVector;
 
 class SubtitleParser {
 private:
-
-
 	/** @brief	Subtitle file filepath */
 	const std::string filepath;
 

@@ -225,8 +225,6 @@ public:
         leftArm.setPosition(getPosition());
         rightArm.setPosition(getPosition());
         head.setPosition(getPosition());
-
-        updateKeySchemeDisplay();
 	}
 
 	/**
@@ -339,10 +337,6 @@ public:
 
 	void setNextKeyScheme() {
 		if (keySchemes.size() > keySchemeIndex) {
-			
-			//setWalkDirection(0);
-			//checkStillRunning();
-			//unRoll();
 			setActiveKeyScheme(keySchemes.at(keySchemeIndex));
 			showKeySchemeUsed();
 		
@@ -578,6 +572,7 @@ public:
         if(keySchemeShowClock.getElapsedTime().asMilliseconds() > keySchemeShowTimeInMilliseconds){
             keyschemeText.setColor(sf::Color::Transparent);
         }
+		window.draw(keyschemeText);
     }
 
     /**
@@ -624,7 +619,6 @@ public:
 			}
 		}
 
-		window.draw(keyschemeText);
     }
 
 	/**
@@ -792,10 +786,18 @@ public:
 	}
 
 	void healBodyParts() {
-		if (!headDisplay) { headDisplay = true; }
-		else if (!rightArmDisplay) { rightArmDisplay = true; }
-		else if (!leftArmDisplay) { leftArmDisplay = true; }
-		else if (!rightLegDisplay) { rightArmDisplay = true; }
-		else if (!leftLegDisplay) { leftArmDisplay = true; }
+		if (!headDisplay) { headDisplay = true; bodyPartsLeft++;}
+		else if (!rightArmDisplay) { rightArmDisplay = true; bodyPartsLeft++; }
+		else if (!leftArmDisplay) { leftArmDisplay = true; bodyPartsLeft++; }
+		else if (!rightLegDisplay) { rightArmDisplay = true; bodyPartsLeft++; }
+		else if (!leftLegDisplay) { leftArmDisplay = true; bodyPartsLeft++; }
+		else { return; }
+
+		keySchemeIndex--;
+
+		if (keySchemes.size() > 0) {
+			setActiveKeyScheme(keySchemes.at(keySchemeIndex));
+			showKeySchemeUsed();
+		}
 	}
 };

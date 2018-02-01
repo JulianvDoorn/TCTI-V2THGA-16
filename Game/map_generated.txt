@@ -1208,3 +1208,19 @@ rectangle {
  Color = #FFFFFFFF
  CanCollide = true
 }
+texture {
+	Id = "Heal"
+	Location = "Heal.png"
+}
+heal-power-up {
+	Position = Vector2(750, 450)
+	TextureId = "Heal"
+}
+heal-power-up {
+	Position = Vector2(700, 450)
+	TextureId = "Heal"
+}
+heal-power-up {
+	Position = Vector2(650, 450)
+	TextureId = "Heal"
+}

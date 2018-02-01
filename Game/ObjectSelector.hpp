@@ -72,8 +72,6 @@ public:
 		selection(nullptr),
 		map(map)
 	{
-		std::cout << "constructed selector with map " << &map << std::endl;
-
 		boundingBox.setFillColor(sf::Color::Transparent);
 		boundingBox.setOutlineColor(sf::Color::Cyan);
 		boundingBox.setOutlineThickness(2.0f);

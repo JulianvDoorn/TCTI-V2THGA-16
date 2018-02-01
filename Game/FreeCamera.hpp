@@ -102,7 +102,6 @@ public:
 			}
 			else if (key == sf::Keyboard::Key::S) {
 				movement += { 0, 1 };
-
 			}
 			else if (key == sf::Keyboard::Key::D) {
 				movement += { 1, 0 };
@@ -115,11 +114,9 @@ public:
 			}
 			else if (key == sf::Keyboard::Key::A) {
 				movement -= { -1, 0 };
-
 			}
 			else if (key == sf::Keyboard::Key::S) {
 				movement -= { 0, 1 };
-
 			}
 			else if (key == sf::Keyboard::Key::D) {
 				movement -= { 1, 0 };
