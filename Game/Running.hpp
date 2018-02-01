@@ -237,8 +237,8 @@ public:
 
 		if (!gameOver) {
 			player.update(elapsedTime);
-			//death.update(elapsedTime);
-			//deathSikkel.update(elapsedTime);
+			death.update(elapsedTime);
+			deathSikkel.update(elapsedTime);
 		}
 		else if (gameOverCounter > 0) {
 			gameOverCounter -= elapsedTime;
@@ -260,8 +260,8 @@ public:
 			}
 		}
 
-		//death.update(elapsedTime);
-		//deathSikkel.update(elapsedTime);
+		death.update(elapsedTime);
+		deathSikkel.update(elapsedTime);
 
 		map.resolve();
 		map.draw(statemachine.window);

@@ -129,7 +129,7 @@ private:
     /** @brief	The key scheme show clock */
     sf::Clock keySchemeShowClock;
     /** @brief	The key scheme show time in milliseconds */
-    int keySchemeShowTimeInMilliseconds = 7000;
+    int keySchemeShowTimeInMilliseconds = 12000;
 public:
 
 	/**
