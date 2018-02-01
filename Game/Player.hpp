@@ -78,7 +78,7 @@ private:
 	sf::Clock rollClock;
 
 	sf::Clock jumpClock;
-	const int jumpDebounceDelayMs = 500;
+	const int jumpDebounceDelayMs = 200;
 
 	/** @brief	The key pressed connection */
 	EventConnection keyPressedConn;
@@ -129,7 +129,7 @@ private:
     /** @brief	The key scheme show clock */
     sf::Clock keySchemeShowClock;
     /** @brief	The key scheme show time in milliseconds */
-    int keySchemeShowTimeInMilliseconds = 3000;
+    int keySchemeShowTimeInMilliseconds = 7000;
 public:
 
 	/**
@@ -168,9 +168,8 @@ public:
 	void readInput() {
 		walkDirection = 0;
 
-		if (activeKeyScheme.jumpPressed && jumpClock.getElapsedTime().asMilliseconds() >= jumpDebounceDelayMs) {
+		if (activeKeyScheme.jumpPressed) {
 			doJump();
-			jumpClock.restart();
 		}
 
 		if (activeKeyScheme.moveRightPressed) {
@@ -257,9 +256,10 @@ public:
 
 	void doJump() {
 		sf::Vector2f velocity = getVelocity();
-		if (velocity.y == 0) {
+		if (velocity.y == 0 && jumpClock.getElapsedTime().asMilliseconds() >= jumpDebounceDelayMs) {
             AssetManager::instance()->getSound("jump").play();
             jump = true;
+			jumpClock.restart();
 		}
 	}
 
