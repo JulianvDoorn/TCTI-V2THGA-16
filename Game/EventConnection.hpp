@@ -43,6 +43,16 @@ class EventConnection {
 	 */
 
 public:
+
+	/**
+	 * @fn	EventConnection::EventConnection()
+	 *
+	 * @brief	Default constructor
+	 *
+	 * @author	Jeffrey
+	 * @date	2/1/2018
+	 */
+
 	EventConnection() { }
 
 	/**
@@ -152,6 +162,8 @@ public:
 	 * @date	1/31/2018
 	 *
 	 * @tparam	Args	Type of the arguments.
+	 *
+	 * ### tparam	Args	Type of the arguments.
 	 */
 
 	template <class... Args> friend class EventSource;

@@ -3,6 +3,15 @@
 #include "Collidable.hpp"
 #include "InteractionGroup.hpp"
 
+/**
+ * @class	CollisionGroup
+ *
+ * @brief	A collision group.
+ *
+ * @author	Jeffrey
+ * @date	2/1/2018
+ */
+
 class CollisionGroup : public std::vector<Collidable*>, public InteractionGroup {
 	/** @brief	The primary collidable to compare with all otherCollidables */
 	Collidable* primaryCollidable;

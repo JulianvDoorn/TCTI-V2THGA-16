@@ -4,6 +4,15 @@
 #include <vector>
 #include <algorithm>
 
+/**
+ * @class	DrawableGroup
+ *
+ * @brief	A drawable group.
+ *
+ * @author	Jeffrey
+ * @date	2/1/2018
+ */
+
 class DrawableGroup : public std::vector<sf::Drawable*> {
 public:
 	/**

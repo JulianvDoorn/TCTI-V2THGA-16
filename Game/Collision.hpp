@@ -2,6 +2,15 @@
 
 #include <SFML/Graphics.hpp>
 
+/**
+ * @class	Collision
+ *
+ * @brief	A collision.
+ *
+ * @author	Jeffrey
+ * @date	2/1/2018
+ */
+
 class Collision {
 private:
 

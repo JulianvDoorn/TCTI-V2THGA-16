@@ -1,5 +1,14 @@
 #pragma once
 
+/**
+ * @class	SFMLEventDecoder
+ *
+ * @brief	A sfml event decoder.
+ *
+ * @author	Jeffrey
+ * @date	2/1/2018
+ */
+
 class SFMLEventDecoder {
 
 	/**

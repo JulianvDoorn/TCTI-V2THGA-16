@@ -2,6 +2,15 @@
 
 #include <fstream>
 
+/**
+ * @class	Serializable
+ *
+ * @brief	A serializable.
+ *
+ * @author	Jeffrey
+ * @date	2/1/2018
+ */
+
 class Serializable {
 protected:
 	/**
