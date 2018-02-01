@@ -15,6 +15,7 @@
  */
 
 class Mouse : public SFMLEventDecoder {
+	/** @brief	The window */
 	sf::Window* window;
 
 public:
@@ -77,7 +78,7 @@ public:
 	 * @param	ev	SFML event to decode into an EventSource signal.
 	 */
 	
-	void decodeSFMLEvent(sf::Event ev) const override {
+	void decodeSFMLEvent(sf::Event ev) override {
 		if (ev.type == sf::Event::MouseMoved) {
 			mouseMoved.fire(sf::Mouse::getPosition(*window));
 		} else if (ev.type == sf::Event::MouseButtonPressed) {

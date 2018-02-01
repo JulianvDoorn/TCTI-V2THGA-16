@@ -1,9 +1,54 @@
 #pragma once
 
+#include <vector>
 #include <memory>
+#include <algorithm>
 
 #include "DrawableGroup.hpp"
 #include "CollisionGroup.hpp"
+#include "InteractionGroup.hpp"
+#include "IntersectionGroup.hpp"
+#include "Events.hpp"
+
+/**
+ * @fn	template <class T> bool operator== (const std::unique_ptr<T>& lhs, T* rhs)
+ *
+ * @brief	Equality operator for PhysicsObjects
+ *
+ * @author	Wiebe
+ * @date	30-1-2018
+ *
+ * @tparam	T	Generic type parameter.
+ * @param 		  	lhs	The first instance to compare.
+ * @param [in,out]	rhs	If non-null, the second instance to compare.
+ *
+ * @return	True if the parameters are considered equivalent.
+ */
+
+template <class T>
+bool operator== (const std::unique_ptr<T>& lhs, T* rhs) {
+	return &(*lhs) == rhs;
+}
+
+/**
+ * @fn	template <class T> bool operator== (T* lhs, const std::unique_ptr<T>& rhs)
+ *
+ * @brief	Equality operator for PhysicsObjects
+ *
+ * @author	Wiebe
+ * @date	30-1-2018
+ *
+ * @tparam	T	Generic type parameter.
+ * @param [in,out]	lhs	If non-null, the first instance to compare.
+ * @param 		  	rhs	The second instance to compare.
+ *
+ * @return	True if the parameters are considered equivalent.
+ */
+
+template <class T>
+bool operator== (T* lhs, const std::unique_ptr<T>& rhs) {
+	return lhs == &(*rhs);
+}
 
 /**
  * @class	Map
@@ -15,17 +60,20 @@
  * @date	2018-01-25
  */
 
-class Map {
+class Map : public std::vector<std::unique_ptr<Body>> {
 	/** @brief	Vector of drawables */
 	DrawableGroup drawableGroup;
 
 	/** @brief	Vector of collidables directly managed by Map */
 	CollisionGroup primaryCollisionGroup;
 
-	/** @brief	Collision group references that Map::resolveCollisions() should resolve as well. Nude pointers are used since the references CollisionGroups belong to other objects. */
-	std::vector<CollisionGroup*> collisionGroups;
+	/** @brief	Interaction group references that Map::resolve() should resolve as well. unique_ptrs are used since the InteractionGroups belong to this map only. */
+	std::vector<std::unique_ptr<InteractionGroup>> interactionGroups;
 
 public:
+	EventSource<Body&> objectAdded;
+	EventSource<Body&> objectRemoving;
+
 	/**
 	 * @fn	void Map::addDrawable(Drawable* drawable)
 	 *
@@ -37,7 +85,7 @@ public:
 	 * @param [in,out]	drawable	If non-null, the drawable.
 	 */
 
-	void addDrawable(Drawable* drawable) {
+	void addDrawable(sf::Drawable* drawable) {
 		drawableGroup.add(*drawable);
 	}
 
@@ -52,8 +100,12 @@ public:
 	 * @param [in,out]	drawable	The drawable.
 	 */
 
-	void addDrawable(Drawable& drawable) {
+	void addDrawable(sf::Drawable& drawable) {
 		drawableGroup.add(drawable);
+	}
+
+	void eraseDrawable(sf::Drawable& drawable) {
+		drawableGroup.erase(drawable);
 	}
 
 	/**
@@ -98,7 +150,7 @@ public:
 	 */
 
 	void setPrimaryCollidable(Collidable* collidable) {
-		primaryCollisionGroup.setPrimaryCollidable(*collidable);
+		primaryCollisionGroup.setPrimary(*collidable);
 	}
 
 	/**
@@ -113,7 +165,7 @@ public:
 	 */
 
 	void setPrimaryCollidable(Collidable& collidable) {
-		primaryCollisionGroup.setPrimaryCollidable(collidable);
+		primaryCollisionGroup.setPrimary(collidable);
 	}
 
 	/**
@@ -132,7 +184,7 @@ public:
 	}
 
 	/**
-	 * @fn	void Map::resolveCollisions()
+	 * @fn	void Map::resolve()
 	 *
 	 * @brief	Resolve collisions of primaryCollisionGroup and all attached collision groups
 	 *
@@ -140,16 +192,16 @@ public:
 	 * @date	2018-01-25
 	 */
 
-	void resolveCollisions() {
-		primaryCollisionGroup.resolveCollisions();
+	void resolve() {
+		primaryCollisionGroup.resolve();
 
-		for (CollisionGroup* collisionGroup : collisionGroups) {
-			collisionGroup->resolveCollisions();
+		for (const std::unique_ptr<InteractionGroup>& collisionGroup : interactionGroups) {
+			collisionGroup->resolve();
 		}
 	}
 
 	/**
-	 * @fn	void Map::addCollisionGroup(CollisionGroup& collisionGroup)
+	 * @fn	void Map::addObjectGroup(InteractionGroup& collisionGroup)
 	 *
 	 * @brief	Adds a collision group reference to the collisionsGroups vector
 	 *
@@ -159,7 +211,95 @@ public:
 	 * @param [in,out]	collisionGroup	Group the collision belongs to.
 	 */
 
-	void addCollisionGroup(CollisionGroup& collisionGroup) {
-		collisionGroups.push_back(&collisionGroup);
+	void addObjectGroup(InteractionGroup& collisionGroup) {
+		addObjectGroup(&collisionGroup);
+	}
+
+	void addObjectGroup(InteractionGroup* collisionGroup) {
+		interactionGroups.emplace_back(collisionGroup);
+	}
+
+	void removeObjectGroup(InteractionGroup& collisionGroup) {
+		removeObjectGroup(&collisionGroup);
+	}
+
+	void removeObjectGroup(InteractionGroup* collisionGroup) {
+		auto it = std::find(interactionGroups.begin(), interactionGroups.end(), collisionGroup);
+
+		if (it != interactionGroups.end()) {
+			it->release();
+			interactionGroups.erase(it);
+		}
+	}
+
+	/**
+	 * @fn	void Map::addObject(Body& physicsObject)
+	 *
+	 * @brief	Adds an object
+	 *
+	 * @author	Wiebe
+	 * @date	30-1-2018
+	 *
+	 * @param [in,out]	physicsObject	The physics object.
+	 */
+
+	void addObject(Body& physicsObject) {
+		addObject(&physicsObject);
+	}
+
+	/**
+	 * @fn	void Map::addObject(Body* physicsObject)
+	 *
+	 * @brief	Adds an object
+	 *
+	 * @author	Wiebe
+	 * @date	30-1-2018
+	 *
+	 * @param [in,out]	physicsObject	If non-null, the physics object.
+	 */
+
+	void addObject(Body* physicsObject) {
+		emplace_back(physicsObject);
+		objectAdded.fire(*physicsObject);
+	}
+
+	/**
+	 * @fn	void Map::removeObject(Body& physicsObject)
+	 *
+	 * @brief	Removes the object from the map
+	 *
+	 * @author	Wiebe
+	 * @date	30-1-2018
+	 *
+	 * @param [in,out]	physicsObject	The physics object.
+	 */
+
+	void removeObject(Body& physicsObject) {
+		removeObject(&physicsObject);
+	}
+
+	/**
+	 * @fn	void Map::removeObject(Body* physicsObject)
+	 *
+	 * @brief	Removes the object from the map
+	 *
+	 * @author	Wiebe
+	 * @date	30-1-2018
+	 *
+	 * @param [in,out]	physicsObject	If non-null, the physics object.
+	 */
+
+	void removeObject(Body* physicsObject) {
+		objectRemoving.fire(*physicsObject);
+
+		auto it = std::find(begin(), end(), physicsObject);
+
+		if (it != end()) {
+			it->release();
+			erase(it);
+		}
+		
+		drawableGroup.erase(*physicsObject);
+		primaryCollisionGroup.erase(*physicsObject);
 	}
 };

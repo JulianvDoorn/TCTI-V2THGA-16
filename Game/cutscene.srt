@@ -1,42 +1,63 @@
 1
 00:00:00 --> 00:00:05
+#~cutscene/1.png
 Sinds het begin der tijden hebben kinderen 
 knuffels om mee te slapen.
 
 2
-00:00:05 --> 00:00:10
-De oorspronkelijke reden waarom 
-is verloren gegaan over de eeuwen heen.
+00:00:05 --> 00:00:11
+#~cutscene/2.jpg
+De oorspronkelijke reden hiervan is
+verloren gegaan door de eeuwen heen.
 
 3
-00:00:10 --> 00:00:15
-De knuffels bescheremen namenlijk zieke
+00:00:11 --> 00:00:16
+#~cutscene/3.png
+De knuffels beschermen namelijk zieke
 kinderen tegen de dood tijdens het slapen.
 
 4
-00:00:15 --> 00:00:18
+00:00:16 --> 00:00:21
+#~cutscene/4.jpg
 Ook de ernstig zieke Stefanie heeft een bescherm knuffel.
 
 5
-00:00:18 --> 00:00:20
-Een knuffel konijn genaamt Fimmy.
+00:00:21 --> 00:00:24
+#~cutscene/5.jpg
+Een knuffel konijn genaamd Fimmy.
 
 6
-00:00:20 --> 00:00:25
-Fimmy is elke nacht bezig met het 
-weg rennen voor de dood zodat Stefanie in leven zal blijven.
+00:00:24 --> 00:00:28
+#~cutscene/6.jpg
+Fimmy is elke nacht bezig met het
+weg rennen voor de dood ....
 
 7
-00:00:25 --> 00:00:30
-Omdat Fimmy al heel veel nachten op de vlucht is 
-geweest van de dood is ze in een slechte staat.
+00:00:28 --> 00:00:33
+.... zodat Stefanie in leven zal blijven.
 
 8
-00:00:30 --> 00:00:35
-Fimmy valt naarmaten ze door rent steeds 
-meer uitelkaar 
+00:00:33 --> 00:00:38
+#~cutscene/7.jpg
+Omdat Fimmy al heel veel nachten op de vlucht is
+geweest voor de dood ...
 
 9
-00:00:35 --> 00:00:40
-en Fimmy vindt het steeds moeilijker om te blijven vluchten 
-voor de dood zodat Stefanie in leven blijft...
+00:00:38 --> 00:00:42
+ ... is ze in een erg slechte staat.
+
+10
+00:00:42 --> 00:00:47
+#~cutscene/8.jpg
+Fimmy valt naarmate ze rent steeds
+meer uit elkaar ...
+
+11
+00:00:47 --> 00:00:52
+#~cutscene/9.jpg
+Fimmy vindt het steeds moeilijker om te blijven vluchten voor de dood ...
+
+12
+00:00:52 --> 00:00:57
+... zodat Stefanie in leven blijft.
+

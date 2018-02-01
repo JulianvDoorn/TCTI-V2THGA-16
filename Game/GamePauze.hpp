@@ -28,32 +28,32 @@ class GamePauze : public State {
 	Button gameExitButton;
 
 	/** @brief	The game resume button pressed connection */
-	EventConnection<> gameResumeButtonPressedConn;
+	EventConnection gameResumeButtonPressedConn;
 	/** @brief	The game resume button released connection */
-	EventConnection<> gameResumeButtonReleasedConn;
+	EventConnection gameResumeButtonReleasedConn;
 	/** @brief	The game restart button pressed connection */
-	EventConnection<> gameRestartButtonPressedConn;
+	EventConnection gameRestartButtonPressedConn;
 	/** @brief	The game restart button released connection */
-	EventConnection<> gameRestartButtonReleasedConn;
+	EventConnection gameRestartButtonReleasedConn;
 	/** @brief	The game exit button released connection */
-	EventConnection<> gameExitButtonReleasedConn;
+	EventConnection gameExitButtonReleasedConn;
 	/** @brief	The game exit button pressed connection */
-	EventConnection<> gameExitButtonPressedConn;
+	EventConnection gameExitButtonPressedConn;
 	/** @brief	The exit mouse enter connection */
-	EventConnection<> exitMouseEnterConn;
+	EventConnection exitMouseEnterConn;
 	/** @brief	The exit mouse leave connection */
-	EventConnection<> exitMouseLeaveConn;
+	EventConnection exitMouseLeaveConn;
 	/** @brief	The resume mouse enter connection */
-	EventConnection<> resumeMouseEnterConn;
+	EventConnection resumeMouseEnterConn;
 	/** @brief	The resume mouse leave connection */
-	EventConnection<> resumeMouseLeaveConn;
+	EventConnection resumeMouseLeaveConn;
 	/** @brief	The restart mouse enter connection */
-	EventConnection<> restartMouseEnterConn;
+	EventConnection restartMouseEnterConn;
 	/** @brief	The restart mouse leave connection */
-	EventConnection<> restartMouseLeaveConn;
+	EventConnection restartMouseLeaveConn;
 
 	/** @brief	The key released connection */
-	EventConnection<sf::Keyboard::Key> keyReleasedConnection;
+	EventConnection keyReleasedConnection;
 
 public:
 
@@ -200,8 +200,8 @@ public:
 	 */
 
 	void update(const float elapsedTime) override {
-		gameResumeButton.draw(statemachine.window);
-		gameRestartButton.draw(statemachine.window);
-		gameExitButton.draw(statemachine.window);
+		statemachine.window.draw(gameResumeButton);
+		statemachine.window.draw(gameRestartButton);
+		statemachine.window.draw(gameExitButton);
 	}
 };

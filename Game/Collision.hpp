@@ -2,7 +2,14 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "GameObject.hpp"
+/**
+ * @class	Collision
+ *
+ * @brief	A collision.
+ *
+ * @author	Jeffrey
+ * @date	2/1/2018
+ */
 
 class Collision {
 private:
@@ -27,7 +34,7 @@ public:
 	 * @param	rhs	GameObject2 to calculate a collision for relative to GameObject1
 	 */
 
-	Collision(const GameObject& lhs, const GameObject& rhs) {
+	Collision(const sf::RectangleShape& lhs, const sf::RectangleShape& rhs) {
 		sf::Vector2f otherPosition = rhs.getPosition();
 		sf::Vector2f otherHalfSize = rhs.getSize() / 2.0f;
 		sf::Vector2f thisPosition = lhs.getPosition();

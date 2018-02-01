@@ -45,6 +45,24 @@ class CurlyBracketList : public std::vector<T> { };
  */
 
 template<class T>
+
+/**
+ * @fn	std::istream& operator>> (std::istream& is, CurlyBracketList<T>& list)
+ *
+ * @brief	Stream extraction operator
+ *
+ * @author	Jeffrey
+ * @date	1/31/2018
+ *
+ * @exception	ClosingBracketMissingException	Thrown when a Closing Bracket Missing error
+ * 												condition occurs.
+ *
+ * @param [in,out]	is  	The is.
+ * @param [in,out]	list	The list.
+ *
+ * @return	The shifted result.
+ */
+
 std::istream& operator>> (std::istream& is, CurlyBracketList<T>& list) {
 	try {
 		is >> exceptions >> SpecialCharacter::LeftCurlyBracket;

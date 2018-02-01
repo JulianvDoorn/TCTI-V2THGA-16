@@ -14,9 +14,22 @@
  */
 
 class StreamReadException : public std::exception {
+	/** @brief	The error */
 	std::string err;
 	
 public:
+
+	/**
+	 * @fn	explicit StreamReadException::StreamReadException(std::string s) : err(std::move(s))
+	 *
+	 * @brief	Constructor
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @param	s	A std::string to process.
+	 */
+
 	explicit StreamReadException(std::string s) : err(std::move(s)) { }
 	
 	const char* what() const noexcept final {
@@ -49,6 +62,16 @@ public:
 
 class EOFException : public StreamReadException {
 public:
+
+	/**
+	 * @fn	EOFException::EOFException()
+	 *
+	 * @brief	Default constructor
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 */
+
 	EOFException() : StreamReadException("End of file reached") { }
 	
 	explicit EOFException(const std::string& s) : StreamReadException(s + " end of file reached") { }

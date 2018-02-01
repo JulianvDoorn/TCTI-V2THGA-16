@@ -3,13 +3,14 @@
 #include <SFML/Audio.hpp>
 #include <array>
 #include <fstream>
-
 #include "State.hpp"
 #include "Statemachine.hpp"
 #include "Characters.hpp"
 #include "ViewFocus.hpp"
 #include "Label.hpp"
 #include "MapLoader.hpp"
+#include "PowerUps.hpp"
+#include "IntersectionGroup.hpp"
 
 /**
  * @class	Running
@@ -34,17 +35,17 @@ class Running : public State {
 	sf::Music backgroundMusic;
 
 	/** @brief	The key released connection */
-	EventConnection<sf::Keyboard::Key> keyReleasedConnection;
+	EventConnection keyReleasedConnection;
 	/** @brief	The died connection */
-	EventConnection<> diedConnection;
+	EventConnection diedConnection;
 	/** @brief	The fell off map connection */
-	EventConnection<> fellOffMapConnection;
+	EventConnection fellOffMapConnection;
 
 	/** @brief	The player */
     Player player;
-
 	/** @brief	The death */
 	Antagonist death;
+	Antagonist deathSikkel;
 
 	/** @brief	The score label */
 	Label score;
@@ -54,6 +55,14 @@ class Running : public State {
 	/** @brief	The game over counter */
 	float gameOverCounter = 3.0f;
 
+	/** @brief	The power ups */
+	std::vector<PowerUp*> powerUps;
+
+	std::array<int, 5> bodyRemoveToggles = { 2200, 3300, 6000, 8500}; // 250, 3300, 6000, 8500, 9500
+	int bodyRemoveToggleIndex = 0;
+
+	/** @brief	The background */
+	sf::Sprite background;
 public:
 
 	/**
@@ -76,13 +85,14 @@ public:
 		using Type = MapFactory::Type;
 		using Value = MapFactory::Value;
 
-		std::ifstream file("map.txt");
+		std::ifstream file("map_generated.txt");
 		MapFactory mapFactory(file);
+
 
 		mapFactory.registerCreateMethod("player", [&](Map& map, const MapItemProperties& properties) {
             properties.read({
 				{ "Position", Type::Vector, [&](Value value) { player.setPosition(*value.vectorValue); } },
-				{ "TextureId", Type::String, [&](Value value) { player.setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } }
+				{ "TextureId", Type::String, [&](Value value) { player.setTexture(&AssetManager::instance()->getTexture(*value.stringValue)); } }
 			});
 			map.addDrawable(player);
 			map.setPrimaryCollidable(player);
@@ -91,14 +101,43 @@ public:
 		mapFactory.registerCreateMethod("death", [&](Map& map, const MapItemProperties& properties) {
 			properties.read({
 				{ "Position", Type::Vector, [&](Value value) { death.setPosition(*value.vectorValue); } },
-				{ "TextureId", Type::String, [&](Value value) { death.setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } }
+				{ "TextureId", Type::String, [&](Value value) { death.setTexture(&AssetManager::instance()->getTexture(*value.stringValue)); } }
 			});
-
+			death.setTexture(&AssetManager::instance()->getTexture("death"));
+			deathSikkel.setPosition({ -50, 285});
+			deathSikkel.setTexture(&AssetManager::instance()->getTexture("deathsikkel"));
+			deathSikkel.setSize({ 100,400 });
 			map.addDrawable(death);
+			map.addDrawable(deathSikkel);
 			map.addCollidable(death);
 		});
 
+		mapFactory.registerCreateMethod("heal-power-up", [&](Map& map, const MapItemProperties& properties) {
+			IntersectionGroup* powerUpIntersectionGroup = new IntersectionGroup();
+			Heal* heal = new Heal(powerUpIntersectionGroup);
+
+			map.addDrawable(heal);
+			map.addObject(heal);
+
+			properties.read({
+				{ "Color", Type::Color, [&](Value value) { heal->setFillColor(*value.colorValue); } },
+				{ "Position", Type::Vector, [&](Value value) { heal->setPosition(*value.vectorValue); } },
+				{ "Value", Type::Float, [&](Value value) { heal->setHealValue(value.floatValue); } },
+				{ "TextureId", Type::String, [&](Value value) { heal->setTexture(&AssetManager::instance()->getTexture(*value.stringValue)); } }
+			});
+
+			powerUpIntersectionGroup->setPrimary(heal);
+			powerUpIntersectionGroup->add(player);
+
+			map.addObjectGroup(*powerUpIntersectionGroup);
+
+			powerUps.emplace_back(heal);
+		});
+
 		map = mapFactory.buildMap();
+		
+		background.setTexture(AssetManager::instance()->getTexture("background"));
+		background.setTextureRect({ 0, 0, 1280, 720 });
 	}
 
 	/**
@@ -113,19 +152,26 @@ public:
 	void entry() override {
 		backgroundMusic.openFromFile("sound.wav");
 		backgroundMusic.setLoop(true);
+		backgroundMusic.setVolume(15);
 		backgroundMusic.play();
 		focus.setFocus(player);
         focus.setLeftBorder(500);
         focus.setRightBorder(500);
-        focus.setTopBorder(320);
-        focus.setBottomBorder(50);
+        focus.setTopBorder(275);
+        focus.setBottomBorder(0);
 		focus.update();
 
+		player.connect();
+
 		player.collided.connect([this](Collidable& other) {
-			if (other == death) {
+			if (&other == &death) {
 				game.died.fire();
 			}
 		});
+
+		for (PowerUp* powerUp : powerUps) {
+			powerUp->connect(player, map);
+		}
 
 		keyReleasedConnection = game.keyboard.keyReleased.connect([this](sf::Keyboard::Key key) {
 			if (key == sf::Keyboard::Key::Escape) {
@@ -134,13 +180,18 @@ public:
 		});
 
 		diedConnection = game.died.connect([this]() {
-			std::cout << "/!\\ death got you /!\\" << std::endl;
-			gameOver = true;
+			if (gameOver == false) {
+				std::cout << "/!\\ death got you /!\\" << std::endl;
+				AssetManager::instance()->getSound("laugh").play();
+				gameOver = true;
+			}
 		});
 
 		fellOffMapConnection = game.fellOffMap.connect([this]() {
-			std::cout << "/!\\ fell out of the world /!\\" << std::endl;
-			gameOver = true;
+			if (gameOver == false) {
+				std::cout << "/!\\ fell out of the world /!\\" << std::endl;
+				gameOver = true;
+			}
 		});
 	}
 
@@ -157,6 +208,12 @@ public:
 		focus.unsetFocus();
 		focus.update();
 		backgroundMusic.stop();
+
+		player.disconnect();
+
+		for (PowerUp* powerUp : powerUps) {
+			powerUp->disconnect();
+		}
 
 		keyReleasedConnection.disconnect();
 
@@ -179,9 +236,14 @@ public:
 	 */
 
 	void update(const float elapsedTime) override {
+		background.setPosition(statemachine.window.mapPixelToCoords({ 0, 0 }));
+		statemachine.window.draw(background);
+		map.resolve();
+
 		if (!gameOver) {
 			player.update(elapsedTime);
 			death.update(elapsedTime);
+			deathSikkel.update(elapsedTime);
 		}
 		else if (gameOverCounter > 0) {
 			gameOverCounter -= elapsedTime;
@@ -191,12 +253,27 @@ public:
 			return;
 		}
 
-		death.update(elapsedTime);
+		if (bodyRemoveToggleIndex != -1 && player.getPosition().x >= bodyRemoveToggles.at(bodyRemoveToggleIndex) ) {
+			player.removeBodyPart(bodyRemoveToggleIndex);
+			player.setNextKeyScheme();
 
-		map.resolveCollisions();
+			if (bodyRemoveToggleIndex < 4) {
+				bodyRemoveToggleIndex++;
+			}
+			else {
+				bodyRemoveToggleIndex = -1;
+			}
+		}
+
+		death.update(elapsedTime);
+		deathSikkel.update(elapsedTime);
+
+		map.resolve();
 		map.draw(statemachine.window);
 
-		score.draw(statemachine.window);
+		statemachine.window.draw(score);
+
+		player.updateKeySchemeDisplay();
 
 		focus.update();
 	}

@@ -2,62 +2,28 @@
 
 #include <SFML/Graphics.hpp>
 
+/**
+ * @class	GameObject
+ *
+ * @brief	A game object.
+ *
+ * @author	Jeffrey
+ * @date	1/31/2018
+ */
+
 class GameObject {
 public:
 
 	/**
-	 * @fn	virtual sf::Vector2f GameObject::getSize() const = 0;
+	 * @fn	virtual void GameObject::update(const float elapsedTime) = 0;
 	 *
-	 * @brief	Return the size of this GameObject.
+	 * @brief	Updates the gameobject using elapsedTime
 	 *
-	 * @author	Julian
-	 * @date	2018-01-19
+	 * @author	Jeffrey
+	 * @date	1/31/2018
 	 *
-	 * @return	size
+	 * @param	elapsedTime	The elapsed time.
 	 */
 
-	virtual sf::Vector2f getSize() const = 0;
-
-	/**
-	 * @fn	virtual sf::Vector2f GameObject::getPosition() const = 0;
-	 *
-	 * @brief	Returns the position of this GameObject.
-	 *
-	 * @author	Julian
-	 * @date	2018-01-19
-	 *
-	 * @return	position
-	 */
-
-	virtual sf::Vector2f getPosition() const = 0;
-
-	/**
-	 * @fn	virtual void GameObject::setPosition(const sf::Vector2f& position) = 0;
-	 *
-	 * @brief	Sets the position of this GameObject.
-	 *
-	 * @author	Julian
-	 * @date	2018-01-19
-	 *
-	 * @param	position	The position to set this GameObject to.
-	 */
-
-	virtual void setPosition(const sf::Vector2f& position) = 0;
-
-	/**
-	 * @fn	bool GameObject::operator== (const GameObject& other)
-	 *
-	 * @brief	Equality operator
-	 *
-	 * @author	Julian
-	 * @date	2018-01-19
-	 *
-	 * @param	other	Other GameObject to compare with.
-	 *
-	 * @return	True if this == &other (when lhs is the same object as rhs)
-	 */
-
-	bool operator== (const GameObject& other) {
-		return this == &other;
-	}
+	virtual void update(const float elapsedTime) = 0;
 };

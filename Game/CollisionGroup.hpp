@@ -1,8 +1,18 @@
 #pragma once
 
 #include "Collidable.hpp"
+#include "InteractionGroup.hpp"
 
-class CollisionGroup : public std::vector<Collidable*> {
+/**
+ * @class	CollisionGroup
+ *
+ * @brief	A collision group.
+ *
+ * @author	Jeffrey
+ * @date	2/1/2018
+ */
+
+class CollisionGroup : public std::vector<Collidable*>, public InteractionGroup {
 	/** @brief	The primary collidable to compare with all otherCollidables */
 	Collidable* primaryCollidable;
 
@@ -13,7 +23,7 @@ public:
 	 *
 	 * @brief	Default constructor.
 	 * 			Constructs a CollisionGroup without a primaryCollidable.
-	 * 			Undefined behavior when CollisionGroup::resolveCollisions() is invoked when primaryCollidable == nullptr.
+	 * 			Undefined behavior when CollisionGroup::resolve() is invoked when primaryCollidable == nullptr.
 	 *
 	 * @author	Julian
 	 * @date	2018-01-19
@@ -35,7 +45,33 @@ public:
 
 	CollisionGroup(Collidable& collidable) : primaryCollidable(&collidable) { }
 
-	void setPrimaryCollidable(Collidable& collidable) {
+	/**
+	 * @fn	Collidable& CollisionGroup::getPrimary()
+	 *
+	 * @brief	Gets the primary
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @return	The primary.
+	 */
+
+	Collidable& getPrimary() {
+		return *primaryCollidable;
+	}
+
+	/**
+	 * @fn	void CollisionGroup::setPrimary(Collidable& collidable)
+	 *
+	 * @brief	Sets a primarycollidable
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @param [in,out]	collidable	The collidable.
+	 */
+
+	void setPrimary(Collidable& collidable) {
 		primaryCollidable = &collidable;
 	}
 
@@ -55,7 +91,26 @@ public:
 	}
 
 	/**
-	 * @fn	void CollisionGroup::resolveCollisions()
+	 * @fn	void CollisionGroup::erase(Collidable& collidable)
+	 *
+	 * @brief	Erases the given collidable
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @param [in,out]	collidable	The collidable.
+	 */
+
+	void erase(Collidable& collidable) {
+		auto it = std::find(begin(), end(), &collidable);
+
+		if (it != end()) {
+			std::vector<Collidable*>::erase(it);
+		}
+	}
+
+	/**
+	 * @fn	void CollisionGroup::resolve()
 	 *
 	 * @brief	Resolve collisions between primaryCollidable and all otherCollidables.
 	 *
@@ -63,13 +118,15 @@ public:
 	 * @date	2018-01-19
 	 */
 
-	void resolveCollisions() {
-		for (Collidable* collidable : *this) {
-			Collision collision = primaryCollidable->getCollision(*collidable);
+	void resolve() override {
+		if (primaryCollidable != nullptr) {
+			std::for_each(begin(), end(), [this](Collidable* collidable) {
+				Collision collision = primaryCollidable->getCollision(*collidable);
 
-			if (collision.intersects()) {
-				primaryCollidable->resolveCollision(*collidable, collision);
-			}
+				if (collision.intersects()) {
+					primaryCollidable->resolveCollision(*collidable, collision);
+				}
+			});
 		}
 	}
 };

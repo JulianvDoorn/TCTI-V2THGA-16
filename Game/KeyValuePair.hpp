@@ -44,6 +44,7 @@ public:
 	 */
 
 	enum class Type {
+		Unknown,
 		Float,
 		Vector,
 		Rect,
@@ -65,11 +66,97 @@ public:
 
 	union Value {
 		float_t floatValue;
+		bool b;
 		sf::Vector2f* vectorValue;
 		sf::FloatRect* rectValue;
 		std::string* stringValue;
 		sf::Color* colorValue;
-		bool b;
+
+		Value(nullptr_t ptr = nullptr) : vectorValue(ptr) { }
+
+		~Value() { }
+
+		Value& operator=(const float_t& val) {
+			floatValue = val;
+			return *this;
+		}
+
+		Value& operator=(const bool& val) {
+			b = val;
+			return *this;
+		}
+
+		Value& operator=(sf::Vector2f* ptr) {
+			vectorValue = ptr;
+			return *this;
+		}
+
+		Value& operator=(sf::FloatRect* ptr) {
+			rectValue = ptr;
+			return *this;
+		}
+
+		Value& operator=(std::string* ptr) {
+			stringValue = ptr;
+			return *this;
+		}
+
+		Value& operator=(sf::Color* ptr) {
+			colorValue = ptr;
+			return *this;
+		}
+
+		Value& operator=(nullptr_t ptr) {
+			vectorValue = ptr;
+			return *this;
+		}
+
+		bool operator==(const Value& rhs) const {
+			return vectorValue == rhs.vectorValue;
+		}
+
+		bool operator==(const nullptr_t& rhs) const {
+			return vectorValue == rhs;
+		}
+
+		template <class T>
+		bool operator!=(const T& rhs) const {
+			return !(*this == rhs);
+		}
+
+		operator Value&() {
+			return *this;
+		}
+
+		operator float() {
+			return floatValue;
+		}
+
+		operator int() {
+			return static_cast<int>(floatValue);
+		}
+
+		operator bool() {
+			return b;
+		}
+
+		template <class T>
+		operator sf::Vector2<T>() {
+			return static_cast<sf::Vector2<T>>(*vectorValue);
+		}
+
+		template <class T>
+		operator sf::Rect<T>() {
+			return static_cast<sf::Rect<T>>(*rectValue);
+		}
+
+		operator std::string() {
+			return std::string(*stringValue);
+		}
+
+		operator sf::Color() {
+			return *colorValue;
+		}
 	};
 
 	Type type;
@@ -80,26 +167,32 @@ public:
 	/** @brief	Value, this is a union of various pointers pointing one the few allowed datatypes */
 	Value value;
 
+	KeyValuePair() : type(Type::Unknown), key(), value(nullptr) { }
+
+	KeyValuePair(KeyValuePair&& movedFrom) noexcept : type(movedFrom.type), key(movedFrom.key), value(movedFrom.value) {
+		movedFrom.value = nullptr;
+	}
+
 	~KeyValuePair() {
-		// TODO: find out if the destructor actually selects the right destructor for the union Value.
-
-		if (type == Type::Float) {
-
-		}
-		else if (type == Type::Vector) {
-			//delete value.vectorValue;
-		}
-		else if (type == Type::Rect) {
-			//delete value.rectValue;
-		}
-		else if (type == Type::String) {
-			//delete value.stringValue;
-		}
-		else if (type == Type::Color) {
-			//delete value.colorValue;
-		}
-		else if (type == Type::Bool) {
-			
+		if (value != nullptr) {
+			if (type == Type::Float) {
+				// doesn't need destructing
+			}
+			else if (type == Type::Vector) {
+				delete value.vectorValue;
+			}
+			else if (type == Type::Rect) {
+				delete value.rectValue;
+			}
+			else if (type == Type::String) {
+				delete value.stringValue;
+			}
+			else if (type == Type::Color) {
+				delete value.colorValue;
+			}
+			else if (type == Type::Bool) {
+				// doesn't need destructing
+			}
 		}
 	}
 };
@@ -149,28 +242,28 @@ std::istream& operator>> (std::istream& is, KeyValuePair& pair) {
 		iss >> *vectorValue;
 
 		pair.type = KeyValuePair::Type::Vector;
-		pair.value.vectorValue = vectorValue;
+		pair.value = vectorValue;
 	} else if (rhs.compare(0, 5, "Rect(") == 0) {
 		// parse rect
 		sf::FloatRect* rectValue = new sf::FloatRect();
 		iss >> *rectValue;
 
 		pair.type = KeyValuePair::Type::Rect;
-		pair.value.rectValue = rectValue;
+		pair.value = rectValue;
 	} else if (rhs[0] == '"') {
 		// parse string
 		QuotedString* stringValue = new QuotedString();
 		iss >> *stringValue;
 
 		pair.type = KeyValuePair::Type::String;
-		pair.value.stringValue = stringValue;
+		pair.value = stringValue;
 	} else if (rhs[0] == '#') {
 		// parse color
 		ColorFactory colorFactory(iss);
 		sf::Color* colorValue = new sf::Color(colorFactory.getColor());
 
 		pair.type = KeyValuePair::Type::Color;
-		pair.value.colorValue = colorValue;
+		pair.value = colorValue;
 	}
 	else {
 		// parse keywords
@@ -180,10 +273,10 @@ std::istream& operator>> (std::istream& is, KeyValuePair& pair) {
 		pair.type = KeyValuePair::Type::Bool;
 
 		if (stringValue == "true") {
-			pair.value.b = true;
+			pair.value = true;
 		}
 		else if (stringValue == "false") {
-			pair.value.b = false;
+			pair.value = false;
 		}
 		else {
 			std::string unexpectedSymbol;

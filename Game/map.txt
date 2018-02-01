@@ -3,6 +3,24 @@ asset {
 	Location = "GameOver.wav"
 }
 
+asset {
+	Id = "jump"
+	Location = "jump.wav"
+}
+texture {
+	Id = "background"
+	Location = "background2.png"
+}
+
+texture {
+	Id = "death"
+	Location = "death.png"
+}
+texture {
+	Id = "deathsikkel"
+	Location = "sikkel.png"
+}
+
 texture {
 	Id = "fimmyStanding"
 	Location = "Fimmy/Fimmy.png"
@@ -117,19 +135,35 @@ texture {
 
 texture {
 	Id = "ground"
-	Location = "ground.png"
+	Location = "ground01.png"
 	Repeated = true
 }
 
 texture {
+	Id = "block01"
+	Location = "block01.png"
+	Repeated = true
+}
+
+texture {
+	Id = "block02"
+	Location = "block02.png"
+	Repeated = true
+}
+texture {
+	Id = "block03"
+	Location = "block03.png"
+	Repeated = true
+}
+texture {
 	Id = "rockFloor"
-	Location = "ground2.png"
+	Location = "ground02.png"
 	Repeated = true
 }
 
 texture {
 	Id = "grassFloor"
-	Location = "ground3.png"
+	Location = "ground03.png"
 	Repeated = true
 }
 
@@ -149,20 +183,15 @@ player {
 }
 
 death {
-	Position = Vector2(-200, 200)
+	Position = Vector2(-200, 285)
+	TextureId = "death"
 }
 
 rectangle {
 	Size = Vector2(6400, 200)
 	TextureRect = Rect(0, 0, 6400, 200) 
-	Position = Vector2(0, 600)
+	Position = Vector2(0, 590)
 	TextureId = "rockFloor"
-}
-rectangle {
-	Size = Vector2(6400, 20)
-	TextureRect = Rect(0, 0, 6400, 20)
-	Position = Vector2(0, 500)
-	TextureId = "grassFloor"
 }
 
 rectangle {
@@ -182,6 +211,24 @@ rectangle {
 }
 
 rectangle {
+	Size = Vector2(120, 20)
+	TextureRect = Rect(0, 0, 120, 20)
+	Position = Vector2(50, 450)
+	TextureId = "block01"
+}
+rectangle {
+	Size = Vector2(120, 20)
+	TextureRect = Rect(0, 0, 120, 20)
+	Position = Vector2(50, 400)
+	TextureId = "block02"
+}
+rectangle {
+	Size = Vector2(120, 20)
+	TextureRect = Rect(0, 0, 120, 20)
+	Position = Vector2(50, 350)
+	TextureId = "block03"
+}
+rectangle {
 	Size = Vector2(14, 14)
 	Position = Vector2(150, 486)
 	TextureId = "bush"
@@ -198,4 +245,12 @@ rectangle {
 rectangle {
     Size = Vector2(20,40)
     TextureId = "fimmyStandingBody"
+}
+texture {
+	Id = "Heal"
+	Location = "Heal.png"
+}
+heal-power-up {
+	Position = Vector2(400, 450)
+	TextureId = "Heal"
 }

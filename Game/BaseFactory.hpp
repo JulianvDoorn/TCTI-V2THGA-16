@@ -14,12 +14,37 @@
  */
 
 class FactoryException : public std::exception {
+	/** @brief	The error */
 	std::string err;
 
 protected:
+
+	/**
+	 * @fn	FactoryException::FactoryException(const std::string& err) : err(std::move(err))
+	 *
+	 * @brief	Constructor
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @param	err	The error.
+	 */
+
 	FactoryException(const std::string& err) : err(std::move(err)) { }
 
 public:
+
+	/**
+	 * @fn	virtual const char* FactoryException::what() const noexcept override
+	 *
+	 * @brief	Gets the what
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @return	Null if it fails, else a pointer to a const char.
+	 */
+
 	virtual const char* what() const noexcept override {
 		return err.c_str();
 	}
@@ -36,6 +61,16 @@ public:
 
 class FactoryInvalidId : FactoryException {
 public:
+
+	/**
+	 * @fn	FactoryInvalidId::FactoryInvalidId()
+	 *
+	 * @brief	Default constructor
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 */
+
 	FactoryInvalidId() : FactoryException("Given creator method Id is not registered") { }
 };
 
@@ -53,6 +88,16 @@ public:
  */
 
 template<class V, class T, class... Args>
+
+/**
+ * @class	BaseFactory
+ *
+ * @brief	A base factory.
+ *
+ * @author	Jeffrey
+ * @date	1/31/2018
+ */
+
 class BaseFactory {
 public:
 	/** @brief	FactoryCreateMethod definition */

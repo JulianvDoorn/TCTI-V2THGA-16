@@ -19,10 +19,34 @@
 
 class AssetTypeNotResolvedException : public std::exception {
 private:
+	/** @brief	The message */
 	std::string msg;
 
 public:
+
+	/**
+	 * @fn	AssetTypeNotResolvedException::AssetTypeNotResolvedException(const std::string &filename)
+	 *
+	 * @brief	Constructor
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 *
+	 * @param	filename	Filename of the file.
+	 */
+
 	AssetTypeNotResolvedException(const std::string &filename) : msg("Cannot determine asset type with filename '" + filename + "'!") {};
+
+	/**
+	 * @fn	const char* AssetTypeNotResolvedException::what() const noexcept
+	 *
+	 * @brief	Gets the what
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 *
+	 * @return	Null if it fails, else a pointer to a const char.
+	 */
 
 	const char* what() const noexcept {
 		return msg.c_str();
@@ -40,10 +64,35 @@ public:
 
 class AssetNotFoundByPathException : public std::exception {
 private:
+	/** @brief	The message */
 	std::string msg;
 
 public:
+
+	/**
+	 * @fn	AssetNotFoundByPathException::AssetNotFoundByPathException(const std::string &filename, const std::string &type)
+	 *
+	 * @brief	Constructor
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 *
+	 * @param	filename	Filename of the file.
+	 * @param	type		The type.
+	 */
+
 	AssetNotFoundByPathException(const std::string &filename, const std::string &type) : msg("Asset type with filename '" + filename + "' and type '" + type + "' cannot been found!") {};
+
+	/**
+	 * @fn	const char* AssetNotFoundByPathException::what() const noexcept
+	 *
+	 * @brief	Gets the what
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 *
+	 * @return	Null if it fails, else a pointer to a const char.
+	 */
 
 	const char* what() const noexcept {
 		return msg.c_str();
@@ -61,10 +110,77 @@ public:
 
 class AssetNotLoadedException : public std::exception {
 private:
+	/** @brief	The message */
 	std::string msg;
 	
 public:
+
+	/**
+	 * @fn	AssetNotLoadedException::AssetNotLoadedException(const std::string& id)
+	 *
+	 * @brief	Constructor
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 *
+	 * @param	id	The identifier.
+	 */
+
 	AssetNotLoadedException(const std::string& id) : msg("Asset with id '" + id +  "' is not loaded! Please load it first.") {};
+
+	/**
+	 * @fn	const char* AssetNotLoadedException::what() const noexcept
+	 *
+	 * @brief	Gets the what
+	 *
+	 * @author	Jeffrey de Waal
+	 * @date	1/31/2018
+	 *
+	 * @return	Null if it fails, else a pointer to a const char.
+	 */
+
+	const char* what() const noexcept {
+		return msg.c_str();
+	}
+};
+
+/**
+ * @class	AssetTextureUnavailable
+ *
+ * @brief	Thrown if the texture id of an asset is unavailable.
+ *
+ * @author	Wiebe
+ * @date	30-1-2018
+ */
+
+class AssetTextureUnavailable : public std::exception {
+private:
+	/** @brief	The message */
+	std::string msg;
+
+public:
+
+	/**
+	 * @fn	AssetTextureUnavailable::AssetTextureUnavailable()
+	 *
+	 * @brief	Default constructor
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 */
+
+	AssetTextureUnavailable() : msg("Could not resolve the texture id for the given texture!") {};
+
+	/**
+	 * @fn	const char* AssetTextureUnavailable::what() const noexcept
+	 *
+	 * @brief	Gets the what
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @return	Null if it fails, else a pointer to a const char.
+	 */
 
 	const char* what() const noexcept {
 		return msg.c_str();
@@ -92,6 +208,8 @@ private:
 
 	/** @brief	The sounds */
 	std::map<std::string, sf::Sound> sounds;
+
+	std::map<std::string, std::string> fileLocations;
 
 	/**
 	 * @property	std::vector < std::unique_ptr < sf::SoundBuffer> > soundBuffers
@@ -217,6 +335,7 @@ public:
 		sf::Texture _texture;
 
 		if (_texture.loadFromFile(filename)) {
+			fileLocations[id] = filename;
 			textures[id] = _texture;
 		}
 		else {
@@ -244,6 +363,7 @@ public:
 			return textures.at(id);
 		}
 		catch (const std::out_of_range) {
+			std::cout << "Texture '" << id << "' is not loaded!\n";
 			throw AssetNotLoadedException(id);
 		}
 	}
@@ -270,6 +390,7 @@ public:
 		sf::Font _font;
 
 		if (_font.loadFromFile(filename)) {
+			fileLocations[id] = filename;
 			fonts[id] = _font;
 		}
 		else {
@@ -327,6 +448,7 @@ public:
 			
 			_sound.setBuffer(*soundBuffers.back());
 
+			fileLocations[id] = filename;
 			sounds[id] = _sound;
 		}
 		else {
@@ -354,6 +476,83 @@ public:
 			return sounds.at(id);
 		}
 		catch (const std::out_of_range) {
+			throw AssetNotLoadedException(id);
+		}
+	}
+
+	/**
+	 * @fn	std::map<std::string, sf::Texture>& AssetManager::getTextures()
+	 *
+	 * @brief	Gets all textures, returning a map reference
+	 *
+	 * @author	Wiebe
+	 * @date	30-1-2018
+	 *
+	 * @return	The textures as a map
+	 */
+
+	std::map<std::string, sf::Texture>& getTextures() {
+		return textures;
+	}
+
+	/**
+	 * @fn	std::map<std::string, sf::Sound>& AssetManager::getSounds()
+	 *
+	 * @brief	Gets all sounds, returning a map reference
+	 *
+	 * @author	Wiebe
+	 * @date	30-1-2018
+	 *
+	 * @return	The sounds as a map
+	 */
+
+	std::map<std::string, sf::Sound>& getSounds() {
+		return sounds;
+	}
+
+	/**
+	 * @fn	std::map<std::string, sf::Font>& AssetManager::getFonts()
+	 *
+	 * @brief	Gets the fonts
+	 *
+	 * @author	Wiebe
+	 * @date	30-1-2018
+	 *
+	 * @return	The fonts as a map
+	 */
+
+	std::map<std::string, sf::Font>& getFonts() {
+		return fonts;
+	}
+
+	/**
+	 * @fn	std::string AssetManager::resolveTextureID(const sf::Texture &t) const
+	 *
+	 * @brief	Resolve texture identifier from a given texture
+	 *
+	 * @author	Wiebe
+	 * @date	30-1-2018
+	 *
+	 * @param	t	A sf::Texture to process.
+	 *
+	 * @return	A std::string.
+	 */
+
+	std::string resolveTextureID(const sf::Texture &t) const {
+		for (const auto &mapT : textures) {
+			if (&mapT.second == &t) {
+				return mapT.first;
+			}
+		}
+
+		throw AssetTextureUnavailable();
+	}
+
+	std::string getFilename(std::string id) {
+		try {
+			return fileLocations.at(id);
+		}
+		catch (std::out_of_range) {
 			throw AssetNotLoadedException(id);
 		}
 	}

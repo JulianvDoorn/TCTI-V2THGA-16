@@ -156,13 +156,27 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.hpp" />
-    <ClInclude Include="Ball.hpp" />
     <ClInclude Include="BaseFactory.hpp" />
+    <ClInclude Include="ClickableRectangle.hpp" />
     <ClInclude Include="ConsumeString.hpp" />
     <ClInclude Include="CurlyBracketList.hpp" />
     <ClInclude Include="Cutscene.hpp" />
+    <ClInclude Include="Dock.hpp" />
+    <ClInclude Include="FimmyIcon.hpp" />
+    <ClInclude Include="FreeCamera.hpp" />
+    <ClInclude Include="Heal.hpp" />
+    <ClInclude Include="MapEditor.hpp" />
+    <ClInclude Include="IntersectionGroup.hpp" />
+    <ClInclude Include="InteractionGroup.hpp" />
+    <ClInclude Include="MovingObject.hpp" />
+    <ClInclude Include="PowerUp.hpp" />
+    <ClInclude Include="PowerUps.hpp" />
+    <ClInclude Include="RectangleContainer.hpp" />
     <ClInclude Include="DrawableGroup.hpp" />
-    <ClInclude Include="fimmyIcon.hpp" />
+    <ClInclude Include="Editor.hpp" />
+    <ClInclude Include="EventConnectionVector.hpp" />
+    <ClInclude Include="EventDisconnectable.hpp" />
+    <ClInclude Include="InvalidStateException.hpp" />
     <ClInclude Include="KeyValuePair.hpp" />
     <ClInclude Include="Map.hpp" />
     <ClInclude Include="MapFactory.hpp" />
@@ -173,7 +187,6 @@
     <ClInclude Include="Collision.hpp" />
     <ClInclude Include="CollisionDetection.hpp" />
     <ClInclude Include="ColorFactory.hpp" />
-    <ClInclude Include="Drawable.hpp" />
     <ClInclude Include="Events.hpp" />
     <ClInclude Include="EventConnection.hpp" />
     <ClInclude Include="EventSource.hpp" />
@@ -187,8 +200,12 @@
     <ClInclude Include="RectStreamOperators.hpp" />
     <ClInclude Include="SecureRead.hpp" />
     <ClInclude Include="QuotedString.hpp" />
+    <ClInclude Include="ObjectSelector.hpp" />
+    <ClInclude Include="Serializable.hpp" />
     <ClInclude Include="SettingsMenu.hpp" />
+    <ClInclude Include="MapFileGenerator.hpp" />
     <ClInclude Include="SpecialCharacter.hpp" />
+    <ClInclude Include="Sprite.hpp" />
     <ClInclude Include="State.hpp" />
     <ClInclude Include="GamePauze.hpp" />
     <ClInclude Include="GameStates.hpp" />
@@ -198,13 +215,13 @@
     <ClInclude Include="MainMenu.hpp" />
     <ClInclude Include="Mouse.hpp" />
     <ClInclude Include="Antagonist.hpp" />
-    <ClInclude Include="PhysicsObject.hpp" />
     <ClInclude Include="Player.hpp" />
-    <ClInclude Include="Rectangle.hpp" />
+    <ClInclude Include="Body.hpp" />
     <ClInclude Include="Running.hpp" />
     <ClInclude Include="Shapes.hpp" />
     <ClInclude Include="SFMLEventDecoder.hpp" />
     <ClInclude Include="Statemachine.hpp" />
+    <ClInclude Include="StatemachineException.hpp" />
     <ClInclude Include="StreamManipulators.hpp" />
     <ClInclude Include="StreamUtils.hpp" />
     <ClInclude Include="SubtitleItem.hpp" />
@@ -219,6 +236,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="map.txt" />
+    <Text Include="map_generated.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

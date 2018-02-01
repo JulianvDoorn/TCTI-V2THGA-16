@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <string>
+#include <initializer_list>
 
 #include "KeyValuePair.hpp"
 
@@ -30,22 +31,24 @@ public:
 	const KeyValuePair::Type type;
 
 	/**
-	 * @fn	PropertyResolutionLambda::PropertyResolutionLambda(const std::string& name, const KeyValuePair::Type type, const std::function<void(KeyValuePair::Value)>& func) : name(std::move(name)), type(type), std::function<void(KeyValuePair::Value)>(std::move(func))
+	 * @fn	template <class RESOLUTION_LAMBDA> PropertyResolutionLambda::PropertyResolutionLambda(const std::string& name, const KeyValuePair::Type type, RESOLUTION_LAMBDA func) : name(std::move(name)), type(type), std::function<void(KeyValuePair::Value)>(func)
 	 *
 	 * @brief	Constructor
 	 *
 	 * @author	Julian
 	 * @date	2018-01-25
 	 *
+	 * @tparam	RESOLUTION_LAMBDA	Type of the resolution lambda.
 	 * @param	name	Name of the key of the key-value pair.
 	 * @param	type	Type of the deducted type of the key-value pair.
 	 * @param	func	Resolution lambda function for the key-value pair.
 	 */
 
-	PropertyResolutionLambda(const std::string& name, const KeyValuePair::Type type, const std::function<void(KeyValuePair::Value)>& func) :
+	template <class RESOLUTION_LAMBDA>
+	PropertyResolutionLambda(const std::string& name, const KeyValuePair::Type type, RESOLUTION_LAMBDA func) :
 		name(std::move(name)),
 		type(type),
-		std::function<void(KeyValuePair::Value)>(std::move(func))
+		std::function<void(KeyValuePair::Value)>(func)
 	{ }
 
 	/**

@@ -26,8 +26,6 @@ typedef std::vector<std::shared_ptr<SubtitleItem>> SubtitleVector;
 
 class SubtitleParser {
 private:
-
-
 	/** @brief	Subtitle file filepath */
 	const std::string filepath;
 
@@ -58,7 +56,7 @@ public:
 			throw SubtitleReadException(filepath);
 		}
 
-		std::string line, start, end, completeLine = "", timeLine = "";
+		std::string line, start, end, completeLine = "", timeLine = "", imageLine = "";
 		int subtitleNumber = 0, turn = 0;
 
 		/*
@@ -86,6 +84,10 @@ public:
 					start = srtTime[0];
 					end = srtTime[2];
 				}
+				else if (line.find("#~") != std::string::npos) {
+					imageLine += line;
+					imageLine.erase(0, 2);
+				}
 				else {
 					if (completeLine != "")
 						completeLine += " "; // Add space
@@ -98,12 +100,12 @@ public:
 			else {
 				turn = 0;
 
-				subtitles.push_back(std::make_shared<SubtitleItem>(subtitleNumber, completeLine, start, end));
-				completeLine = timeLine = "";
+				subtitles.push_back(std::make_shared<SubtitleItem>(subtitleNumber, completeLine, imageLine, start, end));
+				completeLine = timeLine = imageLine = "";
 			}
 
 			if (fileStream.eof()) {
-				subtitles.push_back(std::make_shared<SubtitleItem>(subtitleNumber, completeLine, start, end));
+				subtitles.push_back(std::make_shared<SubtitleItem>(subtitleNumber, completeLine, imageLine, start, end));
 			}
 		}
 

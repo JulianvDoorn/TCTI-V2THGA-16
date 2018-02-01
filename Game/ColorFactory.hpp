@@ -38,9 +38,33 @@ public:
 
 class UnexpectedHexChar {
 public:
+	/** @brief	The erroneous character */
 	char erroneousChar;
+
+	/**
+	 * @fn	explicit UnexpectedHexChar::UnexpectedHexChar(char c)
+	 *
+	 * @brief	Constructor
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @param	c	The character.
+	 */
+
 	explicit UnexpectedHexChar(char c) : erroneousChar(c) { }
-	
+
+	/**
+	 * @fn	operator UnexpectedHexChar::char() const
+	 *
+	 * @brief	Cast that converts the given  to a char
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @return	The result of the operation.
+	 */
+
 	operator char() const {
 		return erroneousChar;
 	}
@@ -88,12 +112,33 @@ public:
  */
 
 template<class L, class R>
+
+/**
+ * @class	ConversionTable
+ *
+ * @brief	A conversion table.
+ *
+ * @author	Jeffrey
+ * @date	1/31/2018
+ */
+
 class ConversionTable : public std::map<const L, const R> {
 	using ConversionMap = std::map<const L, const R>;
 
 public:
 	template<class T>
+
+	/**
+	 * @struct	Conversion
+	 *
+	 * @brief	A conversion.
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 */
+
 	struct Conversion {
+		/** @brief	True if the operation was a success, false if it failed */
 		bool success;
 		T conversion;
 
@@ -373,6 +418,7 @@ public:
 	}
 };
 
+/** @brief	The color factory color name conversion table */
 ConversionTable<std::string, sf::Color> ColorFactory::colorNameConversionTable = {
 		{ "red", sf::Color::Red },
 		{ "black", sf::Color::Black },

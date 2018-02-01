@@ -1,7 +1,7 @@
 #pragma  once
 
 #include <SFML/Graphics.hpp>
-#include "Rectangle.hpp"
+#include "Body.hpp"
 #include "Label.hpp"
 #include "EventSource.hpp"
 #include "EventConnection.hpp"
@@ -16,11 +16,11 @@
  * @date	25-1-2018
  */
 
-class Button {
+class Button : public sf::Drawable {
 private:
 
     /** @brief	The button background */
-    Rectangle background;
+    Body background;
 
     /** @brief	Size of the background */
     sf::Vector2f backgroundSize;
@@ -37,6 +37,13 @@ private:
 	/** @brief	True if the button is pressed, false if not */
 	bool isPressed = false;
 
+	/** @brief	The mouse left button down connection */
+	EventConnection mouseLeftButtonDownConn;
+	/** @brief	The mouse left button up connection */
+	EventConnection mouseLeftButtonUpConn;
+	/** @brief	The mouse moved connection */
+	EventConnection mouseMovedConn;
+
 	/**
 	 * @fn	void Button::bindEvents()
 	 *
@@ -47,22 +54,22 @@ private:
 	 */
 
 	void bindEvents() {
-		game.mouse.mouseLeftButtonDown.connect([this](const sf::Vector2i mousePos) {
-			if (background.contains(static_cast<sf::Vector2f>(mousePos))) {
+		mouseLeftButtonDownConn = game.mouse.mouseLeftButtonDown.connect([this](const sf::Vector2i mousePos) {
+			if (background.getGlobalBounds().contains(game.window->mapPixelToCoords(mousePos))) {
 				buttonPressed.fire();
 				isPressed = true;
 			}
 		});
 
-		game.mouse.mouseLeftButtonUp.connect([this](const sf::Vector2i mousePos) {
-			if (background.contains(static_cast<sf::Vector2f>(mousePos)) && isPressed) {
+		mouseLeftButtonUpConn = game.mouse.mouseLeftButtonUp.connect([this](const sf::Vector2i mousePos) {
+			if (background.getGlobalBounds().contains(game.window->mapPixelToCoords(mousePos)) && isPressed) {
 				buttonReleased.fire();
 				isPressed = false;
 			}
 		});
 
-		game.mouse.mouseMoved.connect([this](const sf::Vector2i mousePos) {
-			if (background.contains(static_cast<sf::Vector2f>(mousePos))) {
+		mouseMovedConn = game.mouse.mouseMoved.connect([this](const sf::Vector2i mousePos) {
+			if (background.getGlobalBounds().contains(game.window->mapPixelToCoords(mousePos))) {
 				if (mouseInside == false) {
 					mouseInside = true;
 					mouseEnter.fire();
@@ -119,6 +126,21 @@ public:
 
 		bindEvents();
     };
+
+	/**
+	 * @fn	virtual Button::~Button()
+	 *
+	 * @brief	Destructor
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 */
+
+	virtual ~Button() {
+		mouseLeftButtonDownConn.disconnect();
+		mouseLeftButtonUpConn.disconnect();
+		mouseMovedConn.disconnect();
+	}
 
 	/**
 	 * @brief Set the size of the background rectangle a button is based on.
@@ -196,9 +218,9 @@ public:
 	 * @brief Draw the button on a display.
 	 * @param window The display the button will be displayed on.
 	 */
-    void draw(sf::RenderWindow& window) {
-        background.draw(window);
-        textLabel.draw(window);
+    void draw(sf::RenderTarget& window, sf::RenderStates renderStates) const {
+		window.draw(background);
+		window.draw(textLabel);
     }
 };
 

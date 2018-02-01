@@ -7,41 +7,8 @@
 #include "State.hpp"
 #include "Events.hpp"
 #include "BaseFactory.hpp"
-
-/**
-* @class	StatemachineException
-*
-* @brief	Exception for signalling statemachine errors.
-*
-* @author	Julian
-* @date	2018-01-22
-*/
-
-class StatemachineException : public std::exception {
-	std::string err;
-
-protected:
-	StatemachineException(const std::string& err) : err(std::move(err)) { }
-
-public:
-	virtual const char* what() const noexcept override {
-		return err.c_str();
-	}
-};
-
-/**
- * @class	InvalidStateException
- *
- * @brief	Exception for when a transition is requested to an invalid state. Usually non-existent states.
- *
- * @author	Julian
- * @date	2018-01-19
- */
-
-class InvalidStateException : public StatemachineException {
-public:
-	InvalidStateException() : StatemachineException("Attempted to perform transition into an invalid state. Most likely an unregistered state.") { }
-};
+#include "StatemachineException.hpp"
+#include "InvalidStateException.hpp"
 
 /**
  * @class	Statemachine
@@ -80,6 +47,18 @@ public:
 	 */
 
 	template<class T>
+
+	/**
+	 * @fn	void Statemachine::registerState(const std::string& name)
+	 *
+	 * @brief	Registers the state described by name
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @param	name	The name.
+	 */
+
 	void registerState(const std::string& name) {
 		stateFactory.registerCreateMethod(name, [this]() {
 			return new T(*this);
@@ -186,7 +165,7 @@ public:
 	*/
 	
 	void update(const float elapsedTime) {
-		window.clear(sf::Color(63, 3, 3));
+		window.clear();
 		currentState->update(elapsedTime);
 		window.display();
 	}

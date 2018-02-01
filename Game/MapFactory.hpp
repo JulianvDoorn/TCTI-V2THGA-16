@@ -6,7 +6,7 @@
 #include "KeyValuePair.hpp"
 #include "Map.hpp"
 #include "AssetManager.hpp"
-#include "Rectangle.hpp"
+#include "Body.hpp"
 #include "MapItemProperties.hpp"
 #include "StreamManipulators.hpp"
 
@@ -28,6 +28,7 @@
  */
 
 class MapFactory : public BaseFactory<void, std::string, Map&, const MapItemProperties&> {
+	/** @brief	The input */
 	std::istream& input;
 
 public:
@@ -79,54 +80,55 @@ public:
 	MapFactory(std::istream& is) : input(is) {
 		/** @brief	Register asset loader */
 		registerCreateMethod("asset", [&](Map& map, const MapItemProperties& properties) {
-			std::string* id = nullptr;
-			std::string* location = nullptr;
+			std::string id;
+			std::string location;
 
 			properties.read({
-				{ "Id", Type::String, [&](Value value) { id = value.stringValue; if (location != nullptr) AssetManager::instance()->load(*id, *location); } },
-				{ "Location", Type::String, [&](Value value) { location = value.stringValue; if (id != nullptr) AssetManager::instance()->load(*id, *location); } }
+				{ "Id", Type::String, [&](Value value) { id = value; if (location.size() > 0) AssetManager::instance()->load(id, location); } },
+				{ "Location", Type::String, [&](Value value) { location = value; if (id.size() > 0) AssetManager::instance()->load(id, location); } }
 			});
 
-			if (id == nullptr || location == nullptr) {
+			if (id.size() == 0 || location.size() == 0) {
 				// TODO: throw exception
 			}
 		});
 
 		/** @brief	Register texture loader */
 		registerCreateMethod("texture", [&](Map& map, const MapItemProperties& properties) {
-			const std::string* id = nullptr;
-			const std::string* location = nullptr;
+			std::string id;
+			std::string location;
 
 			bool loaded = false;
 
 			properties.read({
-				{ "Id", Type::String, [&](Value value) { id = value.stringValue; if (location != nullptr) AssetManager::instance()->loadTexture(*id, *location); } },
-				{ "Location", Type::String, [&](Value value) { location = value.stringValue; if (id != nullptr) AssetManager::instance()->loadTexture(*id, *location); } },
-				{ "Repeated", Type::Bool, [&](Value value) { if (id != nullptr) AssetManager::instance()->getTexture(*id).setRepeated(value.b); } },
-				{ "Smooth", Type::Bool, [&](Value value) { if (id != nullptr) AssetManager::instance()->getTexture(*id).setSmooth(value.b); } }
+				{ "Id", Type::String, [&](Value value) { id = value; if (location.size() > 0) AssetManager::instance()->loadTexture(id, location); } },
+				{ "Location", Type::String, [&](Value value) { location = value; if (id.size() > 0) AssetManager::instance()->loadTexture(id, location); } },
+				{ "Repeated", Type::Bool, [&](Value value) { if (id.size() > 0) AssetManager::instance()->getTexture(id).setRepeated(value); } },
+				{ "Smooth", Type::Bool, [&](Value value) { if (id.size() > 0) AssetManager::instance()->getTexture(id).setSmooth(value); } }
 			});
 
-			if (id == nullptr || location == nullptr) {
+			if (id.size() == 0 || location.size() == 0) {
 				// TODO: throw exception
 			}
 		});
 
 		/** @brief	Register rectangle loader */
 		registerCreateMethod("rectangle", [&](Map& map, const MapItemProperties& properties) {
-			Rectangle* rectangle = new Rectangle();
+			Body* rectangle = new Body();
 
 			bool canCollide = true;
 
 			properties.read({
-				{ "Color", Type::Color, [&](Value value) { rectangle->setFillColor(*value.colorValue); } },
-				{ "Size", Type::Vector, [&](Value value) { rectangle->setSize(*value.vectorValue); } },
-				{ "Position", Type::Vector, [&](Value value) { rectangle->setPosition(*value.vectorValue); } },
-				{ "TextureId", Type::String, [&](Value value) { rectangle->setTexture(AssetManager::instance()->getTexture(*value.stringValue)); } },
-				{ "TextureRect", Type::Rect, [&](Value value) { rectangle->setTextureRect(static_cast<sf::IntRect>(*value.rectValue)); } },
-				{ "CanCollide", Type::Bool, [&](Value value) { canCollide = value.b; } }
+				{ "Color", Type::Color, [&](Value value) { rectangle->setFillColor(value); } },
+				{ "Size", Type::Vector, [&](Value value) { rectangle->setSize(value); } },
+				{ "Position", Type::Vector, [&](Value value) { rectangle->setPosition(value); } },
+				{ "TextureId", Type::String, [&](Value value) { rectangle->setTexture(&AssetManager::instance()->getTexture(value)); } },
+				{ "TextureRect", Type::Rect, [&](Value value) { rectangle->setTextureRect(value); } },
+				{ "CanCollide", Type::Bool, [&](Value value) { canCollide = value; } }
 			});
 
 			map.addDrawable(rectangle);
+			map.addObject(rectangle);
 
 			if (canCollide) {
 				map.addCollidable(rectangle);

@@ -20,29 +20,40 @@ class MainMenu : public State {
 
     /** @brief	The menu label */
     Label menuLabel;
+
 	/** @brief	The start button */
 	Button startButton;
 	/** @brief	The exit button */
 	Button exitButton;
     /** @brief	The settings button */
     Button settingsButton;
+	/** @brief	The map editor control */
+	Button mapEditorButton;
 
 	/** @brief	The start button pressed connection */
-	EventConnection<> startButtonPressedConn;
+	EventConnection startButtonPressedConn;
 	/** @brief	The start button released connection */
-	EventConnection<> startButtonReleasedConn;
+	EventConnection startButtonReleasedConn;
+
     /** @brief	The exit button pressed connection */
-    EventConnection<> exitButtonPressedConn;
+    EventConnection exitButtonPressedConn;
     /** @brief	The exit button released connection */
-    EventConnection<> exitButtonReleasedConn;
+    EventConnection exitButtonReleasedConn;
+
     /** @brief	The settings button pressed connection */
-    EventConnection<> settingsButtonPressedConn;
+    EventConnection settingsButtonPressedConn;
     /** @brief	The settings button released connection */
-    EventConnection<> settingsButtonReleasedConn;
+    EventConnection settingsButtonReleasedConn;
+
+	/** @brief	The settings button pressed connection */
+	EventConnection mapEditorButtonPressedConn;
+	/** @brief	The settings button released connection */
+	EventConnection	mapEditorButtonReleasedConn;
+
 	/** @brief	The mouse enter connection */
-	EventConnection<> mouseEnterConn;
+	EventConnection mouseEnterConn;
 	/** @brief	The mouse leave connection */
-	EventConnection<> mouseLeaveConn;
+	EventConnection mouseLeaveConn;
 
 public:
 
@@ -60,6 +71,7 @@ public:
 	MainMenu(Statemachine& statemachine) :
 		statemachine(statemachine),
 		startButton(),
+		mapEditorButton(),
         settingsButton(),
         menuLabel(),
         exitButton()
@@ -75,6 +87,12 @@ public:
 		startButton.setCharSize(32);
 		startButton.setBackgroundColor({ 0, 153, 51 });
 		startButton.setText("Start game");
+
+		mapEditorButton.setSize({ 300, 100 });
+		mapEditorButton.setPosition({ 960, 360 });
+		mapEditorButton.setCharSize(32);
+		mapEditorButton.setBackgroundColor({ 0, 153, 51 });
+		mapEditorButton.setText("Map editor");
 
         settingsButton.setSize({300,100});
         settingsButton.setPosition({640,490});
@@ -108,6 +126,10 @@ public:
             exitButton.setBackgroundColor({0,163,61});
         });
 
+		mapEditorButtonPressedConn = mapEditorButton.buttonPressed.connect([this]() {
+			exitButton.setBackgroundColor({ 0,163,61 });
+		});
+
 		startButtonReleasedConn = startButton.buttonReleased.connect([this]() {
 			statemachine.resetState("running");
 			statemachine.doTransition("running");
@@ -120,6 +142,10 @@ public:
         exitButtonReleasedConn = exitButton.buttonReleased.connect([this]() {
             statemachine.window.close();
         });
+		mapEditorButtonReleasedConn = mapEditorButton.buttonReleased.connect([this]() {
+			statemachine.resetState("map-editor");
+			statemachine.doTransition("map-editor");
+		});
 
 		mouseEnterConn = startButton.mouseEnter.connect([this]() {
             startButton.setBackgroundColor({ 0, 123, 21 });
@@ -130,6 +156,10 @@ public:
 		mouseEnterConn = exitButton.mouseEnter.connect([this]() {
 			exitButton.setBackgroundColor({ 0, 123, 21 });
 		});
+		mouseEnterConn = mapEditorButton.mouseEnter.connect([this]() {
+			mapEditorButton.setBackgroundColor({ 0, 123, 21 });
+		});
+
         mouseLeaveConn = startButton.mouseLeave.connect([this]() {
             startButton.setBackgroundColor({ 0, 153, 51 });
         });
@@ -138,6 +168,9 @@ public:
 		});
 		mouseLeaveConn = exitButton.mouseLeave.connect([this]() {
 			exitButton.setBackgroundColor({ 0, 153, 51 });
+		});
+		mouseLeaveConn = mapEditorButton.mouseLeave.connect([this]() {
+			mapEditorButton.setBackgroundColor({ 0, 153, 51 });
 		});
 	}
 
@@ -158,6 +191,8 @@ public:
         settingsButtonReleasedConn.disconnect();
         exitButtonPressedConn.disconnect();
 		exitButtonReleasedConn.disconnect();
+		mapEditorButtonPressedConn.disconnect();
+		mapEditorButtonReleasedConn.disconnect();
 	}
 
 	/**
@@ -173,9 +208,10 @@ public:
 
 	void update(const float elapsedTime) override {
 		startButton.setPosition({ 640, 360 });
-        menuLabel.draw(statemachine.window);
-		startButton.draw(statemachine.window);
-        settingsButton.draw(statemachine.window);
-		exitButton.draw(statemachine.window);
+		statemachine.window.draw(menuLabel);
+		statemachine.window.draw(startButton);
+		statemachine.window.draw(settingsButton);
+		statemachine.window.draw(exitButton);
+		statemachine.window.draw(mapEditorButton);
 	}
 };

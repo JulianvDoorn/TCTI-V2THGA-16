@@ -18,7 +18,29 @@
 
 class QuotedString : public std::string {
 public:
+
+	/**
+	 * @fn	QuotedString::QuotedString() : std::string()
+	 *
+	 * @brief	Default constructor
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 */
+
 	QuotedString() : std::string() { }
+
+	/**
+	 * @fn	QuotedString::QuotedString(std::string str) : std::string(std::move(str))
+	 *
+	 * @brief	Constructor
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @param	str	The string.
+	 */
+
 	QuotedString(std::string str) : std::string(std::move(str)) { }
 };
 

@@ -4,7 +4,8 @@
 #include <iostream>
 
 #include "ConsumeString.hpp"
-
+#include "SecureRead.hpp"
+#include "SpecialCharacter.hpp"
 /**
 * @fn	template<class T> std::ostream& operator<< (std::ostream& os, const sf::Vector2<T>& v)
 *

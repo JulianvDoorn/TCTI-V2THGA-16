@@ -21,9 +21,33 @@
 
 class Game : public SFMLEventDecoder {
 public:
+
+	/**
+	 * @fn	Game::Game()
+	 *
+	 * @brief	Default constructor
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 */
+
 	Game() { }
 
-	Game(sf::Window& window) : keyboard(window), mouse(window){ }
+	/**
+	 * @fn	Game::Game(sf::RenderWindow& window)
+	 *
+	 * @brief	Constructor
+	 *
+	 * @author	Jeffrey
+	 * @date	1/31/2018
+	 *
+	 * @param [in,out]	window	The window.
+	 */
+
+	Game(sf::RenderWindow& window) : window(&window), keyboard(window), mouse(window){ }
+
+	/** @brief	The window */
+	sf::RenderWindow* window;
 
 	/** @brief	Died event, meant to be fired when the player dies. */
 	EventSource<> died;
@@ -37,8 +61,6 @@ public:
 	/** @brief	Mouse event collection, events in this object get fired accordingly */
 	Mouse mouse;
 
-	//std::shared_ptr<AssetManager> assets = nullptr;
-
 	/**
 	 * @fn	void Game::decodeSFMLEvent(sf::Event ev) const override
 	 *
@@ -50,34 +72,11 @@ public:
 	 * @param	ev	SFML event to decode into an EventSource signal.
 	 */
 
-	void decodeSFMLEvent(sf::Event ev) const override {
+	void decodeSFMLEvent(sf::Event ev) override {
 		keyboard.decodeSFMLEvent(ev);
 		mouse.decodeSFMLEvent(ev);
 	}
 
-	/**
-	 * @fn	Game& Game::operator= (const Game& rhs)
-	 *
-	 * @brief	Assignment operator
-	 *
-	 * @author	Julian
-	 * @date	2018-01-19
-	 *
-	 * @param	rhs	The right hand side.
-	 *
-	 * @return	A shallow copy of this object.
-	 */
-
-	Game& operator= (const Game& rhs) {
-		keyboard = rhs.keyboard;
-		mouse = rhs.mouse;
-
-		return *this;
-	}
-
-	/**~Game() {
-		std::cout << "Destructing game...\n";
-	}**/
 };
 
 /** @brief	Global game instance, HAS TO BE ASSIGNED IN MAIN() USING @code Game game = Game(window); @endcode */

@@ -1,5 +1,14 @@
 #pragma once
 
+/**
+ * @class	SFMLEventDecoder
+ *
+ * @brief	A sfml event decoder.
+ *
+ * @author	Jeffrey
+ * @date	2/1/2018
+ */
+
 class SFMLEventDecoder {
 
 	/**
@@ -13,5 +22,5 @@ class SFMLEventDecoder {
 	 * @param	ev	SFML event to decode into an EventSource signal.
 	 */
 
-	virtual void decodeSFMLEvent(sf::Event ev) const = 0;
+	virtual void decodeSFMLEvent(sf::Event ev) = 0;
 };

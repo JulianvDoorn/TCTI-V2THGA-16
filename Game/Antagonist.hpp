@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "Rectangle.hpp"
+#include "Body.hpp"
 
 /**
  * @class	Antagonist
@@ -12,12 +12,12 @@
  * @date	25-1-2018
  */
 
-class Antagonist : public Rectangle {
+class Antagonist : public Body {
 	/** @brief	The walk direction */
 	int32_t walkDirection = 1;
 
 	/** @brief	The walkspeed */
-	float walkspeed = 50;
+	float walkspeed = 35;
 
 public:
 
@@ -31,29 +31,8 @@ public:
 	 */
 
 	Antagonist() {
-		setSize({ 200, 200 });
-		setFillColor(sf::Color(255, 0, 0));
+		setSize({ 200, 400 });
 		setVelocity({ walkDirection * walkspeed, getVelocity().y });
 		setGravity({ 0, 0 });
 	}
-
-	/**
-	 * @fn	sf::FloatRect Antagonist::getBounds() override
-	 *
-	 * @brief	Gets the bounds
-	 *
-	 * @author	Wiebe
-	 * @date	25-1-2018
-	 *
-	 * @return	The bounds.
-	 */
-
-	sf::FloatRect getBounds() override {
-		return getGlobalBounds();
-	}
-
-	using Rectangle::setPosition;
-	using Rectangle::getPosition;
-	using Rectangle::setSize;
-	using Rectangle::draw;
 };
