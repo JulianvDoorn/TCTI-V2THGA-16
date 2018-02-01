@@ -33,7 +33,7 @@ Groepsleden:
 ## Trello
 [Trello Board](https://trello.com/b/FfQqoQld/game-project)  
 
-##Sprint evaluaties
+## Sprint evaluaties
 [Sprint 1](https://drive.google.com/open?id=12DTo-PizEF4xqzgXq6qDkTxOWDJQ0XC3ZM62sGaqENM)    
 [Sprint 2](https://drive.google.com/open?id=14FH6KZdh9_Qa5PiHmmKx4GLoavQwTPFUoVZjbyzebB0)    
 [Sprint 3](https://drive.google.com/open?id=1AipdiBkhd4_XTYqvT_3eXAJGaLZte1zpO-yCLmj34pg)  
