@@ -136,6 +136,8 @@ private:
     sf::Clock keySchemeShowClock;
     /** @brief	The key scheme show time in milliseconds */
     int keySchemeShowTimeInMilliseconds = 12000;
+
+	//sf::Vector2f offset;
 public:
 
 	/**
@@ -607,8 +609,17 @@ public:
      */
 
     void updateKeySchemeDisplay(){
+		//std::cout << window.getSize().x <<"		"<< window.getSize().y<<std::endl;
         sf::Vector2f position = window.mapPixelToCoords(static_cast<sf::Vector2i>(window.getView().getSize()), window.getView());
-        sf::Vector2f offset = {400, 700};
+		sf::Vector2f offset;
+		if (window.getSize().y > 1000) {
+			std::cout << "groot\n";
+			offset = { -20, 500 };
+		}
+		else {
+			std::cout << "klein\n";
+			offset = { 400, 700 };
+		}
 
         keyschemeText.setPosition(position - offset);
         if(keySchemeShowClock.getElapsedTime().asMilliseconds() > keySchemeShowTimeInMilliseconds){
