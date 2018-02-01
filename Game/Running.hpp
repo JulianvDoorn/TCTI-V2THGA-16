@@ -58,7 +58,7 @@ class Running : public State {
 	/** @brief	The power ups */
 	std::vector<PowerUp*> powerUps;
 
-	std::array<int, 5> bodyRemoveToggles = { 2000, 3300, 6000, 8500, 9500 }; // 250, 3300, 6000, 8500, 9500
+	std::array<int, 5> bodyRemoveToggles = { 2200, 3300, 6000, 8500}; // 250, 3300, 6000, 8500, 9500
 	int bodyRemoveToggleIndex = 0;
 
 	/** @brief	The background */
@@ -157,7 +157,7 @@ public:
 		focus.setFocus(player);
         focus.setLeftBorder(500);
         focus.setRightBorder(500);
-        focus.setTopBorder(270);
+        focus.setTopBorder(275);
         focus.setBottomBorder(0);
 		focus.update();
 

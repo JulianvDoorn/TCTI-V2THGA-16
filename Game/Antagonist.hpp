@@ -17,7 +17,7 @@ class Antagonist : public Body {
 	int32_t walkDirection = 1;
 
 	/** @brief	The walkspeed */
-	float walkspeed = 50;
+	float walkspeed = 35;
 
 public:
 
