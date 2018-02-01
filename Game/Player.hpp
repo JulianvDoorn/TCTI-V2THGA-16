@@ -77,6 +77,9 @@ private:
 	/** @brief	The roll clock */
 	sf::Clock rollClock;
 
+	sf::Clock jumpClock;
+	const int jumpDebounceDelayMs = 500;
+
 	/** @brief	The key pressed connection */
 	EventConnection keyPressedConn;
 
@@ -165,8 +168,9 @@ public:
 	void readInput() {
 		walkDirection = 0;
 
-		if (activeKeyScheme.jumpPressed) {
+		if (activeKeyScheme.jumpPressed && jumpClock.getElapsedTime().asMilliseconds() >= jumpDebounceDelayMs) {
 			doJump();
+			jumpClock.restart();
 		}
 
 		if (activeKeyScheme.moveRightPressed) {

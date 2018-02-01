@@ -149,17 +149,6 @@ public:
 		keyReleasedConn.disconnect();
 	}
 
-	/**
-	 * @fn	KeyScheme::KeyScheme()
-	 *
-	 * @brief	Default constructor
-	 *
-	 * @author	Wiebe
-	 * @date	25-1-2018
-	 */
-
-	//KeyScheme() { difficulty = Difficulty::UNDEFINED; };
-
    /**
 	* @fn	friend operator<<(std::ostream &os, sf::Keyboard::Key key)
 	*
