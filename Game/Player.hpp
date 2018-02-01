@@ -831,8 +831,8 @@ public:
 		if (!headDisplay) { headDisplay = true; bodyPartsLeft++;}
 		else if (!rightArmDisplay) { rightArmDisplay = true; bodyPartsLeft++; }
 		else if (!leftArmDisplay) { leftArmDisplay = true; bodyPartsLeft++; }
-		else if (!rightLegDisplay) { rightArmDisplay = true; bodyPartsLeft++; }
-		else if (!leftLegDisplay) { leftArmDisplay = true; bodyPartsLeft++; }
+		else if (!rightLegDisplay) { rightLegDisplay = true; bodyPartsLeft++; }
+		else if (!leftLegDisplay) { leftLegDisplay = true; bodyPartsLeft++; }
 		else { return; }
 
 		keySchemeIndex--;
