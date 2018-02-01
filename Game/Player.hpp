@@ -225,8 +225,6 @@ public:
         leftArm.setPosition(getPosition());
         rightArm.setPosition(getPosition());
         head.setPosition(getPosition());
-
-        updateKeySchemeDisplay();
 	}
 
 	/**
@@ -574,6 +572,7 @@ public:
         if(keySchemeShowClock.getElapsedTime().asMilliseconds() > keySchemeShowTimeInMilliseconds){
             keyschemeText.setColor(sf::Color::Transparent);
         }
+		window.draw(keyschemeText);
     }
 
     /**
@@ -620,7 +619,6 @@ public:
 			}
 		}
 
-		window.draw(keyschemeText);
     }
 
 	/**
